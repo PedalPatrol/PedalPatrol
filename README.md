@@ -1,2 +1,2 @@
-# PedalPatrol-Android
-Development of the PedalPatrol Android application.
+# PedalPatrol
+Development of the PedalPatrol application.
