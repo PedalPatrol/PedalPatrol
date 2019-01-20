@@ -5,7 +5,7 @@ import {
   View
 } from 'react-native';
 
-export default class Map extends Component {
+export default class MapView extends Component {
   render() {
     return (
       <View style={styles.container}>

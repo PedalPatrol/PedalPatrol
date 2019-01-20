@@ -3,35 +3,30 @@ import { Dimensions, Platform } from 'react-native';
 import { StackNavigator, createStackNavigator, createBottomTabNavigator, withNavigation } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-import Home from '../components/views/home-view';
-import Map from '../components/views/map-view';
-import Bike from '../components/views/bike-tab';
-import EditBike from '../components/views/helpers/editbike'
-
-import ConnectComponent from '../util/connect-component';
-import BikePresenter from '../components/presenters/bike-presenter';
-
-import BikeV from '../components';
+import HomeView from '../components/views/home-view';
+import MapView from '../components/views/map-view';
+import BikeView from '../components/views/bike-view';
+import EditBikeView from '../components/views/helpers/editbike';
 
 let screen = Dimensions.get('window');
 
 export const Tabs = createBottomTabNavigator({
   'Home': {
-    screen: Home,
+    screen: HomeView,
     navigationOptions: {
       tabBarLabel: 'Home',
       tabBarIcon: ({ tintColor }) => <Icon name="home" type="entypo" size={28} color={tintColor} />
     },
   },
   'Map': {
-    screen: Map,
+    screen: MapView,
     navigationOptions: {
       tabBarLabel: 'Map',
       tabBarIcon: ({ tintColor }) => <Icon name="md-map" type="ionicon" size={28} color={tintColor} />
     },
   },
   'Bike': {
-    screen: Bike,
+    screen: BikeView,
     navigationOptions: {
       tabBarLabel: 'Bike',
       tabBarIcon: ({ tintColor }) => <Icon name="md-bicycle" type="ionicon" size={28} color={tintColor} />
@@ -41,13 +36,13 @@ export const Tabs = createBottomTabNavigator({
 
 export const BikeStack = createStackNavigator({
     BikeStack: {
-        screen: Bike,
+        screen: BikeView,
         navigationOptions: ({navigation}) => ({
             header: null,
         }),
     },
     EditBike: {
-        screen: EditBike,
+        screen: EditBikeView,
         navigationOptions: ({navigation}) => ({
             header: null,
             tabBarVisible: false,

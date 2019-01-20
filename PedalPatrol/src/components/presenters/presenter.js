@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate
+
 export default class BasePresenter {
 
 	constructor() {

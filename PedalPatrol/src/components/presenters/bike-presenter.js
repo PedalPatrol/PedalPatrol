@@ -1,18 +1,18 @@
 import BasePreseneter from './presenter';
-import myStore from '../models/model';
+import BikeM from '../models/export-models';
 
 export default class BikePresenter extends BasePreseneter {
-	constructor() {
+	constructor(view) {
 		super()
-		this.stores = [myStore]
+		this.stores = [BikeM]
 	}
 
 	update = (newData) => {
-		myStore.update(newData)
+		BikeM.update(newData)
 	};
 
 	getData = () => {
-		return myStore.get().data
+		return BikeM.get().data
 	};
 	// onChangeNewItem = event =>
  //    	this.setModel({

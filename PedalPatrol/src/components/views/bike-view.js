@@ -4,12 +4,10 @@ import BikeItem from './helpers/bikeitem';
 import BaseView from './view';
 import BikePresenter from '../presenters/bike-presenter'
 
-export default class Bike extends Component {
+export default class BikeView extends Component {
 	constructor(props) {
 		super(props);
 		this.BikeP = new BikePresenter();
-		// this.presenter = BikePresenter;
-		// this.presenter.setView(this);
 	}
 
 	_renderItem = ({item}) => (
