@@ -1,0 +1,71 @@
+import ObserverList from '../../util/observerlist';
+
+export default class Model {
+	/**
+	 * Private method to only be used by classes that extend Model.
+	 * Creates an observer list for the child that classes can subscribe to.
+	 */
+	_createObserverList() {
+		this.observerList = new ObserverList();
+	}
+
+	/**
+	 * Private method to only be used by classes that extend Model.
+	 * Notifies all subscribers/observers of the calling child. 
+	 * This function forces the presenter to fetch any data from the model itself.
+	 */
+	_notifyAll() {
+		count = this.observerList.count();
+		for (i=0; i < count; i++) {
+			this.observerList.get(i).update(); // Calls the update function
+		}
+	}
+
+	/**
+	 * Private method to only be used by classes that extend Model.
+	 * Notifies all subscribers/observers of the calling child and sends a message.
+	 *
+	 * @param {Object} message - A message to send to the observers
+	 */
+	_notifyAll(message) {
+		count = this.observerList.count();
+		for (i=0; i < count; i++) {
+			this.observerList.get(i).update(message); // Calls the update function
+		}
+	}
+
+	/**
+	 * Private method to only be used by classes that extend Model.
+	 * Notifies a specific subscriber/observer of the calling child.
+	 *
+	 * @param {Object} observer - An observer to send a message to
+	 * @param {Object} message - A message to send to the observer
+	 * @return {Boolean} true: if the observer exists, a message will be sent; false: if the observer does not exist, no message sent
+	 */
+	_notify(observer, message) {
+		if (this.observerList.exists(observer)) {
+			observer.update(message);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds (subscribes) an observer to the calling child/subject to the subscription list.
+	 *
+	 * @param {Object} observer - An observing class
+	 */
+	subscribe(observer) {
+		this.observerList.add(observer);
+	}
+
+	/**
+	 * Removes (unsubscribes) an observer from the calling child/subject's subscription list.
+	 *
+	 * @param {Object} observer - An observing class
+	 */
+	unsubscribe(observer) {
+		this.observerList.remove(observer);
+	}
+}
