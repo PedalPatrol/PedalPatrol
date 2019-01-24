@@ -67,6 +67,12 @@ export default class ObserverList {
 		return false;
 	}
 
+	/**
+	 * Get an observer at a certain index.
+	 *
+	 * @param {Number} index - An index in the observer list
+	 * @return {Object} An observer class object
+	 */
 	get(index) {
 		return this.observers[index];
 	}

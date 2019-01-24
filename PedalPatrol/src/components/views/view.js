@@ -8,6 +8,14 @@ class BaseView extends Component {
 	render() {
 		throw new Error('Method must be implemented!');
 	};
+
+	componentWillMount = () => {
+		throw new Error('Method must be implemented');
+	}
+
+	componentWillUnmount = () => {
+		throw new Error('Method must be implemented');
+	}
 }
 
 export default BaseView;

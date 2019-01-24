@@ -17,7 +17,7 @@ export default class Model {
 	_notifyAll() {
 		count = this.observerList.count();
 		for (i=0; i < count; i++) {
-			this.observerList.get(i).update(); // Calls the update function
+			this.observerList.get(i).onUpdated(); // Calls the update function
 		}
 	}
 
@@ -30,7 +30,7 @@ export default class Model {
 	_notifyAll(message) {
 		count = this.observerList.count();
 		for (i=0; i < count; i++) {
-			this.observerList.get(i).update(message); // Calls the update function
+			this.observerList.get(i).onUpdated(message); // Calls the update function
 		}
 	}
 

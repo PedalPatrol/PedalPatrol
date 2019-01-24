@@ -5,15 +5,27 @@ export default class BikePresenter extends BasePreseneter {
 	constructor(view) {
 		super()
 		this.stores = [BikeM]
+		BikeM.subscribe(this);
+		this.view = view;
 	}
 
+
 	update = (newData) => {
-		BikeM.update(newData)
+		BikeM.update(newData); 
+	};
+
+	onUpdated = (newData) => {
+		// Do something with the new data or let the view auto update?
+		this.onChange(this.view);
 	};
 
 	getData = () => {
-		return BikeM.get().data
+		return BikeM.get().data;
 	};
+
+	onDestroy = () => {
+		BikeM.unsubscribe(this);
+	}
 	// onChangeNewItem = event =>
  //    	this.setModel({
  //      	newItem: event.target.value

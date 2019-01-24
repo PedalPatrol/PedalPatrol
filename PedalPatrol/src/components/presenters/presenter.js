@@ -6,20 +6,36 @@ export default class BasePresenter {
 		this.state = {}
 	}
 
-	onChange = () => {
-		this.setState(this.state) // dumb easy: triggers render
-	}
+	onChange = (view) => {
+		view.setState(view.state) // dumb easy: triggers render
+	};
 
-	componentWillMount = () => {
-		this.stores && this.stores.forEach(store => {
-		  // each store has a common change event to subscribe to
-		  store.on('change', this.onChange)
-		})
-	}
 
-	componentWillUnmount = () => {
-		this.stores && this.stores.forEach(store => {
-		  store.off('change', this.onChange)
-		})
-	}
+	/**
+	 * Sends an update to the model with new data.
+	 *
+	 * @param {Object} newData - New data to update the model with
+	 */
+	update = (newData) => {
+		throw new Error("Method must be implemented");
+	};
+
+
+	/**
+	 * This method is called when the model's data has changed and the observers are being notified.
+	 *
+	 * @param {Object} newData - New data to update the model with
+	 */
+	onUpdated = (newData) => {
+		// Do something with the new data or let the view auto update?
+		throw new Error("Method must be implemented");
+	};
+
+
+	/**
+	 * Gets the data from the model.
+	 */
+	getData = () => {
+		throw new Error("Method must be implemented");
+	};
 }

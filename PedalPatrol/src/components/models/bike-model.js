@@ -44,7 +44,7 @@ export default class BikeModel extends Model {
 	update(newData) {
 		this._data = {...this._data, ...newData}
 		// this.notifyAll() // Send with no message?
-		this.notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
+		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 		// this._eventEmitter.emit('change')
 	}
 
