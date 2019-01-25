@@ -5,33 +5,47 @@ import BaseView from './view';
 import BikePresenter from '../presenters/bike-presenter'
 
 export default class BikeView extends BaseView {
+	/**
+	 * Creates an instance of BikeView
+	 *
+	 * @constructor
+	 * @param {Object} props - Component properties
+	 */
 	constructor(props) {
 		super(props);
+		this.state = { refresh: {} };
 		this._renderItem = this._renderItem.bind(this);
 		this.BikeP = new BikePresenter(this);
 	}
 
-	sendUpdate = (data) => {
+	/**
+	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
+	 */
+	sendUpdate = () => {
+		// Extract data from components
 		new_data = { 
-		  	data: 	[
-						{
-							id: 2,
-							model: 'Model2',
-							owner: 'Owner2',
-							thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-						}
-					] 
+		  	data:	{
+						id: 2,
+						model: 'Model2',
+						owner: 'Owner2',
+						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
+					}
 		}
 		data = new_data; 
 
-		console.log(data);
+		// console.log(data);
 
 		// EVERYTHING ABOVE IS TEMPORARY - TO TEST ONLY
+		// Get data here
 
 		this.BikeP.update(data);
-
 	}
 
+	/**
+	 * Renders an item from a list to the screen by extracting data.
+	 * 
+	 * @param {Object} item - An item to be rendered
+	 */
 	_renderItem = ({item}) => (
 		<BikeItem
 			id={item.id}
@@ -44,16 +58,14 @@ export default class BikeView extends BaseView {
 	 _keyExtractor = (item, index) => item.id.toString();
 
 	render() {
-		const { bikeList, newItem, onAddNewItem, onChangeNewItem } = this.props
- 
 		return 	<View style={styles.container}>
 					<FlatList
-					// data={this.state.bikes}
 					data={this.BikeP.getData()}
+					extraData={this.state.refresh}
 					keyExtractor={this._keyExtractor}
 					renderItem={this._renderItem}/>
 					<Button
-		  			onPress={() => this.sendUpdate('test')}
+		  			onPress={() => this.sendUpdate()}
 		  			title="New Bike"
 		  			color="#841584"
 		  			accessibilityLabel="New"/>
@@ -61,12 +73,27 @@ export default class BikeView extends BaseView {
 	}
 
 
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () => {
+		this.setState({ 
+    		refresh: !this.state.refresh
+		});
+	}
+
+	/**
+	 * Triggers when a component or this component is mounted.
+	 */
 	componentWillMount = () => {
 		console.log('Mounted'); // What to do here?
 	}
 
+	/**
+	 * Triggers when a component or this component is unmounted.
+	 */
 	componentWillUnmount = () => {
-		console.log('Unmounted');
+		console.log('Unmounted'); // What to do here?
 	}
 };
 

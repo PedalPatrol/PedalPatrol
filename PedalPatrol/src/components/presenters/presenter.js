@@ -1,16 +1,6 @@
 // https://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate
 
 export default class BasePresenter {
-
-	constructor() {
-		this.state = {}
-	}
-
-	onChange = (view) => {
-		view.setState(view.state) // dumb easy: triggers render
-	};
-
-
 	/**
 	 * Sends an update to the model with new data.
 	 *

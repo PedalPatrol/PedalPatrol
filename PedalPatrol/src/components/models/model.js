@@ -2,6 +2,7 @@ import ObserverList from '../../util/observerlist';
 
 export default class Model {
 	/**
+	 * @private
 	 * Private method to only be used by classes that extend Model.
 	 * Creates an observer list for the child that classes can subscribe to.
 	 */
@@ -10,6 +11,7 @@ export default class Model {
 	}
 
 	/**
+	 * @private
 	 * Private method to only be used by classes that extend Model.
 	 * Notifies all subscribers/observers of the calling child. 
 	 * This function forces the presenter to fetch any data from the model itself.
@@ -22,6 +24,7 @@ export default class Model {
 	}
 
 	/**
+	 * @private
 	 * Private method to only be used by classes that extend Model.
 	 * Notifies all subscribers/observers of the calling child and sends a message.
 	 *
@@ -35,6 +38,7 @@ export default class Model {
 	}
 
 	/**
+	 * @private
 	 * Private method to only be used by classes that extend Model.
 	 * Notifies a specific subscriber/observer of the calling child.
 	 *
