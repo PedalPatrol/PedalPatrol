@@ -8,6 +8,7 @@ export default class BikeModel extends Model {
 			data: [
 					{
 						id: 1,
+						name: 'Bike1Name',
 						model: 'Model',
 						owner: 'Owner',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'

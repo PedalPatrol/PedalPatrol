@@ -43,9 +43,9 @@ export default class BikePresenter extends BasePresenter {
 	 * Called when the model is updated with new data. Refreshes the state of the view.
 	 * Better way to refresh the state?
 	 */
-	// onUpdated = () => {
-	// 	this.onUpdated({data: {}});
-	// }
+	 onUpdated = () => {
+	 	this.view.refreshState();
+	 };
 
 	/**
 	 * Gets the data from the model and returns it to the caller.
@@ -56,11 +56,14 @@ export default class BikePresenter extends BasePresenter {
 		return BikeM.get().data;
 	};
 
-
 	/**
 	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
 	 */
 	onDestroy = () => {
 		BikeM.unsubscribe(this);
-	}
+	};
+
+	test = () => {
+		console.log('test');
+	};
 }
