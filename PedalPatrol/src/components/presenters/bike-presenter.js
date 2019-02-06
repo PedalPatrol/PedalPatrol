@@ -63,7 +63,34 @@ export default class BikePresenter extends BasePresenter {
 		BikeM.unsubscribe(this);
 	};
 
-	test = () => {
-		console.log('test');
+	
+	// Maybe differentiate between cancel and clear
+	handleSearchCancel = () => {
+		this.view.setState({
+			data: this.getData()
+		});
+	};
+
+	handleSearchClear = () => {
+		this.view.setState({
+			data: this.getData()
+		});
+	};
+
+	/**
+	 * Filter the items in the list based on the text passed in. Called every time a letter is typed.
+	 *
+	 * @param {String} text - A word(s) to filter on
+	 */
+	handleSearchFilter = (text) => {
+		console.log(this.getData());
+		const newData = this.getData().filter(item => {
+			const itemData = `${item.name.toUpperCase()}}`;
+			const textData = text.toUpperCase();
+			return itemData.indexOf(textData) > -1;
+		});
+		this.view.setState({
+			data: newData
+		});
 	};
 }

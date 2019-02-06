@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 		shadowOpacity: 1.0,
 		shadowRadius: 1
 	},
-	model: {
+	name: {
 		paddingLeft: 10,
 		paddingTop: 5,
 		fontSize: 16,

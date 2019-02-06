@@ -25,13 +25,15 @@ export default class BikeView extends BaseView {
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
 	 */
 	sendUpdate = () => {
+		d = this.BikeP.getData();
+		i = d[d.length-1]
 		// Extract data from components
 		new_data = { 
 			data:	{
-						id: 2,
-						name: 'Bike2Name',
-						model: 'Model2',
-						owner: 'Owner2',
+						id: i.id+1,
+						name: 'BikeName'+(i.id+1),
+						model: 'Model'+(i.id+1),
+						owner: 'Owner'+(i.id+1),
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 		}
@@ -59,6 +61,33 @@ export default class BikeView extends BaseView {
 			thumbnail={item.thumbnail}
 			navigation={this.props.navigation}/>
 	);
+
+
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () => {
+		this.setState({ 
+			refresh: !this.state.refresh
+		});
+	};
+
+	/**
+	 * Triggers when a component or this component is mounted.
+	 */
+	componentWillMount = () => {
+		this.setState({
+			data: this.BikeP.getData()
+		});
+		console.log('Mounted'); // What to do here?
+	};
+
+	/**
+	 * Triggers when a component or this component is unmounted.
+	 */
+	componentWillUnmount = () => {
+		console.log('Unmounted'); // What to do here?
+	};
 
 
 	/**
@@ -93,9 +122,9 @@ export default class BikeView extends BaseView {
 						lightTheme
 						round
 						containerStyle={styles.searchBar}
-						onChangeText={(text) => this.handleSearchFilter(text)}
-						onCancel={this.handleSearchCancel}
-						onClear={this.handleSearchClear}
+						onChangeText={(text) => this.BikeP.handleSearchFilter(text)}
+						onCancel={this.BikeP.handleSearchCancel}
+						onClear={this.BikeP.handleSearchClear}
 						autoCorrect={false}             
 					/>
 				</View>
@@ -108,57 +137,6 @@ export default class BikeView extends BaseView {
   		);  
 	};
 
-	// Maybe differentiate between cancel and clear
-	handleSearchCancel = () => {
-		this.setState({
-			data: this.BikeP.getData()
-		});
-	};
-
-	handleSearchClear = () => {
-		this.setState({
-			data: this.BikeP.getData()
-		});
-	};
-
-	handleSearchFilter = (text) => {
-		console.log(this.BikeP.getData());
-		const newData = this.BikeP.getData().filter(item => {
-			const itemData = `${item.name.toUpperCase()}}`;
-			const textData = text.toUpperCase();
-			return itemData.indexOf(textData) > -1;
-		});
-		this.setState({
-			data: newData
-		});
-	};
-
-
-	/**
-	 * Refreshes the state of the component so new data is fetched.
-	 */
-	refreshState = () => {
-		this.setState({ 
-			refresh: !this.state.refresh
-		});
-	};
-
-	/**
-	 * Triggers when a component or this component is mounted.
-	 */
-	componentWillMount = () => {
-		this.setState({
-			data: this.BikeP.getData()
-		});
-		console.log('Mounted'); // What to do here?
-	};
-
-	/**
-	 * Triggers when a component or this component is unmounted.
-	 */
-	componentWillUnmount = () => {
-		console.log('Unmounted'); // What to do here?
-	};
 };
 
 const styles = StyleSheet.create({
@@ -171,12 +149,12 @@ const styles = StyleSheet.create({
 		borderColor:'rgba(0,0,0,0.2)',
 		alignItems:'center',
 		justifyContent:'center',
-		width:80,
-		height:80,
+		width:60,
+		height:60,
 		backgroundColor:'#fff',
-		borderRadius:80,
+		borderRadius:60,
 		position:'absolute',
-		bottom:0,
+		bottom:5,
 		alignSelf:'flex-end',
 	},
 	filter: {

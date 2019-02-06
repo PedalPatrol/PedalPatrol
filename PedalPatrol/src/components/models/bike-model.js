@@ -8,14 +8,16 @@ export default class BikeModel extends Model {
 			data: [
 					{
 						id: 1,
-						name: 'Bike1Name',
-						model: 'Model',
-						owner: 'Owner',
+						name: 'BikeName1',
+						model: 'Model1',
+						owner: 'Owner1',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 			]
 
 		}
+
+		// ABOVE IS TEMPORARY
 		
 		this._createObserverList();
 	}
