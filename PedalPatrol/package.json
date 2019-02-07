@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "npm test -- --watch"
   },
   "dependencies": {
     "prop-types": "^15.6.2",
@@ -18,11 +19,38 @@
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
-    "jest": "23.6.0",
+    "babel-plugin-root-import": "^6.1.0",
+    "jest": "^24.1.0",
     "metro-react-native-babel-preset": "0.51.1",
-    "react-test-renderer": "16.6.3"
+    "react-test-renderer": "16.6.3",
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-stage-0": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.0.1",
+    "babel-minify-webpack-plugin": "^0.2.0",
+    "babel-plugin-transform-class-properties": "^6.24.1"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "babel": {
+    "presets": [
+      "module:metro-react-native-babel-preset",
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ],
+    "plugins": [
+      [
+        "babel-plugin-root-import",
+        {
+          "rootPathPrefix": "@"
+        }
+      ],
+      "@babel/plugin-proposal-class-properties"
+    ]
   }
 }

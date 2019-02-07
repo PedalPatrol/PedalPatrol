@@ -57,7 +57,7 @@ export default class ObserverList {
 	 * @return {Boolean} true: if the observer is exists in the list; false: otherwise
 	 */
 	exists(objectClass) {
-		var i = 0;
+		let i = 0;
 		while (i < this.observers.length) {
 			if (this.observers[i] == objectClass) {
 				return true;

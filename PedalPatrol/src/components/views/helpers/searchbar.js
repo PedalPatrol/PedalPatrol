@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Icon, SearchBar } from 'react-native-elements';
 
 export default class SearchBarHelper extends Component {
 
 	render() {
 		return (   
-			<View style={styles.searchContainer}> 
+			<View style={styles.searchContainer}>
+				// Profile
+				<View style={{flex:1}}>
+					<TouchableOpacity>
+						<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
+					</TouchableOpacity>
+				</View>
+
+				// Search Bar
 				<View style={{flex:6}}>
 					<SearchBar        
 						placeholder="Type Here..."        
@@ -19,13 +27,15 @@ export default class SearchBarHelper extends Component {
 						autoCorrect={false}             
 					/>
 				</View>
+				
+				// Filter button
 				<View style={{flex:1}}>
 					<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
 						<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
 					</TouchableHighlight>
 				</View>
 			</View>
-  		);  
+		);  
 	};
 
 };
@@ -35,11 +45,21 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F5FCFF',
 		flexDirection:'row',
 		alignItems:'center',
+		justifyContent:'space-between',
 		paddingTop: 5,
+		marginTop: Platform.OS == "ios" ? 25 : 0
 	},
 	searchBar: {
 		backgroundColor:'transparent', 
 		borderTopWidth: 0, 
 		borderBottomWidth: 0,
+		left:8
+	},
+	profile: {
+		flex:1,
+		width: 40,
+		height: 40,
+		borderRadius: 20,
+		left:10
 	}
 });

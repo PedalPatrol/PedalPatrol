@@ -17,8 +17,8 @@ export default class Model {
 	 * This function forces the presenter to fetch any data from the model itself.
 	 */
 	_notifyAll() {
-		count = this.observerList.count();
-		for (i=0; i < count; i++) {
+		let count = this.observerList.count();
+		for (let i=0; i < count; i++) {
 			this.observerList.get(i).onUpdated(); // Calls the update function
 		}
 	}
@@ -31,8 +31,8 @@ export default class Model {
 	 * @param {Object} message - A message to send to the observers
 	 */
 	_notifyAll(message) {
-		count = this.observerList.count();
-		for (i=0; i < count; i++) {
+		let count = this.observerList.count();
+		for (let i=0; i < count; i++) {
 			this.observerList.get(i).onUpdated(message); // Calls the update function
 		}
 	}

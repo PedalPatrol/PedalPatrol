@@ -31,10 +31,10 @@ export default class BikeView extends BaseView {
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
 	 */
 	sendUpdate = () => {
-		d = this.BikeP.getData();
-		i = d[d.length-1]
+		const d = this.BikeP.getData();
+		const i = d[d.length-1]
 		// Extract data from components
-		new_data = { 
+		let new_data = { 
 			data:	{
 						id: i.id+1,
 						name: 'BikeName'+(i.id+1),
@@ -43,7 +43,7 @@ export default class BikeView extends BaseView {
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 		}
-		data = new_data; 
+		const data = new_data; 
 
 		// console.log(data);
 
@@ -69,12 +69,16 @@ export default class BikeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	/**
+	 * Renders a search bar as the header including the profile icon and the filter button
+	 */
 	_renderSearchBar = () => (
 		<SearchBarHelper 
 			handleSearchFilter={(text) => this.BikeP.handleSearchFilter(text)}
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
-			openFilter={this.sendUpdate}/>
+			openFilter={this.sendUpdate}
+			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
 
@@ -121,7 +125,8 @@ export default class BikeView extends BaseView {
 						extraData={this.state.refresh}
 						keyExtractor={this._keyExtractor}
 						renderItem={this._renderItem}
-						ListHeaderComponent={this._renderSearchBar}>
+						ListHeaderComponent={this._renderSearchBar}
+						stickyHeaderIndices={[0]}>
 					</FlatList>
 					<TouchableHighlight style={styles.add} onPress={() => this.sendUpdate()} accessibilityLabel="New">
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />

@@ -63,14 +63,19 @@ export default class HomePresenter extends BasePresenter {
 		HomeM.unsubscribe(this);
 	};
 
-	
-	// Maybe differentiate between cancel and clear
+	// Maybe differentiate between cancel and clear	
+	/**
+	 * Handle the search cancel.
+	 */
 	handleSearchCancel = () => {
 		this.view.setState({
 			data: this.getData()
 		});
 	};
 
+	/**
+	 * Handle the search clear
+	 */
 	handleSearchClear = () => {
 		this.view.setState({
 			data: this.getData()

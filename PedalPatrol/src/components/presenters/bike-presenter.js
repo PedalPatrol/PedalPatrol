@@ -65,12 +65,18 @@ export default class BikePresenter extends BasePresenter {
 
 	
 	// Maybe differentiate between cancel and clear
+	/**
+	 * Handle the search cancel.
+	 */
 	handleSearchCancel = () => {
 		this.view.setState({
 			data: this.getData()
 		});
 	};
 
+	/**
+	 * Handle the search clear
+	 */
 	handleSearchClear = () => {
 		this.view.setState({
 			data: this.getData()

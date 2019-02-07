@@ -10,6 +10,9 @@ import EditBikeView from '../components/views/helpers/editbike';
 
 let screen = Dimensions.get('window');
 
+/**
+ * Bottom tab navigator
+ */
 export const Tabs = createBottomTabNavigator({
   	'Home': {
 		screen: HomeView,
@@ -44,6 +47,9 @@ export const Tabs = createBottomTabNavigator({
   	lazy: false,
 });
 
+/**
+ * Stack navigator for bike tab, allows edit bike page to come on top when clicked
+ */
 export const BikeStack = createStackNavigator({
 	BikeStack: {
 		screen: BikeView,
@@ -61,6 +67,9 @@ export const BikeStack = createStackNavigator({
 	},
 });
 
+/**
+ * All possible stack navigators
+ */
 export const createRootNavigator = () => {
 	return createStackNavigator(
 		{

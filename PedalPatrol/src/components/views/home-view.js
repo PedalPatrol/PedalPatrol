@@ -31,10 +31,10 @@ export default class HomeView extends BaseView {
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
 	 */
 	sendUpdate = () => {
-		d = this.HomeP.getData();
-		i = d[d.length-1]
+		const d = this.HomeP.getData();
+		const i = d[d.length-1]
 		// Extract data from components
-		new_data = { 
+		let new_data = { 
 			data:	{
 						id: i.id+1,
 						name: 'BikeName'+(i.id+1),
@@ -44,7 +44,7 @@ export default class HomeView extends BaseView {
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 		}
-		data = new_data; 
+		const data = new_data; 
 		// Get data to add here
 
 		this.HomeP.update(data);
@@ -66,12 +66,16 @@ export default class HomeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	/**
+	 * Renders the header for the list including a search bar, profile button and filter button.
+	 */
 	_renderSearchBar = () => (
 		<SearchBarHelper 
 			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
-			openFilter={this.sendUpdate}/>
+			openFilter={this.sendUpdate}
+			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
 
@@ -118,7 +122,8 @@ export default class HomeView extends BaseView {
 						extraData={this.state.refresh}
 						keyExtractor={this._keyExtractor}
 						renderItem={this._renderItem}
-						ListHeaderComponent={this._renderSearchBar}>
+						ListHeaderComponent={this._renderSearchBar}
+						stickyHeaderIndices={[0]}>
 					</FlatList>
 				</View>
 				)
