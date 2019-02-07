@@ -3,6 +3,7 @@ import BikeModel from '@/src/components/models/bike-model';
 test('should create observer list', () => {
 	// Need to use spyOn to test function calls within constructors
 	const spy = jest.spyOn(BikeModel.prototype, '_createObserverList');
+	// Calling function/constructor needs to be called right before expect
 	const BikeM = new BikeModel();
 
 	expect(spy).toHaveBeenCalled();

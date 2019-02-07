@@ -1,38 +1,41 @@
 import React, { Component } from 'react';
-import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Icon, SearchBar } from 'react-native-elements';
 
 export default class SearchBarHelper extends Component {
 
 	render() {
 		return (   
-			<View style={styles.searchContainer}>
-				{/* Profile */}
-				<View style={{flex:1}}>
-					<TouchableOpacity>
-						<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
-					</TouchableOpacity>
-				</View>
+			<View>
+				<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+				<View style={styles.searchContainer}>
+					{/* Profile */}
+					<View style={{flex:1}}>
+						<TouchableOpacity>
+							<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
+						</TouchableOpacity>
+					</View>
 
-				{/* Search Bar */}
-				<View style={{flex:6}}>
-					<SearchBar        
-						placeholder="Type Here..."        
-						lightTheme
-						round
-						containerStyle={styles.searchBar}
-						onChangeText={(text) => this.props.handleSearchFilter(text)}
-						onCancel={this.props.handleSearchCancel}
-						onClear={this.props.handleSearchClear}
-						autoCorrect={false}             
-					/>
-				</View>
-				
-				{/* Filter button */}
-				<View style={{flex:1}}>
-					<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
-						<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
-					</TouchableHighlight>
+					{/* Search Bar */}
+					<View style={{flex:6}}>
+						<SearchBar        
+							placeholder="Type Here..."        
+							lightTheme
+							round
+							containerStyle={styles.searchBar}
+							onChangeText={(text) => this.props.handleSearchFilter(text)}
+							onCancel={this.props.handleSearchCancel}
+							onClear={this.props.handleSearchClear}
+							autoCorrect={false}             
+						/>
+					</View>
+					
+					{/* Filter button */}
+					<View style={{flex:1}}>
+						<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
+							<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
+						</TouchableHighlight>
+					</View>
 				</View>
 			</View>
 		);  
@@ -47,7 +50,6 @@ const styles = StyleSheet.create({
 		alignItems:'center',
 		justifyContent:'space-between',
 		paddingTop: 5,
-		marginTop: Platform.OS == "ios" ? 25 : 0
 	},
 	searchBar: {
 		backgroundColor:'transparent', 

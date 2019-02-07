@@ -26,7 +26,7 @@ export default class ObserverList {
 	 * @param {Object} observer - An observer to remove
 	 */
 	remove(observer) {
-		this.observers = this.observers.filter(obs => obs != object.observer);
+		this.observers = this.observers.filter(obs => obs != observer);
 	}
 
 	/**
@@ -38,7 +38,7 @@ export default class ObserverList {
 	 */
 	removeIndex(index) {
 		this.observers.splice(index, 1);
-		return index > count();
+		return index > this.count();
 	}
 
 	/**

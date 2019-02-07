@@ -9,8 +9,8 @@ export default class BikePresenter extends BasePresenter {
 	 * @param {Object} view - An instance of a view class
 	 */
 	constructor(view) {
-		super()
-		this.stores = [BikeM];
+		super();
+		// this.stores = [BikeM];
 		this.view = view;
 		BikeM.subscribe(this);
 	}

@@ -21,6 +21,10 @@ class BaseView extends Component {
 	componentWillUnmount = () => {
 		throw new Error('Method must be implemented');
 	}
+
+	refreshState = () => {
+		throw new Error('Method must be implemented');
+	}
 }
 
 export default BaseView;

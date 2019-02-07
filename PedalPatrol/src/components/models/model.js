@@ -48,7 +48,7 @@ export default class Model {
 	 */
 	_notify(observer, message) {
 		if (this.observerList.exists(observer)) {
-			observer.update(message);
+			observer.onUpdated(message);
 			return true;
 		} else {
 			return false;
@@ -71,5 +71,15 @@ export default class Model {
 	 */
 	unsubscribe(observer) {
 		this.observerList.remove(observer);
+	}
+
+	/**
+	 * Checks if an observer exists in the observer list.
+	 * 
+	 * @param {Object} objectClass - A class
+	 * @return {Boolean} true: if the class is an observer; false: if the class is not an observer
+	 */
+	exists(objectClass) {
+	 	return this.observerList.exists(objectClass);
 	}
 }
