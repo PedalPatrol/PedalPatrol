@@ -10,12 +10,12 @@ export default class NotificationBikeItemHelper extends Component {
 			<TouchableOpacity >
 				<View style={styles.rowContainer}>
 					
-					// Thumbnail
+					{/* Thumbnail */}
 					<Image source={{uri: this.props.thumbnail}}
 						   style={styles.thumbnail}
 						   resizeMode="contain" />
 					
-					// Add more text to change the item
+					{/* Add more lines and format based on text that is needed */}
 					<View style={styles.rowText}>
 						
 						<Text style={styles.name} numberOfLines={3} ellipsizeMode ={'tail'}>

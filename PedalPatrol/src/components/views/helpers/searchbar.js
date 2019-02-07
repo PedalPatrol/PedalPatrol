@@ -7,14 +7,14 @@ export default class SearchBarHelper extends Component {
 	render() {
 		return (   
 			<View style={styles.searchContainer}>
-				// Profile
+				{/* Profile */}
 				<View style={{flex:1}}>
 					<TouchableOpacity>
 						<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
 					</TouchableOpacity>
 				</View>
 
-				// Search Bar
+				{/* Search Bar */}
 				<View style={{flex:6}}>
 					<SearchBar        
 						placeholder="Type Here..."        
@@ -28,7 +28,7 @@ export default class SearchBarHelper extends Component {
 					/>
 				</View>
 				
-				// Filter button
+				{/* Filter button */}
 				<View style={{flex:1}}>
 					<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
 						<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />

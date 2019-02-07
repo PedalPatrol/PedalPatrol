@@ -15,12 +15,12 @@ export default class BikeItemHelper extends Component {
 			<TouchableOpacity onPress={() => this.props.navigation.navigate('EditBike', {id: this.props.id})}>
 				<View style={styles.rowContainer}>
 					
-					// Thumbnail
+					{/* Thumbnail */}
 					<Image source={{uri: this.props.thumbnail}}
 						   style={styles.thumbnail}
 						   resizeMode="contain" />
 					
-					// Add more lines and format based on text that is needed
+					{/* Add more lines and format based on text that is needed */}
 					<View style={styles.rowText}>
 						
 						<Text style={styles.name} numberOfLines={3} ellipsizeMode ={'tail'}>
