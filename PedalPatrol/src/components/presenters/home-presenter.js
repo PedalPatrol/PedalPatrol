@@ -1,18 +1,18 @@
 import BasePresenter from './presenter';
-import { BikeM } from '../models/export-models';
+import { HomeM } from '../models/export-models';
 
-export default class BikePresenter extends BasePresenter {
+export default class HomePresenter extends BasePresenter {
 	/**
-	 * Creates an instance of BikePresenter
+	 * Creates an instance of HomePresenter
 	 *
 	 * @constructor
 	 * @param {Object} view - An instance of a view class
 	 */
 	constructor(view) {
 		super()
-		this.stores = [BikeM];
+		this.stores = [HomeM];
 		this.view = view;
-		BikeM.subscribe(this);
+		HomeM.subscribe(this);
 	}
 
 	/**
@@ -21,7 +21,7 @@ export default class BikePresenter extends BasePresenter {
 	 * @param {Object} newData - New data to update the model's data with.
 	 */
 	update = (newData) => {
-		BikeM.update(newData); 
+		HomeM.update(newData); 
 	};
 
 
@@ -53,14 +53,14 @@ export default class BikePresenter extends BasePresenter {
 	 * @return {Object} Data from the model.
 	 */
 	getData = () => {
-		return BikeM.get().data;
+		return HomeM.get().data;
 	};
 
 	/**
 	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
 	 */
 	onDestroy = () => {
-		BikeM.unsubscribe(this);
+		HomeM.unsubscribe(this);
 	};
 
 	

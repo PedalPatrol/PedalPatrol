@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StatusBar, StyleSheet, FlatList, Text, View, Button, TouchableHighlight } from 'react-native';
-import { Icon, SearchBar } from 'react-native-elements';
-import BikeItem from './helpers/bikeitem';
+import { StyleSheet, FlatList, View, TouchableHighlight } from 'react-native';
+import { Icon } from 'react-native-elements';
+import BikeItemHelper from './helpers/bikeitem';
+import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';
 import BikePresenter from '../presenters/bike-presenter';
 
@@ -14,9 +15,14 @@ export default class BikeView extends BaseView {
 	 */
 	constructor(props) {
 		super(props);
-		this.state = { refresh: {}, data: [] };
+		this.resetState();
 		this._renderItem = this._renderItem.bind(this);
+		this._renderSearchBar = this._renderSearchBar.bind(this);
 		this.BikeP = new BikePresenter(this);
+	}
+
+	resetState = () => {
+		this.state = { refresh: true, data: [] };
 	}
 
 	// TODO : Add update from new bike page that refreshes bike view page
@@ -42,10 +48,11 @@ export default class BikeView extends BaseView {
 		// console.log(data);
 
 		// EVERYTHING ABOVE IS TEMPORARY - TO TEST ONLY
-		// Get data here
+		// Get data to add here
 
 		this.BikeP.update(data);
 	}
+
 
 	/**
 	 * Renders an item from a list to the screen by extracting data.
@@ -53,13 +60,21 @@ export default class BikeView extends BaseView {
 	 * @param {Object} item - An item to be rendered
 	 */
 	_renderItem = ({item}) => (
-		<BikeItem
+		<BikeItemHelper
 			id={item.id}
 			name={item.name}
 			model={item.model}
 			owner={item.owner}
 			thumbnail={item.thumbnail}
 			navigation={this.props.navigation}/>
+	);
+
+	_renderSearchBar = () => (
+		<SearchBarHelper 
+			handleSearchFilter={(text) => this.BikeP.handleSearchFilter(text)}
+			handleSearchCancel={this.BikeP.handleSearchCancel}
+			handleSearchClear={this.BikeP.handleSearchClear}
+			openFilter={this.sendUpdate}/>
 	);
 
 
@@ -99,43 +114,21 @@ export default class BikeView extends BaseView {
 	 _keyExtractor = (item, index) => item.id.toString();
 
 	render() {
-		return 	<View style={styles.container}>
+		return (	
+				<View style={styles.container}>
 					<FlatList
 						data={this.state.data}
 						extraData={this.state.refresh}
 						keyExtractor={this._keyExtractor}
 						renderItem={this._renderItem}
-						ListHeaderComponent={this.renderHeader}>
+						ListHeaderComponent={this._renderSearchBar}>
 					</FlatList>
 					<TouchableHighlight style={styles.add} onPress={() => this.sendUpdate()} accessibilityLabel="New">
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
 					</TouchableHighlight>
 				</View>
+				)
 	}
-
-	renderHeader = () => {    
-		return (   
-			<View style={styles.searchContainer}> 
-				<View style={{flex:6}}>
-					<SearchBar        
-						placeholder="Type Here..."        
-						lightTheme
-						round
-						containerStyle={styles.searchBar}
-						onChangeText={(text) => this.BikeP.handleSearchFilter(text)}
-						onCancel={this.BikeP.handleSearchCancel}
-						onClear={this.BikeP.handleSearchClear}
-						autoCorrect={false}             
-					/>
-				</View>
-				<View style={{flex:1}}>
-					<TouchableHighlight  onPress={() => this.sendUpdate()} accessibilityLabel="New">
-						<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
-					</TouchableHighlight>
-				</View>
-			</View>
-  		);  
-	};
 
 };
 
@@ -156,29 +149,5 @@ const styles = StyleSheet.create({
 		position:'absolute',
 		bottom:5,
 		alignSelf:'flex-end',
-	},
-	filter: {
-		borderWidth:1,
-		borderColor:'rgba(0,0,0,0.2)',
-		alignItems:'center',
-		justifyContent:'center',
-		width:15,
-		height:15,
-		backgroundColor:'#fff',
-		borderRadius:15,
-		position:'absolute',
-		alignSelf:'flex-end',
-
-	},
-	searchContainer: { // View that contains search bar
-		backgroundColor: '#F5FCFF',
-		flexDirection:'row',
-		alignItems:'center',
-		paddingTop: 5,
-	},
-	searchBar: {
-		backgroundColor:'transparent', 
-		borderTopWidth: 0, 
-		borderBottomWidth: 0,
 	}
 });

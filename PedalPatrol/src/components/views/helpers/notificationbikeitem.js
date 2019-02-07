@@ -3,16 +3,11 @@ import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-export default class BikeItemHelper extends Component {
-
-	_onEditBike = () => {
-		let id = this.props.id;
-
-	};
+export default class NotificationBikeItemHelper extends Component {
 
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('EditBike', {id: this.props.id})}>
+			<TouchableOpacity >
 				<View style={styles.rowContainer}>
 					
 					<Image source={{uri: this.props.thumbnail}}
@@ -27,9 +22,14 @@ export default class BikeItemHelper extends Component {
 						<Text style={styles.model} numberOfLines={2} ellipsizeMode ={'tail'}>
 							{this.props.model}
 						</Text>
-						<Text style={styles.owner} numberOfLines={1} ellipsizeMode ={'tail'}>
-							{this.props.owner}
-						</Text>
+						<View style={{flexDirection: 'row'}}>
+							<Text style={styles.owner} numberOfLines={1} ellipsizeMode ={'tail'}>
+								{this.props.owner}
+							</Text>
+							<Text style={styles.description} numberOfLines={1} ellipsizeMode ={'tail'}>
+								{this.props.description}
+							</Text>
+						</View>
 						
 					</View>
 
@@ -72,7 +72,15 @@ const styles = StyleSheet.create({
 		paddingLeft: 10,
 		marginTop: 5,
 		fontSize: 14,
-		color: '#777'
+		color: '#777',
+		flex:1
+	},
+	description: {
+		paddingLeft: 10,
+		marginTop: 5,
+		fontSize: 14,
+		color: '#777',
+		flex:1
 	},
 	thumbnail: {
 		flex: 1,

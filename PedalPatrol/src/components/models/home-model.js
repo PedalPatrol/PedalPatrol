@@ -1,6 +1,6 @@
 import Model from './model';
 
-export default class BikeModel extends Model {
+export default class HomeModel extends Model {
 	constructor() {
 		super();
 		// Initial data
