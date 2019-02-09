@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
 		borderRadius:60,
 		position:'absolute',
 		bottom:5,
+		right:5,
 		alignSelf:'flex-end',
 	}
 });
