@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Icon, SearchBar } from 'react-native-elements';
+import ProfileButton from './profilebutton';
 
 export default class SearchBarHelper extends Component {
 
@@ -9,13 +10,9 @@ export default class SearchBarHelper extends Component {
 			<View>
 				<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
 				<View style={styles.searchContainer}>
-					{/* Profile */}
-					<View style={{flex:1}}>
-						<TouchableOpacity>
-							<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
-						</TouchableOpacity>
-					</View>
-
+                    {/* Profile */}
+                    <ProfileButton profilePicture={this.props.profilePicture} />
+          
 					{/* Search Bar */}
 					<View style={{flex:6}}>
 						<SearchBar        

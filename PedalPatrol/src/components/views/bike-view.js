@@ -40,6 +40,9 @@ export default class BikeView extends BaseView {
 						name: 'BikeName'+(i.id+1),
 						model: 'Model'+(i.id+1),
 						owner: 'Owner'+(i.id+1),
+						colour: 'Red',
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 		}
@@ -65,6 +68,9 @@ export default class BikeView extends BaseView {
 			name={item.name}
 			model={item.model}
 			owner={item.owner}
+			colour={item.colour}
+			serial_number={item.serial_number}
+			notable_features={item.notable_features}
 			thumbnail={item.thumbnail}
 			navigation={this.props.navigation}/>
 	);
@@ -132,8 +138,8 @@ export default class BikeView extends BaseView {
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
 					</TouchableHighlight>
 				</View>
-				)
-	}
+				);
+	};
 
 };
 

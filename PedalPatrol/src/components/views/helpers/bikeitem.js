@@ -14,27 +14,35 @@ export default class BikeItemHelper extends Component {
 		return(
 			<TouchableOpacity onPress={() => this.props.navigation.navigate('EditBike', {id: this.props.id})}>
 				<View style={styles.rowContainer}>
-					
-					{/* Thumbnail */}
-					<Image source={{uri: this.props.thumbnail}}
-						   style={styles.thumbnail}
-						   resizeMode="contain" />
-					
-					{/* Add more lines and format based on text that is needed */}
-					<View style={styles.rowText}>
-						
-						<Text style={styles.name} numberOfLines={3} ellipsizeMode ={'tail'}>
-							{this.props.name}
-						</Text>
-						<Text style={styles.model} numberOfLines={2} ellipsizeMode ={'tail'}>
-							{this.props.model}
-						</Text>
-						<Text style={styles.owner} numberOfLines={1} ellipsizeMode ={'tail'}>
-							{this.props.owner}
-						</Text>
-						
-					</View>
+					<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}} flex>
+                        {/* Thumbnail */}
+                        <View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}} left>
+                                <Image source={{uri: this.props.thumbnail}}
+                                       style={styles.thumbnail}
+                                       resizeMode="contain" />
+                        </View>
+                      
+                        {/* Add more lines and format based on text that is needed */}
+                        <View style={styles.rowText} right flex>
 
+                            <Text style={styles.name} numberOfLines={1} ellipsizeMode ={'tail'}>
+                                {this.props.name}
+                            </Text>
+                            <Text style={styles.other} numberOfLines={1} ellipsizeMode ={'tail'}>
+                                Model: {this.props.model}
+                            </Text>
+                            <Text style={styles.other} numberOfLines={1} ellipsizeMode ={'tail'}>
+                                Colour: {this.props.colour}
+                            </Text>
+                            <Text style={styles.other} numberOfLines={1} ellipsizeMode ={'tail'}>
+                                Serial Number: {this.props.serial_number}
+                            </Text>
+                            <Text style={styles.other} numberOfLines={2} ellipsizeMode ={'tail'}>
+                                Notable Features: {this.props.notable_features}
+                            </Text>
+
+                        </View>
+                    </View>
 				</View>
 			</TouchableOpacity>
 		);
@@ -45,7 +53,7 @@ const styles = StyleSheet.create({
 	rowContainer: {
 		flexDirection: 'row',
 		backgroundColor: '#FFF',
-		height: 100,
+		height: 130,
 		padding: 10,
 		marginRight: 10,
 		marginLeft: 10,
@@ -54,7 +62,7 @@ const styles = StyleSheet.create({
 		shadowOffset:{  width: 1,  height: 1,  },
 		shadowColor: '#CCC',
 		shadowOpacity: 1.0,
-		shadowRadius: 1
+		shadowRadius: 1,
 	},
 	name: {
 		paddingLeft: 10,
@@ -63,17 +71,10 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#777'
 	},
-	model: {
-		paddingLeft: 10,
-		paddingTop: 5,
-		fontSize: 14,
-		fontWeight: 'bold',
-		color: '#777'
-	},
-	owner: {
+	other: {
 		paddingLeft: 10,
 		marginTop: 5,
-		fontSize: 14,
+		fontSize: 12,
 		color: '#777'
 	},
 	thumbnail: {
@@ -83,6 +84,15 @@ const styles = StyleSheet.create({
 	},
 	rowText: {
 		flex: 4,
-		flexDirection: 'column'
-	}
+		flexDirection: 'column',
+        alignItems: 'flex-start'
+	},
+     topRow: { 
+        flexDirection: 'row',
+    },
+    nameImageCol: {
+        flex:1, 
+        flexDirection:'column', 
+        width:140,
+    },
 });

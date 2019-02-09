@@ -41,6 +41,12 @@ export default class HomeView extends BaseView {
 						model: 'Model'+(i.id+1),
 						owner: 'Owner'+(i.id+1),
 						description: 'Testing',
+                        colour: 'Red',
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
+                        timeago: '2 hrs ago',
+                        datetime: '3:30 PM - 16 Jan. 19',
+                        address: '162 Barrie St. Kingston, ON',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 		}
@@ -63,6 +69,12 @@ export default class HomeView extends BaseView {
 			owner={item.owner}
 			description={item.description}
 			thumbnail={item.thumbnail}
+            colour={item.colour}
+            serial_number={item.serial_number}
+            notable_features={item.notable_features}
+            timeago={item.timeago}
+            datetime={item.datetime}
+            address={item.address}
 			navigation={this.props.navigation}/>
 	);
 
@@ -126,8 +138,8 @@ export default class HomeView extends BaseView {
 						stickyHeaderIndices={[0]}>
 					</FlatList>
 				</View>
-				)
-	}
+				);
+	};
 
 };
 

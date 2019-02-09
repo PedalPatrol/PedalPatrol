@@ -12,6 +12,9 @@ export default class BikeModel extends Model {
 						model: 'Model1',
 						owner: 'Owner1',
 						description: 'Testing',
+						colour: 'Red',
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 			]
