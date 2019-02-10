@@ -137,6 +137,7 @@ export default class AddBikeView extends Component {
 		<TextInput
 			style={styles.textInput}
 			label={item.name}
+			multiline={item.multiline}
 			value={this.state.data[index].text}
 			onChangeText={(text) => {
 					let { data } = this.state;
@@ -152,6 +153,11 @@ export default class AddBikeView extends Component {
 	 */
 	_keyExtractor = (item, index) => item.name;
 
+	/**
+	 * Add the new selected items to the state and update
+	 *
+	 * @param {List} selectedItems - List of selected items
+	 */
 	onSelectedItemsChange = (selectedItems) => {
     	this.setState({ selectedItems });
   	} 
@@ -203,50 +209,45 @@ export default class AddBikeView extends Component {
 									/>
 							</ScrollView>
 						</View>
+						<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
 				</HandleBack>
 		);
 	}
 }
 
-const items = [
-  {  
-    name: "Red",
-    colour: "#FF0000"
-  },
-  {  
-    name: "Green",
-    colour: "#7CFC00"
-  },
-]
-
-// List of text inputs for adding bike
+// List of text inputs for adding bike. Items in list appear in this order
 const dataList = {
 	data: [
 		{
-			name: 'Model',
-			text_var: 'model_text',
+			name: 'Serial Number',
+			multiline: false,
 			text: ''
 		},
 		{
-			name: 'Serial Number',
-			text_var: 'serial_number_text',
+			name: 'Brand',
+			multiline: false,
 			text: ''
 		},
-		// {
-		// 	name: 'Colour',
-		// 	text_var: 'colour_text',
-		// 	text: ''
-		// },
+		{
+			name: 'Model',
+			multiline: false,
+			text: ''
+		},
 		{
 			name: 'Notable Features',
-			text_var: 'notable_features_text',
+			multiline: true,
 			text: ''
 		},
 		{
-			name: 'Description',
-			text_var: 'description_text',
+			name: 'Wheel Size',
+			multiline: false,
 			text: ''
 		},
+		{
+			name: 'Frame Size',
+			multiline: false,
+			text: ''
+		}
 	]
 }
 
