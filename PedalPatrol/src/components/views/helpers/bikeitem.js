@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
 	rowContainer: {
 		flexDirection: 'row',
 		backgroundColor: '#FFF',
-		height: 130,
+		height: 140,
 		padding: 10,
 		marginRight: 10,
 		marginLeft: 10,

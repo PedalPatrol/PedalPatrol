@@ -1,27 +1,79 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Header, Left } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList } from 'react-native';
+import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import HandleBack from './helpers/handleback';
+import { HeaderBackButton } from 'react-navigation';
+import { TextInput } from 'react-native-paper';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
+const colours = require('../../assets/colours/colours.json');
+
+const addbikeimage = require('../../assets/images/addbikewithcameraicon.png'); // Unused currently
 
 export default class AddBikeView extends Component {
 	state = {
 		avatarSource: null,
 		videoSource: null,
     	editing: false,
+
+    	data: dataList.data,
+
+    	selectedItems: []
 	};
 
+	/**
+	 * Set the navigation options, change the header to handle a back button.
+	 *
+	 * @return {Object} Navigation option
+	 */
+	static navigationOptions = ({navigation}) => {
+  		return {
+			headerLeft: (<HeaderBackButton onPress={()=>{navigation.state.params.onBack()}}/>)
+ 		}
+	}
+
+
+	/**
+	 * Creates an instance of the add bike view
+	 *
+	 * @constructor
+	 * @param {Object} props - Component properties
+	 */
 	constructor(props) {
 		super(props);
 		this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
 	}
 
+
+	/**
+	 * Component mounted
+	 */
+	componentDidMount = () => {
+		this.props.navigation.setParams({
+			onBack: this.onBack
+		});
+	}
+
+	/**
+	 * Toggle the editing mode.
+	 */
 	toggleEditing = () => {
 		this.setState({ editing: !editing });
 	}
-	setEditing = (val) => {
-		this.setState({ editing: val });
+
+	/**
+	 * Set the editing value to the passed in value.
+	 *
+	 * @param {Boolean} edit - true: user is editing; false: user is not editing
+	 */
+	setEditing = (edit) => {
+		this.setState({ editing: edit });
 	}
 
+	/**
+	 * Open the image picker. Set the editing option to true.
+	 */
 	selectPhotoTapped() {
 		const options = {
 			quality: 1.0,
@@ -56,56 +108,151 @@ export default class AddBikeView extends Component {
 		});
 	}
 
+	/**
+	 * When the back button is clicked, check if the user was editing.
+	 */
 	onBack = () => {
 		if (this.state.editing) {
 			Alert.alert(
 				"You're still editing!",
-				"Are you sure you want to go home with your edits not saved?",
+				"Are you sure you want to go back with your edits not saved?",
 			  	[
 					{ text: "Keep Editing", onPress: () => {}, style: "cancel" },
-					{ text: "Go Home", onPress: () => this.props.navigation.goBack() },
+					{ text: "Go Back", onPress: () => this.props.navigation.navigate('Tabs') },
 			  	],
 			  	{ cancelable: false },
 			);
-			return true;
-		}
 
-		return false;
+		} else {
+			this.props.navigation.navigate('Tabs'); // If not editing then go back
+		}
 	};
+
+	/**
+	 * Render a text input item.
+	 * 
+	 * @param {Object} item - A list item, index - The index of the item in the data list
+	 */
+	_renderItem = ({item, index}) => (
+		<TextInput
+			style={styles.textInput}
+			label={item.name}
+			value={this.state.data[index].text}
+			onChangeText={(text) => {
+					let { data } = this.state;
+					data[index].text = text;
+					this.setState({ data })
+				} 
+			}/>
+	);
+
+
+	/**
+	 * Extract the key from the item and index
+	 */
+	_keyExtractor = (item, index) => item.name;
+
+	onSelectedItemsChange = (selectedItems) => {
+    	this.setState({ selectedItems });
+  	} 
 
 	render() {
 		const { navigation } = this.props;
 
 		return (
 				<HandleBack onBack={this.onBack}>
-					<View style={styles.container}>
 						<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
-						
-						
-						<TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-							<View
-								style={[
-									styles.avatar,
-									styles.avatarContainer,
-									{ marginBottom: 20 },
-								]}>
-								{this.state.avatarSource === null ? (
-									<Text>Select a Photo</Text>
-								) : (
-									<Image style={styles.avatar} source={this.state.avatarSource} />
-								)}
-							</View>
-						</TouchableOpacity>
-					</View>
+						<View style={styles.container}>
+							<ScrollView contentContainerStyle={styles.contentContainer}>
+							
+								{/* Picture frame */}
+								<TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
+									<View
+										style={[
+											styles.avatar,
+											styles.avatarContainer,
+											{ marginBottom: 20 },
+										]}>
+										{this.state.avatarSource === null ? (
+											<Icon name="photo-camera" type="MaterialIcons" size={100} color="#01a699" />
+										) : (
+											<Image style={styles.avatar} resizeMode="contain" source={this.state.avatarSource} />
+										)}
+									</View>
+								</TouchableOpacity>
+
+								{/* List of text inputs */}
+								<FlatList
+									style={styles.flatList}
+									data={dataList.data}
+									extraData={this.state}
+									keyExtractor={this._keyExtractor}
+									renderItem={this._renderItem}/>
+							
+								<SectionedMultiSelect
+									style={styles.textInput}
+									items={colours.data}
+									showRemoveAll
+									colors={{ primary: this.state.selectedItems.length ? 'forestgreen' : 'crimson',}}
+									uniqueKey='name'
+									selectText='Colours'
+									modalWithSafeAreaView={true}
+									showDropDowns={true}
+									onSelectedItemsChange={this.onSelectedItemsChange}
+									selectedItems={this.state.selectedItems}
+									/>
+							</ScrollView>
+						</View>
 				</HandleBack>
 		);
 	}
 }
 
+const items = [
+  {  
+    name: "Red",
+    colour: "#FF0000"
+  },
+  {  
+    name: "Green",
+    colour: "#7CFC00"
+  },
+]
+
+// List of text inputs for adding bike
+const dataList = {
+	data: [
+		{
+			name: 'Model',
+			text_var: 'model_text',
+			text: ''
+		},
+		{
+			name: 'Serial Number',
+			text_var: 'serial_number_text',
+			text: ''
+		},
+		// {
+		// 	name: 'Colour',
+		// 	text_var: 'colour_text',
+		// 	text: ''
+		// },
+		{
+			name: 'Notable Features',
+			text_var: 'notable_features_text',
+			text: ''
+		},
+		{
+			name: 'Description',
+			text_var: 'description_text',
+			text: ''
+		},
+	]
+}
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		alignItems: 'center',
 		backgroundColor: '#F5FCFF',
 	},
 	avatarContainer: {
@@ -113,9 +260,36 @@ const styles = StyleSheet.create({
 		borderWidth: 1 / PixelRatio.get(),
 		justifyContent: 'center',
 		alignItems: 'center',
+		flexDirection: 'row',
+		height: 200,
+		padding: 10,
+		marginRight: 10,
+		marginLeft: 10,
+		marginTop: 10,
+		borderRadius: 4,
+		shadowOffset:{  width: 1,  height: 1,  },
+		shadowColor: '#CCC',
+		shadowOpacity: 1.0,
+		shadowRadius: 1,
 	},
 	avatar: {
-		width: 150,
-		height: 150,
+		position: 'absolute',
+	    top: 0,
+	    left: 0,
+	    bottom: 0,
+	    right: 0,
+		height: 200
 	},
+	scrollContainer: {
+		paddingVertical: 20,
+  	},
+  	textInput: {
+  		marginRight: 10,
+		marginLeft: 10,
+		marginBottom: 10,
+		backgroundColor: '#F5FCFF',
+  	},
+  	flatList: {
+  		marginTop: 220
+  	}
 });
