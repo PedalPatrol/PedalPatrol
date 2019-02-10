@@ -98,5 +98,5 @@ export default class BikePresenter extends BasePresenter {
 		this.view.setState({
 			data: newData
 		});
-	};
+	}; 
 }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView, DropDownMenu } from 'react-native';
 import { Icon, SearchBar } from 'react-native-elements';
 import ProfileButton from './profilebutton';
+import FilterHelper from './filter';
 
 export default class SearchBarHelper extends Component {
-
 	render() {
 		return (   
 			<View>
@@ -27,12 +27,18 @@ export default class SearchBarHelper extends Component {
 						/>
 					</View>
 					
-					{/* Filter button */}
-					<View style={{flex:1}}>
-						<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
-							<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
-						</TouchableHighlight>
-					</View>
+						{/* Filter button - Using sectioned multi select */}
+						{/* <View style={{flex:1, bottom:25}}> */}
+							{/* <FilterHelper onSelectedItemsChange={this.props.onSelectedItemsChange} selectedItems={this.props.selectedItems}/> */}
+						{/* </View> */}
+
+						{/* Filter button - Using button - Needs dropdown */}
+						<View style={{flex:1, top:5}}>
+							<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
+								<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
+							</TouchableHighlight>
+						</View>
+					
 				</View>
 			</View>
 		);  
@@ -44,8 +50,6 @@ const styles = StyleSheet.create({
 	searchContainer: { // View that contains search bar
 		backgroundColor: '#F5FCFF',
 		flexDirection:'row',
-		alignItems:'center',
-		justifyContent:'space-between',
 		paddingTop: 5,
 	},
 	searchBar: {
@@ -59,6 +63,6 @@ const styles = StyleSheet.create({
 		width: 40,
 		height: 40,
 		borderRadius: 20,
-		left:10
+		
 	}
 });

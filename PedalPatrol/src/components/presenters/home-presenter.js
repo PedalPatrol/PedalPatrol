@@ -90,7 +90,7 @@ export default class HomePresenter extends BasePresenter {
 	handleSearchFilter = (text) => {
 		console.log(this.getData());
 		const newData = this.getData().filter(item => {
-			const itemData = `${item.name.toUpperCase()}}`;
+			const itemData = `${item.model.toUpperCase()}}`;
 			const textData = text.toUpperCase();
 			return itemData.indexOf(textData) > -1;
 		});

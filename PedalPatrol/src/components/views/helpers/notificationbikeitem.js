@@ -8,19 +8,22 @@ export default class NotificationBikeItemHelper extends Component {
 	render() {
 		return(
 			<TouchableOpacity>
-			
 				<View style={styles.rowContainer}>
-				  
+				  	{/* Everything is put as columns from the top row */}
 					<View style={styles.topRow}>
+						
+						{/* First column is model, image, datetime and address */}
 						<View style={{flex: 1, alignItems:'flex-start'}}>
 							<View style={styles.nameImageCol}>
+								
+								{/* Model */}
 								<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
 									{this.props.model}
 								</Text>
 								
-								<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}} flex>
+								<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
 									{/* Thumbnail */}
-									<View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}} left>
+									<View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}}>
 											<Image source={{uri: this.props.thumbnail}}
 												   style={styles.thumbnail}
 												   resizeMode="contain" />
@@ -33,15 +36,20 @@ export default class NotificationBikeItemHelper extends Component {
 								<Text style={styles.address} numberOfLines={1} ellipsizeMode ={'tail'}>
 									{this.props.address}
 								</Text>
+
 							</View>
 						</View>
-						<View style={{flex: 1}}>
 
+						{/* Second column is hoursago, notable features, description and icons */}
+						<View style={{flex: 1}}>
 							<View style={{flex: 1, flexDirection:'column', alignItems:'flex-end'}}>
+								
+								{/* Time ago */}
 								<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
 									{this.props.timeago}
 								</Text>
 
+								{/* Notable features and description */}
 								<View style={{flex: 5, flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start'}}>
 									<Text style={styles.other} numberOfLines={2} ellipsizeMode ={'tail'}>
 										Notable Features: {this.props.notable_features}
@@ -51,7 +59,8 @@ export default class NotificationBikeItemHelper extends Component {
 									</Text>
 								</View>
 
-								<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}} left>
+								{/* Bottom icons */}
+								<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
 									<TouchableHighlight style={styles.icon} accessibilityLabel="Bookmark">
 										<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />
 									</TouchableHighlight>
@@ -64,10 +73,9 @@ export default class NotificationBikeItemHelper extends Component {
 								</View>
 
 							</View>
-
 						</View>
+
 					</View>
-					
 				</View>
 			</TouchableOpacity>
 		);

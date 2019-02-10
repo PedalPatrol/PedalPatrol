@@ -14,16 +14,16 @@ export default class BikeItemHelper extends Component {
 		return(
 			<TouchableOpacity onPress={() => this.props.navigation.navigate('EditBike', {id: this.props.id})}>
 				<View style={styles.rowContainer}>
-					<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}} flex>
+					<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
                         {/* Thumbnail */}
-                        <View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}} left>
+                        <View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}}>
                                 <Image source={{uri: this.props.thumbnail}}
                                        style={styles.thumbnail}
                                        resizeMode="contain" />
                         </View>
                       
                         {/* Add more lines and format based on text that is needed */}
-                        <View style={styles.rowText} right flex>
+                        <View style={styles.rowText}>
 
                             <Text style={styles.name} numberOfLines={1} ellipsizeMode ={'tail'}>
                                 {this.props.name}
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 		paddingTop: 5,
 		fontSize: 16,
 		fontWeight: 'bold',
-		color: '#777'
+		color: '#777',
 	},
 	other: {
 		paddingLeft: 10,
@@ -83,11 +83,11 @@ const styles = StyleSheet.create({
 		width: undefined
 	},
 	rowText: {
-		flex: 4,
+		flex: 1,
 		flexDirection: 'column',
         alignItems: 'flex-start'
 	},
-     topRow: { 
+    topRow: { 
         flexDirection: 'row',
     },
     nameImageCol: {

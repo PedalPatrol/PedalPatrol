@@ -22,8 +22,12 @@ export default class BikeView extends BaseView {
 	}
 
 	resetState = () => {
-		this.state = { refresh: true, data: [] };
+		this.state = { refresh: true, data: [], selectedItems: [] };
 	}
+
+	onSelectedItemsChange = (selectedItems) => {
+    	this.setState({ selectedItems });
+  	}
 
 	// TODO : Add update from new bike page that refreshes bike view page
 
@@ -84,6 +88,8 @@ export default class BikeView extends BaseView {
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
 			openFilter={this.sendUpdate}
+			onSelectedItemsChange={this.onSelectedItemsChange} 
+			selectedItems={this.state.selectedItems} 
 			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
@@ -123,6 +129,11 @@ export default class BikeView extends BaseView {
 	 */
 	 _keyExtractor = (item, index) => item.id.toString();
 
+
+	onSelectedItemsChange = (selectedItems) => {
+    	this.setState({ selectedItems });
+  	} 
+
 	render() {
 		return (	
 				<View style={styles.container}>
@@ -134,7 +145,7 @@ export default class BikeView extends BaseView {
 						ListHeaderComponent={this._renderSearchBar}
 						stickyHeaderIndices={[0]}>
 					</FlatList>
-					<TouchableHighlight style={styles.add} onPress={() => this.sendUpdate()} accessibilityLabel="New">
+					<TouchableHighlight style={styles.add} onPress={() => this.props.navigation.navigate('AddBike')} accessibilityLabel="New">
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
 					</TouchableHighlight>
 				</View>
@@ -158,8 +169,8 @@ const styles = StyleSheet.create({
 		backgroundColor:'#fff',
 		borderRadius:60,
 		position:'absolute',
-		bottom:5,
-		right:5,
+		bottom:15,
+		right:15,
 		alignSelf:'flex-end',
 	}
 });
