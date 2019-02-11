@@ -15,11 +15,12 @@ export default class AddBikeView extends Component {
 	state = {
 		avatarSource: null,
 		videoSource: null,
-    	editing: false,
+		editing: false,
 
-    	data: dataList.data,
+		data: dataList.data,
 
-    	selectedItems: []
+		selectedItems: [],
+		colours: colours.data
 	};
 
 	/**
@@ -28,9 +29,9 @@ export default class AddBikeView extends Component {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation}) => {
-  		return {
+		return {
 			headerLeft: (<HeaderBackButton onPress={()=>{navigation.state.params.onBack()}}/>)
- 		}
+		}
 	}
 
 
@@ -53,6 +54,7 @@ export default class AddBikeView extends Component {
 		this.props.navigation.setParams({
 			onBack: this.onBack
 		});
+		this.changeText(colours.data);
 	}
 
 	/**
@@ -116,11 +118,11 @@ export default class AddBikeView extends Component {
 			Alert.alert(
 				"You're still editing!",
 				"Are you sure you want to go back with your edits not saved?",
-			  	[
+				[
 					{ text: "Keep Editing", onPress: () => {}, style: "cancel" },
 					{ text: "Go Back", onPress: () => this.props.navigation.navigate('Tabs') },
-			  	],
-			  	{ cancelable: false },
+				],
+				{ cancelable: false },
 			);
 
 		} else {
@@ -159,8 +161,88 @@ export default class AddBikeView extends Component {
 	 * @param {List} selectedItems - List of selected items
 	 */
 	onSelectedItemsChange = (selectedItems) => {
-    	this.setState({ selectedItems });
-  	} 
+		this.setState({ selectedItems });
+	} 
+
+	/*
+	 * Extract and put into AddBikePresenter
+	 * FROM HERE:
+	 */
+
+	/**
+	 * Generates a Text component for every colour in the list so they appear as their colour.
+	 *
+	 * @param {List} colours - A list of objects with 'name' and 'colour' attributes (see colours.json). 
+	 */
+	changeText = (colours) => {
+		let new_colours = []
+		let new_item = {}
+		let count = 0
+		for (const item of colours) {
+			const colour = item.colour
+			new_item.text_component = <Text style={[{color: colour}, styles.colourText]}>{item.name}</Text>
+			new_item.name = item.name;
+			new_colours.push(new_item);
+			new_item = {}
+		}
+		
+		this.setState({
+			colours: new_colours
+		});
+	}
+
+	/**
+	 * Makes sure the object with the key exists.
+	 */
+	getProp = (object, key) => object && this.check(object[key]);
+
+	/**
+	 * Simple regex check
+	 * 
+	 * return {Boolean}
+	 */
+	check = (s) => {
+		return s.replace(/[\W\[\] ]/g, function (a) {
+			return a;
+		})
+	};
+
+	/**
+	 * This function is an adaptation of the filter function used in SectionedMultiSelect.
+	 * This one filters on uniqueKey instead of displayKey and ignores accents since it is
+	 * a predefined list of colours.
+	 *
+	 * Link: https://github.com/renrizzolo/react-native-sectioned-multi-select/blob/master/exampleapp/App.js#L337
+	 */
+	filterItems = (searchTerm, items, { subKey, displayKey, uniqueKey }) => {
+		let filteredItems = [];
+		let newFilteredItems = [];
+		items.forEach((item) => {
+			const parts = searchTerm.trim().split(/[[ \][)(\\/?\-:]+/);
+			const regex = new RegExp(`(${parts.join('|')})`, 'i');
+			if (regex.test(this.getProp(item, uniqueKey))) {
+				filteredItems.push(item);
+		  	}
+			if (item[subKey]) {
+				const newItem = Object.assign({}, item);
+				newItem[subKey] = [];
+				item[subKey].forEach((sub) => {
+					if (regex.test(this.getProp(sub, uniqueKey))) {
+						newItem[subKey] = [...newItem[subKey], sub];
+						newFilteredItems = this.rejectProp(filteredItems, singleItem =>
+					  		item[uniqueKey] !== singleItem[uniqueKey]);
+						newFilteredItems.push(newItem);
+						filteredItems = newFilteredItems;
+					}
+				})
+		  	}
+		})
+		return filteredItems
+	}
+	/*
+	 * TO HERE:
+	 * Extract and put into AddBikePresenter
+	 */
 
 	render() {
 		const { navigation } = this.props;
@@ -197,13 +279,15 @@ export default class AddBikeView extends Component {
 							
 								<SectionedMultiSelect
 									style={styles.textInput}
-									items={colours.data}
-									showRemoveAll
-									colors={{ primary: this.state.selectedItems.length ? 'forestgreen' : 'crimson',}}
+									items={this.state.colours}
+									displayKey='text_component'
 									uniqueKey='name'
+									showRemoveAll
+									colors={{ primary: this.state.selectedItems.length ? 'forestgreen' : 'crimson' }}
 									selectText='Colours'
 									modalWithSafeAreaView={true}
 									showDropDowns={true}
+									filterItems={this.filterItems}
 									onSelectedItemsChange={this.onSelectedItemsChange}
 									selectedItems={this.state.selectedItems}
 									/>
@@ -214,6 +298,7 @@ export default class AddBikeView extends Component {
 		);
 	}
 }
+
 
 // List of text inputs for adding bike. Items in list appear in this order
 const dataList = {
@@ -275,22 +360,27 @@ const styles = StyleSheet.create({
 	},
 	avatar: {
 		position: 'absolute',
-	    top: 0,
-	    left: 0,
-	    bottom: 0,
-	    right: 0,
+		top: 0,
+		left: 0,
+		bottom: 0,
+		right: 0,
 		height: 200
 	},
 	scrollContainer: {
 		paddingVertical: 20,
-  	},
-  	textInput: {
-  		marginRight: 10,
+	},
+	textInput: {
+		marginRight: 10,
 		marginLeft: 10,
 		marginBottom: 10,
 		backgroundColor: '#F5FCFF',
-  	},
-  	flatList: {
-  		marginTop: 220
-  	}
+	},
+	flatList: {
+		marginTop: 220
+	},
+	colourText: {
+		textShadowColor: 'rgba(0, 0, 0, 1)', 
+		textShadowOffset: {width: -1, height: 1}, 
+		textShadowRadius: 1,
+	}
 });
