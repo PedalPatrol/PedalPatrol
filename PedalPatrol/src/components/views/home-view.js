@@ -110,12 +110,14 @@ export default class HomeView extends BaseView {
 		console.log('Mounted'); // What to do here?
 	};
 
+
 	/**
-	 * Triggers when a component or this component is unmounted.
+	 * Component is about to unmount, do any cleanup here.
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
 	 */
 	componentWillUnmount = () => {
-		console.log('Unmounted'); // What to do here?
-	};
+		this.viewUnmounting(this.HomeP);
+	}
 
 
 	/**

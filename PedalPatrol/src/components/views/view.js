@@ -6,24 +6,23 @@ class BaseView extends Component {
 	 */
 	render() {
 		throw new Error('Method must be implemented!');
-	};
-
-	/**
-	 * Triggers when a component or this component is mounted.
-	 */
-	componentWillMount = () => {
-		throw new Error('Method must be implemented');
 	}
 
-	/**
-	 * Triggers when a component or this component is unmounted.
-	 */
-	componentWillUnmount = () => {
-		throw new Error('Method must be implemented');
-	}
 
+	/**
+	 * Refreshes the state of the presenter.
+	 */
 	refreshState = () => {
 		throw new Error('Method must be implemented');
+	}
+
+
+	/**
+	 * Component will unmount after this method is called, do any clean up here.
+	 * This function is not actually called from 
+	 */
+	viewUnmounting = (presenter) => {
+		presenter.onDestroy();
 	}
 }
 

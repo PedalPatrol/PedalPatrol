@@ -2,25 +2,29 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
-import HandleBack from './helpers/handleback';
 import { HeaderBackButton } from 'react-navigation';
 import { TextInput } from 'react-native-paper';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
+import BaseView from './view';
+import HandleBack from './helpers/handleback';
+import AddBikePresenter from '../presenters/addbike-presenter';
 
 const colours = require('../../assets/colours/colours.json');
 
 const addbikeimage = require('../../assets/images/addbikewithcameraicon.png'); // Unused currently
 
-export default class AddBikeView extends Component {
-	state = {
-		avatarSource: null,
-		videoSource: null,
-		editing: false,
+export default class AddBikeView extends BaseView {
+	state = { // Initializing the state
+		avatarSource: null, // Image source
 
-		data: dataList.data,
+		editing: false, // Checks if user is editing
+		refresh: true, // Triggers a view refresh
 
-		selectedItems: [],
-		colours: colours.data
+		inputData: [], // 
+		colours: colours.data,
+
+		selectedItems: []
 	};
 
 	/**
@@ -30,7 +34,8 @@ export default class AddBikeView extends Component {
 	 */
 	static navigationOptions = ({navigation}) => {
 		return {
-			headerLeft: (<HeaderBackButton onPress={()=>{navigation.state.params.onBack()}}/>)
+			headerLeft: (<HeaderBackButton onPress={()=>{navigation.state.params._onBack()}}/>),
+			headerRight: (<Button onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>)
 		}
 	}
 
@@ -43,18 +48,45 @@ export default class AddBikeView extends Component {
 	 */
 	constructor(props) {
 		super(props);
-		this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+		this.AddBikeP = new AddBikePresenter(this);
 	}
 
+	/**
+	 * Component is about to mount, initialize the data.
+	 * This function is called before componentDidMount
+	 */
+	componentWillMount = () => {
+		this.setState({
+			inputData: this.AddBikeP.getTextInputData()
+		});
+	}
+
+	/**
+	 * Component will unmount after this method is called, do any clean up here
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
+	 */
+	componentWillUnmount = () => {
+		this.viewUnmounting(this.AddBikeP);
+	}
 
 	/**
 	 * Component mounted
 	 */
 	componentDidMount = () => {
 		this.props.navigation.setParams({
-			onBack: this.onBack
+			_onBack: this._onBack,
+			_clearData: this._clearData
 		});
-		this.changeText(colours.data);
+		this.AddBikeP.changeText(colours.data, this._renderText);
+	}
+
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () => {
+		this.setState({ 
+			refresh: !this.state.refresh
+		});
 	}
 
 	/**
@@ -74,61 +106,52 @@ export default class AddBikeView extends Component {
 	}
 
 	/**
-	 * Open the image picker. Set the editing option to true.
+	 * When the back button is clicked, check if the user was editing.
 	 */
-	selectPhotoTapped() {
-		const options = {
-			quality: 1.0,
-			maxWidth: 500,
-			maxHeight: 500,
-			storageOptions: {
-				skipBackup: true,
-			},
-		};
-
-		this.setEditing(true);
-
-		ImagePicker.showImagePicker(options, (response) => {
-			console.log('Response = ', response);
-
-			if (response.didCancel) {
-				console.log('User cancelled photo picker');
-			} else if (response.error) {
-				console.log('ImagePicker Error: ', response.error);
-			} else if (response.customButton) {
-				console.log('User tapped custom button: ', response.customButton);
-			} else {
-				let source = { uri: response.uri };
-
-				// You can also display the image using data:
-				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
-
-				this.setState({
-					avatarSource: source,
-				});
-			}
-		});
+	_onBack = () => {
+		this.AddBikeP.checkEditingState(this.state.editing, this.editingSuccess, this.editingFailure);
 	}
 
 	/**
-	 * When the back button is clicked, check if the user was editing.
+	 * A function to execute when the editing state is true.
 	 */
-	onBack = () => {
-		if (this.state.editing) {
-			Alert.alert(
-				"You're still editing!",
-				"Are you sure you want to go back with your edits not saved?",
-				[
-					{ text: "Keep Editing", onPress: () => {}, style: "cancel" },
-					{ text: "Go Back", onPress: () => this.props.navigation.navigate('Tabs') },
-				],
-				{ cancelable: false },
-			);
+	editingSuccess = () => {
+		Alert.alert(
+			"You're still editing!",
+			"Are you sure you want to go back with your edits not saved?",
+			[
+				{ text: "Keep Editing", onPress: () => {}, style: "cancel" },
+				{ text: "Go Back", onPress: () => this.resetAllOnBack() },
+			],
+			{ cancelable: false },
+		);
+	}
 
-		} else {
-			this.props.navigation.navigate('Tabs'); // If not editing then go back
-		}
-	};
+	/**
+	 * A function to execute when the editing state is false.
+	 */
+	editingFailure = () => {
+		// Clear the data just in case
+		this.resetAllOnBack(); // If not editing then go back
+	}
+
+	/**
+	 * Resets all the data and goes back to the bike page
+	 */
+	resetAllOnBack = () => {
+		this._clearData();
+		this.props.navigation.navigate('Tabs');
+	}
+
+	/**
+	 * Clears all the data
+	 */
+	_clearData = () => {
+		this.sectionedMultiSelect._removeAllItems();
+		inputData = this.AddBikeP.getTextInputData(); // inputData is a property in state
+		this.setState({ inputData, avatarSource: null });
+		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
+	}
 
 	/**
 	 * Render a text input item.
@@ -140,11 +163,12 @@ export default class AddBikeView extends Component {
 			style={styles.textInput}
 			label={item.name}
 			multiline={item.multiline}
-			value={this.state.data[index].text}
+			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
-					let { data } = this.state;
-					data[index].text = text;
-					this.setState({ data })
+					let { inputData } = this.state; // inputData is a keyword in state
+					inputData[index].text = text;
+					this.setState({ inputData });
+					this.setEditing(true); // Now editing
 				} 
 			}/>
 	);
@@ -160,180 +184,89 @@ export default class AddBikeView extends Component {
 	 *
 	 * @param {List} selectedItems - List of selected items
 	 */
-	onSelectedItemsChange = (selectedItems) => {
+	_onSelectedItemsChange = (selectedItems) => {
+		this.setEditing(true); // Now editing
 		this.setState({ selectedItems });
 	} 
 
-	/*
-	 * Extract and put into AddBikePresenter
-	 * FROM HERE:
-	 */
-
 	/**
-	 * Generates a Text component for every colour in the list so they appear as their colour.
-	 *
-	 * @param {List} colours - A list of objects with 'name' and 'colour' attributes (see colours.json). 
-	 */
-	changeText = (colours) => {
-		let new_colours = []
-		let new_item = {}
-		let count = 0
-		for (const item of colours) {
-			const colour = item.colour
-			new_item.text_component = <Text style={[{color: colour}, styles.colourText]}>{item.name}</Text>
-			new_item.name = item.name;
-			new_colours.push(new_item);
-			new_item = {}
-		}
-		
-		this.setState({
-			colours: new_colours
-		});
-	}
-
-	/**
-	 * Makes sure the object with the key exists.
-	 */
-	getProp = (object, key) => object && this.check(object[key]);
-
-	/**
-	 * Simple regex check
+	 * Generates the style and colouring of the colours in the multiselect.
 	 * 
-	 * return {Boolean}
+	 * @param {String} colour - A colour, usually hexcode
+	 * @param {String} name - The name of the item 
 	 */
-	check = (s) => {
-		return s.replace(/[\W\[\] ]/g, function (a) {
-			return a;
-		})
-	};
+	_renderText = (colour, name) => (
+		<Text style={[{color: colour}, styles.colourText]}>{name}</Text>
+	);
 
 	/**
-	 * This function is an adaptation of the filter function used in SectionedMultiSelect.
-	 * This one filters on uniqueKey instead of displayKey and ignores accents since it is
-	 * a predefined list of colours.
+	 * Renders items to the screen
 	 *
-	 * Link: https://github.com/renrizzolo/react-native-sectioned-multi-select/blob/master/exampleapp/App.js#L337
+	 * @return {Component} 
 	 */
-	filterItems = (searchTerm, items, { subKey, displayKey, uniqueKey }) => {
-		let filteredItems = [];
-		let newFilteredItems = [];
-		items.forEach((item) => {
-			const parts = searchTerm.trim().split(/[[ \][)(\\/?\-:]+/);
-			const regex = new RegExp(`(${parts.join('|')})`, 'i');
-			if (regex.test(this.getProp(item, uniqueKey))) {
-				filteredItems.push(item);
-		  	}
-			if (item[subKey]) {
-				const newItem = Object.assign({}, item);
-				newItem[subKey] = [];
-				item[subKey].forEach((sub) => {
-					if (regex.test(this.getProp(sub, uniqueKey))) {
-						newItem[subKey] = [...newItem[subKey], sub];
-						newFilteredItems = this.rejectProp(filteredItems, singleItem =>
-					  		item[uniqueKey] !== singleItem[uniqueKey]);
-						newFilteredItems.push(newItem);
-						filteredItems = newFilteredItems;
-					}
-				})
-		  	}
-		})
-		return filteredItems
-	}
-	/*
-	 * TO HERE:
-	 * Extract and put into AddBikePresenter
-	 */
-
 	render() {
 		const { navigation } = this.props;
 
 		return (
-				<HandleBack onBack={this.onBack}>
-						<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
-						<View style={styles.container}>
-							<ScrollView contentContainerStyle={styles.contentContainer}>
-							
-								{/* Picture frame */}
-								<TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
-									<View
-										style={[
-											styles.avatar,
-											styles.avatarContainer,
-											{ marginBottom: 20 },
-										]}>
-										{this.state.avatarSource === null ? (
-											<Icon name="photo-camera" type="MaterialIcons" size={100} color="#01a699" />
-										) : (
-											<Image style={styles.avatar} resizeMode="contain" source={this.state.avatarSource} />
-										)}
-									</View>
-								</TouchableOpacity>
+				<HandleBack onBack={this._onBack}>
+					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+					<View style={styles.container}>
+						<ScrollView contentContainerStyle={styles.contentContainer}>
+						
+							{/* Picture frame */}
+							<TouchableOpacity onPress={() => this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing)}>
+								<View
+									style={[
+										styles.avatar,
+										styles.avatarContainer,
+										{ marginBottom: 20 },
+									]}>
+									{this.state.avatarSource === null ? (
+										<Icon name="photo-camera" type="MaterialIcons" size={100} color="#01a699" />
+									) : (
+										<Image style={styles.avatar} resizeMode="contain" source={this.state.avatarSource} />
+									)}
+								</View>
+							</TouchableOpacity>
 
-								{/* List of text inputs */}
-								<FlatList
-									style={styles.flatList}
-									data={dataList.data}
-									extraData={this.state}
-									keyExtractor={this._keyExtractor}
-									renderItem={this._renderItem}/>
-							
-								<SectionedMultiSelect
-									style={styles.textInput}
-									items={this.state.colours}
-									displayKey='text_component'
-									uniqueKey='name'
-									showRemoveAll
-									colors={{ primary: this.state.selectedItems.length ? 'forestgreen' : 'crimson' }}
-									selectText='Colours'
-									modalWithSafeAreaView={true}
-									showDropDowns={true}
-									filterItems={this.filterItems}
-									onSelectedItemsChange={this.onSelectedItemsChange}
-									selectedItems={this.state.selectedItems}
-									/>
-							</ScrollView>
-						</View>
-						<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+							{/* List of text inputs */}
+							<FlatList
+								style={styles.flatList}
+								data={this.AddBikeP.getTextInputData()}
+								extraData={this.state}
+								keyExtractor={this._keyExtractor}
+								renderItem={this._renderItem}/>
+						
+							{/* List of colours */}
+							{/* colors attribute makes the 'Confirm' button flip from red to green if a colour is selected */}
+							<SectionedMultiSelect
+								style={styles.textInput}
+								items={this.state.colours}
+								displayKey='text_component'
+								uniqueKey='name'
+								showRemoveAll
+								colors={{ primary: this.state.selectedItems.length ? 'forestgreen' : 'crimson' }}
+								selectText='Colours'
+								modalWithSafeAreaView={true}
+								showDropDowns={true}
+								filterItems={this.AddBikeP.filterItems}
+								onSelectedItemsChange={this._onSelectedItemsChange}
+								selectedItems={this.state.selectedItems}
+								ref={(SectionedMultiSelect) => this.sectionedMultiSelect = SectionedMultiSelect}
+								/>
+
+							<TouchableOpacity style={styles.submitTouchable}>
+							<Button
+								title='Submit'
+								onPress={() => {}}
+							/>
+							</TouchableOpacity>
+						</ScrollView>
+					</View>
+					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
 				</HandleBack>
 		);
 	}
-}
-
-
-// List of text inputs for adding bike. Items in list appear in this order
-const dataList = {
-	data: [
-		{
-			name: 'Serial Number',
-			multiline: false,
-			text: ''
-		},
-		{
-			name: 'Brand',
-			multiline: false,
-			text: ''
-		},
-		{
-			name: 'Model',
-			multiline: false,
-			text: ''
-		},
-		{
-			name: 'Notable Features',
-			multiline: true,
-			text: ''
-		},
-		{
-			name: 'Wheel Size',
-			multiline: false,
-			text: ''
-		},
-		{
-			name: 'Frame Size',
-			multiline: false,
-			text: ''
-		}
-	]
 }
 
 const styles = StyleSheet.create({
@@ -382,5 +315,14 @@ const styles = StyleSheet.create({
 		textShadowColor: 'rgba(0, 0, 0, 1)', 
 		textShadowOffset: {width: -1, height: 1}, 
 		textShadowRadius: 1,
+	},
+	submitTouchable: {
+		borderWidth: 1, 
+		textAlign: 'center', 
+		borderColor: 'black',
+		borderRadius: 5,
+		marginLeft: 10,
+		marginRight: 10,
+		backgroundColor: '#FFF'
 	}
 });

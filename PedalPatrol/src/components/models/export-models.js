@@ -1,5 +1,5 @@
-import BikeModel from './bike-model'
-import HomeModel from './home-model'
+import BikeModel from './bike-model';
+import HomeModel from './home-model';
 
 /**
  * This file allows for singleton instances of a class to be created.

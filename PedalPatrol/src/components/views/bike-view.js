@@ -25,10 +25,6 @@ export default class BikeView extends BaseView {
 		this.state = { refresh: true, data: [], selectedItems: [] };
 	}
 
-	onSelectedItemsChange = (selectedItems) => {
-    	this.setState({ selectedItems });
-  	}
-
 	// TODO : Add update from new bike page that refreshes bike view page
 
 	/**
@@ -104,22 +100,22 @@ export default class BikeView extends BaseView {
 	};
 
 	/**
-	 * Triggers when a component or this component is mounted.
+	 * Triggers when the component is mounted.
 	 */
-	componentWillMount = () => {
+	componentDidMount = () => {
 		this.setState({
 			data: this.BikeP.getData()
 		});
-		console.log('Mounted'); // What to do here?
 	};
+
 
 	/**
-	 * Triggers when a component or this component is unmounted.
+	 * Component is about to unmount, do any cleanup here.
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
 	 */
 	componentWillUnmount = () => {
-		console.log('Unmounted'); // What to do here?
-	};
-
+		this.viewUnmounting(this.BikeP);	
+	}
 
 	/**
 	 * Extracts the item id as a string.
