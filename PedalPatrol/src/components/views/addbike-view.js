@@ -14,6 +14,9 @@ const colours = require('../../assets/colours/colours.json');
 
 const addbikeimage = require('../../assets/images/addbikewithcameraicon.png'); // Unused currently
 
+const NO_DATA = 'NO-DATA';
+const UNIQUE_COLOUR_KEY = 'name'; // A unique key for the colours for the sectioned list
+
 export default class AddBikeView extends BaseView {
 	state = { // Initializing the state
 		avatarSource: null, // Image source
@@ -21,10 +24,10 @@ export default class AddBikeView extends BaseView {
 		editing: false, // Checks if user is editing
 		refresh: true, // Triggers a view refresh
 
-		inputData: [], // 
+		inputData: [], // Input text data is at each index
 		colours: colours.data,
 
-		selectedItems: []
+		selectedItems: [] // Selected colours
 	};
 
 	/**
@@ -56,17 +59,13 @@ export default class AddBikeView extends BaseView {
 	 * This function is called before componentDidMount
 	 */
 	componentWillMount = () => {
-		this.setState({
-			inputData: this.AddBikeP.getTextInputData()
-		});
-	}
+		const { navigation } = this.props;
+		data = navigation.getParam('data', 'NO-DATA');
 
-	/**
-	 * Component will unmount after this method is called, do any clean up here
-	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
-	 */
-	componentWillUnmount = () => {
-		this.viewUnmounting(this.AddBikeP);
+		this.setState({
+			inputData: this.AddBikeP.getTextInputData(data),
+			avatarSource: this.AddBikeP.getPicture(data)
+		});
 	}
 
 	/**
@@ -78,6 +77,21 @@ export default class AddBikeView extends BaseView {
 			_clearData: this._clearData
 		});
 		this.AddBikeP.changeText(colours.data, this._renderText);
+
+		const { navigation } = this.props;
+		data = navigation.getParam('data', 'NO-DATA');
+
+		this.AddBikeP.toggleColours(this.sectionedMultiSelect, data, this._onSelectedItemsChange, UNIQUE_COLOUR_KEY);
+		// item = this.sectionedMultiSelect._findItem(data.colour);
+		// this.sectionedMultiSelect._toggleItem(item, false);
+	}
+
+	/**
+	 * Component will unmount after this method is called, do any clean up here
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
+	 */
+	componentWillUnmount = () => {
+		this.viewUnmounting(this.AddBikeP);
 	}
 
 	/**
@@ -148,7 +162,7 @@ export default class AddBikeView extends BaseView {
 	 */
 	_clearData = () => {
 		this.sectionedMultiSelect._removeAllItems();
-		inputData = this.AddBikeP.getTextInputData(); // inputData is a property in state
+		inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
 		this.setState({ inputData, avatarSource: null });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}
@@ -197,7 +211,21 @@ export default class AddBikeView extends BaseView {
 	 */
 	_renderText = (colour, name) => (
 		<Text style={[{color: colour}, styles.colourText]}>{name}</Text>
-	);
+	)
+
+
+	/**
+	 * Get the data from the state and send an update to the presenter
+	 */
+	_getDataToUpdate = () => {
+		let updateData = {
+			inputTextData: this.state.inputData, 
+			selectedColours: this.state.selectedItems, 
+			picture: this.state.avatarSource
+		};
+
+		this.AddBikeP.update(updateData);
+	}
 
 	/**
 	 * Renders items to the screen
@@ -232,7 +260,7 @@ export default class AddBikeView extends BaseView {
 							{/* List of text inputs */}
 							<FlatList
 								style={styles.flatList}
-								data={this.AddBikeP.getTextInputData()}
+								data={this.AddBikeP.getTextInputData(NO_DATA)}
 								extraData={this.state}
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>
@@ -243,7 +271,7 @@ export default class AddBikeView extends BaseView {
 								style={styles.textInput}
 								items={this.state.colours}
 								displayKey='text_component'
-								uniqueKey='name'
+								uniqueKey={UNIQUE_COLOUR_KEY}
 								showRemoveAll
 								colors={{ primary: this.state.selectedItems.length ? 'forestgreen' : 'crimson' }}
 								selectText='Colours'
@@ -256,10 +284,10 @@ export default class AddBikeView extends BaseView {
 								/>
 
 							<TouchableOpacity style={styles.submitTouchable}>
-							<Button
-								title='Submit'
-								onPress={() => {}}
-							/>
+								<Button
+									title='Submit'
+									onPress={() => this._getDataToUpdate()}
+								/>
 							</TouchableOpacity>
 						</ScrollView>
 					</View>
@@ -323,6 +351,7 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		marginLeft: 10,
 		marginRight: 10,
+		marginTop: 10,
 		backgroundColor: '#FFF'
 	}
 });

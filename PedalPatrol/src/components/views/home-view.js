@@ -41,7 +41,7 @@ export default class HomeView extends BaseView {
 						model: 'Model'+(i.id+1),
 						owner: 'Owner'+(i.id+1),
 						description: 'Testing',
-                        colour: 'Red',
+                        colour: ['Red', 'Blue'],
 						serial_number: 72613671,
 						notable_features: 'lime green grips, scratch on side',
                         timeago: '2 hrs ago',
@@ -63,18 +63,7 @@ export default class HomeView extends BaseView {
 	 */
 	_renderItem = ({item}) => (
 		<NotificationBikeItemHelper
-			id={item.id}
-			name={item.name}
-			model={item.model}
-			owner={item.owner}
-			description={item.description}
-			thumbnail={item.thumbnail}
-            colour={item.colour}
-            serial_number={item.serial_number}
-            notable_features={item.notable_features}
-            timeago={item.timeago}
-            datetime={item.datetime}
-            address={item.address}
+			data={item}
 			navigation={this.props.navigation}/>
 	);
 

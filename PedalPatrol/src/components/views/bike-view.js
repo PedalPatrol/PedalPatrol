@@ -39,9 +39,12 @@ export default class BikeView extends BaseView {
 						id: i.id+1,
 						name: 'BikeName'+(i.id+1),
 						model: 'Model'+(i.id+1),
+						brand: 'Schwin',
 						owner: 'Owner'+(i.id+1),
-						colour: 'Red',
+						colour: ['Lavender Blush', 'Black', 'Brown'],
 						serial_number: 72613671,
+						wheel_size: 52,
+						frame_size: 123,
 						notable_features: 'lime green grips, scratch on side',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
@@ -64,14 +67,7 @@ export default class BikeView extends BaseView {
 	 */
 	_renderItem = ({item}) => (
 		<BikeItemHelper
-			id={item.id}
-			name={item.name}
-			model={item.model}
-			owner={item.owner}
-			colour={item.colour}
-			serial_number={item.serial_number}
-			notable_features={item.notable_features}
-			thumbnail={item.thumbnail}
+			data={item}
 			navigation={this.props.navigation}/>
 	);
 

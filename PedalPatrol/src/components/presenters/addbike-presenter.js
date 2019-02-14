@@ -1,6 +1,8 @@
 import BasePresenter from './presenter';
 import { BikeM } from '../models/export-models'; // Using the BikeModel class because an AddBikeModel class would have the same purpose
 
+const NO_DATA = 'NO-DATA';
+
 export default class AddBikePresenter extends BasePresenter {
 	/**
 	 * Creates an instance of BikePresenter
@@ -20,8 +22,42 @@ export default class AddBikePresenter extends BasePresenter {
 	 * @param {Object} newData - New data to update the model's data with.
 	 */
 	update = (newData) => {
-		BikeM.update(newData); 
-	};
+		const builtData = this._buildDataFromView(newData);
+		BikeM.update(builtData); 
+	}
+
+	/**
+	 * Build the data obtained from the view and insert it into a new data object.
+	 * Current attributes of newData object: 
+	 * 			{Object} inputTextData: [{name, multiline, bike_editable, text}]
+	 * 			{List} selectedColours
+	 * 			{Object} picture: uri
+	 *		
+	 *
+	 * @param {Object} newData - The new data from the view. 
+	 * @return {Object} The built data of the object. Attributes: data
+	 */
+	_buildDataFromView = (newData) => {
+		const inputTextData = newData.inputTextData;
+		const selectedColours = newData.selectedColours;
+		const pictureSource = newData.picture;
+
+		let builtData = {
+			data: {
+				name: inputTextData[inputDataList.id.name].text,
+				model: inputTextData[inputDataList.id.model].text,
+				brand: inputTextData[inputDataList.id.brand].text,
+				colour: selectedColours,
+				serial_number: inputTextData[inputDataList.id.serial_number].text,
+				wheel_size: inputTextData[inputDataList.id.wheel_size].text,
+				frame_size: inputTextData[inputDataList.id.frame_size].text,
+				notable_features: inputTextData[inputDataList.id.notable_features].text,
+				thumbnail: pictureSource.uri
+			}
+		}
+
+		return builtData;
+	}
 
 
 	/**
@@ -205,8 +241,50 @@ export default class AddBikePresenter extends BasePresenter {
 	 *
 	 * @return {List} A list of data objects (name, multiline, text)
 	 */
-	getTextInputData = () => {
-	 	return this._deepCopy(inputDataList.data); 
+	getTextInputData = (data) => {
+		return data === NO_DATA ? this._deepCopy(inputDataList.data) : this.translateDataToInput(data);
+	}
+
+
+	/**
+	 * Translates data input (Bike data) to the text inputs. Could be refactored to be made easier for adaptations.
+	 *
+	 * @param {Object} data - The data from the view (=== 'NO-DATA' if not set)
+	 * @return {List} A copy of the data that is now in the form of the text input
+	 */
+	translateDataToInput = (data) => {
+		let dataCopy = this._deepCopy(inputDataList.data);
+
+		dataCopy[inputDataList.id.name].text 				= this._getString(data.name);
+		dataCopy[inputDataList.id.serial_number].text 		= this._getString(data.serial_number);
+		dataCopy[inputDataList.id.brand].text 				= this._getString(data.brand);
+		dataCopy[inputDataList.id.model].text				= this._getString(data.model);
+		dataCopy[inputDataList.id.notable_features].text 	= this._getString(data.notable_features);
+		dataCopy[inputDataList.id.wheel_size].text			= this._getString(data.wheel_size);
+		dataCopy[inputDataList.id.frame_size].text			= this._getString(data.frame_size);
+
+		return this._deepCopy(dataCopy); 
+	}
+
+
+	/**
+	 * Checks if the value is valid and if so, convert it to a string.
+	 *
+	 * @param {Number/String} val - A number or string to check
+	 * @return {String} Value converted to a string
+	 */
+	_getString = (val) => {
+		return val == undefined || val == null ? '' : val.toString();
+	}
+
+	/**
+	 * Checks if the data is present, and if so, returns the uri as an object.
+	 *
+	 * @param {Object} data - The data from the view (=== 'NO-DATA' if not set)
+	 * @return {Object} The uri source of the image as an object
+	 */
+	getPicture = (data) => {
+		return data === NO_DATA ? null : { uri: data.thumbnail };
 	}
 
 	/**
@@ -216,6 +294,28 @@ export default class AddBikePresenter extends BasePresenter {
 	 */
 	_deepCopy = (array) => {
 		return array.map(a => Object.assign({}, a));
+	}
+
+
+	/**
+	 * Toggles the colours from the data if the data is present.
+	 *
+	 * @param {Object} sectionedMultiSelect - The multi select component from the view
+	 * @param {Object} data - The data from the view (=== 'NO-DATA' if not set)
+	 * @param {Function} onColoursFound - A function that submits the selected items back to the view
+	 * @param {String} UNIQUE_KEY - A unique key that is used to get the data from the item (same one that is used when defining the sectioned select)
+	 */
+	toggleColours = (sectionedMultiSelect, data, onColoursFound, UNIQUE_KEY) => {
+		selectedItems = [];
+		if (data !== NO_DATA) {
+			for (const colour of data.colour) {
+				item = sectionedMultiSelect._findItem(colour);
+				sectionedMultiSelect._itemSelected(item);
+				sectionedMultiSelect._toggleItem(item, false);
+				selectedItems.push(item[UNIQUE_KEY]); // Unique key corresponding to sectioned list
+			}
+			onColoursFound(selectedItems);
+		}
 	}
 }
 
@@ -228,35 +328,56 @@ export default class AddBikePresenter extends BasePresenter {
  *		text: The initial text of the name/label
  */
 const inputDataList = {
+	id: {
+		name: 				0,
+		serial_number: 		1,
+		brand: 				2,
+		model:				3,
+		notable_features: 	4,
+		wheel_size:			5,
+		frame_size:			6,
+	},
 	data: [
+		{
+			name: 'Name',
+			multiline: false,
+			bike_editable: false,
+			text: ''
+		},
 		{
 			name: 'Serial Number',
 			multiline: false,
+			bike_editable: true,
 			text: ''
 		},
 		{
 			name: 'Brand',
 			multiline: false,
+			bike_editable: true,
 			text: ''
 		},
 		{
 			name: 'Model',
 			multiline: false,
+			bike_editable: true,
 			text: ''
 		},
 		{
 			name: 'Notable Features',
 			multiline: true,
+			bike_editable: true,
 			text: ''
 		},
 		{
 			name: 'Wheel Size',
 			multiline: false,
+			bike_editable: true,
 			text: ''
 		},
 		{
 			name: 'Frame Size',
 			multiline: false,
+			bike_editable: true,
 			text: ''
 		}
 	]

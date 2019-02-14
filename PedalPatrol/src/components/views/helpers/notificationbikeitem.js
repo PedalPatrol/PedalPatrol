@@ -18,23 +18,23 @@ export default class NotificationBikeItemHelper extends Component {
 								
 								{/* Model */}
 								<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
-									{this.props.model}
+									{this.props.data.model}
 								</Text>
 								
 								<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
 									{/* Thumbnail */}
 									<View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}}>
-											<Image source={{uri: this.props.thumbnail}}
+											<Image source={{uri: this.props.data.thumbnail}}
 												   style={styles.thumbnail}
 												   resizeMode="contain" />
 									</View>
 								</View>
 								
 								<Text style={styles.datetime} numberOfLines={1} ellipsizeMode ={'tail'}>
-									{this.props.datetime}
+									{this.props.data.datetime}
 								</Text>
 								<Text style={styles.address} numberOfLines={1} ellipsizeMode ={'tail'}>
-									{this.props.address}
+									{this.props.data.address}
 								</Text>
 
 							</View>
@@ -46,16 +46,16 @@ export default class NotificationBikeItemHelper extends Component {
 								
 								{/* Time ago */}
 								<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
-									{this.props.timeago}
+									{this.props.data.timeago}
 								</Text>
 
 								{/* Notable features and description */}
 								<View style={{flex: 5, flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start'}}>
 									<Text style={styles.other} numberOfLines={2} ellipsizeMode ={'tail'}>
-										Notable Features: {this.props.notable_features}
+										Notable Features: {this.props.data.notable_features}
 									</Text>	
 									<Text style={styles.other} numberOfLines={5} ellipsizeMode ={'tail'}>
-										Description: {this.props.description}
+										Description: {this.props.data.description}
 									</Text>
 								</View>
 

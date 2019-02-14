@@ -6,18 +6,17 @@ import { Icon } from 'react-native-elements';
 export default class BikeItemHelper extends Component {
 
 	_onEditBike = () => {
-		let id = this.props.id;
-
+		let id = this.props.data.id;
 	};
 
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('EditBike', {id: this.props.id})}>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate('AddBike', {data: this.props.data})}>
 				<View style={styles.rowContainer}>
 					<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
                         {/* Thumbnail */}
                         <View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}}>
-                                <Image source={{uri: this.props.thumbnail}}
+                                <Image source={{uri: this.props.data.thumbnail}}
                                        style={styles.thumbnail}
                                        resizeMode="contain" />
                         </View>
@@ -26,19 +25,19 @@ export default class BikeItemHelper extends Component {
                         <View style={styles.rowText}>
 
                             <Text style={styles.name} numberOfLines={1} ellipsizeMode ={'tail'}>
-                                {this.props.name}
+                                {this.props.data.name}
                             </Text>
                             <Text style={styles.other} numberOfLines={1} ellipsizeMode ={'tail'}>
-                                Model: {this.props.model}
+                                Model: {this.props.data.model}
                             </Text>
                             <Text style={styles.other} numberOfLines={1} ellipsizeMode ={'tail'}>
-                                Colour: {this.props.colour}
+                                Colour: {this.props.data.colour.join(', ')}
                             </Text>
                             <Text style={styles.other} numberOfLines={1} ellipsizeMode ={'tail'}>
-                                Serial Number: {this.props.serial_number}
+                                Serial Number: {this.props.data.serial_number}
                             </Text>
                             <Text style={styles.other} numberOfLines={2} ellipsizeMode ={'tail'}>
-                                Notable Features: {this.props.notable_features}
+                                Notable Features: {this.props.data.notable_features}
                             </Text>
 
                         </View>

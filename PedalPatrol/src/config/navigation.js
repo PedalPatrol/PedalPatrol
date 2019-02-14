@@ -7,7 +7,6 @@ import HomeView from '../components/views/home-view';
 import MapView from '../components/views/map-view';
 import BikeView from '../components/views/bike-view';
 import AddBikeView from '../components/views/addbike-view';
-import EditBikeView from '../components/views/helpers/editbike';
 
 let screen = Dimensions.get('window');
 
@@ -51,27 +50,6 @@ export const Tabs = createBottomTabNavigator({
 /**
  * Stack navigator for bike tab, allows edit bike page to come on top when clicked
  */
-export const EditBikeStack = createStackNavigator({
-	BikeStack: {
-		screen: BikeView,
-		navigationOptions: ({navigation}) => ({
-			header: null,
-		}),
-	},
-	EditBike: {
-		screen: EditBikeView,
-		navigationOptions: ({navigation}) => ({
-			tabBarVisible: false,
-			gesturesEnabled: false,
-			title: 'Edit Bike',
-			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
-		}),
-	},
-});
-
-/**
- * Stack navigator for bike tab, allows edit bike page to come on top when clicked
- */
 export const AddBikeStack = createStackNavigator({
 	BikeStack: {
 		screen: BikeView,
@@ -98,12 +76,6 @@ export const createRootNavigator = () => {
 		{
 			Tabs: {
 				screen: Tabs,
-				navigationOptions: ({navigation}) => ({
-					gesturesEnabled: false,
-				})
-			},
-			EditBikeStack: {
-				screen: EditBikeStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

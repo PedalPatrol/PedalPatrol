@@ -20,8 +20,14 @@ test('should contain default data', () => {
 						id: 1,
 						name: 'BikeName1',
 						model: 'Model1',
+						brand: 'Schwin',
 						owner: 'Owner1',
 						description: 'Testing',
+						colour: ['Red', 'Blue', 'Green'],
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
+						wheel_size: 52,
+						frame_size: 123,
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 			]
@@ -38,8 +44,14 @@ test('should return default data', () => {
 						id: 1,
 						name: 'BikeName1',
 						model: 'Model1',
+						brand: 'Schwin',
 						owner: 'Owner1',
 						description: 'Testing',
+						colour: ['Red', 'Blue', 'Green'],
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
+						wheel_size: 52,
+						frame_size: 123,
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 			]
@@ -53,7 +65,7 @@ test('should notify all subscribers', () => {
 	// Mock function for notifyAll
 	const _notifyAll = BikeM._notifyAll = jest.fn();
 
-	let data = { data: { id: 1 }};
+	let data = { data: { model: 'Test' }};
 	BikeM.update(data); // Call the actual function
 
 	let result_data = {
@@ -62,11 +74,21 @@ test('should notify all subscribers', () => {
 						id: 1,
 						name: 'BikeName1',
 						model: 'Model1',
+						brand: 'Schwin',
 						owner: 'Owner1',
 						description: 'Testing',
+						colour: ['Red', 'Blue', 'Green'],
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
+						wheel_size: 52,
+						frame_size: 123,
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					},
-					{ id: 1 }
+					{ 
+						id: 2,
+						owner: 'Owner',
+						model: 'Test'
+					}
 			]
 	}
 

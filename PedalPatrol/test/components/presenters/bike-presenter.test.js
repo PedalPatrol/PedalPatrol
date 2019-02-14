@@ -17,6 +17,8 @@ test('should filter names matching data', () => {
 	bikepresenter.handleSearchFilter('BikeName1');
 
 	expect(bikepresenter.view.state.data).toEqual([]);
+
+	bikepresenter.onDestroy();
 });
 
 test('should return data from model', () => {
@@ -28,13 +30,21 @@ test('should return data from model', () => {
 			id: 1,
 			name: 'BikeName1',
 			model: 'Model1',
+			brand: 'Schwin',
 			owner: 'Owner1',
 			description: 'Testing',
+			colour: ['Red', 'Blue', 'Green'],
+			serial_number: 72613671,
+			notable_features: 'lime green grips, scratch on side',
+			wheel_size: 52,
+			frame_size: 123,
 			thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 		}
 	]
 
 	expect(bikepresenter.getData()).toEqual(resultData);
+
+	bikepresenter.onDestroy();
 });
 
 test('should update model', () => {
@@ -43,18 +53,28 @@ test('should update model', () => {
 	const bikepresenter = new BikePresenter(view);
 	const onUpdated = bikepresenter.onUpdated = jest.fn((newData) => 'default').mockName('update');
 
-	const dataToPass = { data: 'test' };
+	const dataToPass = { data: { model: 'test'} };
 	const resultData = {
 		data: [
 					{
 						id: 1,
 						name: 'BikeName1',
 						model: 'Model1',
+						brand: 'Schwin',
 						owner: 'Owner1',
 						description: 'Testing',
+						colour: ['Red', 'Blue', 'Green'],
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
+						wheel_size: 52,
+						frame_size: 123,
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					},
-					'test'
+					{
+						model: 'test',
+						id: 2,
+						owner: 'Owner'
+					}
 			]
 	}
 
@@ -62,9 +82,11 @@ test('should update model', () => {
 
 	expect(onUpdated).toHaveBeenCalled();
 	expect(onUpdated).toHaveBeenCalledWith(resultData);
+
+	bikepresenter.onDestroy();
 });
 
-test('should add bike model as store', () => {
+test('should add view as attribute', () => {
 	const view = new TestView();
 	const bikepresenter = new BikePresenter(view);
 
@@ -78,4 +100,6 @@ test('should subscribe presenter to model', () => {
 
 	expect(spy).toHaveBeenCalled();
 	expect(spy).toHaveBeenCalledWith(bikepresenter);
+
+	bikepresenter.onDestroy();
 });
