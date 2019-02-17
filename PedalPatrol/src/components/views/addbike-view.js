@@ -12,8 +12,6 @@ import AddBikePresenter from '../presenters/addbike-presenter';
 
 const colours = require('../../assets/colours/colours.json');
 
-const addbikeimage = require('../../assets/images/addbikewithcameraicon.png'); // Unused currently
-
 const NO_DATA = 'NO-DATA';
 const UNIQUE_COLOUR_KEY = 'name'; // A unique key for the colours for the sectioned list
 
@@ -35,10 +33,10 @@ export default class AddBikeView extends BaseView {
 	 *
 	 * @return {Object} Navigation option
 	 */
-	static navigationOptions = ({navigation}) => {
+	static navigationOptions = ({navigation, transitioning}) => {
 		return {
-			headerLeft: (<HeaderBackButton onPress={()=>{navigation.state.params._onBack()}}/>),
-			headerRight: (<Button onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>)
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
+			headerRight: (<Button disabled={transitioning} onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>)
 		}
 	}
 
@@ -59,8 +57,13 @@ export default class AddBikeView extends BaseView {
 	 * This function is called before componentDidMount
 	 */
 	componentWillMount = () => {
+		this.props.navigation.setParams({
+			_onBack: this._onBack,
+			_clearData: this._clearData
+		});
+
 		const { navigation } = this.props;
-		data = navigation.getParam('data', 'NO-DATA');
+		const data = navigation.getParam('data', 'NO-DATA');
 
 		this.setState({
 			inputData: this.AddBikeP.getTextInputData(data),
@@ -72,14 +75,10 @@ export default class AddBikeView extends BaseView {
 	 * Component mounted
 	 */
 	componentDidMount = () => {
-		this.props.navigation.setParams({
-			_onBack: this._onBack,
-			_clearData: this._clearData
-		});
 		this.AddBikeP.changeText(colours.data, this._renderText);
 
 		const { navigation } = this.props;
-		data = navigation.getParam('data', 'NO-DATA');
+		const data = navigation.getParam('data', 'NO-DATA');
 
 		this.AddBikeP.toggleColours(this.sectionedMultiSelect, data, this._onSelectedItemsChange, UNIQUE_COLOUR_KEY);
 		// item = this.sectionedMultiSelect._findItem(data.colour);
@@ -162,7 +161,7 @@ export default class AddBikeView extends BaseView {
 	 */
 	_clearData = () => {
 		this.sectionedMultiSelect._removeAllItems();
-		inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
+		let inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
 		this.setState({ inputData, avatarSource: null });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}
@@ -218,14 +217,37 @@ export default class AddBikeView extends BaseView {
 	 * Get the data from the state and send an update to the presenter
 	 */
 	_getDataToUpdate = () => {
+		// TODO : Check if required inputs are filled
 		let updateData = {
 			inputTextData: this.state.inputData, 
 			selectedColours: this.state.selectedItems, 
 			picture: this.state.avatarSource
 		};
 
-		this.AddBikeP.update(updateData);
+		this.AddBikeP.update(updateData, this.alertCallback);
 	}
+
+	alertCallback = (success) => {
+		if (success) {
+			Alert.alert(
+				"Bike successfully uploaded!",
+				"",
+				[
+					{ text: "Ok", onPress: () => this.resetAllOnBack(), style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				"Bike was not able to be uploaded.",
+				"Please try again.",
+				[
+					{ text: "Ok", onPress: () => {}, style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		}
+	}	
 
 	/**
 	 * Renders items to the screen

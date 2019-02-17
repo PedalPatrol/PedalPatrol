@@ -2,6 +2,7 @@ import BasePresenter from './presenter';
 import { BikeM } from '../models/export-models'; // Using the BikeModel class because an AddBikeModel class would have the same purpose
 
 const NO_DATA = 'NO-DATA';
+const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
 
 export default class AddBikePresenter extends BasePresenter {
 	/**
@@ -20,10 +21,15 @@ export default class AddBikePresenter extends BasePresenter {
 	 * Updates the bike model with new data.
 	 *
 	 * @param {Object} newData - New data to update the model's data with.
+	 * @param {Function} callback - A function that will execute a callback when accessing is complete
 	 */
-	update = (newData) => {
+	update = (newData, callback) => {
 		const builtData = this._buildDataFromView(newData);
-		BikeM.update(builtData); 
+		BikeM.update(builtData);
+
+		 // TODO : Proper checking to see if it was uploaded. Consider adding callback to onUpdated
+		this.callback = callback;
+		callback(true);
 	}
 
 	/**
@@ -52,7 +58,7 @@ export default class AddBikePresenter extends BasePresenter {
 				wheel_size: inputTextData[inputDataList.id.wheel_size].text,
 				frame_size: inputTextData[inputDataList.id.frame_size].text,
 				notable_features: inputTextData[inputDataList.id.notable_features].text,
-				thumbnail: pictureSource.uri
+				thumbnail: pictureSource != null ? pictureSource.uri : DEFAULT_IMAGE
 			}
 		}
 
@@ -78,9 +84,9 @@ export default class AddBikePresenter extends BasePresenter {
 	 * Called when the model is updated with new data. Refreshes the state of the view.
 	 * Better way to refresh the state?
 	 */
-	 onUpdated = () => {
+	onUpdated = () => {
 	 	this.view.refreshState();
-	 };
+	};
 
 	/**
 	 * Gets the data from the model and returns it to the caller.
@@ -306,7 +312,7 @@ export default class AddBikePresenter extends BasePresenter {
 	 * @param {String} UNIQUE_KEY - A unique key that is used to get the data from the item (same one that is used when defining the sectioned select)
 	 */
 	toggleColours = (sectionedMultiSelect, data, onColoursFound, UNIQUE_KEY) => {
-		selectedItems = [];
+		let selectedItems = [];
 		if (data !== NO_DATA) {
 			for (const colour of data.colour) {
 				item = sectionedMultiSelect._findItem(colour);
