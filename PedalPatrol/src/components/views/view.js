@@ -1,0 +1,29 @@
+import React, { Component } from 'react';
+
+class BaseView extends Component {
+	/**
+	 * Render objects to the screen.
+	 */
+	render() {
+		throw new Error('Method must be implemented!');
+	}
+
+
+	/**
+	 * Refreshes the state of the presenter.
+	 */
+	refreshState = () => {
+		throw new Error('Method must be implemented');
+	}
+
+
+	/**
+	 * Component will unmount after this method is called, do any clean up here.
+	 * This function is not actually called from 
+	 */
+	viewUnmounting = (presenter) => {
+		presenter.onDestroy();
+	}
+}
+
+export default BaseView;
