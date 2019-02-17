@@ -40,6 +40,7 @@ test('should update model', () => {
 	const bikemodel = new BikeModel();
 	const addbikepresenter = new addBikePresenter(view);
 	const onUpdated = addbikepresenter.onUpdated = jest.fn((newData) => 'default').mockName('update');
+	const callback = jest.fn((success) => 'default').mockName('callback');
 
 	const dataToPass = { 
 		inputTextData: [
@@ -107,7 +108,7 @@ test('should update model', () => {
 			]
 	};
 
-	addbikepresenter.update(dataToPass);
+	addbikepresenter.update(dataToPass, callback);
 
 	expect(onUpdated).toHaveBeenCalled();
 	expect(onUpdated).toHaveBeenCalledWith(resultData);
