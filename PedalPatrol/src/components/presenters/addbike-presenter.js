@@ -25,11 +25,12 @@ export default class AddBikePresenter extends BasePresenter {
 	 */
 	update = (newData, callback) => {
 		const builtData = this._buildDataFromView(newData);
+
 		BikeM.update(builtData);
 
 		 // TODO : Proper checking to see if it was uploaded. Consider adding callback to onUpdated
 		this.callback = callback;
-		callback(true);
+		this.callback(true);
 	}
 
 	/**
@@ -47,17 +48,19 @@ export default class AddBikePresenter extends BasePresenter {
 		const inputTextData = newData.inputTextData;
 		const selectedColours = newData.selectedColours;
 		const pictureSource = newData.picture;
+		const currentID = newData.currentID;
 
 		let builtData = {
 			data: {
-				name: inputTextData[inputDataList.id.name].text,
-				model: inputTextData[inputDataList.id.model].text,
-				brand: inputTextData[inputDataList.id.brand].text,
+				id: currentID,
+				name: inputTextData[inputDataList.index.name].text,
+				model: inputTextData[inputDataList.index.model].text,
+				brand: inputTextData[inputDataList.index.brand].text,
 				colour: selectedColours,
-				serial_number: inputTextData[inputDataList.id.serial_number].text,
-				wheel_size: inputTextData[inputDataList.id.wheel_size].text,
-				frame_size: inputTextData[inputDataList.id.frame_size].text,
-				notable_features: inputTextData[inputDataList.id.notable_features].text,
+				serial_number: inputTextData[inputDataList.index.serial_number].text,
+				wheel_size: inputTextData[inputDataList.index.wheel_size].text,
+				frame_size: inputTextData[inputDataList.index.frame_size].text,
+				notable_features: inputTextData[inputDataList.index.notable_features].text,
 				thumbnail: pictureSource != null ? pictureSource.uri : DEFAULT_IMAGE
 			}
 		}
@@ -261,13 +264,15 @@ export default class AddBikePresenter extends BasePresenter {
 	translateDataToInput = (data) => {
 		let dataCopy = this._deepCopy(inputDataList.data);
 
-		dataCopy[inputDataList.id.name].text 				= this._getString(data.name);
-		dataCopy[inputDataList.id.serial_number].text 		= this._getString(data.serial_number);
-		dataCopy[inputDataList.id.brand].text 				= this._getString(data.brand);
-		dataCopy[inputDataList.id.model].text				= this._getString(data.model);
-		dataCopy[inputDataList.id.notable_features].text 	= this._getString(data.notable_features);
-		dataCopy[inputDataList.id.wheel_size].text			= this._getString(data.wheel_size);
-		dataCopy[inputDataList.id.frame_size].text			= this._getString(data.frame_size);
+		dataCopy[inputDataList.index.name].text 				= this._getString(data.name);
+		dataCopy[inputDataList.index.serial_number].text 		= this._getString(data.serial_number);
+		dataCopy[inputDataList.index.brand].text 				= this._getString(data.brand);
+		dataCopy[inputDataList.index.model].text				= this._getString(data.model);
+		dataCopy[inputDataList.index.notable_features].text 	= this._getString(data.notable_features);
+		dataCopy[inputDataList.index.wheel_size].text			= this._getString(data.wheel_size);
+		dataCopy[inputDataList.index.frame_size].text			= this._getString(data.frame_size);
+
+		this.view.setState({ currentID: data.id })
 
 		return this._deepCopy(dataCopy); 
 	}
@@ -334,7 +339,7 @@ export default class AddBikePresenter extends BasePresenter {
  *		text: The initial text of the name/label
  */
 const inputDataList = {
-	id: {
+	index: {
 		name: 				0,
 		serial_number: 		1,
 		brand: 				2,

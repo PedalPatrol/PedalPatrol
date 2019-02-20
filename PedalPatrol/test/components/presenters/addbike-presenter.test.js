@@ -35,11 +35,11 @@ test('should return data from model', () => {
 	addbikepresenter.onDestroy();
 });
 
-test('should update model', () => {
+test('should update model with edited bike', () => {
 	const view = new TestView();
 	const bikemodel = new BikeModel();
 	const addbikepresenter = new addBikePresenter(view);
-	const onUpdated = addbikepresenter.onUpdated = jest.fn((newData) => 'default').mockName('update');
+	const onUpdated = addbikepresenter.onUpdated = jest.fn((newData) => 'default').mockName('onUpdated');
 	const callback = jest.fn((success) => 'default').mockName('callback');
 
 	const dataToPass = { 
@@ -74,23 +74,41 @@ test('should update model', () => {
 				}
 			],
 		selectedColours: ['Red'],
-		picture: { uri: 'picture_test' }
+		picture: { uri: 'picture_test' },
+		currentID: 1
 	};
-	const resultData = {
+	const resultDataEdit = {
 		data: [
 					{
 						id: 1,
-						name: 'BikeName1',
-						model: 'Model1',
-						brand: 'Schwin',
-						owner: 'Owner1',
-						description: 'Testing',
-						colour: ['Red', 'Blue', 'Green'],
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-						wheel_size: 52,
-						frame_size: 123,
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
+						name: 'name_test',
+						model: 'model_test',
+						brand: 'brand_test',
+						serial_number: 'serial_test',
+						notable_features: 'notable_test',
+						wheel_size: 'wheel_test',
+						frame_size: 'frame_test',
+						colour: ['Red'],
+						owner: 'Owner',
+						thumbnail: 'picture_test'
+					}
+			]
+	};
+
+	const resultDataNew = {
+		data: [
+					{
+						id: 1,
+						name: 'name_test',
+						model: 'model_test',
+						brand: 'brand_test',
+						serial_number: 'serial_test',
+						notable_features: 'notable_test',
+						wheel_size: 'wheel_test',
+						frame_size: 'frame_test',
+						colour: ['Red'],
+						owner: 'Owner',
+						thumbnail: 'picture_test'
 					},
 					{
 						id: 2,
@@ -108,14 +126,21 @@ test('should update model', () => {
 			]
 	};
 
+	// Edit
 	addbikepresenter.update(dataToPass, callback);
 
 	expect(onUpdated).toHaveBeenCalled();
-	expect(onUpdated).toHaveBeenCalledWith(resultData);
+	expect(onUpdated).toHaveBeenCalledWith(resultDataEdit);
+
+	// New
+	dataToPass.currentID = '';
+	addbikepresenter.update(dataToPass, callback);
+
+	expect(onUpdated).toHaveBeenCalled();
+	expect(onUpdated).toHaveBeenCalledWith(resultDataNew);
 
 	addbikepresenter.onDestroy();
 });
-
 
 test('should build data from view data', () => {
 	const view = new TestView();
@@ -190,6 +215,8 @@ test('should check editing state and execute expected function', () => {
 	addbikepresenter.checkEditingState(false, success, failure);
 	expect(failure).toHaveBeenCalled();
 	expect(failure).toHaveBeenCalledWith();
+
+	addbikepresenter.onDestroy();
 });
 
 test('should set view state with modified colour list', () => {
@@ -313,6 +340,20 @@ test('should translate item data to text input form', () => {
 	];
 
 	expect(addbikepresenter.translateDataToInput(inputData)).toEqual(result_data);
+
+	addbikepresenter.onDestroy();
+});
+
+test('should return picture', () => {
+	const view = new TestView();
+	const addbikepresenter = new addBikePresenter(view);
+
+	const data = {
+		thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
+	}
+
+	expect(addbikepresenter.getPicture('NO-DATA')).toEqual(null);
+	expect(addbikepresenter.getPicture(data)).toEqual({uri: 'https://i.imgur.com/i8t6tlI.jpg'});
 
 	addbikepresenter.onDestroy();
 });

@@ -25,6 +25,8 @@ export default class AddBikeView extends BaseView {
 		inputData: [], // Input text data is at each index
 		colours: colours.data,
 
+		currentID: '',
+
 		selectedItems: [] // Selected colours
 	};
 
@@ -219,6 +221,7 @@ export default class AddBikeView extends BaseView {
 	_getDataToUpdate = () => {
 		// TODO : Check if required inputs are filled
 		let updateData = {
+			currentID: this.state.currentID,
 			inputTextData: this.state.inputData, 
 			selectedColours: this.state.selectedItems, 
 			picture: this.state.avatarSource

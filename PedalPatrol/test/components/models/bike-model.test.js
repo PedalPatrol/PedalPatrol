@@ -98,3 +98,46 @@ test('should notify all subscribers', () => {
 	expect(_notifyAll).toHaveBeenCalledWith(result_data);
 });
 
+test('should overwrite data', () => {
+	const BikeM = new BikeModel();
+
+	const newData = {
+		data: { id: 1 }
+	};
+
+	BikeM._insertData(newData);
+	expect(BikeM._data.data).toEqual([{id: 1}]);
+});
+
+test('should insert new data', () => {
+	const BikeM = new BikeModel();
+
+	const newData = {
+		data: { id: 2 }
+	};
+
+	let result_data = {
+		data: [
+					{
+						id: 1,
+						name: 'BikeName1',
+						model: 'Model1',
+						brand: 'Schwin',
+						owner: 'Owner1',
+						description: 'Testing',
+						colour: ['Red', 'Blue', 'Green'],
+						serial_number: 72613671,
+						notable_features: 'lime green grips, scratch on side',
+						wheel_size: 52,
+						frame_size: 123,
+						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
+					},
+					{ 
+						id: 2
+					}
+			]
+	}
+
+	BikeM._insertData(newData);
+	expect(BikeM._data.data).toEqual(result_data.data);
+});
