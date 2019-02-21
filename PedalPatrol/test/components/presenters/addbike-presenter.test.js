@@ -299,42 +299,49 @@ test('should translate item data to text input form', () => {
 			name: 'Name',
 			multiline: false,
 			bike_editable: false,
+			required: true,
 			text: 'BikeName1'
 		},
 		{
 			name: 'Serial Number',
 			multiline: false,
 			bike_editable: true,
+			required: true,
 			text: '72613671'
 		},
 		{
 			name: 'Brand',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: 'Schwin'
 		},
 		{
 			name: 'Model',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: 'Model1'
 		},
 		{
 			name: 'Notable Features',
 			multiline: true,
 			bike_editable: true,
+			required: false,
 			text: 'lime green grips, scratch on side'
 		},
 		{
 			name: 'Wheel Size',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: '52'
 		},
 		{
 			name: 'Frame Size',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: '123'
 		}
 	];
