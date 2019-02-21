@@ -176,7 +176,7 @@ export default class AddBikeView extends BaseView {
 	_renderItem = ({item, index}) => (
 		<TextInput
 			style={styles.textInput}
-			label={item.name}
+			label={item.required ? this._renderName(item.name) : item.name}
 			multiline={item.multiline}
 			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
@@ -186,6 +186,10 @@ export default class AddBikeView extends BaseView {
 					this.setEditing(true); // Now editing
 				} 
 			}/>
+	);
+
+	_renderName = (name) => (
+		<Text style={[{color: 'red'}]}>{name + " *"}</Text>
 	);
 
 
@@ -219,7 +223,10 @@ export default class AddBikeView extends BaseView {
 	 * Get the data from the state and send an update to the presenter
 	 */
 	_getDataToUpdate = () => {
-		// TODO : Check if required inputs are filled
+		if (this.AddBikeP.checkInputs(this.state.inputData, this._inputRequirementFailure)) {
+			return;
+		}
+		
 		let updateData = {
 			currentID: this.state.currentID,
 			inputTextData: this.state.inputData, 
@@ -228,6 +235,21 @@ export default class AddBikeView extends BaseView {
 		};
 
 		this.AddBikeP.update(updateData, this.alertCallback);
+	}
+
+	/**
+	 * Alert for requirement input failure
+	 */
+	_inputRequirementFailure = (names) => {
+		const joiner = names.length > 1 ? " are" : " is";
+		Alert.alert(
+			"Required (*) inputs cannot be blank.",
+			names.join(', ') + joiner + " required.",
+			[
+				{ text: "Ok", onPress: () => {}, style: "ok" },
+			],
+			{ cancelable: false },
+		);
 	}
 
 	alertCallback = (success) => {

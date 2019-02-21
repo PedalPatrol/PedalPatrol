@@ -240,6 +240,41 @@ export default class AddBikePresenter extends BasePresenter {
 		return filteredItems
 	}
 
+	/**
+	 * Checks the input data for required inputs and calls an alert function if inputs are missing.
+	 *
+	 * @param {List} inputData - A list of input data (see inputDataList for structure)
+	 * @param {Function} inputRequirementFailure - A function that will define the alert to be displayed.
+	 * @param {Boolean} true: some required inputs are blank; false: required inputs are not blank
+	 */
+	checkInputs = (inputData, inputRequirementFailure) => {
+		let required = this._getRequiredInputs(inputData);
+		let names = [];
+		console.log(required);
+		for (let i=0; i < required.length; i++) {
+			if (required[i].text === "") {
+				names.push(required[i].name);
+			}
+		}
+		console.log(names)
+		if (names.length !== 0) {
+			inputRequirementFailure(names);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the required inputs based on the required property
+	 *
+	 * @param {List} inputs - A list of input data
+	 * @return {List} A list of required text inputs
+	 */
+	_getRequiredInputs = (inputs) => {
+		return inputs.filter(obj => {return obj.required});
+	}
+
 
 	/**
 	 * Return the data for the text inputs.
@@ -353,42 +388,49 @@ const inputDataList = {
 			name: 'Name',
 			multiline: false,
 			bike_editable: false,
-			text: ''
+			required: true,
+			text: '',
 		},
 		{
 			name: 'Serial Number',
 			multiline: false,
 			bike_editable: true,
+			required: true,
 			text: ''
 		},
 		{
 			name: 'Brand',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: ''
 		},
 		{
 			name: 'Model',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: ''
 		},
 		{
 			name: 'Notable Features',
 			multiline: true,
 			bike_editable: true,
+			required: false,
 			text: ''
 		},
 		{
 			name: 'Wheel Size',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: ''
 		},
 		{
 			name: 'Frame Size',
 			multiline: false,
 			bike_editable: true,
+			required: false,
 			text: ''
 		}
 	]
