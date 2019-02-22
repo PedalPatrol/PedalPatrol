@@ -35,7 +35,7 @@ test('should return data from model', () => {
             colour: 'Red',
 			serial_number: 72613671,
 			notable_features: 'lime green grips, scratch on side',
-            timeago: '2 hrs ago',
+            timeago: '1 hrs ago',
             datetime: '3:30 PM - 16 Jan. 19',
             address: '162 Barrie St. Kingston, ON',
 			thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
@@ -65,7 +65,7 @@ test('should update model', () => {
                         colour: 'Red',
 						serial_number: 72613671,
 						notable_features: 'lime green grips, scratch on side',
-                        timeago: '2 hrs ago',
+                        timeago: '1 hrs ago',
                         datetime: '3:30 PM - 16 Jan. 19',
                         address: '162 Barrie St. Kingston, ON',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'

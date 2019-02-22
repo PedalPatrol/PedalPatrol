@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NotificationBikeItemHelper from './helpers/notificationbikeitem';
 import SearchBarHelper from './helpers/searchbar';
@@ -24,7 +24,7 @@ export default class HomeView extends BaseView {
 	// TODO : Add update from new bike page that refreshes bike view page
 
 	resetState = () => {
-		this.state = { refresh: true, data: []};
+		this.state = { refresh: true, data: [], refreshing: false };
 	}
 
 	/**
@@ -44,7 +44,7 @@ export default class HomeView extends BaseView {
 						colour: ['Red', 'Blue'],
 						serial_number: 72613671,
 						notable_features: 'lime green grips, scratch on side',
-						timeago: '2 hrs ago',
+						timeago: (i.id+1) + ' hrs ago',
 						datetime: '3:30 PM - 16 Jan. 19',
 						address: '162 Barrie St. Kingston, ON',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
@@ -109,6 +109,10 @@ export default class HomeView extends BaseView {
 		this.viewUnmounting(this.HomeP);
 	}
 
+	_onRefresh = () => {
+		this.HomeP.forceRefresh();
+	}
+
 	/**
 	 * Extracts the item id as a string.
 	 *
@@ -126,7 +130,14 @@ export default class HomeView extends BaseView {
 						keyExtractor={this._keyExtractor}
 						renderItem={this._renderItem}
 						ListHeaderComponent={this._renderSearchBar}
-						stickyHeaderIndices={[0]}>
+						stickyHeaderIndices={[0]}
+						refreshControl={
+						    <RefreshControl
+						        colors={["#9Bd35A", "#689F38"]}
+						        refreshing={this.state.refreshing}
+						        onRefresh={() => this._onRefresh()}
+						    />
+						}>
 					</FlatList>
 				</View>
 				);

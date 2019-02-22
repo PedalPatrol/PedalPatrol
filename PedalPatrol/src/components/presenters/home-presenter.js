@@ -109,6 +109,7 @@ export default class HomePresenter extends BasePresenter {
 		} else {
 			HomeM.setBookmark(id);
 		}
+		this.view.refreshState();
 	};
 
 	/**
@@ -119,5 +120,12 @@ export default class HomePresenter extends BasePresenter {
 	 */
 	getBookmarked = (id) => {
 		return HomeM.isBookmarked(id);
-	}
+	};
+
+	forceRefresh = () => {
+		HomeM.moveBookmarkedDataToFront();
+		this.view.setState({
+			data: this.getData()
+		});
+	};
 }

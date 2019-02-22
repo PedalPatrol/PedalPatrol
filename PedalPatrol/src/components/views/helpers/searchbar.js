@@ -36,9 +36,9 @@ export default class SearchBarHelper extends Component {
 
 						{/* Filter button - Using button - Needs dropdown */}
 						<View style={{flex:1, top:5}}>
-							<TouchableHighlight onPress={() => this.props.openFilter()} accessibilityLabel="New">
+							<TouchableOpacity onPress={() => this.props.openFilter()} accessibilityLabel="New">
 								<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
-							</TouchableHighlight>
+							</TouchableOpacity>
 						</View>
 					
 				</View>
