@@ -7,6 +7,8 @@ import HomeView from '../components/views/home-view';
 import MapView from '../components/views/map-view';
 import BikeView from '../components/views/bike-view';
 import AddBikeView from '../components/views/addbike-view';
+import SignUpView from '../components/views/signup-view';
+import LoginView from '../components/views/login-view';
 
 let screen = Dimensions.get('window');
 
@@ -68,12 +70,41 @@ export const AddBikeStack = createStackNavigator({
 	},
 });
 
+export const LoginStack = createStackNavigator({
+	Login: {
+		screen: LoginView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			header: null
+		}),
+	},
+	Signup: {
+		screen: SignUpView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			title: 'Sign up',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+},
+{
+	initialRouteName: 'Login'
+});
+
 /**
  * All possible stack navigators
  */
 export const createRootNavigator = () => {
 	return createStackNavigator(
 		{
+			LoginStack: {
+				screen: LoginStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
 			Tabs: {
 				screen: Tabs,
 				navigationOptions: ({navigation}) => ({

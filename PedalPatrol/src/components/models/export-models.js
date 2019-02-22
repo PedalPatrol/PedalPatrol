@@ -1,5 +1,6 @@
 import BikeModel from './bike-model';
 import HomeModel from './home-model';
+import LoginModel from './login-model';
 
 /**
  * This file allows for singleton instances of a class to be created.
@@ -11,7 +12,10 @@ import HomeModel from './home-model';
  */
 const BikeM = new BikeModel();
 const HomeM = new HomeModel();
+const LoginM = new LoginModel();
+
 export { 
 	BikeM, 
-	HomeM 
+	HomeM,
+	LoginM
 };
