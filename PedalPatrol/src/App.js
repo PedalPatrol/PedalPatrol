@@ -13,13 +13,13 @@ import { createRootNavigator } from './config/navigation';
 
 import firebase from 'firebase';
 
-var config = {
-    apiKey: "AIzaSyBUzSFTc_c5k3hwTX6ySfbfxLu0xASzpDY",
-    authDomain: "test-f4788.firebaseapp.com",
-    databaseURL: "https://test-f4788.firebaseio.com",
-    projectId: "test-f4788",
-    storageBucket: "test-f4788.appspot.com",
-    messagingSenderId: "131545184736"
+var config = {	
+    apiKey: "AIzaSyBUzSFTc_c5k3hwTX6ySfbfxLu0xASzpDY",	
+    authDomain: "test-f4788.firebaseapp.com",	
+    databaseURL: "https://test-f4788.firebaseio.com",	
+    projectId: "test-f4788",	
+    storageBucket: "test-f4788.appspot.com",	
+    messagingSenderId: "131545184736"	
 };
 firebase.initializeApp(config);
 
