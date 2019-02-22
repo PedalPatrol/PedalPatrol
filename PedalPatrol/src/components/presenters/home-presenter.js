@@ -43,7 +43,7 @@ export default class HomePresenter extends BasePresenter {
 	 * Called when the model is updated with new data. Refreshes the state of the view.
 	 * Better way to refresh the state?
 	 */
-	 onUpdated = () => {
+	onUpdated = () => {
 	 	this.view.refreshState();
 	 };
 
@@ -88,7 +88,6 @@ export default class HomePresenter extends BasePresenter {
 	 * @param {String} text - A word(s) to filter on
 	 */
 	handleSearchFilter = (text) => {
-		console.log(this.getData());
 		const newData = this.getData().filter(item => {
 			const itemData = `${item.model.toUpperCase()}}`;
 			const textData = text.toUpperCase();
@@ -98,4 +97,27 @@ export default class HomePresenter extends BasePresenter {
 			data: newData
 		});
 	};
+
+	/**
+	 * Sets the bookmark for the notification ID
+	 *
+	 * @param {Number} id - A bike notification ID
+	 */
+	setBookmark = (id) => {
+		if (HomeM.isBookmarked(id)) {
+			HomeM.unsetBookmark(id);
+		} else {
+			HomeM.setBookmark(id);
+		}
+	};
+
+	/**
+	 * Returns the bookmarked state for a bike ID
+	 *
+	 * @param {Number} id - A bike notification ID
+	 * @return {Boolean} true: if ID is bookmarked by user; false: otherwise
+	 */
+	getBookmarked = (id) => {
+		return HomeM.isBookmarked(id);
+	}
 }

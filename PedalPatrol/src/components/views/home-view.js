@@ -24,7 +24,7 @@ export default class HomeView extends BaseView {
 	// TODO : Add update from new bike page that refreshes bike view page
 
 	resetState = () => {
-		this.state = { refresh: true, data: [] };
+		this.state = { refresh: true, data: []};
 	}
 
 	/**
@@ -41,12 +41,12 @@ export default class HomeView extends BaseView {
 						model: 'Model'+(i.id+1),
 						owner: 'Owner'+(i.id+1),
 						description: 'Testing',
-                        colour: ['Red', 'Blue'],
+						colour: ['Red', 'Blue'],
 						serial_number: 72613671,
 						notable_features: 'lime green grips, scratch on side',
-                        timeago: '2 hrs ago',
-                        datetime: '3:30 PM - 16 Jan. 19',
-                        address: '162 Barrie St. Kingston, ON',
+						timeago: '2 hrs ago',
+						datetime: '3:30 PM - 16 Jan. 19',
+						address: '162 Barrie St. Kingston, ON',
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					}
 		}
@@ -64,11 +64,13 @@ export default class HomeView extends BaseView {
 	_renderItem = ({item}) => (
 		<NotificationBikeItemHelper
 			data={item}
+			setBookmark={this.HomeP.setBookmark}
+			bookmarked={this.HomeP.getBookmarked(item.id)}
 			navigation={this.props.navigation}/>
 	);
 
-	/**
-	 * Renders the header for the list including a search bar, profile button and filter button.
+		/**
+	 * Renders a search bar as the header including the profile icon and the filter button
 	 */
 	_renderSearchBar = () => (
 		<SearchBarHelper 
@@ -96,7 +98,6 @@ export default class HomeView extends BaseView {
 		this.setState({
 			data: this.HomeP.getData()
 		});
-		console.log('Mounted'); // What to do here?
 	};
 
 
@@ -108,14 +109,13 @@ export default class HomeView extends BaseView {
 		this.viewUnmounting(this.HomeP);
 	}
 
-
 	/**
 	 * Extracts the item id as a string.
 	 *
 	 * @param {Object} item - An item being rendered
 	 * @param {Number} index - The index of the item 
 	 */
-	 _keyExtractor = (item, index) => item.id.toString();
+	_keyExtractor = (item, index) => item.id.toString();
 
 	render() {
 		return (	

@@ -22,7 +22,7 @@ export default class BikeView extends BaseView {
 	}
 
 	resetState = () => {
-		this.state = { refresh: true, data: [], selectedItems: [] };
+		this.state = { refresh: true, data: [] };
 	}
 
 	// TODO : Add update from new bike page that refreshes bike view page
@@ -80,8 +80,6 @@ export default class BikeView extends BaseView {
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
 			openFilter={this.sendUpdate}
-			onSelectedItemsChange={this.onSelectedItemsChange} 
-			selectedItems={this.state.selectedItems} 
 			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
@@ -119,12 +117,7 @@ export default class BikeView extends BaseView {
 	 * @param {Object} item - An item being rendered
 	 * @param {Number} index - The index of the item 
 	 */
-	 _keyExtractor = (item, index) => item.id.toString();
-
-
-	onSelectedItemsChange = (selectedItems) => {
-    	this.setState({ selectedItems });
-  	} 
+	_keyExtractor = (item, index) => item.id.toString();
 
 	render() {
 		return (	

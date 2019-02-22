@@ -61,15 +61,19 @@ export default class NotificationBikeItemHelper extends Component {
 
 								{/* Bottom icons */}
 								<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
-									<TouchableHighlight style={styles.icon} accessibilityLabel="Bookmark">
-										<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />
-									</TouchableHighlight>
-									<TouchableHighlight style={styles.icon} accessibilityLabel="Comment">
+									<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
+										{ this.props.bookmarked ? 
+											(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
+											:
+											(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
+										}
+									</TouchableOpacity>
+									<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
 										<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
-									</TouchableHighlight>
-									<TouchableHighlight style={styles.icon} accessibilityLabel="Pin">
+									</TouchableOpacity>
+									<TouchableOpacity style={styles.icon} accessibilityLabel="Pin">
 										<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
-									</TouchableHighlight>
+									</TouchableOpacity>
 								</View>
 
 							</View>

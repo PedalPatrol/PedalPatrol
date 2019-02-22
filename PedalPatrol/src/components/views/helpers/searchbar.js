@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView, DropDownMenu } from 'react-native';
-import { Icon, SearchBar } from 'react-native-elements';
+import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView, ViewStyle } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { Searchbar } from 'react-native-paper';
 import ProfileButton from './profilebutton';
 import FilterHelper from './filter';
 
 export default class SearchBarHelper extends Component {
+	state = {
+		value: ''
+	}
+
+
 	render() {
 		return (   
 			<View>
@@ -15,15 +21,11 @@ export default class SearchBarHelper extends Component {
           
 					{/* Search Bar */}
 					<View style={{flex:6}}>
-						<SearchBar        
-							placeholder="Type Here..."        
-							lightTheme
-							round
-							containerStyle={styles.searchBar}
-							onChangeText={(text) => this.props.handleSearchFilter(text)}
-							onCancel={this.props.handleSearchCancel}
-							onClear={this.props.handleSearchClear}
-							autoCorrect={false}             
+						<Searchbar        
+							placeholder="Search"        
+							style={styles.searchBar}
+							value={this.state.value}
+							onChangeText={(text) => { this.props.handleSearchFilter(text); this.setState({ value: text })}}
 						/>
 					</View>
 					
@@ -54,9 +56,12 @@ const styles = StyleSheet.create({
 	},
 	searchBar: {
 		backgroundColor:'transparent', 
-		borderTopWidth: 0, 
-		borderBottomWidth: 0,
-		left:8
+		borderWidth: 1,
+		borderRadius: 50,
+		height: 35,
+		left: 20,
+		top: 5,
+		marginRight: 20
 	},
 	profile: {
 		flex:1,

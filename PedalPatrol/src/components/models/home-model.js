@@ -24,9 +24,13 @@ export default class HomeModel extends Model {
 
 		}
 
+		this._activeBookmarks = [];
+
 		// ABOVE IS TEMPORARY
 		
 		this._createObserverList();
+
+		this.moveBookmarkedDataToFront();
 	}
 
 	/**
@@ -38,6 +42,19 @@ export default class HomeModel extends Model {
 		return {...this._data} // immutable
 	}
 
+	moveBookmarkedDataToFront() {
+		let tempData = this._data.data.filter(obj => !this.isBookmarked(obj.id));
+		let bookmarkedData = this.getBookmarkedData(this._data.data);
+
+		for (bd in bookmarkedData) {
+			tempData.unshift(bd);
+		}
+		 
+	}
+
+	getBookmarkedData(data) {
+		return data.filter(obj => this.isBookmarked(obj.id));
+	}
 
 	/**
 	 * Update method for presenters to update the model's data.
@@ -51,5 +68,33 @@ export default class HomeModel extends Model {
 		// this.notifyAll() // Send with no message?
 		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 		// this._eventEmitter.emit('change')
+	}
+
+	/**
+	 * Returns the bookmarked state for a bike ID
+	 *
+	 * @param {Number} id - A bike notification ID
+	 * @return {Boolean} true: if ID is bookmarked by user; false: otherwise
+	 */
+	isBookmarked(id) {
+		return this._activeBookmarks.includes(id);
+	}
+
+	/**
+	 * Sets a bookmark for a specific ID
+	 *
+	 * @param {Number} id - A bike notification ID to bookmark
+	 */
+	setBookmark(id) {
+		this._activeBookmarks.push(id);
+	}
+
+	/**
+	 * Unsets a bookmark for a specific ID
+	 *
+	 * @param {Number} id - A bike nofication ID to unbookmark
+	 */
+	unsetBookmark(id) {
+		this._activeBookmarks = this._activeBookmarks.filter(bid => {return bid != id;})
 	}
 }
