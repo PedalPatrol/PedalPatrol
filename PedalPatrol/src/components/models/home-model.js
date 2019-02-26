@@ -1,36 +1,46 @@
 import Model from './model';
+import Database from '../../util/export-database';
 
 export default class HomeModel extends Model {
 	constructor() {
 		super();
 		// Initial data
-		this._data = { 
-			data: [
-					{
-						id: 1,
-						name: 'BikeName1',
-						model: 'Model1',
-						owner: 'Owner1',
-						description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-						colour: 'Red',
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-						timeago: '1 hrs ago',
-						datetime: '3:30 PM - 16 Jan. 19',
-						address: '162 Barrie St. Kingston, ON',
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					}
-			]
+		// this._data = { 
+		// 	data: [
+		// 			{
+		// 				id: 1,
+		// 				dataID: 0,
+		// 				name: 'BikeName1',
+		// 				model: 'Model1',
+		// 				owner: 'Owner1',
+		// 				description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+		// 				colour: 'Red',
+		// 				serial_number: 72613671,
+		// 				notable_features: 'lime green grips, scratch on side',
+		// 				timeago: '1 hrs ago',
+		// 				datetime: '3:30 PM - 16 Jan. 19',
+		// 				address: '162 Barrie St. Kingston, ON',
+		// 				thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
+		// 			}
+		// 	]
 
-		}
+		// }
 
 		this._activeBookmarks = [];
 
 		// ABOVE IS TEMPORARY
 		
 		this._createObserverList();
-
+		this._registerDatabaseRead();
 		this.moveBookmarkedDataToFront();
+	}
+
+	_registerDatabaseRead() {
+		Database.readBikeDataOn((snapshot) => {
+			console.log(snapshot.val());
+			this._insertDataOnRead(snapshot.val());
+			this._notifyAll(this._data);
+		});
 	}
 
 	/**
@@ -42,21 +52,110 @@ export default class HomeModel extends Model {
 		return {...this._data} // immutable
 	}
 
+	_insertDataOnRead(databaseData) {
+		let tempData = {data:[]};
+		let dataID = 0;
+		if (databaseData != null) { // Check if there are objects in the database
+			for (val in databaseData) {
+				databaseData[val].dataID = dataID;
+				databaseData[val].timeago = this.getTimeAgoFromDateTime(databaseData[val].datetime);
+				tempData.data.push(databaseData[val]);
+				dataID++;
+			}
+			this._data = tempData;
+		}
+		console.log(this._data);
+	}
+
+	getTimeAgoFromDateTime(datetime) {
+		const YEAR = 4;
+		const MONTH = 3;
+		const DAY = 2;
+		const MINUTE = 1;
+		const HOUR = 0;
+
+		let tempDT = this.replaceAll(datetime, ' ', '');
+		tempDT = this.replaceAll(datetime, '-', ' ');
+		tempDT = this.replaceAll(tempDT, ':', ' ');
+		tempDT = this.replaceAll(tempDT, '/', ' ');
+		let timeList = tempDT.split(' ');
+		timeList = timeList.filter((el) => {
+  			return el != '';
+		});
+		const datetimeAsDate = new Date(timeList[YEAR], timeList[MONTH]-1, timeList[DAY], timeList[HOUR], timeList[MINUTE]);
+		const currentTime = new Date();
+		console.log(currentTime);
+		console.log(datetimeAsDate);
+		console.log(currentTime-datetimeAsDate);
+		let time = this.parseMillisecondsIntoReadableTime(currentTime-datetimeAsDate);
+
+		let parsetime = time.split(':');
+		let suffix = '';
+		let outtime = '';
+		console.log(parsetime);
+		if (parseInt(parsetime[0]) >= 24) {
+			suffix = ' days ago';
+			outtime = Math.floor(parseInt(parsetime[0])/24) + suffix;
+		} else if (parseInt(parsetime[0]) > 0) {
+			suffix = ' hours ago';
+			outtime = parseInt(parsetime[0]) + suffix;
+		} else {
+			if (parseInt(parsetime[1]) > 0) {
+				suffix = ' minutes ago';
+				outtime = parseInt(parsetime[1]) + suffix;
+			} else {
+				suffix = ' seconds ago';
+				outtime = parseInt(parsetime[2]) + suffix;
+			}
+		}
+
+		return outtime;
+	}
+
+	parseMillisecondsIntoReadableTime(milliseconds){
+		//Get hours from milliseconds
+		let hours = milliseconds / (1000*60*60);
+		let absoluteHours = Math.floor(hours);
+		let h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
+
+		//Get remainder from hours and convert to minutes
+		let minutes = (hours - absoluteHours) * 60;
+		let absoluteMinutes = Math.floor(minutes);
+		let m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
+
+		//Get remainder from minutes and convert to seconds
+		let seconds = (minutes - absoluteMinutes) * 60;
+		let absoluteSeconds = Math.floor(seconds);
+		let s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
+
+
+		return h + ':' + m + ':' + s;
+	}
+
+
+	replaceAll(str, find, replace) {
+		return str.replace(new RegExp(find, 'g'), replace);
+	}
+
 	/**
 	 * Moves the bookmarked data to the front of the list.
 	 */
 	moveBookmarkedDataToFront() {
-		const temp = this._data.data;
+		if (typeof this._data !== "undefined" || this._data != undefined) {
+			const temp = this._data.data;
 
-		const nonBookmarkedData = this.getBookmarkedData(temp, false);
-		const bookmarkedData	= this.getBookmarkedData(temp, true);
+			const nonBookmarkedData = this.getBookmarkedData(temp, false);
+			const bookmarkedData	= this.getBookmarkedData(temp, true);
 
-		const sortedBookmarkedData 		= this.sortOnTime(bookmarkedData);
-		const sortedNonBookmarkedData 	= this.sortOnTime(nonBookmarkedData);
+			const sortedBookmarkedData 		= this.sortOnTime(bookmarkedData);
+			const sortedNonBookmarkedData 	= this.sortOnTime(nonBookmarkedData);
 
-		const totalTempData = sortedBookmarkedData.concat(sortedNonBookmarkedData);
+			const totalTempData = sortedBookmarkedData.concat(sortedNonBookmarkedData);
 
-		this._data.data = totalTempData;
+			this._data.data = totalTempData;
+
+			this._notifyAll(this._data);
+		}
 	}
 
 	/**
@@ -77,30 +176,33 @@ export default class HomeModel extends Model {
 	 * @return {Number} The time in seconds
 	 */
 	convertTimeAgoToSecs(timeago) {
-		const splitTimeAgo = timeago.split(' ');
-		let time = splitTimeAgo[0];
-		const ago = splitTimeAgo[1];
-		switch(ago) {
-			case "secs":
-				break;
-			case "mins":
-				time *= 60;
-				break;
-			case "hrs":
-				time *= 60 * 60;
-				break;
-			case "days":
-				time *= 60 * 60 * 24;
-				break;
-			case "months":
-				time *= 60 * 60 * 24 * 30; // Average days
-				break;
-			case "years":
-				time *= 60 * 60 * 24 * 365;
-				break;
+		if (typeof timeago !== 'undefined' || timeago != undefined) {
+			const splitTimeAgo = timeago.split(' ');
+			let time = splitTimeAgo[0];
+			const ago = splitTimeAgo[1];
+			switch(ago) {
+				case "secs":
+					break;
+				case "mins":
+					time *= 60;
+					break;
+				case "hrs":
+					time *= 60 * 60;
+					break;
+				case "days":
+					time *= 60 * 60 * 24;
+					break;
+				case "months":
+					time *= 60 * 60 * 24 * 30; // Average days
+					break;
+				case "years":
+					time *= 60 * 60 * 24 * 365;
+					break;
+			}
+			return time
 		}
 
-		return time;
+		return 0;
 	}
 
 	/**

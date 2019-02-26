@@ -18,6 +18,7 @@ test('should contain default data', () => {
 			data: [
 					{
 						id: 1,
+						dataID: 0,
 						name: 'BikeName1',
 						model: 'Model1',
 						brand: 'Schwin',
@@ -42,6 +43,7 @@ test('should return default data', () => {
 			data: [
 					{
 						id: 1,
+						dataID: 0,
 						name: 'BikeName1',
 						model: 'Model1',
 						brand: 'Schwin',
@@ -72,6 +74,7 @@ test('should notify all subscribers', () => {
 		data: [
 					{
 						id: 1,
+						dataID: 0,
 						name: 'BikeName1',
 						model: 'Model1',
 						brand: 'Schwin',
@@ -86,6 +89,7 @@ test('should notify all subscribers', () => {
 					},
 					{ 
 						id: 2,
+						dataID: 1,
 						owner: 'Owner',
 						model: 'Test'
 					}
@@ -120,6 +124,7 @@ test('should insert new data', () => {
 		data: [
 					{
 						id: 1,
+						dataID: 0,
 						name: 'BikeName1',
 						model: 'Model1',
 						brand: 'Schwin',
@@ -133,7 +138,8 @@ test('should insert new data', () => {
 						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
 					},
 					{ 
-						id: 2
+						id: 2,
+						dataID: 1,
 					}
 			]
 	}

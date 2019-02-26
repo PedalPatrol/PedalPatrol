@@ -4,23 +4,25 @@
 // function2 : login: connect to database and exchange data
 //login () if login success, create a new user object; else fail.
 import Model from './model';
-import firebase from 'firebase';
+// import firebase from 'firebase';
+import Database from '../../util/export-database';
 
 
- export default class LoginModel extends Model {
+export default class LoginModel extends Model {
 	constructor(){
-	super();
-	this._data = {
-		data:[
-				{
-				username:"",
-				password:""
-				}
-	]}
-	this._createObserverList();
+		super();
+		this._data = {
+			data: [
+					{
+						username:"",
+						password:""
+					}
+				]
+		}
+		this._createObserverList();
 	}
 
-	get(){
+	get() {
 		return {...this._data}
 	}
 
@@ -33,15 +35,21 @@ import firebase from 'firebase';
 		this._data.data.splice(0,1,newData.data); // Appends to the list - Use this if only a single piece of data is passed in
 
 		var errorMessage = 'true';
-		console.log('errorbeforecheck: '+errorMessage)
-		await firebase.auth().signInWithEmailAndPassword(this._data.data[0].username, this._data.data[0].password).catch(function(error) {
-		// Handle Errors here.
-		errorMessage = 'false';
-		console.log('erroraftercheck: '+errorMessage)
+		// console.log('errorbeforecheck: '+errorMessage)
+		// await firebase.auth().signInWithEmailAndPassword(this._data.data[0].username, this._data.data[0].password).catch(function(error) {
+		// 	// Handle Errors here.
+		// 	errorMessage = 'false';
+		// 	console.log('erroraftercheck: '+errorMessage);
+		// });
+
+		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
+			// Handle Errors here.
+			errorMessage = 'false';
+			// console.log('erroraftercheck: '+errorMessage);
 		});
 
 		//var message = errorMessage;
-		console.log('ddd:'+errorMessage)
+		// console.log('ddd:'+errorMessage)
 		// this.notifyAll() // Send with no message?
 		//console.log('errorbeforenotify: '+ errorMessage)
 		this._notifyAll(errorMessage); // Consider not having a message and forcing the presenter to 'get' the message itself
@@ -51,5 +59,4 @@ import firebase from 'firebase';
 
 	 //onError() => {}
 	 //onComplete () => {}
- }
-
+}

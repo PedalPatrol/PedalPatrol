@@ -250,13 +250,11 @@ export default class AddBikePresenter extends BasePresenter {
 	checkInputs = (inputData, inputRequirementFailure) => {
 		let required = this._getRequiredInputs(inputData);
 		let names = [];
-		console.log(required);
 		for (let i=0; i < required.length; i++) {
 			if (required[i].text === "") {
 				names.push(required[i].name);
 			}
 		}
-		console.log(names)
 		if (names.length !== 0) {
 			inputRequirementFailure(names);
 			return true;

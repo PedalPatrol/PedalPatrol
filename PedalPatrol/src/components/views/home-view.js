@@ -119,7 +119,7 @@ export default class HomeView extends BaseView {
 	 * @param {Object} item - An item being rendered
 	 * @param {Number} index - The index of the item 
 	 */
-	_keyExtractor = (item, index) => item.id.toString();
+	_keyExtractor = (item, index) => item.dataID.toString();
 
 	render() {
 		return (	

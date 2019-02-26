@@ -82,7 +82,14 @@ export default class LoginView extends BaseView {
 	 * Handle the click of the signup button
 	 */
 	_handleClick() {
-		if (this.LoginP.checkInput(this.state.username,this.state.password, this.reportError)) {
+		/* TEMPORARY TO SPEED UP LOGIN */
+		this.setState({
+			username: '123456@email.com',
+			password: '123456',
+		});
+		/* TEMPORARY TO SPEED UP LOGIN */
+
+		if (this.LoginP.checkInput(this.state.username, this.state.password, this.reportError)) {
 			this.sendUpdate();
 		}
 	}

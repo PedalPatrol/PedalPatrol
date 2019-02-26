@@ -117,7 +117,7 @@ export default class BikeView extends BaseView {
 	 * @param {Object} item - An item being rendered
 	 * @param {Number} index - The index of the item 
 	 */
-	_keyExtractor = (item, index) => item.id.toString();
+	_keyExtractor = (item, index) => item.id;
 
 	render() {
 		return (	
