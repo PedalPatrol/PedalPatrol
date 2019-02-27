@@ -31,32 +31,32 @@ export default class BikeView extends BaseView {
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
 	 */
 	sendUpdate = () => {
-		const d = this.BikeP.getData();
-		const i = d[d.length-1]
-		// Extract data from components
-		let new_data = { 
-			data:	{
-						id: i.id+1,
-						name: 'BikeName'+(i.id+1),
-						model: 'Model'+(i.id+1),
-						brand: 'Schwin',
-						owner: 'Owner'+(i.id+1),
-						colour: ['Lavender Blush', 'Black', 'Brown'],
-						serial_number: 72613671,
-						wheel_size: 52,
-						frame_size: 123,
-						notable_features: 'lime green grips, scratch on side',
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					}
-		}
-		const data = new_data; 
+		// const d = this.BikeP.getData();
+		// const i = d[d.length-1]
+		// // Extract data from components
+		// let new_data = { 
+		// 	data:	{
+		// 				id: i.id+1,
+		// 				name: 'BikeName'+(i.id+1),
+		// 				model: 'Model'+(i.id+1),
+		// 				brand: 'Schwin',
+		// 				owner: 'Owner'+(i.id+1),
+		// 				colour: ['Lavender Blush', 'Black', 'Brown'],
+		// 				serial_number: 72613671,
+		// 				wheel_size: 52,
+		// 				frame_size: 123,
+		// 				notable_features: 'lime green grips, scratch on side',
+		// 				thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
+		// 			}
+		// }
+		// const data = new_data; 
 
-		// console.log(data);
+		// // console.log(data);
 
-		// EVERYTHING ABOVE IS TEMPORARY - TO TEST ONLY
-		// Get data to add here
+		// // EVERYTHING ABOVE IS TEMPORARY - TO TEST ONLY
+		// // Get data to add here
 
-		this.BikeP.update(data);
+		// this.BikeP.update(data);
 	}
 
 

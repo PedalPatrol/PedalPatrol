@@ -34,7 +34,7 @@ export default class BikePresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		console.log(newData)
+		// console.log(newData)
 		this.view.refreshState();
 	};
 
@@ -43,9 +43,9 @@ export default class BikePresenter extends BasePresenter {
 	 * Called when the model is updated with new data. Refreshes the state of the view.
 	 * Better way to refresh the state?
 	 */
-	 onUpdated = () => {
-	 	this.view.refreshState();
-	 };
+	onUpdated = () => {
+	 	this.forceRefresh(); // Force a refresh here because we got the data from the database
+	};
 
 	/**
 	 * Gets the data from the model and returns it to the caller.
@@ -99,4 +99,10 @@ export default class BikePresenter extends BasePresenter {
 			data: newData
 		});
 	}; 
+
+	forceRefresh = () => {
+		this.view.setState({
+			data: this.getData()
+		});
+	};
 }

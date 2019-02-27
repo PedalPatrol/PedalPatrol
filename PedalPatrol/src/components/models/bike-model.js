@@ -27,16 +27,16 @@ export default class BikeModel extends Model {
 		// }
 
 		// ABOVE IS TEMPORARY
-		
+		this._data = {data: []};
 		this._createObserverList();
 		this._registerDatabaseRead();		
 	}
 
 	_registerDatabaseRead() {
 		Database.readBikeDataOn((snapshot) => {
-			console.log(snapshot.val());
+			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
-			this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
+			this._notifyAll(); // Don't supply data to force a refresh by the presenter
 		});
 	}
 
@@ -101,7 +101,7 @@ export default class BikeModel extends Model {
 			}
 			this._data = tempData;
 		}
-		console.log(this._data);
+		// console.log(this._data);
 	}
 
 	/**

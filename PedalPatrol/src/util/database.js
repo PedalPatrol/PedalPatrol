@@ -46,9 +46,10 @@ export default class FirebaseDatabase {
 
 	getDateTime() {
 		var today = new Date();
-		var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-		var time = today.getHours() + ":" + today.getMinutes();
-		var dateTime = time+' - '+date;
-		return dateTime;
+		return today.getTime();
+		// var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+		// var time = today.getHours() + ":" + today.getMinutes();
+		// var dateTime = time+' - '+date;
+		// return dateTime;
 	}
 }
