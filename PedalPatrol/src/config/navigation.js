@@ -64,7 +64,6 @@ export const AddBikeStack = createStackNavigator({
 		navigationOptions: ({navigation}) => ({
 			tabBarVisible: false,
 			gesturesEnabled: false,
-			title: 'Add Bike',
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	},

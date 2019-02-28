@@ -25,59 +25,27 @@ test('should return data from model', () => {
 	const view = new TestView();
 	const homepresenter = new HomePresenter(view);
 
-	const resultData = [
-		{
-			id: 1,
-			name: 'BikeName1',
-			model: 'Model1',
-			owner: 'Owner1',
-			description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            colour: 'Red',
-			serial_number: 72613671,
-			notable_features: 'lime green grips, scratch on side',
-            timeago: '1 hrs ago',
-            datetime: '3:30 PM - 16 Jan. 19',
-            address: '162 Barrie St. Kingston, ON',
-			thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-		}
-	]
+	const resultData = [];
 
 	expect(homepresenter.getData()).toEqual(resultData);
 
 	homepresenter.onDestroy();
 });
 
+// This test is actually useful because we don't use the send update function
 test('should update model', () => {
 	const view = new TestView();
 	const homemodel = new HomeModel();
 	const homepresenter = new HomePresenter(view);
 	const onUpdated = homepresenter.onUpdated = jest.fn((newData) => 'default').mockName('update');
 
-	const dataToPass = { data: 'test' };
-	const resultData = {
-		data: [
-					{
-						id: 1,
-						name: 'BikeName1',
-						model: 'Model1',
-						owner: 'Owner1',
-						description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                        colour: 'Red',
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-                        timeago: '1 hrs ago',
-                        datetime: '3:30 PM - 16 Jan. 19',
-                        address: '162 Barrie St. Kingston, ON',
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					},
-					'test'
-			]
-	}
+	let dataToPass = { data: { model: 'Test', id: 0 } };
+	let result_data = { data: [{ model: 'Test', id: 0 }] }; // To Change when actual UID is obtained
 
 	homepresenter.update(dataToPass);
 
 	expect(onUpdated).toHaveBeenCalled();
-	expect(onUpdated).toHaveBeenCalledWith(resultData);
+	expect(onUpdated).toHaveBeenCalledWith(result_data);
 
 	homepresenter.onDestroy();
 });

@@ -52,4 +52,12 @@ export default class FirebaseDatabase {
 		// var dateTime = time+' - '+date;
 		// return dateTime;
 	}
+
+	goOffline() {
+		firebase.database().goOffline();
+	}
+
+	removeBikeItem(key) {
+		this.ref.child('Bike').child(key).remove();
+	}
 }

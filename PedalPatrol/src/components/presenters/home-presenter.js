@@ -34,7 +34,6 @@ export default class HomePresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		console.log(newData)
 		this.view.refreshState();
 	};
 

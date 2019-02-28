@@ -79,6 +79,11 @@ export default class BikeModel extends Model {
 	_insertData(newData) {
 		let i = 0;
 
+		if (this._data.data.length === 0) {
+			this._data.data.push(newData.data);
+			return;
+		} 
+
 		while (i < this._data.data.length && this._data.data[i].id !== newData.data.id) {
 			i++;
 		}

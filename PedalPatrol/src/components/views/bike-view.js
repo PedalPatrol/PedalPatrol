@@ -130,7 +130,7 @@ export default class BikeView extends BaseView {
 						ListHeaderComponent={this._renderSearchBar}
 						stickyHeaderIndices={[0]}>
 					</FlatList>
-					<TouchableHighlight style={styles.add} onPress={() => this.props.navigation.navigate('AddBike')} accessibilityLabel="New">
+					<TouchableHighlight style={styles.add} onPress={() => this.props.navigation.navigate('AddBike', {title: 'Add Bike'})} accessibilityLabel="New">
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
 					</TouchableHighlight>
 				</View>

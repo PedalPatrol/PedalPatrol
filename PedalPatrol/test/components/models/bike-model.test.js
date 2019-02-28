@@ -1,64 +1,35 @@
 import BikeModel from '@/src/components/models/bike-model';
+import Database from '@/src/util/export-database';
 
-test('should create observer list', () => {
-	// Need to use spyOn to test function calls within constructors
-	const spy = jest.spyOn(BikeModel.prototype, '_createObserverList');
-	// Calling function/constructor needs to be called right before expect
-	const BikeM = new BikeModel();
-
-	expect(spy).toHaveBeenCalled();
-	expect(spy).toHaveBeenCalledWith();
+afterEach(() => {
+	Database.goOffline();
 });
 
-test('should contain default data', () => {
+test('should create observer list', async () => {
+	// Need to use spyOn to test function calls within constructors
+	const _createObserverList = jest.spyOn(BikeModel.prototype, '_createObserverList');
+	const _registerDatabaseRead = jest.spyOn(BikeModel.prototype, '_registerDatabaseRead').mockImplementation(() => 'default');
+	// Calling function/constructor needs to be called right before expect
+	BikeModel._registerDatabaseRead = _registerDatabaseRead;
+	const BikeM = new BikeModel();
+
+	expect(_createObserverList).toHaveBeenCalled();
+	expect(_createObserverList).toHaveBeenCalledWith();
+	expect(_registerDatabaseRead).toHaveBeenCalled();
+	expect(_registerDatabaseRead).toHaveBeenCalledWith();
+});
+
+test('should contain default data', async () => {
 	const BikeM = new BikeModel();
 
 	// Use toEqual to compare objects
-	expect(BikeM._data).toEqual({ 
-			data: [
-					{
-						id: 1,
-						dataID: 0,
-						name: 'BikeName1',
-						model: 'Model1',
-						brand: 'Schwin',
-						owner: 'Owner1',
-						description: 'Testing',
-						colour: ['Red', 'Blue', 'Green'],
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-						wheel_size: 52,
-						frame_size: 123,
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					}
-			]
-
-		});
+	expect(BikeM._data).toEqual({ data: [] });
 });
 
 test('should return default data', () => {
 	const BikeM = new BikeModel();
 
-	expect(BikeM.get()).toEqual({ 
-			data: [
-					{
-						id: 1,
-						dataID: 0,
-						name: 'BikeName1',
-						model: 'Model1',
-						brand: 'Schwin',
-						owner: 'Owner1',
-						description: 'Testing',
-						colour: ['Red', 'Blue', 'Green'],
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-						wheel_size: 52,
-						frame_size: 123,
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					}
-			]
-
-		});
+	expect(BikeM.get()).toEqual({ data: [] });
 });
 
 test('should notify all subscribers', () => {
@@ -66,40 +37,21 @@ test('should notify all subscribers', () => {
 
 	// Mock function for notifyAll
 	const _notifyAll = BikeM._notifyAll = jest.fn();
+	const _insertData = BikeM._insertData = jest.fn((newData) => {BikeM._data.data = [newData.data]}).mockName('insertData');
+	const writeBikeData = Database.writeBikeData = jest.fn();
 
-	let data = { data: { model: 'Test' }};
+	let data = { data: { model: 'Test', id: 0 } };
+	let result_data = { data: [{ model: 'Test', id: 0, owner: 'Owner' }] }; // To Change when actual UID is obtained
 	BikeM.update(data); // Call the actual function
 
-	let result_data = {
-		data: [
-					{
-						id: 1,
-						dataID: 0,
-						name: 'BikeName1',
-						model: 'Model1',
-						brand: 'Schwin',
-						owner: 'Owner1',
-						description: 'Testing',
-						colour: ['Red', 'Blue', 'Green'],
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-						wheel_size: 52,
-						frame_size: 123,
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					},
-					{ 
-						id: 2,
-						dataID: 1,
-						owner: 'Owner',
-						model: 'Test'
-					}
-			]
-	}
-
 	// Check expectations
-	expect(BikeM._data).toEqual(result_data);
+	expect(writeBikeData).toHaveBeenCalled();
+	expect(_insertData).toHaveBeenCalled();
+	expect(_insertData).toHaveBeenCalledWith(data);
 	expect(_notifyAll).toHaveBeenCalled();
 	expect(_notifyAll).toHaveBeenCalledWith(result_data);
+
+	Database.removeBikeItem(0);
 });
 
 test('should overwrite data', () => {
@@ -117,32 +69,10 @@ test('should insert new data', () => {
 	const BikeM = new BikeModel();
 
 	const newData = {
-		data: { id: 2 }
+		data: { id: 1 }
 	};
 
-	let result_data = {
-		data: [
-					{
-						id: 1,
-						dataID: 0,
-						name: 'BikeName1',
-						model: 'Model1',
-						brand: 'Schwin',
-						owner: 'Owner1',
-						description: 'Testing',
-						colour: ['Red', 'Blue', 'Green'],
-						serial_number: 72613671,
-						notable_features: 'lime green grips, scratch on side',
-						wheel_size: 52,
-						frame_size: 123,
-						thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-					},
-					{ 
-						id: 2,
-						dataID: 1,
-					}
-			]
-	}
+	let result_data = { data: [{ id: 1 }] }
 
 	BikeM._insertData(newData);
 	expect(BikeM._data.data).toEqual(result_data.data);

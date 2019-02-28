@@ -11,7 +11,7 @@ export default class BikeItemHelper extends Component {
 
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('AddBike', {data: this.props.data})}>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate('AddBike', {data: this.props.data, title: 'Edit Bike'})}>
 				<View style={styles.rowContainer}>
 					<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
                         {/* Thumbnail */}

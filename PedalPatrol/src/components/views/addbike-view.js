@@ -38,7 +38,8 @@ export default class AddBikeView extends BaseView {
 	static navigationOptions = ({navigation, transitioning}) => {
 		return {
 			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
-			headerRight: (<Button disabled={transitioning} onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>)
+			headerRight: (<Button disabled={transitioning} onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>),
+			title: navigation.getParam('title', 'Add Bike')
 		}
 	}
 
@@ -216,7 +217,7 @@ export default class AddBikeView extends BaseView {
 	 */
 	_renderText = (colour, name) => (
 		<Text style={[{color: colour}, styles.colourText]}>{name}</Text>
-	)
+	);
 
 
 	/**
