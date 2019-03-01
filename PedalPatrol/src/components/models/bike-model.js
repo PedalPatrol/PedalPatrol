@@ -27,11 +27,33 @@ export default class BikeModel extends Model {
 		// }
 
 		// ABOVE IS TEMPORARY
+
+		this._callback = this.defaultCallback;
+
 		this._data = {data: []};
 		this._createObserverList();
 		this._registerDatabaseRead();		
 	}
 
+	/**
+	 * Default callback
+	 */
+	defaultCallback(message) {
+		console.log(message);
+	}
+
+	/**
+	 * Set the model's callback to a new callback. This callback can be used anywhere and is usually passed in from a presenter.
+	 *
+	 * @param {Function} callback - A callback to run when certain code is executed
+	 */
+	setCallback(callback) {
+		this._callback = callback;
+	}
+
+	/**
+	 * Register an 'on' read from the database to get updates anytime data changes in the database.
+	 */
 	_registerDatabaseRead() {
 		Database.readBikeDataOn((snapshot) => {
 			// console.log(snapshot.val());
@@ -51,24 +73,25 @@ export default class BikeModel extends Model {
 
 
 	/**
-	 * Update method for presenters to update the model's data.
+	 * Update method for presenters to update the model's data. Datetime and Owner are handled in database class.
 	 *
 	 * @param {Object} newData - New data to add
 	 */
 	update(newData) {
-		newData.data.owner = this._getOwner(); // Needs the owner
-
+		// Add ID here
 		if (newData.data.id === '' || newData.data.id === undefined) {
+			console.log('Fetching new ID...');
 			newData.data.id = Database.getNewBikeID();
 		}
 
-		this._insertData(newData);
+		let result = this._insertDataOnUpdate(newData);
 
-		Database.writeBikeData(newData.data, (data) => {
-			console.log(data);
-		},(error) => {
-			console.log(error);
-		});
+		if (result) {
+			this.editExistingInDatabase(newData.data);			
+		} else {
+			this.writeNewInDatabase(newData.data);
+		}
+
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		// this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
 		// console.log(this._data);
@@ -76,12 +99,38 @@ export default class BikeModel extends Model {
 		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
-	_insertData(newData) {
+	writeNewInDatabase(newData) {
+		Database.writeBikeData(newData, (data) => {
+			console.log(data);
+			this._callback(typeof data !== 'undefined' && data !== undefined);
+		},(error) => {
+			console.log(error);
+			this._callback(false);
+		});
+	}
+
+	editExistingInDatabase(newData) {
+		Database.editBikeData(newData, (data) => {
+			console.log(data);
+			this._callback(typeof data !== 'undefined' && data !== undefined);
+		},(error) => {
+			console.log(error);
+			this._callback(false);
+		});
+	}
+
+	/**
+	 * Insert data into the data object on an update trigger (from Presenter).
+	 *
+	 * @param {Object} newData - New data passed in, of the form : {data: []}
+	 * @return {Boolean} true: Data was an edited value; false: Data was a new value
+	 */
+	_insertDataOnUpdate(newData) {
 		let i = 0;
 
 		if (this._data.data.length === 0) {
 			this._data.data.push(newData.data);
-			return;
+			return false;
 		} 
 
 		while (i < this._data.data.length && this._data.data[i].id !== newData.data.id) {
@@ -90,31 +139,29 @@ export default class BikeModel extends Model {
 
 		if (i === this._data.data.length) {
 			this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
+			return false;
 		} else {
-			this._data.data[i] = newData.data
+			this._data.data[i] = newData.data;
+			return true;
 		}
 	}
 
+	/**
+	 * Insert data into the data object on a read from the database.
+	 *
+	 * @param {Object} databaseData - An objects of objects containing data from the database.
+	 */
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
 		if (databaseData != null) { // Check if there are objects in the database
 			for (val in databaseData) {
-				databaseData[val].dataID = dataID;
+				databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value
 				tempData.data.push(databaseData[val]);
 				dataID++;
 			}
 			this._data = tempData;
 		}
 		// console.log(this._data);
-	}
-
-	/**
-	 * Returns the owner of the bike (the user that is currently logged in)
-	 *
-	 * @return {String} The owner of the bike (current user)
-	 */
-	_getOwner() {
-		return 'Owner';
 	}
 }

@@ -37,17 +37,17 @@ test('should notify all subscribers', () => {
 
 	// Mock function for notifyAll
 	const _notifyAll = BikeM._notifyAll = jest.fn();
-	const _insertData = BikeM._insertData = jest.fn((newData) => {BikeM._data.data = [newData.data]}).mockName('insertData');
+	const _insertDataOnUpdate = BikeM._insertDataOnUpdate = jest.fn((newData) => {BikeM._data.data = [newData.data]}).mockName('insertData');
 	const writeBikeData = Database.writeBikeData = jest.fn();
 
 	let data = { data: { model: 'Test', id: 0 } };
-	let result_data = { data: [{ model: 'Test', id: 0, owner: 'Owner' }] }; // To Change when actual UID is obtained
+	let result_data = { data: [{ model: 'Test', id: 0 }] }; // To Change when actual UID is obtained
 	BikeM.update(data); // Call the actual function
 
 	// Check expectations
 	expect(writeBikeData).toHaveBeenCalled();
-	expect(_insertData).toHaveBeenCalled();
-	expect(_insertData).toHaveBeenCalledWith(data);
+	expect(_insertDataOnUpdate).toHaveBeenCalled();
+	expect(_insertDataOnUpdate).toHaveBeenCalledWith(data);
 	expect(_notifyAll).toHaveBeenCalled();
 	expect(_notifyAll).toHaveBeenCalledWith(result_data);
 
@@ -61,7 +61,7 @@ test('should overwrite data', () => {
 		data: { id: 1 }
 	};
 
-	BikeM._insertData(newData);
+	BikeM._insertDataOnUpdate(newData);
 	expect(BikeM._data.data).toEqual([{id: 1}]);
 });
 
@@ -74,6 +74,6 @@ test('should insert new data', () => {
 
 	let result_data = { data: [{ id: 1 }] }
 
-	BikeM._insertData(newData);
+	BikeM._insertDataOnUpdate(newData);
 	expect(BikeM._data.data).toEqual(result_data.data);
 });

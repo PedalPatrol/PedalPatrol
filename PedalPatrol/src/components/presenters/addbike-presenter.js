@@ -29,8 +29,7 @@ export default class AddBikePresenter extends BasePresenter {
 		BikeM.update(builtData);
 
 		 // TODO : Proper checking to see if it was uploaded. Consider adding callback to onUpdated
-		this.callback = callback;
-		this.callback(true);
+		BikeM.setCallback(callback);
 	}
 
 	/**
