@@ -99,6 +99,11 @@ export default class BikeModel extends Model {
 		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
+	/**
+	 * Write new data in database and call the function callback depending on if it was successful or not.
+	 *
+	 * @param {Object} newData - Data to be written to the database
+	 */
 	writeNewInDatabase(newData) {
 		Database.writeBikeData(newData, (data) => {
 			console.log(data);
@@ -109,6 +114,11 @@ export default class BikeModel extends Model {
 		});
 	}
 
+	/**
+	 * Overwrite existing data in database and call the function callback depending on if it was successful or not.
+	 *
+	 * @param {Object} newData - Data to be written to the database
+	 */
 	editExistingInDatabase(newData) {
 		Database.editBikeData(newData, (data) => {
 			console.log(data);
