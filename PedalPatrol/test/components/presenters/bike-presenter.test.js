@@ -2,6 +2,11 @@ import BikePresenter from '@/src/components/presenters/bike-presenter';
 import Model from '@/src/components/models/model';
 import BikeModel from '@/src/components/models/bike-model';
 import BaseView from '@/src/components/views/view';
+import Database from '@/src/util/export-database';
+
+afterEach(() => {
+	Database.goOffline();
+});
 
 // Test implementation for presenter
 class TestView extends BaseView {
