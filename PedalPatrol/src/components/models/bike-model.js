@@ -110,19 +110,6 @@ export default class BikeModel extends Model {
 	}
 
 	/**
-	 * Gets a new ID for the bike from the database. Cannot conflict with other bike IDs
-	 *
-	 * @return {Number} A bike ID
-	 */
-	getIDFromDatabase() {
-		// Database.readBikeDataOnce((snapshot) => {
-
-		// });
-
-		return Math.max.apply(Math, this._data.data.map(function(o){return o.id;}))+1
-	}
-
-	/**
 	 * Returns the owner of the bike (the user that is currently logged in)
 	 *
 	 * @return {String} The owner of the bike (current user)

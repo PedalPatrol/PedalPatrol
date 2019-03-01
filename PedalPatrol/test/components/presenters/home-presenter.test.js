@@ -2,11 +2,17 @@ import HomePresenter from '@/src/components/presenters/home-presenter';
 import Model from '@/src/components/models/model';
 import HomeModel from '@/src/components/models/home-model';
 import BaseView from '@/src/components/views/view';
+import Database from '@/src/util/export-database';
+
+afterEach(() => {
+	Database.goOffline();
+});
 
 // Test implementation for presenter
 class TestView extends BaseView {
 	constructor() { super(); this.state = {data: []}}
 	refreshState = () => {};
+	setState = (dummy) => {};
 }
 
 // Produces console error saying you shouldn't set state on an unmounted component
@@ -32,20 +38,20 @@ test('should return data from model', () => {
 	homepresenter.onDestroy();
 });
 
-// This test is actually useful because we don't use the send update function
-test('should update model', () => {
+test('should filter searched items correctly', () => {
 	const view = new TestView();
 	const homemodel = new HomeModel();
 	const homepresenter = new HomePresenter(view);
-	const onUpdated = homepresenter.onUpdated = jest.fn((newData) => 'default').mockName('update');
-
+	const setState = view.setState = jest.fn((dummy) => 'default').mockName('setState');
+	
 	let dataToPass = { data: { model: 'Test', id: 0 } };
 	let result_data = { data: [{ model: 'Test', id: 0 }] }; // To Change when actual UID is obtained
-
+	
 	homepresenter.update(dataToPass);
+	homepresenter.handleSearchFilter('Te');
 
-	expect(onUpdated).toHaveBeenCalled();
-	expect(onUpdated).toHaveBeenCalledWith(result_data);
+	expect(setState).toHaveBeenCalled();
+	expect(setState).toHaveBeenCalledWith(result_data);
 
 	homepresenter.onDestroy();
 });

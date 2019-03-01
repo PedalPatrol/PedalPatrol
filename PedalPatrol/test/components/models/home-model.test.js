@@ -44,3 +44,20 @@ test('should notify all subscribers', () => {
 	expect(_notifyAll).toHaveBeenCalledWith(result_data);
 });
 
+test('should get formatted date from milliseconds', () => {
+	const HomeM = new HomeModel();
+
+	expect(HomeM.getDateFormatFromDateTime(1551406621940)).toBe('21:17 - 28/2/2019');
+});
+
+test('should get timeago from milliseconds', () => {
+	const HomeM = new HomeModel();
+
+	expect(HomeM.getTimeAgoFromDateTime((new Date()).getTime())).toBe('0 secs ago');
+});
+
+test('should parse milliseconds into readable time', () => {
+	const HomeM = new HomeModel();
+
+	expect(HomeM.parseMillisecondsIntoReadableTime(1551406621940)).toBe('430946:17:01');
+});

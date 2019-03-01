@@ -57,7 +57,7 @@ export default class HomeModel extends Model {
 		let tempData = {data:[]};
 		let dataID = 0;
 		if (databaseData != null) { // Check if there are objects in the database
-			for (val in databaseData) {
+			for (let val in databaseData) {
 				databaseData[val].dataID = dataID++;
 				databaseData[val].timeago = this.getTimeAgoFromDateTime(databaseData[val].datetime);
 				databaseData[val].datetime = this.getDateFormatFromDateTime(databaseData[val].datetime);
@@ -69,9 +69,9 @@ export default class HomeModel extends Model {
 	}
 
 	getDateFormatFromDateTime(datetime) {
-		var today = new Date(datetime);
-		var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-		var time = today.getHours() + ":" + today.getMinutes();
+		var converted = new Date(datetime);
+		var date = converted.getDate()+'/'+(converted.getMonth()+1)+'/'+converted.getFullYear();
+		var time = converted.getHours() + ":" + converted.getMinutes();
 		var dateTime = time+' - '+date;
 		return dateTime
 	}

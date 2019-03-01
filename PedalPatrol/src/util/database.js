@@ -28,7 +28,7 @@ export default class FirebaseDatabase {
 	 */
 	writeBikeData(bikeData, onSuccess, onError) {
 		bikeData.datetime = this.getDateTime(); 
-		console.log(bikeData.datetime);
+		// console.log(bikeData.datetime);
 		this.ref.child('Bike/').push(bikeData).then(onSuccess).catch(onError);
 	}
 
