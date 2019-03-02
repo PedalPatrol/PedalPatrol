@@ -6,7 +6,6 @@ import BaseView from './view';
 import LoginButton from './helpers/loginbutton';
 import SignUpPresenter from '../presenters/signup-presenter';
 
-export default SignUpView;
 /**
  * Class for the SignUp view
  * @extends BaseView
@@ -166,6 +165,8 @@ class SignUpView extends BaseView {
 			);
 	}
 }
+
+export default SignUpView;
 
 const styles = StyleSheet.create({
 	title:{

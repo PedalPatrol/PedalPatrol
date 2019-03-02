@@ -15,7 +15,7 @@ let screen = Dimensions.get('window');
 /**
  * Bottom tab navigator, home, map and bike
  */
-const Tabs = createBottomTabNavigator({
+export const Tabs = createBottomTabNavigator({
   	'Home': {
 		screen: HomeView,
 		navigationOptions: {
@@ -52,7 +52,7 @@ const Tabs = createBottomTabNavigator({
 /**
  * Stack navigator for bike tab, allows edit bike page to come on top when clicked
  */
-const AddBikeStack = createStackNavigator({
+export const AddBikeStack = createStackNavigator({
 	BikeStack: {
 		screen: BikeView,
 		navigationOptions: ({navigation}) => ({
@@ -72,7 +72,7 @@ const AddBikeStack = createStackNavigator({
 /**
  * Stack navigator for the login page to allow for the signup page to be opened from the login page
  */
-const LoginStack = createStackNavigator({
+export const LoginStack = createStackNavigator({
 	Login: {
 		screen: LoginView,
 		navigationOptions: ({navigation}) => ({
