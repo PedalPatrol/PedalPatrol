@@ -1,0 +1,10 @@
+{
+  "files": {
+    "included": [
+      "PedalPatrol/**/*.js"
+    ],
+    "excluded": [
+      "PedalPatrol/**/AntDesign.js"
+    ]
+  }
+}
