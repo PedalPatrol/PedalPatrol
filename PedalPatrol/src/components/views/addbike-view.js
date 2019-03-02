@@ -15,7 +15,11 @@ const colours = require('../../assets/colours/colours.json');
 const NO_DATA = 'NO-DATA';
 const UNIQUE_COLOUR_KEY = 'name'; // A unique key for the colours for the sectioned list
 
-export default class AddBikeView extends BaseView {
+/**
+ * Class for the AddBike view
+ * @extends BaseView
+ */
+class AddBikeView extends BaseView {
 	state = { // Initializing the state
 		avatarSource: null, // Image source
 
@@ -212,8 +216,8 @@ export default class AddBikeView extends BaseView {
 	/**
 	 * Generates the style and colouring of the colours in the multiselect.
 	 * 
-	 * @param {String} colour - A colour, usually hexcode
-	 * @param {String} name - The name of the item 
+	 * @param {string} colour - A colour, usually hexcode
+	 * @param {string} name - The name of the item 
 	 */
 	_renderText = (colour, name) => (
 		<Text style={[{color: colour}, styles.colourText]}>{name}</Text>
@@ -344,6 +348,8 @@ export default class AddBikeView extends BaseView {
 		);
 	}
 }
+
+export default AddBikeView;
 
 const styles = StyleSheet.create({
 	container: {

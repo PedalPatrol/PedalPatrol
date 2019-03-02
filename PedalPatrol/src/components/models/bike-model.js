@@ -1,34 +1,14 @@
 import Model from './model';
 import Database from '../../util/export-database';
 
-export default class BikeModel extends Model {
+/**
+ * Class for the bike model to be used by the BikePresenter and AddBikePresenter
+ * @extends Model
+ */
+class BikeModel extends Model {
 	constructor() {
 		super();
-		// Initial data
-		// this._data = { 
-		// 	data: [
-		// 			{
-		// 				id: 1,
-		// 				dataID: 0,
-		// 				name: 'BikeName1',
-		// 				model: 'Model1',
-		// 				brand: 'Schwin',
-		// 				owner: 'Owner1',
-		// 				description: 'Testing',
-		// 				colour: ['Red', 'Blue', 'Green'],
-		// 				serial_number: 72613671,
-		// 				notable_features: 'lime green grips, scratch on side',
-		// 				wheel_size: 52,
-		// 				frame_size: 123,
-		// 				thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-		// 			}
-		// 	]
-
-		// }
-
-		// ABOVE IS TEMPORARY
-
-		this._callback = this.defaultCallback;
+		this._callback = this._defaultCallback;
 
 		this._data = {data: []};
 		this._createObserverList();
@@ -38,7 +18,7 @@ export default class BikeModel extends Model {
 	/**
 	 * Default callback
 	 */
-	defaultCallback(message) {
+	_defaultCallback(message) {
 		console.log(message);
 	}
 
@@ -87,9 +67,9 @@ export default class BikeModel extends Model {
 		let result = this._insertDataOnUpdate(newData);
 
 		if (result) {
-			this.editExistingInDatabase(newData.data);			
+			this._editExistingInDatabase(newData.data);			
 		} else {
-			this.writeNewInDatabase(newData.data);
+			this._writeNewInDatabase(newData.data);
 		}
 
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
@@ -104,7 +84,7 @@ export default class BikeModel extends Model {
 	 *
 	 * @param {Object} newData - Data to be written to the database
 	 */
-	writeNewInDatabase(newData) {
+	_writeNewInDatabase(newData) {
 		Database.writeBikeData(newData, (data) => {
 			console.log(data);
 			this._callback(typeof data !== 'undefined' && data !== undefined);
@@ -119,7 +99,7 @@ export default class BikeModel extends Model {
 	 *
 	 * @param {Object} newData - Data to be written to the database
 	 */
-	editExistingInDatabase(newData) {
+	_editExistingInDatabase(newData) {
 		Database.editBikeData(newData, (data) => {
 			console.log(data);
 			this._callback(typeof data !== 'undefined' && data !== undefined);
@@ -166,6 +146,10 @@ export default class BikeModel extends Model {
 		let dataID = 0;
 		if (databaseData != null) { // Check if there are objects in the database
 			for (val in databaseData) {
+				if (!databaseData[val].hasOwnProperty('id')) {
+					continue;
+				}
+
 				databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value
 				tempData.data.push(databaseData[val]);
 				dataID++;
@@ -175,3 +159,5 @@ export default class BikeModel extends Model {
 		// console.log(this._data);
 	}
 }
+
+export default BikeModel;

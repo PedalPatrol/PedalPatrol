@@ -6,7 +6,11 @@ import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';
 import BikePresenter from '../presenters/bike-presenter';
 
-export default class BikeView extends BaseView {
+/**
+ * Class for the Bike view
+ * @extends BaseView
+ */
+class BikeView extends BaseView {
 	/**
 	 * Creates an instance of BikeView
 	 *
@@ -24,41 +28,6 @@ export default class BikeView extends BaseView {
 	resetState = () => {
 		this.state = { refresh: true, data: [] };
 	}
-
-	// TODO : Add update from new bike page that refreshes bike view page
-
-	/**
-	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
-	 */
-	sendUpdate = () => {
-		// const d = this.BikeP.getData();
-		// const i = d[d.length-1]
-		// // Extract data from components
-		// let new_data = { 
-		// 	data:	{
-		// 				id: i.id+1,
-		// 				name: 'BikeName'+(i.id+1),
-		// 				model: 'Model'+(i.id+1),
-		// 				brand: 'Schwin',
-		// 				owner: 'Owner'+(i.id+1),
-		// 				colour: ['Lavender Blush', 'Black', 'Brown'],
-		// 				serial_number: 72613671,
-		// 				wheel_size: 52,
-		// 				frame_size: 123,
-		// 				notable_features: 'lime green grips, scratch on side',
-		// 				thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-		// 			}
-		// }
-		// const data = new_data; 
-
-		// // console.log(data);
-
-		// // EVERYTHING ABOVE IS TEMPORARY - TO TEST ONLY
-		// // Get data to add here
-
-		// this.BikeP.update(data);
-	}
-
 
 	/**
 	 * Renders an item from a list to the screen by extracting data.
@@ -79,7 +48,7 @@ export default class BikeView extends BaseView {
 			handleSearchFilter={(text) => this.BikeP.handleSearchFilter(text)}
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
-			openFilter={this.sendUpdate}
+			openFilter={() => 'default'}
 			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
@@ -138,6 +107,8 @@ export default class BikeView extends BaseView {
 	};
 
 };
+
+export default BikeView;
 
 const styles = StyleSheet.create({
 	container: {

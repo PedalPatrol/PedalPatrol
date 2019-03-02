@@ -4,7 +4,11 @@ import { BikeM } from '../models/export-models'; // Using the BikeModel class be
 const NO_DATA = 'NO-DATA';
 const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
 
-export default class AddBikePresenter extends BasePresenter {
+/**
+ * Class for the AddBike presenter and view
+ * @extends BasePresenter
+ */
+class AddBikePresenter extends BasePresenter {
 	/**
 	 * Creates an instance of BikePresenter
 	 *
@@ -191,11 +195,13 @@ export default class AddBikePresenter extends BasePresenter {
 	}
 
 	/**
+	 * @private
 	 * Makes sure the object with the key exists.
 	 */
 	getProp = (object, key) => object && this.check(object[key]);
 
 	/**
+	 * @private
 	 * Simple regex check
 	 * 
 	 * return {Boolean}
@@ -207,6 +213,7 @@ export default class AddBikePresenter extends BasePresenter {
 	};
 
 	/**
+	 * @private
 	 * This function is an adaptation of the filter function used in SectionedMultiSelect.
 	 * This one filters on uniqueKey instead of displayKey and ignores accents since it is
 	 * a predefined list of colours.
@@ -244,7 +251,7 @@ export default class AddBikePresenter extends BasePresenter {
 	 *
 	 * @param {List} inputData - A list of input data (see inputDataList for structure)
 	 * @param {Function} inputRequirementFailure - A function that will define the alert to be displayed.
-	 * @param {Boolean} true: some required inputs are blank; false: required inputs are not blank
+	 * @return {Boolean} true: some required inputs are blank; false: required inputs are not blank
 	 */
 	checkInputs = (inputData, inputRequirementFailure) => {
 		let required = this._getRequiredInputs(inputData);
@@ -280,10 +287,11 @@ export default class AddBikePresenter extends BasePresenter {
 	 * 		multiline: true: if the input is allowed to span multiple lines; false: otherwise
 	 *		text: initial text of the input
 	 *
+	 * @param {Object} data - type 'Object' if there is data, type 'string' if no data
 	 * @return {List} A list of data objects (name, multiline, text)
 	 */
 	getTextInputData = (data) => {
-		return data === NO_DATA ? this._deepCopy(inputDataList.data) : this.translateDataToInput(data);
+		return data === NO_DATA ? this._deepCopy(inputDataList.data) : this._translateDataToInput(data);
 	}
 
 
@@ -293,7 +301,7 @@ export default class AddBikePresenter extends BasePresenter {
 	 * @param {Object} data - The data from the view (=== 'NO-DATA' if not set)
 	 * @return {List} A copy of the data that is now in the form of the text input
 	 */
-	translateDataToInput = (data) => {
+	_translateDataToInput = (data) => {
 		let dataCopy = this._deepCopy(inputDataList.data);
 
 		dataCopy[inputDataList.index.name].text 				= this._getString(data.name);
@@ -313,8 +321,8 @@ export default class AddBikePresenter extends BasePresenter {
 	/**
 	 * Checks if the value is valid and if so, convert it to a string.
 	 *
-	 * @param {Number/String} val - A number or string to check
-	 * @return {String} Value converted to a string
+	 * @param {Number/string} val - A number or string to check
+	 * @return {string} Value converted to a string
 	 */
 	_getString = (val) => {
 		return val == undefined || val == null ? '' : val.toString();
@@ -346,7 +354,7 @@ export default class AddBikePresenter extends BasePresenter {
 	 * @param {Object} sectionedMultiSelect - The multi select component from the view
 	 * @param {Object} data - The data from the view (=== 'NO-DATA' if not set)
 	 * @param {Function} onColoursFound - A function that submits the selected items back to the view
-	 * @param {String} UNIQUE_KEY - A unique key that is used to get the data from the item (same one that is used when defining the sectioned select)
+	 * @param {string} UNIQUE_KEY - A unique key that is used to get the data from the item (same one that is used when defining the sectioned select)
 	 */
 	toggleColours = (sectionedMultiSelect, data, onColoursFound, UNIQUE_KEY) => {
 		let selectedItems = [];
@@ -361,6 +369,8 @@ export default class AddBikePresenter extends BasePresenter {
 		}
 	}
 }
+
+export default AddBikePresenter;
 
 
 // List of text inputs for adding bike. Items in list appear in this order

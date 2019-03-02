@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 
+/**
+ * Base class for all the views
+ * @extends React.Component
+ */
 class BaseView extends Component {
 	/**
 	 * Render objects to the screen.
@@ -19,7 +23,8 @@ class BaseView extends Component {
 
 	/**
 	 * Component will unmount after this method is called, do any clean up here.
-	 * This function is not actually called from 
+	 *
+	 * @param {Class} A presenter class instance
 	 */
 	viewUnmounting = (presenter) => {
 		presenter.onDestroy();

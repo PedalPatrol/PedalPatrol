@@ -3,12 +3,15 @@
 // function : getUsername/password setUsername/password
 // function2 : login: connect to database and exchange data
 //login () if login success, create a new user object; else fail.
+
 import Model from './model';
-// import firebase from 'firebase';
 import Database from '../../util/export-database';
 
-
-export default class LoginModel extends Model {
+/**
+ * Class for the login model to be used by the LoginPresenter and SignupPresenter
+ * @extends Model
+ */
+class LoginModel extends Model {
 	constructor(){
 		super();
 		this._data = {
@@ -60,3 +63,5 @@ export default class LoginModel extends Model {
 	 //onError() => {}
 	 //onComplete () => {}
 }
+
+export default LoginModel;

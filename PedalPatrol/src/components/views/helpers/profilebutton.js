@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Icon, SearchBar } from 'react-native-elements';
 
-export default class ProfileButton extends Component {
+/**
+ * Class to add a profile button to the search bar header
+ */
+class ProfileButton extends Component {
     render() {
           return (
             <View>
@@ -16,6 +19,8 @@ export default class ProfileButton extends Component {
           );  
     };
 };
+
+export default ProfileButton;
 
 const styles = StyleSheet.create({
     profile: {

@@ -3,15 +3,19 @@ import { View, Text, TextInput, StyleSheet, Image, PixelRatio, Alert,} from 'rea
 import { HeaderBackButton } from 'react-navigation';
 
 import BaseView from './view';
-import Button from './helpers/button';
+import LoginButton from './helpers/loginbutton';
 import SignUpPresenter from '../presenters/signup-presenter';
 
-export default class SignUpView extends BaseView {
-		
-
+export default SignUpView;
+/**
+ * Class for the SignUp view
+ * @extends BaseView
+ */
+class SignUpView extends BaseView {
 	/**
 	 * Set the navigation options, change the header to handle a back button.
 	 *
+	 * @param {Object} navigation, transitioning - Navigation properties
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) => {
@@ -25,7 +29,7 @@ export default class SignUpView extends BaseView {
 	 * Create an instance of SignUpView
 	 *
 	 * @constructor
-	 * @param {Object props - Component properties}
+	 * @param {Object} props - Component properties
 	 */
 	constructor(props) {
 		super(props);
@@ -37,7 +41,9 @@ export default class SignUpView extends BaseView {
 		this.SignupP = new SignUpPresenter(this);
 	}
 
-
+	/**
+	 * This function will trigger before the component mounts
+	 */
 	componentWillMount = () => {
 		this.props.navigation.setParams({
 			_onBack: this._onBack
@@ -99,7 +105,7 @@ export default class SignUpView extends BaseView {
 												 </View>
 													<View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
 						<View style={{marginTop: 30}}>
-						<Button text="SIGN UP" onPress={this._handleClick.bind(this)}/>
+						<LoginButton text="SIGN UP" onPress={this._handleClick.bind(this)}/>
 						</View>
 
 

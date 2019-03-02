@@ -1,47 +1,19 @@
 import Model from './model';
 import Database from '../../util/export-database';
 
-export default class HomeModel extends Model {
+/**
+ * Class for the home/notification model to be used by the Home Presenter
+ * @extends Model 
+ */
+class HomeModel extends Model {
 	constructor() {
 		super();
-		// Initial data
-		// this._data = { 
-		// 	data: [
-		// 			{
-		// 				id: 1,
-		// 				dataID: 0,
-		// 				name: 'BikeName1',
-		// 				model: 'Model1',
-		// 				owner: 'Owner1',
-		// 				description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-		// 				colour: 'Red',
-		// 				serial_number: 72613671,
-		// 				notable_features: 'lime green grips, scratch on side',
-		// 				timeago: '1 hrs ago',
-		// 				datetime: '3:30 PM - 16 Jan. 19',
-		// 				address: '162 Barrie St. Kingston, ON',
-		// 				thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-		// 			}
-		// 	]
-
-		// }
-
+		
 		this._data = {data: []};
 		this._activeBookmarks = [];
-
-		// ABOVE IS TEMPORARY
 		
 		this._createObserverList();
 		this._registerDatabaseRead();
-	}
-
-	_registerDatabaseRead() {
-		Database.readBikeDataOn((snapshot) => {
-			// console.log(snapshot.val());
-			this._insertDataOnRead(snapshot.val());
-			this.moveBookmarkedDataToFront();
-			this._notifyAll(this._data);
-		});
 	}
 
 	/**
@@ -53,14 +25,35 @@ export default class HomeModel extends Model {
 		return {...this._data} // immutable
 	}
 
+	/**
+	 * Register an 'on' read from the database, supplying the callback when the database has changed.
+	 */
+	_registerDatabaseRead() {
+		Database.readBikeDataOn((snapshot) => {
+			// console.log(snapshot.val());
+			this._insertDataOnRead(snapshot.val());
+			this.moveBookmarkedDataToFront();
+			this._notifyAll(this._data);
+		});
+	}
+
+	/**
+	 * Insert data into the data object when data has changed from the database
+	 *
+	 * @param {Object} databaseData - Each data item is an object within the overall object
+	 */
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
 		if (databaseData != null) { // Check if there are objects in the database
 			for (let val in databaseData) {
+				if (!databaseData[val].hasOwnProperty('id')) {
+					continue;
+				}
+
 				databaseData[val].dataID = dataID++;
-				databaseData[val].timeago = this.getTimeAgoFromDateTime(databaseData[val].datetime);
-				databaseData[val].datetime = this.getDateFormatFromDateTime(databaseData[val].datetime);
+				databaseData[val].timeago = this._getTimeAgoFromDateTime(databaseData[val].datetime);
+				databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].datetime);
 				tempData.data.push(databaseData[val]);
 			}
 			this._data = tempData;
@@ -68,7 +61,13 @@ export default class HomeModel extends Model {
 		// console.log(this._data);
 	}
 
-	getDateFormatFromDateTime(datetime) {
+	/**
+	 * Returns the milliseconds time formatted as 'HH:MM - DD/MM/YY'.
+	 *
+	 * @param {Number} datetime - The time in milliseconds
+	 * @return {string} Milliseconds represented as a string
+	 */
+	_getDateFormatFromDateTime(datetime) {
 		var converted = new Date(datetime);
 		var date = converted.getDate()+'/'+(converted.getMonth()+1)+'/'+converted.getFullYear();
 		var time = converted.getHours() + ":" + converted.getMinutes();
@@ -76,10 +75,16 @@ export default class HomeModel extends Model {
 		return dateTime
 	}
 
-	getTimeAgoFromDateTime(datetime) {
+	/**
+	 * Returns millisecond time as a time ago string (# __ ago).
+	 *
+	 * @param {Number} datetime - The time in milliseconds
+	 * @return {string} The millisecond time represented as a string
+	 */
+	_getTimeAgoFromDateTime(datetime) {
 		const currentTime = new Date();
 		
-		let time = this.parseMillisecondsIntoReadableTime(currentTime-datetime);
+		let time = this._parseMillisecondsIntoReadableTime(currentTime-datetime);
 
 		let parsetime = time.split(':');
 		let suffix = '';
@@ -115,7 +120,13 @@ export default class HomeModel extends Model {
 		return outtime + suffix;
 	}
 
-	parseMillisecondsIntoReadableTime(milliseconds){
+	/**
+	 * Returns the milliseconds time as readable time (HH:MM:SS)
+	 *
+	 * @param {Number} milliseconds - The time in milliseconds
+	 * @return {string} Milliseconds formatted to time
+	 */
+	_parseMillisecondsIntoReadableTime(milliseconds){
 		//  Get hours from milliseconds
 		let hours = milliseconds / (1000*60*60);
 		let absoluteHours = Math.floor(hours);
@@ -145,8 +156,8 @@ export default class HomeModel extends Model {
 			const nonBookmarkedData = this.getBookmarkedData(temp, false);
 			const bookmarkedData	= this.getBookmarkedData(temp, true);
 
-			const sortedBookmarkedData 		= this.sortOnTime(bookmarkedData);
-			const sortedNonBookmarkedData 	= this.sortOnTime(nonBookmarkedData);
+			const sortedBookmarkedData 		= this._sortOnTime(bookmarkedData);
+			const sortedNonBookmarkedData 	= this._sortOnTime(nonBookmarkedData);
 
 			const totalTempData = sortedBookmarkedData.concat(sortedNonBookmarkedData);
 
@@ -174,7 +185,7 @@ export default class HomeModel extends Model {
 	 * @param {List} data - Unsorted object data with a timeago property
 	 * @return {List} Sorted data
 	 */
-	sortOnTime(data) {
+	_sortOnTime(data) {
 		if (data.length <= 1) {
 			return data;
 		}
@@ -188,7 +199,7 @@ export default class HomeModel extends Model {
 			data[i].datetime < pivot.datetime ? left.push(data[i]) : right.push(data[i]);
 		}
 
-		return this.sortOnTime(left).concat(pivot, this.sortOnTime(right));
+		return this._sortOnTime(left).concat(pivot, this._sortOnTime(right));
 	};
 
 	/**
@@ -233,3 +244,5 @@ export default class HomeModel extends Model {
 		this._activeBookmarks = this._activeBookmarks.filter(bid => {return bid != id;})
 	}
 }
+
+export default HomeModel;

@@ -3,7 +3,10 @@ import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-export default class BikeItemHelper extends Component {
+/**
+ * Class to help the displaying of bike items on the bike view page
+ */
+class BikeItemHelper extends Component {
 
 	_onEditBike = () => {
 		let id = this.props.data.id;
@@ -47,6 +50,8 @@ export default class BikeItemHelper extends Component {
 		);
 	}
 }
+
+export default BikeItemHelper;
 
 const styles = StyleSheet.create({
 	rowContainer: {

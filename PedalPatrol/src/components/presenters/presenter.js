@@ -1,6 +1,7 @@
-// https://stackoverflow.com/questions/30626030/can-you-force-a-react-component-to-rerender-without-calling-setstate
-
-export default class BasePresenter {
+/**
+ * Base class for all the presenters
+ */
+class BasePresenter {
 	/**
 	 * Sends an update to the model with new data.
 	 *
@@ -29,3 +30,5 @@ export default class BasePresenter {
 		throw new Error("Method must be implemented");
 	};
 }
+
+export default BasePresenter;

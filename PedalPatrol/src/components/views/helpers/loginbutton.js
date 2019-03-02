@@ -1,7 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import { Text, View, StyleSheet, Platform, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
 
-export default class Button extends Component {
+/**
+ * Class to add a login button helper for the login and signup views
+ */
+class LoginButton extends Component {
   render() {
 	if (Platform.OS === 'android') {
 	  return(
@@ -29,6 +32,8 @@ export default class Button extends Component {
   }
 
 }
+
+export default LoginButton;
 
 const styles = StyleSheet.create({
   text: {

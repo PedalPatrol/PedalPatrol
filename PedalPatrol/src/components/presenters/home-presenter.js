@@ -1,7 +1,11 @@
 import BasePresenter from './presenter';
 import { HomeM } from '../models/export-models';
 
-export default class HomePresenter extends BasePresenter {
+/**
+ * Class for the Home presenter and view
+ * @extends BasePresenter
+ */
+class HomePresenter extends BasePresenter {
 	/**
 	 * Creates an instance of HomePresenter
 	 *
@@ -84,7 +88,7 @@ export default class HomePresenter extends BasePresenter {
 	/**
 	 * Filter the items in the list based on the text passed in. Called every time a letter is typed.
 	 *
-	 * @param {String} text - A word(s) to filter on
+	 * @param {string} text - A word(s) to filter on
 	 */
 	handleSearchFilter = (text) => {
 		const newData = this.getData().filter(item => {
@@ -128,3 +132,5 @@ export default class HomePresenter extends BasePresenter {
 		});
 	};
 }
+
+export default HomePresenter;

@@ -3,7 +3,10 @@ import { StyleSheet, TouchableOpacity, Text, Image, View, TouchableHighlight } f
 import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
-export default class NotificationBikeItemHelper extends Component {
+/**
+ * Class to help the displaying of notification items on the home view page
+ */
+class NotificationBikeItemHelper extends Component {
 
 	render() {
 		return(
@@ -85,6 +88,8 @@ export default class NotificationBikeItemHelper extends Component {
 		);
 	}
 }
+
+export default NotificationBikeItemHelper;
 
 const styles = StyleSheet.create({
 	rowContainer: {

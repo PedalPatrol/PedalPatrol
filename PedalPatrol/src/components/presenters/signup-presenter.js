@@ -1,15 +1,17 @@
-//login presenter
 import BasePresenter from './presenter';
 import { LoginM } from '../models/export-models';
 
-export default class SignUpPresenter extends BasePresenter{
 /**
+ * Class for the SignUp presenter and view
+ * @extends BasePresenter
+ */
+class SignUpPresenter extends BasePresenter {
+	/**
 	 * Creates an instance of LoginPresenter
 	 *
 	 * @constructor
 	 * @param {Object} view - An instance of a view class
 	 */
-
 	constructor(view) {
 		super();
 		this.view = view;
@@ -24,13 +26,13 @@ export default class SignUpPresenter extends BasePresenter{
 		LoginM.update(newData);
 	};
 
-	 /**
-		 * Called when the model is updated with new data. Refreshes the state of the view.
-		 * Method is supplied with the data to add.
-		 * Better way to refresh the state?
-		 *
-		 * @param {Object} newData - New data to add.
-		 */
+	/**
+	 * Called when the model is updated with new data. Refreshes the state of the view.
+	 * Method is supplied with the data to add.
+	 * Better way to refresh the state?
+	 *
+	 * @param {Object} newData - New data to add.
+	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
 		console.log(newData)
@@ -38,7 +40,7 @@ export default class SignUpPresenter extends BasePresenter{
 	};
 
 
-		/**
+	/**
 	 * Gets the data from the model and returns it to the caller.
 	 *
 	 * @return {Object} Data from the model.
@@ -70,8 +72,6 @@ export default class SignUpPresenter extends BasePresenter{
 	onDestroy = () => {
 		LoginM.unsubscribe(this);
 	};
-
-
-
 };
 
+export default SignUpPresenter;

@@ -1,7 +1,11 @@
 import BasePresenter from './presenter';
 import { BikeM } from '../models/export-models';
 
-export default class BikePresenter extends BasePresenter {
+/**
+ * Class for the Bike presenter and view
+ * @extends BasePresenter
+ */
+class BikePresenter extends BasePresenter {
 	/**
 	 * Creates an instance of BikePresenter
 	 *
@@ -86,7 +90,7 @@ export default class BikePresenter extends BasePresenter {
 	/**
 	 * Filter the items in the list based on the text passed in. Called every time a letter is typed.
 	 *
-	 * @param {String} text - A word(s) to filter on
+	 * @param {string} text - A word(s) to filter on
 	 */
 	handleSearchFilter = (text) => {
 		console.log(this.getData());
@@ -106,3 +110,5 @@ export default class BikePresenter extends BasePresenter {
 		});
 	};
 }
+
+export default BikePresenter;

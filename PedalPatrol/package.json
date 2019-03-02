@@ -7,7 +7,8 @@
     "test": "jest --silent",
     "test:watch": "npm test -- --watch",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
-    "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link"
+    "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
+    "doc": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow"
   },
   "dependencies": {
     "firebase": "^5.0.3",
@@ -39,6 +40,7 @@
     "babel-minify-webpack-plugin": "^0.2.0",
     "babel-plugin-root-import": "^6.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "documentation": "^9.3.0",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "0.51.1",
     "react-test-renderer": "16.6.3",

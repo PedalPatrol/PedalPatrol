@@ -5,7 +5,10 @@ import { Searchbar } from 'react-native-paper';
 import ProfileButton from './profilebutton';
 import FilterHelper from './filter';
 
-export default class SearchBarHelper extends Component {
+/**
+ * Class to add a search bar header to a page
+ */
+class SearchBarHelper extends Component {
 	state = {
 		value: ''
 	}
@@ -45,8 +48,9 @@ export default class SearchBarHelper extends Component {
 			</View>
 		);  
 	};
-
 };
+
+export default SearchBarHelper;
 
 const styles = StyleSheet.create({
 	searchContainer: { // View that contains search bar

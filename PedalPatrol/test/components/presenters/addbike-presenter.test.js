@@ -325,7 +325,7 @@ test('should translate item data to text input form', () => {
 		}
 	];
 
-	expect(addbikepresenter.translateDataToInput(inputData)).toEqual(result_data);
+	expect(addbikepresenter._translateDataToInput(inputData)).toEqual(result_data);
 
 	addbikepresenter.onDestroy();
 });

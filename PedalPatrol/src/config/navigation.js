@@ -13,9 +13,9 @@ import LoginView from '../components/views/login-view';
 let screen = Dimensions.get('window');
 
 /**
- * Bottom tab navigator
+ * Bottom tab navigator, home, map and bike
  */
-export const Tabs = createBottomTabNavigator({
+const Tabs = createBottomTabNavigator({
   	'Home': {
 		screen: HomeView,
 		navigationOptions: {
@@ -52,7 +52,7 @@ export const Tabs = createBottomTabNavigator({
 /**
  * Stack navigator for bike tab, allows edit bike page to come on top when clicked
  */
-export const AddBikeStack = createStackNavigator({
+const AddBikeStack = createStackNavigator({
 	BikeStack: {
 		screen: BikeView,
 		navigationOptions: ({navigation}) => ({
@@ -69,7 +69,10 @@ export const AddBikeStack = createStackNavigator({
 	},
 });
 
-export const LoginStack = createStackNavigator({
+/**
+ * Stack navigator for the login page to allow for the signup page to be opened from the login page
+ */
+const LoginStack = createStackNavigator({
 	Login: {
 		screen: LoginView,
 		navigationOptions: ({navigation}) => ({

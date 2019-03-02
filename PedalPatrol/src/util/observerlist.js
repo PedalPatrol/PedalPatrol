@@ -1,4 +1,7 @@
-export default class ObserverList {
+/**
+ * Class for observer list to facilitate observing
+ */
+class ObserverList {
 	/**
 	 * Creates an instance of an ObserverList, initializing the observers as empty.
 	 *
@@ -77,3 +80,5 @@ export default class ObserverList {
 		return this.observers[index];
 	}
 }
+
+export default ObserverList;

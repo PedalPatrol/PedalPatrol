@@ -1,8 +1,11 @@
-//login presenter
 import BasePresenter from './presenter';
 import { LoginM } from '../models/export-models';
 
-export default class LoginPresenter extends BasePresenter {
+/**
+ * Class for the Login presenter and view
+ * @extends BasePresenter
+ */
+class LoginPresenter extends BasePresenter {
 	/**
 	 * Creates an instance of LoginPresenter
 	 *
@@ -79,6 +82,4 @@ export default class LoginPresenter extends BasePresenter {
 
 };
 
-
-
-
+export default LoginPresenter;

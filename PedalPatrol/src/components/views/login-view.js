@@ -2,10 +2,14 @@ import React, {Component} from 'react';
 import { View, Text, TextInput, StyleSheet, Image, PixelRatio, Alert,} from 'react-native';
 
 import BaseView from './view';
-import Button from './helpers/button';
+import LoginButton from './helpers/loginbutton';
 import LoginPresenter from '../presenters/login-presenter';
 
-export default class LoginView extends BaseView {
+/**
+ * Class for the Login view
+ * @extends BaseView
+ */
+class LoginView extends BaseView {
 	
 	static navigationOptions = {header:null};
 	
@@ -13,7 +17,7 @@ export default class LoginView extends BaseView {
 	 * Create an instance of LoginView
 	 *
 	 * @constructor
-	 * @param {Object props - Component properties}
+	 * @param {Object} props - Component properties
 	 */
 	constructor(props) {
 		super(props);
@@ -63,7 +67,7 @@ export default class LoginView extends BaseView {
 					<View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
 					
 					<View style={{marginTop: 30}}>
-						<Button text="SIGN IN" onPress={this._handleClick.bind(this)}/>
+						<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
 					</View>
 					
 					<View>
@@ -71,7 +75,7 @@ export default class LoginView extends BaseView {
 					</View>
 					
 					<View style={{marginTop: 30}}>
-						<Button text="New Member?      SIGN UP!" onPress={() => this.props.navigation.navigate('Signup')}/>
+						<LoginButton text="New Member?      SIGN UP!" onPress={() => this.props.navigation.navigate('Signup')}/>
 					</View>
 				</View>
 			</View>
@@ -155,6 +159,8 @@ export default class LoginView extends BaseView {
 		this.viewUnmounting(this.LoginP);
 	}
 }
+
+export default LoginView;
 
 const styles = StyleSheet.create({
 	title:{

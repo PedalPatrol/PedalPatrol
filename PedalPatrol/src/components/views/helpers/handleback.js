@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { withNavigation } from "react-navigation";
 import { BackHandler } from "react-native";
 
+/**
+ * Class to handle the back button on Android
+ */
 class HandleBack extends Component {
 	constructor(props) {
 		super(props);

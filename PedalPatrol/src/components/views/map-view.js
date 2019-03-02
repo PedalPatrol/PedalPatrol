@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default class MapView extends Component {
+/**
+ * Class for the Map view
+ * @extends BaseView
+ */
+class MapView extends Component {
   render() {
     return (
       <View style={styles.container}>
@@ -16,6 +16,8 @@ export default class MapView extends Component {
     );
   }
 }
+
+export default MapView;
 
 const styles = StyleSheet.create({
   container: {

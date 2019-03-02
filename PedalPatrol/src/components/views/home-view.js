@@ -6,7 +6,11 @@ import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';
 import HomePresenter from '../presenters/home-presenter';
 
-export default class HomeView extends BaseView {
+/**
+ * Class for the Home view
+ * @extends BaseView
+ */
+class HomeView extends BaseView {
 	/**
 	 * Creates an instance of BikeView
 	 *
@@ -25,35 +29,6 @@ export default class HomeView extends BaseView {
 
 	resetState = () => {
 		this.state = { refresh: true, data: [], refreshing: false };
-	}
-
-	/**
-	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model.
-	 */
-	sendUpdate = () => {
-		// const d = this.HomeP.getData();
-		// const i = d[d.length-1]
-		// // Extract data from components
-		// let new_data = { 
-		// 	data:	{
-		// 				id: i.id+1,
-		// 				name: 'BikeName'+(i.id+1),
-		// 				model: 'Model'+(i.id+1),
-		// 				owner: 'Owner'+(i.id+1),
-		// 				description: 'Testing',
-		// 				colour: ['Red', 'Blue'],
-		// 				serial_number: 72613671,
-		// 				notable_features: 'lime green grips, scratch on side',
-		// 				timeago: (i.id+1) + ' hrs ago',
-		// 				datetime: '3:30 PM - 16 Jan. 19',
-		// 				address: '162 Barrie St. Kingston, ON',
-		// 				thumbnail: 'https://i.imgur.com/i8t6tlI.jpg'
-		// 			}
-		// }
-		// const data = new_data; 
-		// // Get data to add here
-
-		// this.HomeP.update(data);
 	}
 
 	/**
@@ -77,7 +52,7 @@ export default class HomeView extends BaseView {
 			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
-			openFilter={this.sendUpdate}
+			openFilter={() => 'default'}
 			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
@@ -109,6 +84,9 @@ export default class HomeView extends BaseView {
 		this.viewUnmounting(this.HomeP);
 	}
 
+	/**
+	 * Triggers a force refresh of the view
+	 */
 	_onRefresh = () => {
 		this.HomeP.forceRefresh();
 	}
@@ -144,6 +122,8 @@ export default class HomeView extends BaseView {
 	};
 
 };
+
+export default HomeView;
 
 const styles = StyleSheet.create({
 	container: {
