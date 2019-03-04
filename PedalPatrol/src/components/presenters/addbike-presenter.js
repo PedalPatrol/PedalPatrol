@@ -1,6 +1,8 @@
 import BasePresenter from './presenter';
 import { BikeM } from '../models/export-models'; // Using the BikeModel class because an AddBikeModel class would have the same purpose
 
+import { PHOTO_ENTRIES } from '../../assets/static/entries';
+
 const NO_DATA = 'NO-DATA';
 const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
 
@@ -10,7 +12,7 @@ const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
  */
 class AddBikePresenter extends BasePresenter {
 	/**
-	 * Creates an instance of BikePresenter
+	 * Creates an instance of AddBikePresenter
 	 *
 	 * @constructor
 	 * @param {Object} view - An instance of a view class
@@ -18,6 +20,7 @@ class AddBikePresenter extends BasePresenter {
 	constructor(view) {
 		super();
 		this.view = view;
+		this.currentPhotos = PHOTO_ENTRIES;
 		BikeM.subscribe(this);
 	}
 
@@ -30,10 +33,10 @@ class AddBikePresenter extends BasePresenter {
 	update = (newData, callback) => {
 		const builtData = this._buildDataFromView(newData);
 
-		BikeM.update(builtData);
-
-		 // TODO : Proper checking to see if it was uploaded. Consider adding callback to onUpdated
+		// TODO : Proper checking to see if it was uploaded. Consider adding callback to onUpdated
 		BikeM.setCallback(callback);
+
+		BikeM.update(builtData);
 	}
 
 	/**
@@ -64,7 +67,7 @@ class AddBikePresenter extends BasePresenter {
 				wheel_size: inputTextData[inputDataList.index.wheel_size].text,
 				frame_size: inputTextData[inputDataList.index.frame_size].text,
 				notable_features: inputTextData[inputDataList.index.notable_features].text,
-				thumbnail: pictureSource != null ? pictureSource.uri : DEFAULT_IMAGE
+				thumbnail: pictureSource != null ? pictureSource : [{illustration: DEFAULT_IMAGE}]
 			}
 		}
 
@@ -134,7 +137,7 @@ class AddBikePresenter extends BasePresenter {
 	 * @param {Object} imagePicker - The ImagePicker class from react-native-image-picker
 	 * @param {Function} setEditing - A function so the presenter can set the editing value
 	 */
-	selectPhotoTapped(imagePicker, setEditing) {
+	selectPhotoTapped(imagePicker, setEditing, id, photos) {
 		const options = {
 			quality: 1.0,
 			maxWidth: 500,
@@ -162,11 +165,22 @@ class AddBikePresenter extends BasePresenter {
 				// You can also display the image using data:
 				// let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
+				photos[id].illustration = source;
+				this.currentPhotos = photos;
+
+				console.log(id, photos);
+
 				this.view.setState({
-					avatarSource: source,
+					photoEntries: this.currentPhotos,
 				});
+
+				this.view.refreshState();
 			}
 		});
+	}
+
+	getCurrentPhotos = () => {
+		return this.currentPhotos;
 	}
 
 
@@ -329,13 +343,12 @@ class AddBikePresenter extends BasePresenter {
 	}
 
 	/**
-	 * Checks if the data is present, and if so, returns the uri as an object.
+	 * Return the default photo entries.
 	 *
-	 * @param {Object} data - The data from the view (=== 'NO-DATA' if not set)
-	 * @return {Object} The uri source of the image as an object
+	 * @return {List} A list of objects with the property 'illustration' that contains the uri
 	 */
-	getPicture = (data) => {
-		return data === NO_DATA ? null : { uri: data.thumbnail };
+	getDefaultPictures = () => {
+		return PHOTO_ENTRIES;
 	}
 
 	/**

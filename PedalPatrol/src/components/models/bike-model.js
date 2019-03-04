@@ -64,6 +64,11 @@ class BikeModel extends Model {
 			newData.data.id = Database.getNewBikeID();
 		}
 
+		// const {new_pictures, upload_pictures} = this._changePictureSource(newData.data.thumbnail);
+		// newData.data.thumbnail = new_pictures;
+		this._writeImageToStorage(newData.data.id, newData.data.thumbnail);
+
+
 		let result = this._insertDataOnUpdate(newData);
 
 		if (result) {
@@ -77,6 +82,28 @@ class BikeModel extends Model {
 		// console.log(this._data);
 		// this._notifyAll() // Send with no message?
 		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
+	}
+
+	_writeImageToStorage(id, images) {
+		let new_pictures = [];
+		let upload_pictures = [];
+		let count = 0;
+
+		for (let i=0; i < images.length; i++) {
+			const filename = (new Date()).getTime() + i + '';
+			Database.writeImage(id, images[i].illustration, filename, (url) => {
+				new_pictures.push(url);
+				upload = {
+					name: url,
+					image: images[i].illustration
+				};
+				upload_pictures.push(upload);
+			}, (error) => {
+				console.log(error);
+			});
+		}
+
+		return {new_pictures, upload_pictures};
 	}
 
 	/**
@@ -107,6 +134,24 @@ class BikeModel extends Model {
 			console.log(error);
 			this._callback(false);
 		});
+	}
+
+	_changePictureSource(pictures) {
+		let new_pictures = [];
+		let upload_pictures = [];
+		let count = 0;
+
+		for (let i=0; i < pictures.length; i++) {
+			const picture_name = (new Date()).getTime() + '-' + count++;
+			new_pictures.push(picture_name);
+			upload = {
+				name: picture_name,
+				image: pictures[i].illustration
+			};
+			upload_pictures.push(upload);
+		}
+
+		return {new_pictures, upload_pictures};
 	}
 
 	/**

@@ -7,6 +7,7 @@ import HomeView from '../components/views/home-view';
 import MapView from '../components/views/map-view';
 import BikeView from '../components/views/bike-view';
 import AddBikeView from '../components/views/addbike-view';
+import BikeDetailsView from '../components/views/bikedetails-view';
 import SignUpView from '../components/views/signup-view';
 import LoginView from '../components/views/login-view';
 
@@ -47,6 +48,25 @@ export const Tabs = createBottomTabNavigator({
 	  	},
   	},
   	lazy: false,
+});
+
+export const BikeDetailsStack = createStackNavigator({
+	Home: {
+		screen: HomeView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			header: null
+		}),
+	},
+	BikeDetails: {
+		screen: BikeDetailsView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
 });
 
 /**
@@ -115,6 +135,12 @@ export const createRootNavigator = () => {
 			},
 			AddBikeStack: {
 				screen: AddBikeStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
+			BikeDetailsStack: {
+				screen: BikeDetailsStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

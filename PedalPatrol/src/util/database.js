@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+import firebase from 'react-native-firebase';
+import ImgToBase64 from 'react-native-image-base64';
 import config from '../config/config.json';
 
 /**
@@ -10,14 +11,23 @@ class FirebaseDatabase {
 			firebase.initializeApp(config.databaseConfig);
 		}
 		this.setupDatabaseRef();
+		this.setupStorageRef();
 	}
 
 	/**
 	 * Set up the database reference to the PProject table
 	 */
 	setupDatabaseRef() {
-		this.ref = firebase.database().ref('PProject/');
+		this.refDB = firebase.database().ref('PProject/');
 	}
+
+	/**
+	 * Set up the storage reference
+	 */
+	setupStorageRef() {
+		this.refStorage = firebase.storage().ref();
+	}
+
 
 	/**
 	 * Accesses Firebase data to sign in with email and password.
@@ -43,7 +53,7 @@ class FirebaseDatabase {
 		bikeData.datetime = this.getDateTime(); 
 		bikeData.owner = this.getCurrentUser();
 		// console.log(bikeData.datetime);
-		this.ref.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
+		this.refDB.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
 	}
 
 	/**
@@ -56,11 +66,11 @@ class FirebaseDatabase {
 	editBikeData(newBikeData, onSuccess, onError) {
 		const bikeID = newBikeData.id;
 
-		this.ref.child('Bike/').once('value', (snapshot) => {
+		this.refDB.child('Bike/').once('value', (snapshot) => {
 			let bikeData = snapshot.val();
 			let originalBikeData = bikeData[bikeID];
 			let updatedObj = this.merge(originalBikeData, newBikeData);
-			this.ref.child('Bike/').child(bikeID).set(updatedObj, onSuccess).catch(onError);
+			this.refDB.child('Bike/').child(bikeID).set(updatedObj, onSuccess).catch(onError);
 		}).catch((error) => {
 			onError(error);
 			console.log(error);
@@ -90,7 +100,7 @@ class FirebaseDatabase {
 	 * @param {Function} callback - A function callback that is with the value(s) read
 	 */
 	readBikeDataOnce(callback) {
-		this.ref.child('Bike/').once('value', callback);
+		this.refDB.child('Bike/').once('value', callback);
 	}
 
 	/**
@@ -99,7 +109,7 @@ class FirebaseDatabase {
 	 * @param {Function} callback - A function callback that is with the value(s) read
 	 */
 	readBikeDataOn(callback) {
-		this.ref.child('Bike/').on('value', callback);
+		this.refDB.child('Bike/').on('value', callback);
 	}
 
 	/**
@@ -108,7 +118,7 @@ class FirebaseDatabase {
 	 * @return {string} A newly generated unique key
 	 */
 	getNewBikeID() {
-		return this.ref.child('Bike').push().key;
+		return this.refDB.child('Bike').push().key;
 	}
 
 	/**
@@ -133,7 +143,7 @@ class FirebaseDatabase {
 	 * @param {string} key - An id in the database
 	 */
 	removeBikeItem(key) {
-		this.ref.child('Bike').child(key).remove();
+		this.refDB.child('Bike').child(key).remove();
 	}
 
 	/**
@@ -148,6 +158,35 @@ class FirebaseDatabase {
 		} else {
 			return null;
 		}
+	}
+
+	writeImage(id, file, filename, onSuccess, onError) {
+		console.log(id, file.uri);
+
+		const task = this.refStorage.child('BikeImages/' + id + '/' + filename).putFile(file.uri);
+		task.on('state_changed', (snapshot) => {
+			// Observe state change events such as progress, pause, and resume
+			// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+			let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+			console.log('Upload is ' + progress + '% done');
+			switch (snapshot.state) {
+				case firebase.storage.TaskState.PAUSED: // or 'paused'
+					console.log('Upload is paused');
+					break;
+				case firebase.storage.TaskState.RUNNING: // or 'running'
+					console.log('Upload is running');
+					break;
+			}
+		}, onError, () => {
+			task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+				console.log('File available at', downloadURL);
+				onSuccess(downloadURL);
+			});
+		});
+	}
+
+	getBase64(path, onSuccess) {
+		ImgToBase64.getBase64String(path, onSuccess);
 	}
 }
 

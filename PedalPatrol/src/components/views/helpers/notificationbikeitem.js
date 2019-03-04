@@ -10,7 +10,7 @@ class NotificationBikeItemHelper extends Component {
 
 	render() {
 		return(
-			<TouchableOpacity>
+			<TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
 				<View style={styles.rowContainer}>
 				  	{/* Everything is put as columns from the top row */}
 					<View style={styles.topRow}>
