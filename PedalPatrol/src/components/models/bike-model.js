@@ -1,6 +1,8 @@
 import Model from './model';
 import Database from '../../util/export-database';
 
+const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
+
 /**
  * Class for the bike model to be used by the BikePresenter and AddBikePresenter
  * @extends Model
@@ -64,46 +66,57 @@ class BikeModel extends Model {
 			newData.data.id = Database.getNewBikeID();
 		}
 
-		// const {new_pictures, upload_pictures} = this._changePictureSource(newData.data.thumbnail);
-		// newData.data.thumbnail = new_pictures;
-		this._writeImageToStorage(newData.data.id, newData.data.thumbnail);
+		this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
+			newData.data.thumbnail = uploaded_images;
 
+			let result = this._insertDataOnUpdate(newData);
 
-		let result = this._insertDataOnUpdate(newData);
+			console.log(result);
+			console.log(this._data.data);
 
-		if (result) {
-			this._editExistingInDatabase(newData.data);			
-		} else {
-			this._writeNewInDatabase(newData.data);
-		}
+			const finishCallback = (5-num_defaults === uploaded_images.length) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
+
+			if (result) {
+				this._editExistingInDatabase(newData.data, finishCallback);			
+			} else {
+				this._writeNewInDatabase(newData.data, finishCallback);
+			}
+
+		}, this._callback);
 
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		// this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
 		// console.log(this._data);
 		// this._notifyAll() // Send with no message?
-		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
+		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
-	_writeImageToStorage(id, images) {
-		let new_pictures = [];
-		let upload_pictures = [];
-		let count = 0;
+	isDefaultImage(image) {
+		return image === DEFAULT_IMAGE;
+	}
+	
+	_writeImageToStorage(id, images, onSuccess, onError) {
+		let uploaded_pictures = [];
+		let count_default = 0;
 
 		for (let i=0; i < images.length; i++) {
-			const filename = (new Date()).getTime() + i + '';
+			if (this.isDefaultImage(images[i].illustration)) {
+			// if (images[i].illustration === DEFAULT_IMAGE) {
+				count_default++;
+				continue;
+			}
+
+			const filename = (new Date()).getTime() + i + '.jpg';
 			Database.writeImage(id, images[i].illustration, filename, (url) => {
-				new_pictures.push(url);
-				upload = {
-					name: url,
-					image: images[i].illustration
-				};
-				upload_pictures.push(upload);
+				uploaded_pictures.push(url);
+				onSuccess(uploaded_pictures, count_default);
+				return url;
 			}, (error) => {
 				console.log(error);
+				onError(false);
 			});
-		}
 
-		return {new_pictures, upload_pictures};
+		}
 	}
 
 	/**
@@ -111,13 +124,16 @@ class BikeModel extends Model {
 	 *
 	 * @param {Object} newData - Data to be written to the database
 	 */
-	_writeNewInDatabase(newData) {
+	_writeNewInDatabase(newData, callback) {
 		Database.writeBikeData(newData, (data) => {
 			console.log(data);
-			this._callback(typeof data !== 'undefined' && data !== undefined);
+			callback(typeof data !== 'undefined' && data !== undefined);
+			// return typeof data !== 'undefined' && data !== undefined
+			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			this._callback(false);
+			callback(false);
+			// this._callback(false);
 		});
 	}
 
@@ -126,32 +142,17 @@ class BikeModel extends Model {
 	 *
 	 * @param {Object} newData - Data to be written to the database
 	 */
-	_editExistingInDatabase(newData) {
-		Database.editBikeData(newData, (data) => {
+	_editExistingInDatabase(newData, callback) {
+		return Database.editBikeData(newData, (data) => {
 			console.log(data);
-			this._callback(typeof data !== 'undefined' && data !== undefined);
+			callback(typeof data !== 'undefined' && data !== undefined);
+			// return typeof data !== 'undefined' && data !== undefined;
+			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			this._callback(false);
+			callbacK(false);
+			// this._callback(false);
 		});
-	}
-
-	_changePictureSource(pictures) {
-		let new_pictures = [];
-		let upload_pictures = [];
-		let count = 0;
-
-		for (let i=0; i < pictures.length; i++) {
-			const picture_name = (new Date()).getTime() + '-' + count++;
-			new_pictures.push(picture_name);
-			upload = {
-				name: picture_name,
-				image: pictures[i].illustration
-			};
-			upload_pictures.push(upload);
-		}
-
-		return {new_pictures, upload_pictures};
 	}
 
 	/**
@@ -193,6 +194,14 @@ class BikeModel extends Model {
 			for (val in databaseData) {
 				if (!databaseData[val].hasOwnProperty('id')) {
 					continue;
+				}
+
+				// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
+				if (!databaseData[val].hasOwnProperty('colour')) {
+					databaseData[val].colour = [];
+				}
+				if (!databaseData[val].hasOwnProperty('thumbnail')) {
+					databaseData[val].thumbnail = [];
 				}
 
 				databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value

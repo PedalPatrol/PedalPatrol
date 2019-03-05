@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
@@ -29,6 +29,7 @@ class AddBikeView extends BaseView {
 	state = { // Initializing the state
 		editing: false, // Checks if user is editing
 		refresh: true, // Triggers a view refresh
+		loaderVisible: false,
 
 		inputData: [], // Input text data is at each index
 		colours: colours.data,
@@ -175,7 +176,7 @@ class AddBikeView extends BaseView {
 	_clearData = () => {
 		this.sectionedMultiSelect._removeAllItems();
 		let inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
-		this.setState({ inputData, photoEntries: this.AddBikeP.getDefaultPhotos() });
+		this.setState({ inputData, photoEntries: this.AddBikeP.getDefaultPictures() });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}
 
@@ -237,6 +238,9 @@ class AddBikeView extends BaseView {
 		if (this.AddBikeP.checkInputs(this.state.inputData, this._inputRequirementFailure)) {
 			return;
 		}
+
+		this._enableLoader();
+		this.refreshState();
 		
 		let updateData = {
 			currentID: this.state.currentID,
@@ -247,6 +251,9 @@ class AddBikeView extends BaseView {
 
 		this.AddBikeP.update(updateData, this.alertCallback);
 	}
+
+	_enableLoader = () => { this.setState({ loaderVisible: true }); }
+	_disableLoader = () => { this.setState({ loaderVisible: false }); }
 
 	/**
 	 * Alert for requirement input failure
@@ -264,6 +271,8 @@ class AddBikeView extends BaseView {
 	}
 
 	alertCallback = (success) => {
+		this._disableLoader();
+		this.refreshState();
 		if (success) {
 			Alert.alert(
 				"Bike successfully uploaded!",
@@ -286,61 +295,60 @@ class AddBikeView extends BaseView {
 	}	
 
 	imageCarousel = () => {
-        const { slider1ActiveSlide } = this.state;
+		const { slider1ActiveSlide } = this.state;
 
-        return (
-            <View style={stylesC.exampleContainer}>
-                <Carousel
-                  ref={c => this._slider1Ref = c}
-                  data={this.state.photoEntries}
-                  renderItem={this._renderImage}
-                  sliderWidth={sliderWidth}
-                  itemWidth={itemWidth}
-                  hasParallaxImages={true}
-                  firstItem={SLIDER_1_FIRST_ITEM}
-                  inactiveSlideScale={0.94}
-                  inactiveSlideOpacity={0.7}
-                  // inactiveSlideShift={20}
-                  containerCustomStyle={stylesC.slider}
-                  contentContainerCustomStyle={stylesC.sliderContentContainer}
-                  loop={true}
-                  loopClonesPerSide={0}
-                  autoplay={false}
-                  onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
-                />
-                <Pagination
-                  dotsLength={this.state.photoEntries.length}
-                  activeDotIndex={slider1ActiveSlide}
-                  containerStyle={stylesC.paginationContainer}
-                  dotColor={'rgba(255, 255, 255, 0.92)'}
-                  dotStyle={stylesC.paginationDot}
-                  inactiveDotColor={colors.black}
-                  inactiveDotOpacity={0.4}
-                  inactiveDotScale={0.6}
-                  carouselRef={this._slider1Ref}
-                  tappableDots={!!this._slider1Ref}
-                />
-            </View>
-        );
-    }
-
-
-    _renderImage = ({item, index}) => {
-        return (
-            <SliderEntry
-              data={item}
-              id={index}
-              parallax={false}
-              selectPhoto={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}}
-            />
-        );
-    }
+		return (
+			<View style={stylesC.exampleContainer}>
+				<Carousel
+				  ref={c => this._slider1Ref = c}
+				  data={this.state.photoEntries}
+				  renderItem={this._renderImage}
+				  sliderWidth={sliderWidth}
+				  itemWidth={itemWidth}
+				  hasParallaxImages={true}
+				  firstItem={SLIDER_1_FIRST_ITEM}
+				  inactiveSlideScale={0.94}
+				  inactiveSlideOpacity={0.7}
+				  // inactiveSlideShift={20}
+				  containerCustomStyle={stylesC.slider}
+				  contentContainerCustomStyle={stylesC.sliderContentContainer}
+				  loop={true}
+				  loopClonesPerSide={0}
+				  autoplay={false}
+				  onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
+				/>
+				<Pagination
+				  dotsLength={this.state.photoEntries.length}
+				  activeDotIndex={slider1ActiveSlide}
+				  containerStyle={stylesC.paginationContainer}
+				  dotColor={'rgba(255, 255, 255, 0.92)'}
+				  dotStyle={stylesC.paginationDot}
+				  inactiveDotColor={colors.black}
+				  inactiveDotOpacity={0.4}
+				  inactiveDotScale={0.6}
+				  carouselRef={this._slider1Ref}
+				  tappableDots={!!this._slider1Ref}
+				/>
+			</View>
+		);
+	}
 
 
-    forceRefresh = () => {
-    	this.forceUpdate();
-    }
+	_renderImage = ({item, index}) => {
+		return (
+			<SliderEntry
+			  data={item}
+			  id={index}
+			  parallax={false}
+			  selectPhoto={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}}
+			/>
+		);
+	}
 
+
+	forceRefresh = () => {
+		this.forceUpdate();
+	}
 
 	/**
 	 * Renders items to the screen
@@ -355,7 +363,6 @@ class AddBikeView extends BaseView {
 						<ScrollView contentContainerStyle={styles.contentContainer}>
 
 							{this.imageCarousel()}
-						
 							
 							{/* List of text inputs */}
 							<FlatList
@@ -389,6 +396,12 @@ class AddBikeView extends BaseView {
 									onPress={() => this._getDataToUpdate()}
 								/>
 							</TouchableOpacity>
+
+							{this.state.loaderVisible &&
+							<View style={styles.loading} pointerEvents="none">
+								<ActivityIndicator size='large' color="#0000ff" />
+							</View>
+							}
 						</ScrollView>
 					</View>
 					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
@@ -455,5 +468,15 @@ const styles = StyleSheet.create({
 		marginRight: 10,
 		marginTop: 10,
 		backgroundColor: '#FFF'
+	},
+	loading: {
+		position: 'absolute',
+		left: 0,
+		right: 0,
+		top: 0,
+		bottom: 0,
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#F5FCFF88',
 	}
 });

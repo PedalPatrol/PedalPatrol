@@ -27,7 +27,7 @@ class NotificationBikeItemHelper extends Component {
 								<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
 									{/* Thumbnail */}
 									<View style={{flex: 1, flexDirection:'row', justifyContent:'flex-start'}}>
-											<Image source={{uri: this.props.data.thumbnail}}
+											<Image source={{uri: this.props.data.thumbnail[0]}}
 												   style={styles.thumbnail}
 												   resizeMode="contain" />
 									</View>

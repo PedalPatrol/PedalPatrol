@@ -1,5 +1,4 @@
-import firebase from 'react-native-firebase';
-import ImgToBase64 from 'react-native-image-base64';
+import firebase from 'firebase';
 import config from '../config/config.json';
 
 /**
@@ -52,7 +51,7 @@ class FirebaseDatabase {
 	writeBikeData(bikeData, onSuccess, onError) {
 		bikeData.datetime = this.getDateTime(); 
 		bikeData.owner = this.getCurrentUser();
-		// console.log(bikeData.datetime);
+
 		this.refDB.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
 	}
 
@@ -138,6 +137,13 @@ class FirebaseDatabase {
 	}
 
 	/**
+	 * Makes the database go online.
+	 */
+	goOnline() {
+		firebase.database().goOnline();
+	}
+
+	/**
 	 * Removes an item from the database by a supplied key.
 	 *
 	 * @param {string} key - An id in the database
@@ -160,10 +166,22 @@ class FirebaseDatabase {
 		}
 	}
 
-	writeImage(id, file, filename, onSuccess, onError) {
-		console.log(id, file.uri);
+	async writeImage(id, file, filename, onSuccess, onError) {
+		const blob = await new Promise((resolve, reject) => {
+			const xhr = new XMLHttpRequest();
+			xhr.onload = () => {
+				resolve(xhr.response);
+			};
+			xhr.onerror = (e) => {
+				console.log(e);
+				reject(new TypeError('Network request failed'));
+			};
+			xhr.responseType = 'blob';
+			xhr.open('GET', file.uri, true);
+			xhr.send(null);
+		});
 
-		const task = this.refStorage.child('BikeImages/' + id + '/' + filename).putFile(file.uri);
+		const task = this.refStorage.child('BikeImages/' + id + '/' + filename).put(blob);
 		task.on('state_changed', (snapshot) => {
 			// Observe state change events such as progress, pause, and resume
 			// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -171,22 +189,20 @@ class FirebaseDatabase {
 			console.log('Upload is ' + progress + '% done');
 			switch (snapshot.state) {
 				case firebase.storage.TaskState.PAUSED: // or 'paused'
-					console.log('Upload is paused');
+					// console.log('Upload is paused');
 					break;
 				case firebase.storage.TaskState.RUNNING: // or 'running'
-					console.log('Upload is running');
+					// console.log('Upload is running');
 					break;
 			}
 		}, onError, () => {
-			task.snapshot.ref.getDownloadURL().then(function(downloadURL) {
-				console.log('File available at', downloadURL);
+			task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+				// console.log('File available at', downloadURL);
+				blob.close();
 				onSuccess(downloadURL);
+				return null;
 			});
 		});
-	}
-
-	getBase64(path, onSuccess) {
-		ImgToBase64.getBase64String(path, onSuccess);
 	}
 }
 
