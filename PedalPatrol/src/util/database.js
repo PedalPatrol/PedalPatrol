@@ -1,4 +1,5 @@
 import firebase from 'firebase';
+import 'firebase/storage'; // Necessary for jest tests
 import config from '../config/config.json';
 
 /**

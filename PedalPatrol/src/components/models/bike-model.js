@@ -72,6 +72,10 @@ class BikeModel extends Model {
 			newData.data.id = Database.getNewBikeID();
 		}
 
+		if (typeof uploaded_images === 'undefined' || uploaded_images == undefined || uploaded_images == []) {
+			return;
+		}
+
 		this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
 			newData.data.thumbnail = uploaded_images;
 
