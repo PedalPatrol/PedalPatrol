@@ -49,7 +49,7 @@ class FirebaseDatabase {
 	 * @param {Function} onError - A function callback to execute on an error when writing to the database
 	 */
 	writeBikeData(bikeData, onSuccess, onError) {
-		bikeData.datetime = this.getDateTime(); 
+		bikeData.milliseconds = this.getDateTime(); 
 		bikeData.owner = this.getCurrentUser();
 
 		this.refDB.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
@@ -166,6 +166,15 @@ class FirebaseDatabase {
 		}
 	}
 
+	/**
+	 * Asynchronously write an image to firebase storage.
+	 *
+	 * @param {string} id - The id of the bike to write to
+	 * @param {Object} file - The file object to write
+	 * @param {string} filename - The name of the file
+	 * @param {Function} onSuccess - The callback to call on a successful upload
+	 * @param {Function} onError - The callback to call on a failed upload
+	 */
 	async writeImage(id, file, filename, onSuccess, onError) {
 		const blob = await new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();

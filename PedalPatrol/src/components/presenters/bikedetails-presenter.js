@@ -67,7 +67,12 @@ class BikeDetailsPresenter extends BasePresenter {
 		// return HomeM.get().data;
 	};
 
-
+	/**
+	 * Translates the data from a list of objects to a title and text with an id.
+	 * 
+	 * @param {Object} data - The data to be translated
+	 * @return {List, List} An object with two lists. 1. The formed data; 2. The list of thumbnails
+	 */
 	translateData = (data) => {
 		let formedData = [];
 		console.log(data);
@@ -87,13 +92,40 @@ class BikeDetailsPresenter extends BasePresenter {
     		formedData.push(translated);
 		});
 
-		return formedData;
+		const thumbnail = this.formThumbnail(data.thumbnail);
+
+		return { formedData, thumbnail };
 	}
 
+	/**
+	 * Forms the thumbnail into a useable list of objects.
+	 * 
+	 * @param {List} thumbnails - A list of thumbnails with links
+	 * @return {List} A list of thumbnail objects with an 'illustration' property
+	 */
+	formThumbnail = (thumbnails) => {
+		let formedThumbnails = [];
+		for (let i=0; i < thumbnails.length; i++) {
+			formedThumbnails.push({illustration: thumbnails[i]});
+		}
+		return formedThumbnails;
+	}
+
+	/**
+	 * Convert the case of a string to title case (first letter of each word is uppercase).
+	 *
+	 * @param {string} str - A string to convert
+	 * @return {string} The string converted to title case
+	 */
 	convertCase = (str) => {
 		return str.toLowerCase().replace(/(^| )(\w)/g, s => s.toUpperCase());
   	}
 
+  	/**
+  	 * Ignore this list of properties when transforming data objects to formed data.
+  	 * 
+  	 * @return {List} A list of string properties to ignore
+  	 */
   	getIgnoredDetails = () => {
   		return ['id', 'owner', 'thumbnail', 'dataID'];
   	}

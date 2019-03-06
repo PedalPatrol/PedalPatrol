@@ -8,6 +8,12 @@ const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
  * @extends Model
  */
 class BikeModel extends Model {
+	/**
+	 * Creates an instance of BikeModel. Sets the default callback, creates an observerlist,
+	 * and registers an on read from the database.
+	 *
+	 * @constructor
+	 */
 	constructor() {
 		super();
 		this._callback = this._defaultCallback;
@@ -91,17 +97,30 @@ class BikeModel extends Model {
 		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
+	/**
+	 * Checks if the image supplied is the set default image.
+	 *
+	 * @param {string} image - An image link
+	 * @return {Boolean} true: if the image is the default image; false: otherwise
+	 */
 	isDefaultImage(image) {
 		return image === DEFAULT_IMAGE;
 	}
-	
+
+	/**
+	 * Write the image to the firebase storage and call the callbacks with the urls that were defined.
+	 *
+	 * @param {Number} id - The id of the bike corresponding to the image
+	 * @param {List} images - A list of objects with the property 'illustration'
+	 * @param {Function} onSuccess - A callback to call when an image has been successfully uploaded
+	 * @param {Function} onError - A callback to call when an image has failed to upload
+	 */
 	_writeImageToStorage(id, images, onSuccess, onError) {
 		let uploaded_pictures = [];
 		let count_default = 0;
 
 		for (let i=0; i < images.length; i++) {
 			if (this.isDefaultImage(images[i].illustration)) {
-			// if (images[i].illustration === DEFAULT_IMAGE) {
 				count_default++;
 				continue;
 			}
@@ -183,6 +202,17 @@ class BikeModel extends Model {
 	}
 
 	/**
+	 * Checks if an object has a certain property.
+	 * 
+	 * @param {Object} obj - An object to check
+	 * @param {string} property - The name of a property
+	 * @return {Boolean} true: if the object has the property; false: otherwise
+	 */
+	_hasProperty(obj, property) {
+		return obj.hasOwnProperty(property);
+	}
+
+	/**
 	 * Insert data into the data object on a read from the database.
 	 *
 	 * @param {Object} databaseData - An objects of objects containing data from the database.
@@ -190,17 +220,27 @@ class BikeModel extends Model {
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
+		const currentUser = Database.getCurrentUser();
+
 		if (databaseData != null) { // Check if there are objects in the database
 			for (val in databaseData) {
-				if (!databaseData[val].hasOwnProperty('id')) {
+				if (!this._hasProperty(databaseData[val], 'id')) {
+				// if (!databaseData[val].hasOwnProperty('id')) {
 					continue;
 				}
 
+				if (currentUser == null || currentUser != databaseData[val].owner) {
+					continue;
+				}
+
+
 				// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
-				if (!databaseData[val].hasOwnProperty('colour')) {
+				if (!this._hasProperty(databaseData[val], 'colour')) {
+				// if (!databaseData[val].hasOwnProperty('colour')) {
 					databaseData[val].colour = [];
 				}
-				if (!databaseData[val].hasOwnProperty('thumbnail')) {
+				if (!this._hasProperty(databaseData[val], 'thumbnail')) {
+				// if (!databaseData[val].hasOwnProperty('thumbnail')) {
 					databaseData[val].thumbnail = [];
 				}
 

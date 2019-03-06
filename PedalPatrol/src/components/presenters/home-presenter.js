@@ -125,7 +125,11 @@ class HomePresenter extends BasePresenter {
 		return HomeM.isBookmarked(id);
 	};
 
+	/**
+	 * Forces a refresh for the view by recalcuating the timeago property, resorting bookmarked data and setting the state again.
+	 */
 	forceRefresh = () => {
+		HomeM.recalculateTimeAgo();
 		HomeM.moveBookmarkedDataToFront();
 		this.view.setState({
 			data: this.getData()

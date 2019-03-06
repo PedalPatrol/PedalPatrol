@@ -12,7 +12,6 @@ class LoginPresenter extends BasePresenter {
 	 * @constructor
 	 * @param {Object} view - An instance of a view class
 	 */
-
 	constructor(view) {
 		super()
 

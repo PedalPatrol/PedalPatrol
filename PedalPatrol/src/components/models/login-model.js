@@ -12,6 +12,11 @@ import Database from '../../util/export-database';
  * @extends Model
  */
 class LoginModel extends Model {
+	/**
+	 * Creates an instance of LoginModelCreates an observerlist.
+	 *
+	 * @constructor
+	 */
 	constructor(){
 		super();
 		this._data = {
@@ -25,6 +30,11 @@ class LoginModel extends Model {
 		this._createObserverList();
 	}
 
+	/**
+	 * Returns the data from the model.
+	 *
+	 * @return {Object} A deconstructed copy of the data object
+	 */
 	get() {
 		return {...this._data}
 	}

@@ -20,7 +20,7 @@ class AddBikePresenter extends BasePresenter {
 	constructor(view) {
 		super();
 		this.view = view;
-		this.currentPhotos = PHOTO_ENTRIES;
+		this.currentPhotos = Object.assign(PHOTO_ENTRIES);
 		BikeM.subscribe(this);
 	}
 
@@ -171,16 +171,12 @@ class AddBikePresenter extends BasePresenter {
 				console.log(id, photos);
 
 				this.view.setState({
-					photoEntries: this.currentPhotos,
+					photoEntries: JSON.parse(JSON.stringify(this.currentPhotos)),
 				});
 
 				this.view.refreshState();
 			}
 		});
-	}
-
-	getCurrentPhotos = () => {
-		return this.currentPhotos;
 	}
 
 
@@ -343,12 +339,28 @@ class AddBikePresenter extends BasePresenter {
 	}
 
 	/**
+	 * Resets the current photos to the default photos.
+	 */
+	clearPhotos = () => {
+		this.currentPhotos = this.getDefaultPhotos();
+	}
+
+	/**
+	 * Returns a deep copy of the current photos.
+	 *
+	 * @return {List} A list of the current photos
+	 */
+	getCurrentPhotos = () => {
+		return JSON.parse(JSON.stringify(this.currentPhotos));
+	}
+
+	/**
 	 * Return the default photo entries.
 	 *
 	 * @return {List} A list of objects with the property 'illustration' that contains the uri
 	 */
-	getDefaultPictures = () => {
-		return PHOTO_ENTRIES;
+	getDefaultPhotos = () => {
+		return JSON.parse(JSON.stringify(PHOTO_ENTRIES));
 	}
 
 	/**

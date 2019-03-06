@@ -13,7 +13,6 @@ class SearchBarHelper extends Component {
 		value: ''
 	}
 
-
 	render() {
 		return (   
 			<View>

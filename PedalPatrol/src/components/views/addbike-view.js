@@ -8,18 +8,13 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 import BaseView from './view';
 import HandleBack from './helpers/handleback';
+import ImageCarousel from './helpers/imagecarousel';
 import AddBikePresenter from '../presenters/addbike-presenter';
-
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { sliderWidth, itemWidth } from './helpers/imagehelpers/styles/SliderEntry.style';
-import SliderEntry from './helpers/imagehelpers/components/SliderEntry';
-import stylesC, { colors } from './helpers/imagehelpers/styles/index.style';
 
 const colours = require('../../assets/colours/colours.json');
 
 const NO_DATA = 'NO-DATA';
 const UNIQUE_COLOUR_KEY = 'name'; // A unique key for the colours for the sectioned list
-const SLIDER_1_FIRST_ITEM = 0;
 
 /**
  * Class for the AddBike view
@@ -37,8 +32,6 @@ class AddBikeView extends BaseView {
 		currentID: '',
 
 		photoEntries: [],
-
-		slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
 
 		selectedItems: [] // Selected colours
 	};
@@ -80,6 +73,8 @@ class AddBikeView extends BaseView {
 
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
+
+		console.log(this.AddBikeP.getDefaultPhotos());
 
 		this.setState({
 			inputData: this.AddBikeP.getTextInputData(data),
@@ -174,9 +169,11 @@ class AddBikeView extends BaseView {
 	 * Clears all the data
 	 */
 	_clearData = () => {
+		this.AddBikeP.clearPhotos();
 		this.sectionedMultiSelect._removeAllItems();
 		let inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
-		this.setState({ inputData, photoEntries: this.AddBikeP.getDefaultPictures() });
+		let photoEntries = this.AddBikeP.getDefaultPhotos();
+		this.setState({ inputData, photoEntries });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}
 
@@ -200,6 +197,9 @@ class AddBikeView extends BaseView {
 			}/>
 	);
 
+	/**
+	 * Renders the name of a required field.
+	 */
 	_renderName = (name) => (
 		<Text style={[{color: 'red'}]}>{name + " *"}</Text>
 	);
@@ -252,7 +252,15 @@ class AddBikeView extends BaseView {
 		this.AddBikeP.update(updateData, this.alertCallback);
 	}
 
+	/**
+	 * Enables the loader.
+	 */
 	_enableLoader = () => { this.setState({ loaderVisible: true }); }
+
+	
+	/**
+	 * Disables the loader.
+	 */
 	_disableLoader = () => { this.setState({ loaderVisible: false }); }
 
 	/**
@@ -270,6 +278,11 @@ class AddBikeView extends BaseView {
 		);
 	}
 
+	/**
+	 * Sets a callback on what to do if there is a success or error when a bike is uploaded.
+	 *
+	 * @param {Boolean} success - true: Uploading successful; false: Uploading failed
+	 */
 	alertCallback = (success) => {
 		this._disableLoader();
 		this.refreshState();
@@ -294,59 +307,11 @@ class AddBikeView extends BaseView {
 		}
 	}	
 
-	imageCarousel = () => {
-		const { slider1ActiveSlide } = this.state;
-
-		return (
-			<View style={stylesC.exampleContainer}>
-				<Carousel
-				  ref={c => this._slider1Ref = c}
-				  data={this.state.photoEntries}
-				  renderItem={this._renderImage}
-				  sliderWidth={sliderWidth}
-				  itemWidth={itemWidth}
-				  hasParallaxImages={true}
-				  firstItem={SLIDER_1_FIRST_ITEM}
-				  inactiveSlideScale={0.94}
-				  inactiveSlideOpacity={0.7}
-				  // inactiveSlideShift={20}
-				  containerCustomStyle={stylesC.slider}
-				  contentContainerCustomStyle={stylesC.sliderContentContainer}
-				  loop={true}
-				  loopClonesPerSide={0}
-				  autoplay={false}
-				  onSnapToItem={(index) => this.setState({ slider1ActiveSlide: index }) }
-				/>
-				<Pagination
-				  dotsLength={this.state.photoEntries.length}
-				  activeDotIndex={slider1ActiveSlide}
-				  containerStyle={stylesC.paginationContainer}
-				  dotColor={'rgba(255, 255, 255, 0.92)'}
-				  dotStyle={stylesC.paginationDot}
-				  inactiveDotColor={colors.black}
-				  inactiveDotOpacity={0.4}
-				  inactiveDotScale={0.6}
-				  carouselRef={this._slider1Ref}
-				  tappableDots={!!this._slider1Ref}
-				/>
-			</View>
-		);
-	}
-
-
-	_renderImage = ({item, index}) => {
-		return (
-			<SliderEntry
-			  data={item}
-			  id={index}
-			  parallax={false}
-			  selectPhoto={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}}
-			/>
-		);
-	}
-
-
-	forceRefresh = () => {
+	/**
+	 * DON'T USE THIS METHOD UNLESS ABSOLUTELY NECESSARY.
+	 * Force a refresh of the view.
+	 */
+	_forceRefresh = () => {
 		this.forceUpdate();
 	}
 
@@ -362,7 +327,9 @@ class AddBikeView extends BaseView {
 					<View style={styles.container}>
 						<ScrollView contentContainerStyle={styles.contentContainer}>
 
-							{this.imageCarousel()}
+						<ImageCarousel 
+							photos={this.state.photoEntries} 
+							selected={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} />
 							
 							{/* List of text inputs */}
 							<FlatList
@@ -397,10 +364,11 @@ class AddBikeView extends BaseView {
 								/>
 							</TouchableOpacity>
 
-							{this.state.loaderVisible &&
-							<View style={styles.loading} pointerEvents="none">
-								<ActivityIndicator size='large' color="#0000ff" />
-							</View>
+							{
+								this.state.loaderVisible &&
+								<View style={styles.loading} pointerEvents="none">
+									<ActivityIndicator size='large' color="#0000ff" />
+								</View>
 							}
 						</ScrollView>
 					</View>

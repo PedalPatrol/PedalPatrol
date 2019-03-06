@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, FlatList, View, TouchableHighlight, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import BikeItemHelper from './helpers/bikeitem';
 import SearchBarHelper from './helpers/searchbar';
@@ -25,6 +25,9 @@ class BikeView extends BaseView {
 		this.BikeP = new BikePresenter(this);
 	}
 
+	/**
+	 * Resets the state
+	 */
 	resetState = () => {
 		this.state = { refresh: true, data: [] };
 	}
@@ -40,6 +43,18 @@ class BikeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	
+	temporaryFilter = () => {
+		Alert.alert(
+				"The search filter is currently disabled.",
+				"Sorry for any inconvenience.",
+				[
+					{ text: "Ok", style: "ok" },
+				],
+				{ cancelable: false },
+			);
+	}
+
 	/**
 	 * Renders a search bar as the header including the profile icon and the filter button
 	 */
@@ -48,7 +63,7 @@ class BikeView extends BaseView {
 			handleSearchFilter={(text) => this.BikeP.handleSearchFilter(text)}
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
-			openFilter={() => 'default'}
+			openFilter={this.temporaryFilter}
 			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
@@ -88,6 +103,9 @@ class BikeView extends BaseView {
 	 */
 	_keyExtractor = (item, index) => item.id;
 
+	/**
+	 * Renders the screen
+	 */
 	render() {
 		return (	
 				<View style={styles.container}>

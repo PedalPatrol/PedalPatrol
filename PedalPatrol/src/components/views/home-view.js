@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl } from 'react-native';
+import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 import NotificationBikeItemHelper from './helpers/notificationbikeitem';
 import SearchBarHelper from './helpers/searchbar';
@@ -25,8 +25,9 @@ class HomeView extends BaseView {
 		this.HomeP = new HomePresenter(this);
 	}
 
-	// TODO : Add update from new bike page that refreshes bike view page
-
+	/**
+	 * Resets the state 
+	 */
 	resetState = () => {
 		this.state = { refresh: true, data: [], refreshing: false };
 	}
@@ -44,7 +45,19 @@ class HomeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
-		/**
+
+	temporaryFilter = () => {
+		Alert.alert(
+				"The search filter is currently disabled.",
+				"Sorry for any inconvenience.",
+				[
+					{ text: "Ok", style: "ok" },
+				],
+				{ cancelable: false },
+			);
+	}
+
+	/**
 	 * Renders a search bar as the header including the profile icon and the filter button
 	 */
 	_renderSearchBar = () => (
@@ -52,7 +65,7 @@ class HomeView extends BaseView {
 			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
-			openFilter={() => 'default'}
+			openFilter={this.temporaryFilter}
 			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
@@ -99,6 +112,9 @@ class HomeView extends BaseView {
 	 */
 	_keyExtractor = (item, index) => item.dataID.toString();
 
+	/**
+	 * Renders the screen
+	 */
 	render() {
 		return (	
 				<View style={styles.container}>

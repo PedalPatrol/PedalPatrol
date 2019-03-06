@@ -39,7 +39,6 @@ class LoginView extends BaseView {
 	/**
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
 	 */
-
 	render() {
 		return (
 			<View style={styles.view}>

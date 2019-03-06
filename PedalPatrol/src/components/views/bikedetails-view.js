@@ -6,11 +6,13 @@ import { HeaderBackButton } from 'react-navigation';
 
 import BaseView from './view';
 import HandleBack from './helpers/handleback';
+import ImageCarousel from './helpers/imagecarousel';
 import BikeDetailsPresenter from '../presenters/bikedetails-presenter';
 
 class BikeDetailsView extends BaseView {
 	state = {
-		data: []
+		data: [],
+		photoEntries: []
 	}
 
 	/**
@@ -48,9 +50,12 @@ class BikeDetailsView extends BaseView {
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
 
+		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
+
 		this.setState({
-			data: this.BikeDetP.translateData(data),
-			avatarSource: null
+			data: formedData,
+			avatarSource: null,
+			photoEntries: thumbnail
 		});
 	}
 
@@ -89,6 +94,9 @@ class BikeDetailsView extends BaseView {
 		});
 	}
 
+	/**
+	 * Renders a bike detail 
+	 */
 	_renderItem = ({item}) => (
 		<View style={styles.textrow}>
 			<Text style={styles.titleText}>
@@ -117,17 +125,9 @@ class BikeDetailsView extends BaseView {
 						<View style={styles.container}>
 							<ScrollView contentContainerStyle={styles.contentContainer}>
 
-							<View style={[
-									styles.avatar,
-									styles.avatarContainer,
-									{ marginBottom: 20 },
-								]}>
-								{this.state.avatarSource === null ? (
-									<Icon name="photo-camera" type="MaterialIcons" size={100} color="#01a699" />
-								) : (
-									<Image style={styles.avatar} resizeMode="contain" source={this.state.avatarSource} />
-								)}
-							</View>
+							<ImageCarousel 
+								photos={this.state.photoEntries} 
+								selected={() => 'default'}/>
 
 
 							{/* List of text inputs */}
@@ -154,33 +154,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#F5FCFF',
 	},
-	avatarContainer: {
-		borderColor: '#9B9B9B',
-		borderWidth: 1 / PixelRatio.get(),
-		justifyContent: 'center',
-		alignItems: 'center',
-		flexDirection: 'row',
-		height: 200,
-		padding: 10,
-		marginRight: 10,
-		marginLeft: 10,
-		marginTop: 10,
-		borderRadius: 4,
-		shadowOffset:{  width: 1,  height: 1,  },
-		shadowColor: '#CCC',
-		shadowOpacity: 1.0,
-		shadowRadius: 1,
-	},
-	avatar: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		bottom: 0,
-		right: 0,
-		height: 200
-	},
 	flatList: {
-		marginTop: 220
+		// marginTop: 220
 	},
 	textrow: {
 		flexDirection: 'row'

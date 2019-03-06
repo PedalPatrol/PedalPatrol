@@ -104,6 +104,9 @@ class BikePresenter extends BasePresenter {
 		});
 	}; 
 
+	/**
+	 * Forces a refresh of the view by fetching the data again.
+	 */
 	forceRefresh = () => {
 		this.view.setState({
 			data: this.getData()

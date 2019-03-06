@@ -6,6 +6,12 @@ import Database from '../../util/export-database';
  * @extends Model 
  */
 class HomeModel extends Model {
+	/**
+	 * Creates an instance of HomeModel. Initializes , creates an observerlist,
+	 * and registers an on read from the database.
+	 *
+	 * @constructor
+	 */
 	constructor() {
 		super();
 		
@@ -52,8 +58,8 @@ class HomeModel extends Model {
 				}
 
 				databaseData[val].dataID = dataID++;
-				databaseData[val].timeago = this._getTimeAgoFromDateTime(databaseData[val].datetime);
-				databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].datetime);
+				databaseData[val].timeago = this._getTimeAgoFromDateTime(databaseData[val].milliseconds);
+				databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].milliseconds);
 				tempData.data.push(databaseData[val]);
 			}
 			this._data = tempData;
@@ -145,6 +151,19 @@ class HomeModel extends Model {
 		return h + ':' + m + ':' + s;
 	}
 
+	/**
+	 * Recalculates the 'timeago' property of the object, based on the milliseconds.
+	 */
+	recalculateTimeAgo() {
+		let tempData = Object.assign(this._data.data);
+		let dataID = 0;
+		for (let i=0; i < tempData.length; i++) {
+			tempData[i].dataID = dataID++;
+			tempData[i].timeago = this._getTimeAgoFromDateTime(tempData[i].milliseconds);
+		}
+		this._data.data = Object.assign(tempData);
+	}
+
 
 	/**
 	 * Moves the bookmarked data to the front of the list.
@@ -156,8 +175,10 @@ class HomeModel extends Model {
 			const nonBookmarkedData = this.getBookmarkedData(temp, false);
 			const bookmarkedData	= this.getBookmarkedData(temp, true);
 
-			const sortedBookmarkedData 		= this._sortOnTime(bookmarkedData);
-			const sortedNonBookmarkedData 	= this._sortOnTime(nonBookmarkedData);
+			const sortedBookmarkedData 		= this._sortOnTime(bookmarkedData).reverse();
+			const sortedNonBookmarkedData 	= this._sortOnTime(nonBookmarkedData).reverse();
+		
+			console.log(sortedNonBookmarkedData);
 
 			const totalTempData = sortedBookmarkedData.concat(sortedNonBookmarkedData);
 
@@ -196,7 +217,7 @@ class HomeModel extends Model {
 		var right = [];
 
 		for (var i = 1; i < data.length; i++) {
-			data[i].datetime < pivot.datetime ? left.push(data[i]) : right.push(data[i]);
+			data[i].milliseconds < pivot.milliseconds ? left.push(data[i]) : right.push(data[i]);
 		}
 
 		return this._sortOnTime(left).concat(pivot, this._sortOnTime(right));
