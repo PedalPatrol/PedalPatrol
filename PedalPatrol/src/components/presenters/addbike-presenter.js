@@ -273,10 +273,24 @@ class AddBikePresenter extends BasePresenter {
 		}
 		if (names.length !== 0) {
 			inputRequirementFailure(names);
-			return true;
+			return true & !this.checkPhotosForDefaults(this.currentPhotos);
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Checks if all the images are default images
+	 *
+	 * @param {List} images - A list of images
+	 * @return {Boolean} true: if all the images are the default image; false: if any one of them is not
+	 */
+	checkPhotosForDefaults = (images) => {
+		let result = true;
+		for (let i=0; i < images.length; i++) {
+			result &= (images.illustration === DEFAULT_IMAGE);
+		}
+		return result;
 	}
 
 	/**

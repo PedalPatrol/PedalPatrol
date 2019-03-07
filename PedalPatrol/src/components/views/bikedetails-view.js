@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
 
 import BaseView from './view';
+import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import BikeDetailsPresenter from '../presenters/bikedetails-presenter';
@@ -121,7 +122,7 @@ class BikeDetailsView extends BaseView {
 	render() {
 		return (
 				<HandleBack onBack={this._onBack}>
-					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+					<SafeArea/>
 						<View style={styles.container}>
 							<ScrollView contentContainerStyle={styles.contentContainer}>
 
@@ -140,7 +141,7 @@ class BikeDetailsView extends BaseView {
 
 							</ScrollView>
 						</View>
-					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+					<SafeArea/>
 				</HandleBack>
 		);
 	}

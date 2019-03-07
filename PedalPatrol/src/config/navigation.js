@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, Platform } from 'react-native';
-import { StackNavigator, createStackNavigator, createBottomTabNavigator, withNavigation } from 'react-navigation';
+import { StackNavigator, createStackNavigator, createBottomTabNavigator, createSwitchNavigator, withNavigation } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 import HomeView from '../components/views/home-view';
@@ -16,7 +16,7 @@ let screen = Dimensions.get('window');
 /**
  * Bottom tab navigator, home, map and bike
  */
-export const Tabs = createBottomTabNavigator({
+const Tabs = createBottomTabNavigator({
   	'Home': {
 		screen: HomeView,
 		navigationOptions: {
@@ -50,7 +50,7 @@ export const Tabs = createBottomTabNavigator({
   	lazy: false,
 });
 
-export const BikeDetailsStack = createStackNavigator({
+const BikeDetailsStack = createStackNavigator({
 	Home: {
 		screen: HomeView,
 		navigationOptions: ({navigation}) => ({
@@ -72,7 +72,7 @@ export const BikeDetailsStack = createStackNavigator({
 /**
  * Stack navigator for bike tab, allows edit bike page to come on top when clicked
  */
-export const AddBikeStack = createStackNavigator({
+const AddBikeStack = createStackNavigator({
 	BikeStack: {
 		screen: BikeView,
 		navigationOptions: ({navigation}) => ({
@@ -92,7 +92,7 @@ export const AddBikeStack = createStackNavigator({
 /**
  * Stack navigator for the login page to allow for the signup page to be opened from the login page
  */
-export const LoginStack = createStackNavigator({
+const LoginStack = createStackNavigator({
 	Login: {
 		screen: LoginView,
 		navigationOptions: ({navigation}) => ({
@@ -115,14 +115,22 @@ export const LoginStack = createStackNavigator({
 	initialRouteName: 'Login'
 });
 
+const AuthInitialStack = createSwitchNavigator({
+	AuthStack: LoginStack,
+	App: Tabs
+},
+{
+	initialRouteName: 'AuthStack'
+});
+
 /**
  * All possible stack navigators
  */
 export const createRootNavigator = () => {
 	return createStackNavigator(
 		{
-			LoginStack: {
-				screen: LoginStack,
+			Auth: {
+				screen: AuthInitialStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

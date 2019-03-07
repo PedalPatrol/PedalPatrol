@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
@@ -7,6 +7,7 @@ import { TextInput } from 'react-native-paper';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 import BaseView from './view';
+import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import AddBikePresenter from '../presenters/addbike-presenter';
@@ -323,7 +324,7 @@ class AddBikeView extends BaseView {
 	render() {
 		return (
 				<HandleBack onBack={this._onBack}>
-					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+					<SafeArea/>
 					<View style={styles.container}>
 						<ScrollView contentContainerStyle={styles.contentContainer}>
 
@@ -372,7 +373,7 @@ class AddBikeView extends BaseView {
 							}
 						</ScrollView>
 					</View>
-					<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+					<SafeArea/>
 				</HandleBack>
 		);
 	}

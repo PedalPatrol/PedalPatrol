@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, SafeAreaView, ViewStyle } from 'react-native';
+import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, ViewStyle } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Searchbar } from 'react-native-paper';
+
+import SafeArea from './safearea';
 import ProfileButton from './profilebutton';
 import FilterHelper from './filter';
 
@@ -16,7 +18,7 @@ class SearchBarHelper extends Component {
 	render() {
 		return (   
 			<View>
-				<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+				<SafeArea/>
 				<View style={styles.searchContainer}>
                     {/* Profile */}
                     <ProfileButton profilePicture={this.props.profilePicture} />

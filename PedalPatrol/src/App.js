@@ -3,12 +3,13 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import { createAppContainer } from 'react-navigation';
 
 import { createRootNavigator } from './config/navigation';
+import SideDrawer from './components/views/helpers/sidedrawer';
 
 
 export default class App extends Component {
   render() {
     const Navigator = createAppContainer(createRootNavigator());
-   return <Navigator />
+    return <SideDrawer renderMainContent={() => {return (<Navigator />)}}/>
   }
 }
 
