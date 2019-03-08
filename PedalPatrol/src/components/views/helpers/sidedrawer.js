@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import DrawerHelp from '../../../util/drawerhelper';
 import SafeArea from './safearea';
 import DrawerHeader from './drawerheader';
+import NavigatorService from '../../../config/navigationservice';
 
 /**
  * Class for the side drawer component.
@@ -59,9 +60,26 @@ class SideDrawer extends Component {
 	 * @param {string} screen - The name of the screen to navigate to.
 	 */
 	navigateToScreen = (screen) => {
-		console.log(screen);
-		// this.props.navigation.navigate(screen);
+		// console.log(screen);
+		this.closeDrawer();
+		NavigatorService.navigate(screen);
 	}
+
+	/**
+	 * Closes the drawer.
+	 */
+	closeDrawer = () => {
+		this._drawer.close();
+		this.setState({drawerOpen: false});
+	};
+	
+	/**
+	 * Opens the drawer.
+	 */
+	openDrawer = () => {
+		this._drawer.open();
+		this.setState({drawerOpen: true});
+	};
 
 
 	/**
@@ -93,6 +111,7 @@ class SideDrawer extends Component {
 	render() {
 		return (
 			<Drawer
+				ref={(ref) => this._drawer = ref}
 				open={this.state.drawerOpen}
 				content={this.renderSideMenuContent()}
 				type="overlay"

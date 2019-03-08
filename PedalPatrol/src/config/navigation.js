@@ -11,6 +11,7 @@ import BikeDetailsView from '../components/views/bikedetails-view';
 import SignUpView from '../components/views/signup-view';
 import LoginView from '../components/views/login-view';
 import AuthLoadingView from '../components/views/authloading-view';
+import ProfileView from '../components/views/profile-view';
 
 let screen = Dimensions.get('window');
 
@@ -52,6 +53,9 @@ const Tabs = createBottomTabNavigator({
   	initialRouteName: 'Map'
 });
 
+/**
+ * Bike details stack
+ */
 const BikeDetailsStack = createStackNavigator({
 	Home: {
 		screen: HomeView,
@@ -117,6 +121,9 @@ const LoginStack = createStackNavigator({
 	initialRouteName: 'Login'
 });
 
+/**
+ * Authorization stack. Includes auth loading (splash screen), login stack and application stack.
+ */
 const AuthInitialStack = createSwitchNavigator({
 	AuthLoading: {
 		screen: AuthLoadingView,
@@ -157,6 +164,12 @@ export const createRootNavigator = () => {
 			},
 			BikeDetailsStack: {
 				screen: BikeDetailsStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
+			Profile: {
+				screen: ProfileView,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

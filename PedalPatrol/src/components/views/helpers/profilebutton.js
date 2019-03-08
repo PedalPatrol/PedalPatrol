@@ -13,7 +13,7 @@ class ProfileButton extends Component {
 			<View>
 				{/* Profile */}
 				<View style={{flex:1}}>
-					<TouchableOpacity onPress={() => {DrawerHelp.toggle()}}>
+					<TouchableOpacity onPress={() => {DrawerHelp.openDrawer()}}>
 						<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
 					</TouchableOpacity>
 				</View>

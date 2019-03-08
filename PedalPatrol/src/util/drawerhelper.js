@@ -46,6 +46,25 @@ class DrawerHelper {
 			this.drawer.toggleDrawer();
 		}
 	}
+
+	/**
+	 * Opens the drawer if it exists.
+	 */
+	openDrawer() {
+		if (this.drawerExists()) {
+			this.drawer.openDrawer();
+		}
+	}
+
+	/**
+	 * Closes the drawer if it exists.
+	 */
+	closeDrawer() {
+		if (this.drawerExists()) {
+			this.drawer.closeDrawer();
+		}
+	}
 }
 
-export default DrawerHelp = new DrawerHelper();
+const DrawerHelp = new DrawerHelper();
+export default DrawerHelp;
