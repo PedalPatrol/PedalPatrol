@@ -6,6 +6,7 @@
 
 import Model from './model';
 import Database from '../../util/export-database';
+import PersistStorage from '../../util/persistentstorage';
 
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
@@ -47,7 +48,7 @@ class LoginModel extends Model {
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		this._data.data.splice(0,1,newData.data); // Appends to the list - Use this if only a single piece of data is passed in
 
-		var errorMessage = 'true';
+		let errorMessage = true;
 		// console.log('errorbeforecheck: '+errorMessage)
 		// await firebase.auth().signInWithEmailAndPassword(this._data.data[0].username, this._data.data[0].password).catch(function(error) {
 		// 	// Handle Errors here.
@@ -57,9 +58,13 @@ class LoginModel extends Model {
 
 		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
-			errorMessage = 'false';
+			errorMessage = false;
 			// console.log('erroraftercheck: '+errorMessage);
 		});
+
+		if (errorMessage === true) {
+			this.authenticationSuccess();
+		}
 
 		//var message = errorMessage;
 		// console.log('ddd:'+errorMessage)
@@ -69,6 +74,10 @@ class LoginModel extends Model {
 		// this._eventEmitter.emit('change')
 	}
 
+	authenticationSuccess() {
+		const userToken = Database.getCurrentUser();
+		PersistStorage.storeData('userToken', userToken, (error) => {console.log(error)});
+	}
 
 	 //onError() => {}
 	 //onComplete () => {}

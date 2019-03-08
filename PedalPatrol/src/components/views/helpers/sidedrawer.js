@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import {Platform, TouchableHighlight, Text, View, StyleSheet} from 'react-native';
+import { Platform, TouchableHighlight, Text, View, StyleSheet, FlatList } from 'react-native';
 import Drawer from 'react-native-drawer';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import DrawerHelp from '../../../util/drawerhelper';
 import SafeArea from './safearea';
+import DrawerHeader from './drawerheader';
 
 /**
  * Class for the side drawer component.
@@ -18,7 +20,7 @@ class SideDrawer extends Component {
 	constructor (props) {
 		super(props);
 		this.state = {drawerOpen: false};
-		console.log(this.state.drawerOpen);
+		// console.log(this.state.drawerOpen);
 		DrawerHelp.setDrawer(this);
 	};
 
@@ -26,11 +28,46 @@ class SideDrawer extends Component {
 	 * Toggles the side drawer open and closed.
 	 */
 	toggleDrawer = () => {
-		console.log(this.state.drawerOpen);
+		// console.log(this.state.drawerOpen);
 		this.setState({
 			drawerOpen: !this.state.drawerOpen
 		});
 	}
+
+	/**
+	 * Render a text input item.
+	 * 
+	 * @param {Object} item - A list item
+	 */
+	_renderItem = ({item}) => (
+		<View style={styles.icon}>
+			<Icon.Button
+				name={item.icon_name} 
+				type={item.icon_type}
+				backgroundColor="#F5FCFF"
+				color="#000"
+				size={25}
+				onPress={() => this.navigateToScreen(item.screen)}>
+				<Text style={styles.itemText}>{item.text}</Text>
+			</Icon.Button>
+		</View>
+	);
+
+	/**
+	 * Navigate to a specified screen. Screen must be a possible navigation
+	 *
+	 * @param {string} screen - The name of the screen to navigate to.
+	 */
+	navigateToScreen = (screen) => {
+		console.log(screen);
+		// this.props.navigation.navigate(screen);
+	}
+
+
+	/**
+	 * Extract the key from the item and index
+	 */
+	_keyExtractor = (item, index) => item.text;
 
 	/**
 	 * Render the contents of the drawer.
@@ -39,9 +76,15 @@ class SideDrawer extends Component {
 		return (
 			<View style={{height: '100%'}}>
 				<SafeArea/>
-				<Text style={styles.sideMenuContentItem}>
-					This is the side menu
-				</Text>
+				<DrawerHeader/>
+		
+				<FlatList
+					style={styles.flatList}
+					data={data}
+					extraData={this.state}
+					keyExtractor={this._keyExtractor}
+					renderItem={this._renderItem}/>
+
 				<SafeArea />
 			</View>
 		)
@@ -65,8 +108,8 @@ class SideDrawer extends Component {
 				captureGestures="open"
 				acceptPan={false}>
 						
-						{/* Main Content goes here (e.g. Tab Views) */}
-						{this.props.renderMainContent()}
+					{/* Main Content goes here (e.g. Tab Views) */}
+					{this.props.renderMainContent()}
 
 			</Drawer>
 		);
@@ -74,6 +117,34 @@ class SideDrawer extends Component {
 }
 
 export default SideDrawer;
+
+const data = [
+	{
+		text: 'Profile',
+		icon_name: 'user',
+		icon_type: 'FontAwesome',
+		screen: 'Profile'
+	},
+	{
+		text: 'Alerts',
+		icon_name: 'exclamation-circle',
+		icon_type: 'FontAwesome',
+		screen: 'Alerts'
+	},
+	{
+		text: 'Settings',
+		icon_name: 'cog',
+		icon_type: 'FontAwesome',
+		screen: 'Settings'
+	},
+	{
+		text: 'Logout',
+		icon_name: 'sign-out',
+		icon_type: 'FontAwesome',
+		screen: 'Logout'
+	}
+
+]
 
 const drawerStyles = StyleSheet.create({
    drawer: {
@@ -95,13 +166,21 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		backgroundColor: '#F5FCFF',
 	},
-	sideMenuContentItem: {
-		marginTop: 20,
-		marginLeft: 20,
-		marginRight: 20,
-		borderWidth: 1,
-		borderColor: '#fff',
-		padding: 10,
-		backgroundColor: '#557f90',
+	icon: {
+		marginTop: 5,
+		marginLeft: 5,
+		marginRight: 5,
+		// padding: 10
+	},
+	flatlist: {
+		flex: 1,
+		marginTop: 5
+	},
+	itemText: {
+		flex: 1,
+		fontSize: 20,
+	    paddingRight: 40,
+	    marginLeft: 20,
+	    marginTop: 3
 	}
 });

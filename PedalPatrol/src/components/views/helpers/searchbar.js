@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
 		marginRight: 20
 	},
 	profile: {
-		flex:1,
+		flex: 1,
 		width: 40,
 		height: 40,
 		borderRadius: 20,

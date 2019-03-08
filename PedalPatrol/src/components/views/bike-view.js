@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableHighlight, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
+
 import BikeItemHelper from './helpers/bikeitem';
 import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';

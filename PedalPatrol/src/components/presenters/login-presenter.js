@@ -13,7 +13,7 @@ class LoginPresenter extends BasePresenter {
 	 * @param {Object} view - An instance of a view class
 	 */
 	constructor(view) {
-		super()
+		super();
 
 		this.view = view;
 		LoginM.subscribe(this);
@@ -37,9 +37,9 @@ class LoginPresenter extends BasePresenter {
 	 */
 	onUpdated = (message) => {
 		// Do something with the new data or let the view auto update?
-		if (message == 'true') {
+		if (message === true) {
 			this.view.navigateToTabs();
-		} else if(message =='false'){
+		} else if (message === false){
 			this.view.handleLoginIncorrect();
 		}
 	};

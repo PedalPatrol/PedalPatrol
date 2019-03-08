@@ -74,10 +74,10 @@ class HomeModel extends Model {
 	 * @return {string} Milliseconds represented as a string
 	 */
 	_getDateFormatFromDateTime(datetime) {
-		var converted = new Date(datetime);
-		var date = converted.getDate()+'/'+(converted.getMonth()+1)+'/'+converted.getFullYear();
-		var time = converted.getHours() + ":" + converted.getMinutes();
-		var dateTime = time+' - '+date;
+		let converted = new Date(datetime);
+		let date = converted.getDate()+'/'+(converted.getMonth()+1)+'/'+converted.getFullYear();
+		let time = converted.getHours() + ":" + converted.getMinutes();
+		let dateTime = time+' - '+date;
 		return dateTime
 	}
 
@@ -211,12 +211,12 @@ class HomeModel extends Model {
 			return data;
 		}
 
-		var pivot = data[0];
+		let pivot = data[0];
 
-		var left = []; 
-		var right = [];
+		let left = []; 
+		let right = [];
 
-		for (var i = 1; i < data.length; i++) {
+		for (let i = 1; i < data.length; i++) {
 			data[i].milliseconds < pivot.milliseconds ? left.push(data[i]) : right.push(data[i]);
 		}
 

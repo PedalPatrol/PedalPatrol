@@ -10,6 +10,7 @@ import AddBikeView from '../components/views/addbike-view';
 import BikeDetailsView from '../components/views/bikedetails-view';
 import SignUpView from '../components/views/signup-view';
 import LoginView from '../components/views/login-view';
+import AuthLoadingView from '../components/views/authloading-view';
 
 let screen = Dimensions.get('window');
 
@@ -48,6 +49,7 @@ const Tabs = createBottomTabNavigator({
 	  	},
   	},
   	lazy: false,
+  	initialRouteName: 'Map'
 });
 
 const BikeDetailsStack = createStackNavigator({
@@ -116,11 +118,17 @@ const LoginStack = createStackNavigator({
 });
 
 const AuthInitialStack = createSwitchNavigator({
+	AuthLoading: {
+		screen: AuthLoadingView,
+		navigationOptions: ({navigation}) => ({
+			header: null,
+		}),
+	},
 	AuthStack: LoginStack,
 	App: Tabs
 },
 {
-	initialRouteName: 'AuthStack'
+	initialRouteName: 'AuthLoading'
 });
 
 /**
