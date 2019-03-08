@@ -77,4 +77,5 @@ class PersistentStorage extends Component {
 	}
 }
 
-export default PersistStorage = new PersistentStorage();
+const PersistStorage = new PersistentStorage();
+export default PersistStorage;

@@ -1,5 +1,5 @@
 import BikeModel from '@/src/components/models/bike-model';
-import Database from '@/src/util/export-database';
+import Database from '@/src/util/database';
 
 afterEach(() => {
 	Database.goOffline();

@@ -3,7 +3,7 @@ import Model from '@/src/components/models/model';
 import BikeModel from '@/src/components/models/bike-model';
 import BaseView from '@/src/components/views/view';
 
-import Database from '@/src/util/export-database';
+import Database from '@/src/util/database';
 
 afterEach(() => {
 	Database.goOffline();

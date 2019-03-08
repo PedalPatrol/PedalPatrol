@@ -124,6 +124,10 @@ class BikeModel extends Model {
 		let uploaded_pictures = [];
 		let count_default = 0;
 
+		if (images == undefined || images == null || images.length === 0) {
+			return;
+		}
+
 		for (let i=0; i < images.length; i++) {
 			if (this.isDefaultImage(images[i].illustration)) {
 				count_default++;

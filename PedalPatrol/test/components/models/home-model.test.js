@@ -1,6 +1,5 @@
 import HomeModel from '@/src/components/models/home-model';
-
-import Database from '@/src/util/export-database';
+import Database from '@/src/util/database';
 
 afterEach(() => {
 	Database.goOffline();

@@ -2,7 +2,7 @@ import HomePresenter from '@/src/components/presenters/home-presenter';
 import Model from '@/src/components/models/model';
 import HomeModel from '@/src/components/models/home-model';
 import BaseView from '@/src/components/views/view';
-import Database from '@/src/util/export-database';
+import Database from '@/src/util/database';
 
 afterEach(() => {
 	Database.goOffline();

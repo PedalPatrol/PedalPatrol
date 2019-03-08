@@ -216,4 +216,5 @@ class FirebaseDatabase {
 	}
 }
 
-export default Database = new FirebaseDatabase();
+const Database = new FirebaseDatabase();
+export default Database;
