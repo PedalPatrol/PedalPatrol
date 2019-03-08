@@ -216,4 +216,4 @@ class FirebaseDatabase {
 	}
 }
 
-export default FirebaseDatabase;
+export default Database = new FirebaseDatabase();

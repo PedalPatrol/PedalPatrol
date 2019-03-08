@@ -1,6 +1,6 @@
 import BasePresenter from './presenter';
 import PersistStorage from '../../util/persistentstorage';
-import Database from '../../util/export-database';
+import Database from '../../util/database';
 
 /**
  * Class for the auth loading presenter to check if the authentication state is valid. 

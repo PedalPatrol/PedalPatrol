@@ -5,7 +5,7 @@
 //login () if login success, create a new user object; else fail.
 
 import Model from './model';
-import Database from '../../util/export-database';
+import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 
 /**

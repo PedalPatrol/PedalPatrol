@@ -1,5 +1,5 @@
 import Model from './model';
-import Database from '../../util/export-database';
+import Database from '../../util/database';
 
 const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
 
@@ -70,14 +70,15 @@ class BikeModel extends Model {
 		if (newData.data.id === '' || newData.data.id === undefined) {
 			console.log('Fetching new ID...');
 			newData.data.id = Database.getNewBikeID();
-		}
-
-		if (typeof uploaded_images === 'undefined' || uploaded_images == undefined || uploaded_images == []) {
-			return;
+			console.log(newData.data.id);
 		}
 
 		this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
 			newData.data.thumbnail = uploaded_images;
+
+			if (typeof uploaded_images === 'undefined' || uploaded_images == undefined || uploaded_images == []) {
+				return;
+			}
 
 			let result = this._insertDataOnUpdate(newData);
 

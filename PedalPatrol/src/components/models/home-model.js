@@ -1,5 +1,5 @@
 import Model from './model';
-import Database from '../../util/export-database';
+import Database from '../../util/database';
 
 /**
  * Class for the home/notification model to be used by the Home Presenter
