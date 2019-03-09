@@ -17,7 +17,7 @@ class HomeModel extends Model {
 		
 		this._data = {data: []};
 		this._activeBookmarks = [];
-		
+
 		this._createObserverList();
 		this._registerDatabaseRead();
 	}
@@ -178,7 +178,7 @@ class HomeModel extends Model {
 			const sortedBookmarkedData 		= this._sortOnTime(bookmarkedData).reverse();
 			const sortedNonBookmarkedData 	= this._sortOnTime(nonBookmarkedData).reverse();
 		
-			console.log(sortedNonBookmarkedData);
+			// console.log(sortedNonBookmarkedData);
 
 			const totalTempData = sortedBookmarkedData.concat(sortedNonBookmarkedData);
 
@@ -192,7 +192,7 @@ class HomeModel extends Model {
 	 * Gets the bookmarked or unbookmarked data from based on the toggle value.
 	 *
 	 * @param {List} data - A list of objects with property id
-	 * @param {Boolean} true: Look for bookmarked data; false: Look for unbookmarked data
+	 * @param {Boolean} toggle - true: Look for bookmarked data; false: Look for unbookmarked data
 	 * @return {List} A list of bookmarked or unbookmarked data depending on the toggle value
 	 */
 	getBookmarkedData(data, toggle) {

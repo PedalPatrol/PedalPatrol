@@ -1,12 +1,20 @@
 import BasePresenter from './presenter';
 import PersistStorage from '../../util/persistentstorage';
 import Database from '../../util/database';
+import { HomeM } from '../models/export-models';
 
 /**
  * Class for the auth loading presenter to check if the authentication state is valid. 
  * Uses the persist storage as the model.
  */
 class AuthLoadingPresenter extends BasePresenter {
+
+	constructor() {
+		super();
+		this._dataLoaded = false;
+		this._callback = null;
+		HomeM.subscribe(this);
+	}
 
 	/**
 	 * Asynchronously check the authentication state of the user to see if they are logged in.
@@ -16,11 +24,26 @@ class AuthLoadingPresenter extends BasePresenter {
 	 */
 	async checkAuthenticationState(onSuccess, onFailure) {
 		await PersistStorage.retrieveData('userToken', (userToken) => {
-			this.onRetrievalSuccess(userToken, onSuccess, onFailure);
+			if (this._dataLoaded) { // In-case this is reached after data is received
+				this.onRetrievalSuccess(userToken, onSuccess, onFailure);
+			} else { // If data is received after authentication completes
+				this.setCallback(() => {
+					this.onRetrievalSuccess(userToken, onSuccess, onFailure);
+				});
+			}
 		}, (error) => {
 			onFailure();
 			console.log(error);
 		});
+	}
+
+	/**
+	 * Sets the callback to be called when data is received.
+	 *
+	 * @param {Function} callback - A function to call when data is received
+	 */
+	setCallback(callback) {
+		this._callback = callback;
 	}
 
 	/**
@@ -34,6 +57,19 @@ class AuthLoadingPresenter extends BasePresenter {
 		// console.log(userToken);
 		userToken ? onSuccess() : onFailure();
 		// PersistStorage.removeData('userToken', (error) => console.log(error)); // Remove from storage
+	}
+
+	/**
+	 * Called when a response is received from the Home model after it has received data.
+	 *
+	 * @param {Object} data - The data received from the model
+	 */
+	onUpdated = (data) => {
+		HomeM.unsubscribe(this);
+		this._dataLoaded = true;
+		if (this._callback != null) {
+			this._callback();
+		}
 	}
 
 }
