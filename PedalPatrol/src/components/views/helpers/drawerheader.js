@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const LOGO_URL = 'https://i.imgur.com/uWzNO72.jpg';
+const LOGO_URL = 'https://i.imgur.com/uWzNO72.jpg'; // TODO: Fetch from profile
 
+/**
+ * Class to display the drawer header.
+ */
 class DrawerHeader extends Component {
 	constructor (props) {
 		super(props);

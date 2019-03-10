@@ -64,6 +64,12 @@ class PersistentStorage extends Component {
 		}
 	}
 
+	/**
+	 * Removes an item from the persistent storage.
+	 *
+	 * @param {string} key - The key for an item that should be removed
+	 * @param {Function} onError - A failure callback if an error occurs
+	 */
 	async removeData(key, onError) {
 		if (this.checkValid(key)) {
 			try {

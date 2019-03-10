@@ -50,7 +50,7 @@ const Tabs = createBottomTabNavigator({
 	  	},
   	},
   	lazy: false,
-  	initialRouteName: 'Map'
+  	initialRouteName: 'Map',
 });
 
 /**

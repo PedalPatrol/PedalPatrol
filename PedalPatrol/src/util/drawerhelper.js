@@ -1,5 +1,6 @@
 /**
  * Class to help with the facilitation of the side drawer.
+ * The drawer cannot be accessed across components so this class allows the drawer to register itself and be used.
  */
 class DrawerHelper {
 	/**

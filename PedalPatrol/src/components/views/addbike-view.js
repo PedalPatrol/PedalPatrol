@@ -11,6 +11,7 @@ import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import AddBikePresenter from '../presenters/addbike-presenter';
+import ImageUtil from '../../util/imageutil';
 
 const colours = require('../../assets/colours/colours.json');
 
@@ -28,11 +29,11 @@ class AddBikeView extends BaseView {
 		loaderVisible: false,
 
 		inputData: [], // Input text data is at each index
-		colours: colours.data,
+		colours: colours.data, // Current colours
 
-		currentID: '',
+		currentID: '', // Current ID of the bike being edited (Edit Bike only)
 
-		photoEntries: [],
+		photoEntries: [], // Current photos
 
 		selectedItems: [] // Selected colours
 	};
@@ -46,8 +47,8 @@ class AddBikeView extends BaseView {
 		return {
 			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
 			headerRight: (<Button disabled={transitioning} onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>),
-			title: navigation.getParam('title', 'Add Bike')
-		}
+			title: navigation.getParam('title', 'Add Bike') // Default title is Add Bike
+		};
 	}
 
 
@@ -67,6 +68,7 @@ class AddBikeView extends BaseView {
 	 * This function is called before componentDidMount
 	 */
 	componentWillMount = () => {
+		// There's a problem with clicking the back button too quickly so need to find a better place to put this
 		this.props.navigation.setParams({
 			_onBack: this._onBack,
 			_clearData: this._clearData
@@ -75,6 +77,7 @@ class AddBikeView extends BaseView {
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
 
+		// This can be done before the component has mounted so we do it before so data appears immediately
 		this.setState({
 			inputData: this.AddBikeP.getTextInputData(data),
 			photoEntries: this.AddBikeP.getCurrentPhotos()
@@ -90,6 +93,7 @@ class AddBikeView extends BaseView {
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
 
+		// This can only be done once the component has mounted since it affects other components
 		this.AddBikeP.toggleColours(this.sectionedMultiSelect, data, this._onSelectedItemsChange, UNIQUE_COLOUR_KEY);
 	}
 
@@ -171,7 +175,7 @@ class AddBikeView extends BaseView {
 		this.AddBikeP.clearPhotos();
 		this.sectionedMultiSelect._removeAllItems();
 		let inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
-		let photoEntries = this.AddBikeP.getDefaultPhotos();
+		let photoEntries = ImageUtil.getDefaultPhotos();
 		this.setState({ inputData, photoEntries });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}
@@ -184,7 +188,7 @@ class AddBikeView extends BaseView {
 	_renderItem = ({item, index}) => (
 		<TextInput
 			style={styles.textInput}
-			label={item.required ? this._renderName(item.name) : item.name}
+			label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
 			multiline={item.multiline}
 			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
@@ -198,6 +202,8 @@ class AddBikeView extends BaseView {
 
 	/**
 	 * Renders the name of a required field.
+	 *
+	 * @param {string} name - The name of the field
 	 */
 	_renderName = (name) => (
 		<Text style={[{color: 'red'}]}>{name + " *"}</Text>
@@ -206,6 +212,9 @@ class AddBikeView extends BaseView {
 
 	/**
 	 * Extract the key from the item and index
+	 *
+	 * @param {Object} item - A list item
+	 * @param {Number} index - The index of the item
 	 */
 	_keyExtractor = (item, index) => item.name;
 
@@ -234,13 +243,14 @@ class AddBikeView extends BaseView {
 	 * Get the data from the state and send an update to the presenter
 	 */
 	_getDataToUpdate = () => {
-		if (this.AddBikeP.checkInputs(this.state.inputData, this._inputRequirementFailure)) {
-			return;
+		if (!this.AddBikeP.checkInputs(this.state.inputData, this._inputRequirementFailure)) {
+			return; // Callback is called within checkInputs so no need to call anything here
 		}
 
-		this._enableLoader();
+		this._enableLoader(); // Activates spinning loader
 		this.refreshState();
 		
+		// We like it tight so pack it together neatly
 		let updateData = {
 			currentID: this.state.currentID,
 			inputTextData: this.state.inputData, 
@@ -326,9 +336,9 @@ class AddBikeView extends BaseView {
 					<View style={styles.container}>
 						<ScrollView contentContainerStyle={styles.contentContainer}>
 
-						<ImageCarousel 
-							photos={this.state.photoEntries} 
-							selected={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} />
+							<ImageCarousel 
+								photos={this.state.photoEntries} 
+								selected={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} />
 							
 							{/* List of text inputs */}
 							<FlatList
@@ -356,6 +366,7 @@ class AddBikeView extends BaseView {
 								ref={(SectionedMultiSelect) => this.sectionedMultiSelect = SectionedMultiSelect}
 								/>
 
+							{/* Submit button */}
 							<TouchableOpacity style={styles.submitTouchable}>
 								<Button
 									title='Submit'
@@ -363,6 +374,9 @@ class AddBikeView extends BaseView {
 								/>
 							</TouchableOpacity>
 
+							{/* TODO : Add delete button */}
+
+							{/* Spinning loading circle */}
 							{
 								this.state.loaderVisible &&
 								<View style={styles.loading} pointerEvents="none">

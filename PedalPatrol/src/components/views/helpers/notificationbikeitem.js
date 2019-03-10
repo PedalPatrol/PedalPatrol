@@ -2,30 +2,33 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View, TouchableHighlight } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+import ImageUtil from '../../../util/imageutil';
+
 /**
  * Class to help the displaying of notification items on the home view page
  */
 class NotificationBikeItemHelper extends Component {
 
+	/**
+	 * Navigate to the Add bike page with the edit bike title.
+	 * This method is used over the commented out line below because successive touches of a bike item
+	 * would not add the data because data is only received in process in the componentWillMount function.
+	 * So adding the 'key' property to navigate makes it see that the new page is unique.
+	 */
 	navigate = () => {
 		// <TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
-		// this.props.navigation.navigate('BikeDetails', {data: this.props.data})
 		this.props.navigation.navigate({
 			routeName: 'BikeDetails',
 			params: {
 				data: this.props.data, 
 			},
-			key: 'BikeDetails' + this.getDateTime()
+			key: 'BikeDetails' + ImageUtil.getDateTime()
 		});
-	}
-
-	getDateTime = () => {
-		return (new Date()).getTime();
 	}
 
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
+			<TouchableOpacity onPress={() => this.navigate()}>
 				<View style={styles.rowContainer}>
 				  	{/* Everything is put as columns from the top row */}
 					<View style={styles.topRow}>
@@ -48,6 +51,7 @@ class NotificationBikeItemHelper extends Component {
 									</View>
 								</View>
 								
+								{/* Datetime & Address (bottom left) */}
 								<Text style={styles.datetime} numberOfLines={1} ellipsizeMode ={'tail'}>
 									{this.props.data.datetime}
 								</Text>
@@ -79,6 +83,7 @@ class NotificationBikeItemHelper extends Component {
 
 								{/* Bottom icons */}
 								<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
+									{/* Toggle for the bookmark button*/}
 									<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
 										{ this.props.bookmarked ? 
 											(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
@@ -86,9 +91,11 @@ class NotificationBikeItemHelper extends Component {
 											(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
 										}
 									</TouchableOpacity>
+									{/* Map pin */}
 									<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
 										<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
 									</TouchableOpacity>
+									{/* Comment button */}
 									<TouchableOpacity style={styles.icon} accessibilityLabel="Pin">
 										<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
 									</TouchableOpacity>

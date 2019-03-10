@@ -86,6 +86,7 @@ class FirebaseDatabase {
 	 * @return {Object} Merged data
 	 */
 	merge(originalObj, newObj) {
+		// Merge them together by just overwriting existing keys and adding new ones
 		// key: the name of the object key
 		// index: the ordinal position of the key within the object 
 		Object.keys(newObj).forEach((key,index) => {
@@ -177,6 +178,12 @@ class FirebaseDatabase {
 	 * @param {Function} onError - The callback to call on a failed upload
 	 */
 	async writeImage(id, file, filename, onSuccess, onError) {
+		// Create a blob because the firebase 'put' function requires a blob
+		// I found out later that when we get an image from the user, we can actually get it as data
+		// and since the firebase 'put' function also accepts the data format, we can use that instead
+		// which would save the XMLHttpRequest to create a blob.
+		// TODO : Optimization - Use data format for images instead of creating a blob which would eliminate
+		// the following Promise
 		const blob = await new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
 			xhr.onload = () => {
@@ -208,7 +215,7 @@ class FirebaseDatabase {
 		}, onError, () => {
 			task.snapshot.ref.getDownloadURL().then((downloadURL) => {
 				// console.log('File available at', downloadURL);
-				blob.close();
+				blob.close(); // Make sure to close the blob
 				onSuccess(downloadURL);
 				return null;
 			});

@@ -1,5 +1,6 @@
 import BasePresenter from './presenter';
-import { HomeM } from '../models/export-models'; 
+import { HomeM } from '../models/export-models';
+import ImageUtil from '../../util/imageutil';
 
 const NO_DATA = 'NO-DATA';
 
@@ -78,12 +79,15 @@ class BikeDetailsPresenter extends BasePresenter {
 		// console.log(data);
 
 		Object.keys(data).forEach((key,index) => {
-			if (this.getIgnoredDetails().includes(key.toString())) {
+			if (this.getIgnoredDetails().includes(key.toString())) { // Ignore any keys defined in getIgnoredDetails
 				return; // Acts as continue in 'forEach'
 			}
 
 			let keyStr = (key.toString()).replace('_', ' ');
     		keyStr = this.convertCase(keyStr);
+    		// Build the object
+    		// id must be unique
+    		// title is the text input label
     		const translated = {
     			title: keyStr + ": ",
     			text: Array.isArray(data[key]) ? data[key].join(', ') : data[key],
@@ -92,43 +96,47 @@ class BikeDetailsPresenter extends BasePresenter {
     		formedData.push(translated);
 		});
 
-		const thumbnail = this.formThumbnail(data.thumbnail);
+		// Need to form the thumbnail properly because it's just a link right now
+		const thumbnail = ImageUtil.formThumbnail(data.thumbnail);
 
 		formedData = this.reorderData(formedData);
 
 		return { formedData, thumbnail };
 	}
 
+	/**
+	 * Reorders the data to be based on a specific order defined in getDetailsOrder.
+	 *
+	 * @param {Object} data - The data to be reordered
+	 * @return {Object} The reordered data
+	 */
 	reorderData = (data) => {
 		let orderedData = [];
 
-		const order = ["Name", "Serial Number", "Timeago", "Datetime", "Model", "Brand", "Colour", "Frame Size", "Wheel Size", "Notable Features"];
+		const order = this.getDetailsOrder();
 
 		for (let i=0; i < order.length; i++) {
-			orderedData.push(this.findElement(data, order[i]));
+			const found_element = this.findElement(data, order[i]);
+			// If the element exists and was defined in the data, then add it, otherwise ignore it
+			if (found_element != undefined && found_element.text !== '') {
+				orderedData.push(found_element);
+			}
 		}
 
 		return orderedData;
 	}
 
+	/**
+	 * Finds if an element exists with a specific title based on a key.
+	 *
+	 * @param {Object} data - Data to find an element in
+	 * @param {string} key - A key to look for
+	 * @return {Object} The first element found since data titles should be unique anyway
+	 */
 	findElement = (data, key) => {
 		return data.filter(el => {
 			return el.title === key + ": ";
-		})[0];
-	}
-
-	/**
-	 * Forms the thumbnail into a useable list of objects.
-	 * 
-	 * @param {List} thumbnails - A list of thumbnails with links
-	 * @return {List} A list of thumbnail objects with an 'illustration' property
-	 */
-	formThumbnail = (thumbnails) => {
-		let formedThumbnails = [];
-		for (let i=0; i < thumbnails.length; i++) {
-			formedThumbnails.push({illustration: thumbnails[i]});
-		}
-		return formedThumbnails;
+		})[0]; // Takes the first element because keys should be unique so just to be safe
 	}
 
 	/**
@@ -138,7 +146,15 @@ class BikeDetailsPresenter extends BasePresenter {
 	 * @return {string} The string converted to title case
 	 */
 	convertCase = (str) => {
-		return str.toLowerCase().replace(/(^| )(\w)/g, s => s.toUpperCase());
+		return str.toLowerCase().replace(/(^| )(\w)/g, s => s.toUpperCase()); // Regex FTW
+  	}
+
+  	/**
+  	 * Returns the order of the details as a list. List will appear in this order.
+  	 * Keys should be defined as the property name replacing all underscores with spaces then converted to title case (Does not include ': ').
+  	 */
+  	getDetailsOrder = () => {
+  		return ["Name", "Serial Number", "Timeago", "Datetime", "Model", "Brand", "Colour", "Frame Size", "Wheel Size", "Notable Features"];
   	}
 
   	/**

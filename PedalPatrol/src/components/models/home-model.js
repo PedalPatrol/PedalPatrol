@@ -53,12 +53,13 @@ class HomeModel extends Model {
 		let dataID = 0;
 		if (databaseData != null) { // Check if there are objects in the database
 			for (let val in databaseData) {
-				if (!databaseData[val].hasOwnProperty('id')) {
+				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
 					continue;
 				}
 
 				databaseData[val].dataID = dataID++;
-				databaseData[val].timeago = this._getTimeAgoFromDateTime(databaseData[val].milliseconds);
+				// Add timeago and datetime formatted info
+				databaseData[val].timeago = this._getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
 				databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].milliseconds);
 				tempData.data.push(databaseData[val]);
 			}
@@ -75,7 +76,7 @@ class HomeModel extends Model {
 	 */
 	_getDateFormatFromDateTime(datetime) {
 		let converted = new Date(datetime);
-		let date = converted.getDate()+'/'+(converted.getMonth()+1)+'/'+converted.getFullYear();
+		let date = converted.getDate() + '/' + (converted.getMonth()+1) + '/' + converted.getFullYear();
 		let time = converted.getHours() + ":" + converted.getMinutes();
 		let dateTime = time+' - '+date;
 		return dateTime
@@ -84,13 +85,13 @@ class HomeModel extends Model {
 	/**
 	 * Returns millisecond time as a time ago string (# __ ago).
 	 *
-	 * @param {Number} datetime - The time in milliseconds
+	 * @param {Number} milliseconds - The time in milliseconds
 	 * @return {string} The millisecond time represented as a string
 	 */
-	_getTimeAgoFromDateTime(datetime) {
+	_getTimeAgoFromMilliseconds(milliseconds) {
 		const currentTime = new Date();
 		
-		let time = this._parseMillisecondsIntoReadableTime(currentTime-datetime);
+		let time = this._parseMillisecondsIntoReadableTime(currentTime-milliseconds);
 
 		let parsetime = time.split(':');
 		let suffix = '';
@@ -102,6 +103,7 @@ class HomeModel extends Model {
 
 		// console.log(hours, minutes, seconds);
 
+		// Probably could make more concise
 		if (hours >= 24) {
 			outtime = Math.floor(hours/24); // Round to days
 			suffix = outtime === 1 ? ' day ago' : ' days ago';
@@ -164,7 +166,8 @@ class HomeModel extends Model {
 		let dataID = 0;
 		for (let i=0; i < tempData.length; i++) {
 			tempData[i].dataID = dataID++;
-			tempData[i].timeago = this._getTimeAgoFromDateTime(tempData[i].milliseconds);
+			// Convert back to timeago from milliseconds
+			tempData[i].timeago = this._getTimeAgoFromMilliseconds(tempData[i].milliseconds);
 		}
 		this._data.data = Object.assign(tempData);
 	}
@@ -180,6 +183,7 @@ class HomeModel extends Model {
 			const nonBookmarkedData = this.getBookmarkedData(temp, false);
 			const bookmarkedData	= this.getBookmarkedData(temp, true);
 
+			// Reverse the lists because we want latest time first
 			const sortedBookmarkedData 		= this._sortOnTime(bookmarkedData).reverse();
 			const sortedNonBookmarkedData 	= this._sortOnTime(nonBookmarkedData).reverse();
 		
@@ -188,7 +192,6 @@ class HomeModel extends Model {
 			const totalTempData = sortedBookmarkedData.concat(sortedNonBookmarkedData);
 
 			this._data.data = totalTempData;
-
 			this._notifyAll(this._data);
 		}
 	}

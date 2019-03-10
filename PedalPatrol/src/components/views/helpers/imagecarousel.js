@@ -8,11 +8,19 @@ import stylesC, { colors } from './imagehelpers/styles/index.style';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
+/**
+ * Class to display the image carousel and the page dots underneath.
+ */
 class ImageCarousel extends Component {
 	state = {
 		slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
 	}
 
+	/**
+	 * Render an image.
+	 *
+	 * @param {Object, Number} item - A list item, index - The index of the item
+	 */
 	_renderImage = ({item, index}) => {
 		return (
 			<SliderEntry
@@ -52,7 +60,7 @@ class ImageCarousel extends Component {
 				  dotsLength={this.props.photos.length}
 				  activeDotIndex={slider1ActiveSlide}
 				  containerStyle={stylesC.paginationContainer}
-				  dotColor={'rgba(255, 255, 255, 0.92)'}
+				  dotColor={colors.green}
 				  dotStyle={stylesC.paginationDot}
 				  inactiveDotColor={colors.black}
 				  inactiveDotOpacity={0.4}

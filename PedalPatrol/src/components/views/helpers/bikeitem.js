@@ -2,30 +2,29 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+import ImageUtil from '../../../util/imageutil';
+
 /**
  * Class to help the displaying of bike items on the bike view page
  */
 class BikeItemHelper extends Component {
 
-	_onEditBike = () => {
-		let id = this.props.data.id;
-	};
-
+	/**
+	 * Navigate to the Add bike page with the edit bike title.
+	 * This method is used over the commented out line below because successive touches of a bike item
+	 * would not add the data because data is only received in process in the componentWillMount function.
+	 * So adding the 'key' property to navigate makes it see that the new page is unique.
+	 */
 	navigate = () => {
 		// <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBike', {data: this.props.data, title: 'Edit Bike'})}>
-		// this.props.navigation.navigate('AddBike', {data: this.props.data, title: 'Edit Bike'})
 		this.props.navigation.navigate({
 			routeName: 'AddBike',
 			params: {
 				data: this.props.data, 
 				title: 'Edit Bike'
 			},
-			key: 'AddBike' + this.getDateTime()
+			key: 'AddBike' + ImageUtil.getDateTime()
 		});
-	}
-
-	getDateTime = () => {
-		return (new Date()).getTime();
 	}
 
 	render() {

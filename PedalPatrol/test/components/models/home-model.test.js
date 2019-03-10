@@ -57,7 +57,7 @@ test('should notify all subscribers', () => {
 test('should get timeago from milliseconds', () => {
 	const HomeM = new HomeModel();
 
-	expect(HomeM._getTimeAgoFromDateTime((new Date()).getTime())).toBe('0 secs ago');
+	expect(HomeM._getTimeAgoFromMilliseconds((new Date()).getTime())).toBe('0 secs ago');
 });
 
 test('should parse milliseconds into readable time', () => {

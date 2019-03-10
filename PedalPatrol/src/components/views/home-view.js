@@ -45,7 +45,7 @@ class HomeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
-
+	// Temporary alert until filter feature is implemented
 	temporaryFilter = () => {
 		Alert.alert(
 			"The search filter is currently disabled.",
@@ -58,7 +58,8 @@ class HomeView extends BaseView {
 	}
 
 	/**
-	 * Renders a search bar as the header including the profile icon and the filter button
+	 * Renders a search bar as the header including the profile icon and the filter button.
+	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
 		<SearchBarHelper 
@@ -116,6 +117,7 @@ class HomeView extends BaseView {
 	 * Renders the screen
 	 */
 	render() {
+		// RefreshControl (below) allows for the pull down of the list to update it
 		return (	
 				<View style={styles.container}>
 					<FlatList

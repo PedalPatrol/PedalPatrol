@@ -1,5 +1,6 @@
 import BasePresenter from './presenter';
 import { BikeM } from '../models/export-models'; // Using the BikeModel class because an AddBikeModel class would have the same purpose
+import ImageUtil from '../../util/imageutil';
 
 const NO_DATA = 'NO-DATA';
 
@@ -17,7 +18,7 @@ class AddBikePresenter extends BasePresenter {
 	constructor(view) {
 		super();
 		this.view = view;
-		this.currentPhotos = Object.assign(BikeM.getPhotoEntries());
+		this.currentPhotos = Object.assign(ImageUtil.getPhotoEntries());
 		BikeM.subscribe(this);
 	}
 
@@ -53,6 +54,7 @@ class AddBikePresenter extends BasePresenter {
 		const pictureSource = newData.picture;
 		const currentID = newData.currentID;
 
+		// Just add the data into an object. More concise way to do this?
 		let builtData = {
 			data: {
 				id: currentID,
@@ -64,7 +66,7 @@ class AddBikePresenter extends BasePresenter {
 				wheel_size: inputTextData[inputDataList.index.wheel_size].text,
 				frame_size: inputTextData[inputDataList.index.frame_size].text,
 				notable_features: inputTextData[inputDataList.index.notable_features].text,
-				thumbnail: pictureSource != null ? pictureSource : [{illustration: BikeM.getDefaultImage()}]
+				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage()}]
 			}
 		}
 
@@ -189,13 +191,14 @@ class AddBikePresenter extends BasePresenter {
 		let count = 0
 		for (const item of colours) {
 			const colour = item.colour
-			new_item.text_component = renderer(colour, item.name);
+			new_item.text_component = renderer(colour, item.name); // Render the component using a callback
 			// <Text style={[{color: colour}, styles.colourText]}>{item.name}</Text>
 			new_item.name = item.name;
 			new_colours.push(new_item);
-			new_item = {}
+			new_item = {} // Need to reset the item because sometimes it doesn't clear
 		}
 		
+		// Yeah don't do this, but calling a function in the view doesn't seem to work well either
 		this.view.setState({
 			colours: new_colours
 		});
@@ -261,33 +264,22 @@ class AddBikePresenter extends BasePresenter {
 	 * @return {Boolean} true: some required inputs are blank; false: required inputs are not blank
 	 */
 	checkInputs = (inputData, inputRequirementFailure) => {
+		const all_defaults = ImageUtil.checkPhotosForDefaults(this.currentPhotos);
 		let required = this._getRequiredInputs(inputData);
 		let names = [];
 		for (let i=0; i < required.length; i++) {
-			if (required[i].text === "") {
+			if (required[i].text === "") { // If it's empty then push
 				names.push(required[i].name);
 			}
 		}
-		if (names.length !== 0) {
-			inputRequirementFailure(names);
-			return true & !this.checkPhotosForDefaults(this.currentPhotos);
-		} else {
-			return false;
-		}
-	}
 
-	/**
-	 * Checks if all the images are default images
-	 *
-	 * @param {List} images - A list of images
-	 * @return {Boolean} true: if all the images are the default image; false: if any one of them is not
-	 */
-	checkPhotosForDefaults = (images) => {
-		let result = true;
-		for (let i=0; i < images.length; i++) {
-			result &= (images.illustration === BikeM.getDefaultImage());
+		if (names.length !== 0 || all_defaults) { // If inputs or images were empty, call the callback
+			all_defaults ? names.push('Images') : '';
+			inputRequirementFailure(names);
+			return false;
+		} else {
+			return !!(true & !all_defaults); // !! converts to boolean because '&' converts to number
 		}
-		return result;
 	}
 
 	/**
@@ -325,6 +317,7 @@ class AddBikePresenter extends BasePresenter {
 	_translateDataToInput = (data) => {
 		let dataCopy = this._deepCopy(inputDataList.data);
 
+		// To be safe, convert data to string
 		dataCopy[inputDataList.index.name].text 				= this._getString(data.name);
 		dataCopy[inputDataList.index.serial_number].text 		= this._getString(data.serial_number);
 		dataCopy[inputDataList.index.brand].text 				= this._getString(data.brand);
@@ -333,27 +326,11 @@ class AddBikePresenter extends BasePresenter {
 		dataCopy[inputDataList.index.wheel_size].text			= this._getString(data.wheel_size);
 		dataCopy[inputDataList.index.frame_size].text			= this._getString(data.frame_size);
 
-		this.currentPhotos = this.formThumbnail(data.thumbnail);
-
-		this.view.setState({ currentID: data.id })
+		this.currentPhotos = ImageUtil.formThumbnail(data.thumbnail);
+		this.view.setState({ currentID: data.id });
 
 		return this._deepCopy(dataCopy); 
 	}
-
-	/**
-	 * Forms the thumbnail into a useable list of objects.
-	 * 
-	 * @param {List} thumbnails - A list of thumbnails with links
-	 * @return {List} A list of thumbnail objects with an 'illustration' property
-	 */
-	formThumbnail = (thumbnails) => {
-		let formedThumbnails = [];
-		for (let i=0; i < thumbnails.length; i++) {
-			formedThumbnails.push({illustration: thumbnails[i]});
-		}
-		return formedThumbnails;
-	}
-
 
 	/**
 	 * Checks if the value is valid and if so, convert it to a string.
@@ -369,7 +346,7 @@ class AddBikePresenter extends BasePresenter {
 	 * Resets the current photos to the default photos.
 	 */
 	clearPhotos = () => {
-		this.currentPhotos = this.getDefaultPhotos();
+		this.currentPhotos = ImageUtil.getDefaultPhotos();
 	}
 
 	/**
@@ -379,15 +356,6 @@ class AddBikePresenter extends BasePresenter {
 	 */
 	getCurrentPhotos = () => {
 		return JSON.parse(JSON.stringify(this.currentPhotos));
-	}
-
-	/**
-	 * Return the default photo entries.
-	 *
-	 * @return {List} A list of objects with the property 'illustration' that contains the uri
-	 */
-	getDefaultPhotos = () => {
-		return JSON.parse(JSON.stringify(BikeM.getPhotoEntries()));
 	}
 
 	/**

@@ -105,7 +105,7 @@ class SideDrawer extends Component {
 
 				<SafeArea />
 			</View>
-		)
+		);
 	}
 
 	render() {

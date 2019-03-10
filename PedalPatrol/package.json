@@ -8,7 +8,7 @@
     "test:watch": "npm test -- --watch",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
-    "doc": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow"
+    "docs": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow"
   },
   "dependencies": {
     "firebase": "^5.8.5",

@@ -52,8 +52,6 @@ class BikeDetailsView extends BaseView {
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
 
-		console.log(data);
-
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
 
 		this.setState({

@@ -66,7 +66,7 @@ class AuthLoadingPresenter extends BasePresenter {
 	 */
 	onUpdated = (data) => {
 		HomeM.unsubscribe(this);
-		this._dataLoaded = true;
+		this._dataLoaded = true; // In-case authentication occurs after data is received
 		if (this._callback != null) {
 			this._callback();
 		}

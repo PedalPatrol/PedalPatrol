@@ -21,6 +21,7 @@ class BikeView extends BaseView {
 	constructor(props) {
 		super(props);
 		this.resetState();
+		// Another way to bind is to do () => {}
 		this._renderItem = this._renderItem.bind(this);
 		this._renderSearchBar = this._renderSearchBar.bind(this);
 		this.BikeP = new BikePresenter(this);
@@ -57,7 +58,8 @@ class BikeView extends BaseView {
 	}
 
 	/**
-	 * Renders a search bar as the header including the profile icon and the filter button
+	 * Renders a search bar as the header including the profile icon and the filter button.
+	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
 		<SearchBarHelper 
@@ -110,6 +112,7 @@ class BikeView extends BaseView {
 	render() {
 		return (	
 				<View style={styles.container}>
+					{/* List of bikes */}
 					<FlatList
 						data={this.state.data}
 						extraData={this.state.refresh}
@@ -118,6 +121,8 @@ class BikeView extends BaseView {
 						ListHeaderComponent={this._renderSearchBar}
 						stickyHeaderIndices={[0]}>
 					</FlatList>
+
+					{/* Add button */}
 					<TouchableHighlight style={styles.add} onPress={() => this.props.navigation.navigate('AddBike', {title: 'Add Bike'})} accessibilityLabel="New">
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
 					</TouchableHighlight>
