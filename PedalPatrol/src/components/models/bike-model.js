@@ -1,6 +1,8 @@
 import Model from './model';
 import Database from '../../util/database';
 
+import { PHOTO_ENTRIES } from '../../assets/static/entries';
+
 const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
 
 /**
@@ -66,6 +68,8 @@ class BikeModel extends Model {
 	 * @param {Object} newData - New data to add
 	 */
 	update(newData) {
+		const NUMBER_OF_IMAGES = PHOTO_ENTRIES.length;
+
 		// Add ID here
 		if (newData.data.id === '' || newData.data.id === undefined) {
 			console.log('Fetching new ID...');
@@ -73,25 +77,37 @@ class BikeModel extends Model {
 			console.log(newData.data.id);
 		}
 
+		// Write to database
 		this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
 			newData.data.thumbnail = uploaded_images;
 
+			// Check if there's actually images 
 			if (typeof uploaded_images === 'undefined' || uploaded_images == undefined || uploaded_images == []) {
+				this._callback(false);
 				return;
 			}
 
 			let result = this._insertDataOnUpdate(newData);
 
-			console.log(result);
-			console.log(this._data.data);
+			// console.log(result);
+			// console.log(this._data.data);
 
-			const finishCallback = (5-num_defaults === uploaded_images.length) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
+			// If the number of defaults in the original amount is the same 
+			const finishCallback = (NUMBER_OF_IMAGES-num_defaults === uploaded_images.length) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
 
-			if (result) {
-				this._editExistingInDatabase(newData.data, finishCallback);			
-			} else {
-				this._writeNewInDatabase(newData.data, finishCallback);
-			}
+			// variable 'result' - true: ID was found in database so edit it; false: ID not found in database so add it
+			// const dbCall = result ? Database.editBikeData : Database.writeBikeData;
+			// this._addToDatabase(dbCall, newData.data, finishCallback);
+			const funcCall = result ? this._editExistingInDatabase : this._writeNewInDatabase;
+			funcCall(newData.data, finishCallback);
+
+			// If the result is true, edit an existing piece of data, otherwise add it to the database
+			// Could change this just to check if data exists and then add it
+			// if (result) {
+			// 	this._editExistingInDatabase(newData.data, finishCallback);			
+			// } else {
+			// 	this._writeNewInDatabase(newData.data, finishCallback);
+			// }
 
 		}, this._callback);
 
@@ -113,6 +129,24 @@ class BikeModel extends Model {
 	}
 
 	/**
+	 * Returns the default image.
+	 *
+	 * @return {string} The default image
+	 */
+	getDefaultImage() {
+		return DEFAULT_IMAGE;
+	}
+
+	/**
+	 * Returns the photo entries.
+	 * 
+	 * @return {Object} The photo entries
+	 */
+	getPhotoEntries() {
+		return PHOTO_ENTRIES;
+	}
+
+	/**
 	 * Write the image to the firebase storage and call the callbacks with the urls that were defined.
 	 *
 	 * @param {Number} id - The id of the bike corresponding to the image
@@ -121,20 +155,26 @@ class BikeModel extends Model {
 	 * @param {Function} onError - A callback to call when an image has failed to upload
 	 */
 	_writeImageToStorage(id, images, onSuccess, onError) {
+		const FILE_EXTENSION = '.jpg';
 		let uploaded_pictures = [];
 		let count_default = 0;
 
+		// If there are no images, return
 		if (images == undefined || images == null || images.length === 0) {
+			onError(false);
 			return;
 		}
 
 		for (let i=0; i < images.length; i++) {
+			// Check if there's a default image, if so, skip it
 			if (this.isDefaultImage(images[i].illustration)) {
 				count_default++;
 				continue;
 			}
 
-			const filename = (new Date()).getTime() + i + '.jpg';
+			// Name of file is the current timestamp. 
+			const filename = (new Date()).getTime() + i + FILE_EXTENSION;
+			// Write image to database
 			Database.writeImage(id, images[i].illustration, filename, (url) => {
 				uploaded_pictures.push(url);
 				onSuccess(uploaded_pictures, count_default);
@@ -147,13 +187,15 @@ class BikeModel extends Model {
 		}
 	}
 
+	// Could generalize _writeNewInDatabase and _editExistingInDatabase into one function
+
 	/**
 	 * Write new data in database and call the function callback depending on if it was successful or not.
 	 *
 	 * @param {Object} newData - Data to be written to the database
 	 */
 	_writeNewInDatabase(newData, callback) {
-		Database.writeBikeData(newData, (data) => {
+		return Database.writeBikeData(newData, (data) => {
 			console.log(data);
 			callback(typeof data !== 'undefined' && data !== undefined);
 			// return typeof data !== 'undefined' && data !== undefined
@@ -192,20 +234,22 @@ class BikeModel extends Model {
 	_insertDataOnUpdate(newData) {
 		let i = 0;
 
+		// If only one piece, just insert it
 		if (this._data.data.length === 0) {
 			this._data.data.push(newData.data);
 			return false;
-		} 
+		}
 
+		// Loop through and see if there's a match, probably a better way to do this with indexOf or filter
 		while (i < this._data.data.length && this._data.data[i].id !== newData.data.id) {
 			i++;
 		}
 
 		if (i === this._data.data.length) {
 			this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
-			return false;
+			return false; // Data not found
 		} else {
-			this._data.data[i] = newData.data;
+			this._data.data[i] = newData.data;  // Data found, overwrite
 			return true;
 		}
 	}
@@ -233,11 +277,11 @@ class BikeModel extends Model {
 
 		if (databaseData != null) { // Check if there are objects in the database
 			for (val in databaseData) {
-				if (!this._hasProperty(databaseData[val], 'id')) {
-				// if (!databaseData[val].hasOwnProperty('id')) {
+				if (!this._hasProperty(databaseData[val], 'id')) { // If it doesn't have an id, skip it because it isn't valid
 					continue;
 				}
 
+				// Bike page only displays current user
 				if (currentUser == null || currentUser != databaseData[val].owner) {
 					continue;
 				}
@@ -245,11 +289,9 @@ class BikeModel extends Model {
 
 				// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
 				if (!this._hasProperty(databaseData[val], 'colour')) {
-				// if (!databaseData[val].hasOwnProperty('colour')) {
 					databaseData[val].colour = [];
 				}
 				if (!this._hasProperty(databaseData[val], 'thumbnail')) {
-				// if (!databaseData[val].hasOwnProperty('thumbnail')) {
 					databaseData[val].thumbnail = [];
 				}
 

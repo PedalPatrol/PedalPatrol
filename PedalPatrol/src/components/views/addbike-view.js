@@ -75,8 +75,6 @@ class AddBikeView extends BaseView {
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
 
-		console.log(this.AddBikeP.getDefaultPhotos());
-
 		this.setState({
 			inputData: this.AddBikeP.getTextInputData(data),
 			photoEntries: this.AddBikeP.getCurrentPhotos()

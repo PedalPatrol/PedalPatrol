@@ -7,6 +7,22 @@ import { Icon } from 'react-native-elements';
  */
 class NotificationBikeItemHelper extends Component {
 
+	navigate = () => {
+		// <TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
+		// this.props.navigation.navigate('BikeDetails', {data: this.props.data})
+		this.props.navigation.navigate({
+			routeName: 'BikeDetails',
+			params: {
+				data: this.props.data, 
+			},
+			key: 'BikeDetails' + this.getDateTime()
+		});
+	}
+
+	getDateTime = () => {
+		return (new Date()).getTime();
+	}
+
 	render() {
 		return(
 			<TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>

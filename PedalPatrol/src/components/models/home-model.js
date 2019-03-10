@@ -100,26 +100,31 @@ class HomeModel extends Model {
 		const minutes = parseInt(parsetime[1]);
 		const seconds = parseInt(parsetime[2]);
 
+		// console.log(hours, minutes, seconds);
+
 		if (hours >= 24) {
-			suffix = ' days ago';
-			outtime = Math.floor(hours/24);
-			if (outtime >= 30 && outtime < 365) {
-				suffix = ' months ago';
-				outtime = Math.floor(outtime/30);
-			} else {
-				suffix = ' years ago'
-				outtime = Math.floor(outtime/365);
-			} 
+			outtime = Math.floor(hours/24); // Round to days
+			suffix = outtime === 1 ? ' day ago' : ' days ago';
+
+			if (outtime >= 30 && outtime < 365) { // 30 days - 365 days
+				outtime = Math.floor(outtime/30); // Round to months
+				suffix = outtime === 1 ? ' month ago' : ' months ago';
+			} else if (outtime >= 365) { // > 365 days
+				outtime = Math.floor(outtime/365); // Round to years
+				suffix = outtime === 1 ? ' year ago' : ' years ago';
+			}
+
 		} else if (hours > 0) {
-			suffix = ' hrs ago';
 			outtime = hours;
+			suffix = outtime === 1 ? ' hour ago' : ' hrs ago';
+
 		} else {
 			if (minutes > 0) {
-				suffix = ' mins ago';
 				outtime = minutes;
+				suffix = outtime === 1 ? ' min ago' : ' mins ago';
 			} else {
-				suffix = ' secs ago';
 				outtime = seconds;
+				suffix = outtime === 1 ? ' sec ago' : ' secs ago';
 			}
 		}
 

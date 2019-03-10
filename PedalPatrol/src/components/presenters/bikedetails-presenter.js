@@ -75,7 +75,7 @@ class BikeDetailsPresenter extends BasePresenter {
 	 */
 	translateData = (data) => {
 		let formedData = [];
-		console.log(data);
+		// console.log(data);
 
 		Object.keys(data).forEach((key,index) => {
 			if (this.getIgnoredDetails().includes(key.toString())) {
@@ -86,7 +86,7 @@ class BikeDetailsPresenter extends BasePresenter {
     		keyStr = this.convertCase(keyStr);
     		const translated = {
     			title: keyStr + ": ",
-    			text: data[key],
+    			text: Array.isArray(data[key]) ? data[key].join(', ') : data[key],
     			id: index.toString()
     		};
     		formedData.push(translated);
@@ -94,7 +94,27 @@ class BikeDetailsPresenter extends BasePresenter {
 
 		const thumbnail = this.formThumbnail(data.thumbnail);
 
+		formedData = this.reorderData(formedData);
+
 		return { formedData, thumbnail };
+	}
+
+	reorderData = (data) => {
+		let orderedData = [];
+
+		const order = ["Name", "Serial Number", "Timeago", "Datetime", "Model", "Brand", "Colour", "Frame Size", "Wheel Size", "Notable Features"];
+
+		for (let i=0; i < order.length; i++) {
+			orderedData.push(this.findElement(data, order[i]));
+		}
+
+		return orderedData;
+	}
+
+	findElement = (data, key) => {
+		return data.filter(el => {
+			return el.title === key + ": ";
+		})[0];
 	}
 
 	/**
@@ -127,7 +147,7 @@ class BikeDetailsPresenter extends BasePresenter {
   	 * @return {List} A list of string properties to ignore
   	 */
   	getIgnoredDetails = () => {
-  		return ['id', 'owner', 'thumbnail', 'dataID'];
+  		return ['id', 'owner', 'thumbnail', 'dataID', 'milliseconds'];
   	}
 
 }

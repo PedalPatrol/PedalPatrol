@@ -48,13 +48,13 @@ class HomeView extends BaseView {
 
 	temporaryFilter = () => {
 		Alert.alert(
-				"The search filter is currently disabled.",
-				"Sorry for any inconvenience.",
-				[
-					{ text: "Ok", style: "ok" },
-				],
-				{ cancelable: false },
-			);
+			"The search filter is currently disabled.",
+			"Sorry for any inconvenience.",
+			[
+				{ text: "Ok", style: "ok" },
+			],
+			{ cancelable: false },
+		);
 	}
 
 	/**

@@ -1,10 +1,7 @@
 import BasePresenter from './presenter';
 import { BikeM } from '../models/export-models'; // Using the BikeModel class because an AddBikeModel class would have the same purpose
 
-import { PHOTO_ENTRIES } from '../../assets/static/entries';
-
 const NO_DATA = 'NO-DATA';
-const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
 
 /**
  * Class for the AddBike presenter and view
@@ -20,7 +17,7 @@ class AddBikePresenter extends BasePresenter {
 	constructor(view) {
 		super();
 		this.view = view;
-		this.currentPhotos = Object.assign(PHOTO_ENTRIES);
+		this.currentPhotos = Object.assign(BikeM.getPhotoEntries());
 		BikeM.subscribe(this);
 	}
 
@@ -67,7 +64,7 @@ class AddBikePresenter extends BasePresenter {
 				wheel_size: inputTextData[inputDataList.index.wheel_size].text,
 				frame_size: inputTextData[inputDataList.index.frame_size].text,
 				notable_features: inputTextData[inputDataList.index.notable_features].text,
-				thumbnail: pictureSource != null ? pictureSource : [{illustration: DEFAULT_IMAGE}]
+				thumbnail: pictureSource != null ? pictureSource : [{illustration: BikeM.getDefaultImage()}]
 			}
 		}
 
@@ -288,7 +285,7 @@ class AddBikePresenter extends BasePresenter {
 	checkPhotosForDefaults = (images) => {
 		let result = true;
 		for (let i=0; i < images.length; i++) {
-			result &= (images.illustration === DEFAULT_IMAGE);
+			result &= (images.illustration === BikeM.getDefaultImage());
 		}
 		return result;
 	}
@@ -336,9 +333,25 @@ class AddBikePresenter extends BasePresenter {
 		dataCopy[inputDataList.index.wheel_size].text			= this._getString(data.wheel_size);
 		dataCopy[inputDataList.index.frame_size].text			= this._getString(data.frame_size);
 
+		this.currentPhotos = this.formThumbnail(data.thumbnail);
+
 		this.view.setState({ currentID: data.id })
 
 		return this._deepCopy(dataCopy); 
+	}
+
+	/**
+	 * Forms the thumbnail into a useable list of objects.
+	 * 
+	 * @param {List} thumbnails - A list of thumbnails with links
+	 * @return {List} A list of thumbnail objects with an 'illustration' property
+	 */
+	formThumbnail = (thumbnails) => {
+		let formedThumbnails = [];
+		for (let i=0; i < thumbnails.length; i++) {
+			formedThumbnails.push({illustration: thumbnails[i]});
+		}
+		return formedThumbnails;
 	}
 
 
@@ -374,7 +387,7 @@ class AddBikePresenter extends BasePresenter {
 	 * @return {List} A list of objects with the property 'illustration' that contains the uri
 	 */
 	getDefaultPhotos = () => {
-		return JSON.parse(JSON.stringify(PHOTO_ENTRIES));
+		return JSON.parse(JSON.stringify(BikeM.getPhotoEntries()));
 	}
 
 	/**

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Al
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
+import { TextInput } from 'react-native-paper';
 
 import BaseView from './view';
 import SafeArea from './helpers/safearea';
@@ -51,11 +52,12 @@ class BikeDetailsView extends BaseView {
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
 
+		console.log(data);
+
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
 
 		this.setState({
 			data: formedData,
-			avatarSource: null,
 			photoEntries: thumbnail
 		});
 	}
@@ -83,6 +85,10 @@ class BikeDetailsView extends BaseView {
 	 * When the back button is clicked, check if the user was editing.
 	 */
 	_onBack = () => {
+		this.setState({
+			data: [],
+			photoEntries: []
+		});
 		this.props.navigation.navigate('Tabs');
 	}
 
@@ -99,14 +105,16 @@ class BikeDetailsView extends BaseView {
 	 * Renders a bike detail 
 	 */
 	_renderItem = ({item}) => (
-		<View style={styles.textrow}>
-			<Text style={styles.titleText}>
-				{item.title}
-			</Text>
-			<Text style={styles.dataText} numberOfLines={4}>
-				{item.text}
-			</Text>
-		</View>
+		<TextInput
+			style={styles.textInput}
+			label={this._renderText(item.title)}
+			value={item.text}
+			multiline
+			disabled/>
+	);
+
+	_renderText = (text) => (
+		<Text style={[{color: 'black'}]}>{text}</Text>
 	);
 
 	/**
@@ -166,5 +174,11 @@ const styles = StyleSheet.create({
 	},
 	dataText: {
 
-	}
+	},
+	textInput: {
+		marginRight: 10,
+		marginLeft: 10,
+		marginBottom: 10,
+		backgroundColor: '#F5FCFF',
+	},
 });

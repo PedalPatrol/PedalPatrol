@@ -11,9 +11,26 @@ class BikeItemHelper extends Component {
 		let id = this.props.data.id;
 	};
 
+	navigate = () => {
+		// <TouchableOpacity onPress={() => this.props.navigation.navigate('AddBike', {data: this.props.data, title: 'Edit Bike'})}>
+		// this.props.navigation.navigate('AddBike', {data: this.props.data, title: 'Edit Bike'})
+		this.props.navigation.navigate({
+			routeName: 'AddBike',
+			params: {
+				data: this.props.data, 
+				title: 'Edit Bike'
+			},
+			key: 'AddBike' + this.getDateTime()
+		});
+	}
+
+	getDateTime = () => {
+		return (new Date()).getTime();
+	}
+
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.props.navigation.navigate('AddBike', {data: this.props.data, title: 'Edit Bike'})}>
+			<TouchableOpacity onPress={() => this.navigate()}>
 				<View style={styles.rowContainer}>
 					<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
                         {/* Thumbnail */}
