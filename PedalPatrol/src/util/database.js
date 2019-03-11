@@ -110,7 +110,47 @@ class FirebaseDatabase {
 	 * @param {Function} callback - A function callback that is with the value(s) read
 	 */
 	readBikeDataOn(callback) {
-		this.refDB.child('Bike/').on('value', callback);
+		this.listenOn('Bike/', 'value', callback);
+		// this.refDB.child('Bike/').on('value', callback);
+	}
+
+	/**
+	 * General function for listening to the database for events.
+	 * Be as specific as possible when specifying the child (don't just listen on root).
+	 * See https://firebase.google.com/docs/reference/js/firebase.database.Reference#on
+	 * for event names.
+	 *
+	 * @param {string} child - A child to listen on
+	 * @param {string} event - An event to listen for
+	 * @param {Function} callback - A function callback to trigger when data is recieved
+	 */
+	listenOn(child, event, callback) {
+		this.refDB.child(child).on(event, callback);
+	}
+
+	/**
+	 * Removes a bike id from the database.
+	 *
+	 * @param {string} key - A bike id to remove
+	 * @param {Function} callback - A function callback to trigger when the bike is removed
+	 */
+	removeBikeItem(key, callback) {
+		this.removeItem('Bike/', key, callback);
+	}
+
+	/**
+	 * Removes an item from the database given by 'removeChild' in the 'table'.
+	 *
+	 * @param {string} table - A table to remove from
+	 * @param {string} removeChild - A child id to remove
+	 * @param {Function} callback - A function callback to trigger when item is removed
+	 */
+	removeItem(table, removeChild, callback) {
+		this.refDB.child(table).child(removeChild).remove().then(() => {
+			callback(true);
+		}).catch(() => {
+			callback(false);
+		});
 	}
 
 	/**
@@ -150,9 +190,9 @@ class FirebaseDatabase {
 	 *
 	 * @param {string} key - An id in the database
 	 */
-	removeBikeItem(key) {
-		this.refDB.child('Bike').child(key).remove();
-	}
+	// removeBikeItem(key) {
+	// 	this.refDB.child('Bike').child(key).remove();
+	// }
 
 	/**
 	 * Returns the currently logged in user's id.

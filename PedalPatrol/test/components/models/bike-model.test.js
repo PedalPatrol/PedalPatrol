@@ -51,7 +51,7 @@ test('should return default data', () => {
 // 	expect(_notifyAll).toHaveBeenCalled();
 // 	expect(_notifyAll).toHaveBeenCalledWith(result_data);
 
-// 	Database.removeBikeItem(0);
+// 	Database.removeBikeItem(0, (_) => 'default');
 // });
 
 test('should overwrite data', () => {

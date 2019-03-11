@@ -27,6 +27,7 @@ class AddBikeView extends BaseView {
 		editing: false, // Checks if user is editing
 		refresh: true, // Triggers a view refresh
 		loaderVisible: false,
+		isEditPage: false,
 
 		inputData: [], // Input text data is at each index
 		colours: colours.data, // Current colours
@@ -76,11 +77,13 @@ class AddBikeView extends BaseView {
 
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
+		const viewTitle = navigation.getParam('title', 'Add Bike');
 
 		// This can be done before the component has mounted so we do it before so data appears immediately
 		this.setState({
 			inputData: this.AddBikeP.getTextInputData(data),
-			photoEntries: this.AddBikeP.getCurrentPhotos()
+			photoEntries: this.AddBikeP.getCurrentPhotos(),
+			isEditPage: this.isEditBikePage(viewTitle)
 		});
 	}
 
@@ -103,6 +106,16 @@ class AddBikeView extends BaseView {
 	 */
 	componentWillUnmount = () => {
 		this.viewUnmounting(this.AddBikeP);
+	}
+
+	/**
+	 * Checks if the title of the view is edit bike, and if so, returns true.
+	 *
+	 * @param {string} title - The title of the view
+	 * @return {Boolean} true: If the page is edit bike; false: If the page is add bike
+	 */
+	isEditBikePage = (title) => {
+		return title === 'Edit Bike';
 	}
 
 	/**
@@ -179,6 +192,50 @@ class AddBikeView extends BaseView {
 		this.setState({ inputData, photoEntries });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}
+
+	/**
+	 * Prompt to ask the user if they want to delete the bike
+	 */
+	deletePrompt = () => {
+		Alert.alert(
+			"Are you sure you want to delete this bike?",
+			"",
+			[
+				{ text: "Yes", onPress: () => {this._enableLoader(); this.AddBikeP.deleteBike(this.state.currentID, this.deleteCallback)}},
+				{ text: "No", onPress: () => {}, style: "cancel" },
+			],
+			{ cancelable: false },
+		);
+	}
+
+	/**
+	 * Sets a callback on what to do if there is a success or error when a bike is uploaded.
+	 *
+	 * @param {Boolean} success - true: Uploading successful; false: Uploading failed
+	 */
+	deleteCallback = (success) => {
+		this._disableLoader();
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				"Bike successfully deleted!",
+				"",
+				[
+					{ text: "Ok", onPress: () => this.resetAllOnBack(), style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				"Bike was not able to be deleted.",
+				"Please try again.",
+				[
+					{ text: "Ok", onPress: () => {}, style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		}
+	}	
 
 	/**
 	 * Render a text input item.
@@ -370,11 +427,26 @@ class AddBikeView extends BaseView {
 							<TouchableOpacity style={styles.submitTouchable}>
 								<Button
 									title='Submit'
-									onPress={() => this._getDataToUpdate()}
-								/>
+									onPress={() => this._getDataToUpdate()}/>
 							</TouchableOpacity>
 
 							{/* TODO : Add delete button */}
+							{
+								this.state.isEditPage &&
+								<View> 
+									<View style={{flexDirection: 'row', marginTop: 20}}> 
+										<View style={styles.deleteInline} /> 
+											<Text style={styles.delete}>Delete Bike</Text> 
+										<View style={styles.deleteInline} /> 
+									</View>
+									
+									<TouchableOpacity style={styles.deleteTouchable} onPress={() => 'default'}>
+										<Button
+										title='Delete'
+										onPress={() => this.deletePrompt()}/>
+									</TouchableOpacity>
+								</View>
+							}
 
 							{/* Spinning loading circle */}
 							{
@@ -459,5 +531,37 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: '#F5FCFF88',
+	},
+	deleteView: {
+		borderWidth: 2,
+		borderColor: 'red',
+		marginLeft: 5,
+		marginRight: 5,
+		marginTop: 20,
+		marginBottom: 5
+	},
+	deleteTouchable: {
+		borderWidth: 1, 
+		textAlign: 'center', 
+		borderColor: 'red',
+		borderRadius: 5,
+		marginLeft: 10,
+		marginRight: 10,
+		marginTop: 10,
+		marginBottom: 10,
+		backgroundColor: '#FFF'
+	},
+	delete: {
+		alignSelf: 'center', 
+		paddingHorizontal: 5, 
+		fontSize: 20,
+		color: 'red'
+	},
+	deleteInline: {
+		borderColor: 'red',
+		backgroundColor: 'red', 
+		height: 2, 
+		flex: 1, 
+		alignSelf: 'center'
 	}
 });

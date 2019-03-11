@@ -118,7 +118,7 @@ test('should update model with edited bike', () => {
 	// expect(onUpdated).toHaveBeenCalledWith(resultDataEdit);
 
 	addbikepresenter.onDestroy();
-	Database.removeBikeItem(1);
+	Database.removeBikeItem(1, (_) => 'default');
 });
 
 test('should build data from view data', () => {

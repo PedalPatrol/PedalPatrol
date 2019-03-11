@@ -23,6 +23,16 @@ class BikeModel extends Model {
 	}
 
 	/**
+	 * Delete a bike from the database
+	 *
+	 * @param {string} id - A bike id to delete
+	 * @param {Function} callback - A function to call when remove succeeds or fails
+	 */
+	deleteBikeByID(id, callback) {
+		Database.removeBikeItem(id, callback);
+	}
+
+	/**
 	 * Default callback
 	 */
 	_defaultCallback(message) {

@@ -38,6 +38,19 @@ class AddBikePresenter extends BasePresenter {
 	}
 
 	/**
+	 * Delete a bike from the database
+	 *
+	 * @param {string} id - A bike id to delete
+	 * @param {Function} callback - A function to call when remove succeeds or fails
+	 */
+	deleteBike = (id, callback) => {
+		BikeM.deleteBikeByID(id, (dataRemoved) => {
+			// Need to do any processing here?
+			callback(dataRemoved);
+		});
+	}
+
+	/**
 	 * Build the data obtained from the view and insert it into a new data object.
 	 * Current attributes of newData object: 
 	 * 			{Object} inputTextData: [{name, multiline, bike_editable, text}]
