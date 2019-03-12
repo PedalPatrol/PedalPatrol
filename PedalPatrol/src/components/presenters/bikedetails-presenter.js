@@ -101,14 +101,16 @@ class BikeDetailsPresenter extends BasePresenter {
 
 		formedData = this.reorderData(formedData);
 
+		// console.log(formedData, thumbnail);
+
 		return { formedData, thumbnail };
 	}
 
 	/**
 	 * Reorders the data to be based on a specific order defined in getDetailsOrder.
 	 *
-	 * @param {Object} data - The data to be reordered
-	 * @return {Object} The reordered data
+	 * @param {List} data - The data to be reordered
+	 * @return {List} The reordered data
 	 */
 	reorderData = (data) => {
 		let orderedData = [];
@@ -129,7 +131,7 @@ class BikeDetailsPresenter extends BasePresenter {
 	/**
 	 * Finds if an element exists with a specific title based on a key.
 	 *
-	 * @param {Object} data - Data to find an element in
+	 * @param {List} data - Data to find an element in
 	 * @param {string} key - A key to look for
 	 * @return {Object} The first element found since data titles should be unique anyway
 	 */
@@ -146,7 +148,7 @@ class BikeDetailsPresenter extends BasePresenter {
 	 * @return {string} The string converted to title case
 	 */
 	convertCase = (str) => {
-		return str.toLowerCase().replace(/(^| )(\w)/g, s => s.toUpperCase()); // Regex FTW
+		return str == undefined || str == null ? '' : str.toLowerCase().replace(/(^| )(\w)/g, s => s.toUpperCase()); // Regex FTW
   	}
 
   	/**

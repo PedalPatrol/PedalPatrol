@@ -1,4 +1,4 @@
-import addBikePresenter from '@/src/components/presenters/addbike-presenter';
+import AddBikePresenter from '@/src/components/presenters/addbike-presenter';
 import Model from '@/src/components/models/model';
 import BikeModel from '@/src/components/models/bike-model';
 import BaseView from '@/src/components/views/view';
@@ -15,21 +15,16 @@ class TestView extends BaseView {
 	refreshState = () => {};
 }
 
+const view = new TestView();
+const bikemodel = new BikeModel();
+const addbikepresenter = new AddBikePresenter(view);
+
 test('should return data from model', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
-
 	const resultData = [];
-
 	expect(addbikepresenter.getData()).toEqual(resultData);
-
-	addbikepresenter.onDestroy();
 });
 
 test('should update model with edited bike', () => {
-	const view = new TestView();
-	const bikemodel = new BikeModel();
-	const addbikepresenter = new addBikePresenter(view);
 	const onUpdated = addbikepresenter.onUpdated = jest.fn((newData) => 'default').mockName('onUpdated');
 	const callback = jest.fn((success) => 'default').mockName('callback');
 
@@ -127,13 +122,11 @@ test('should update model with edited bike', () => {
 	// expect(onUpdated).toHaveBeenCalled();
 	// expect(onUpdated).toHaveBeenCalledWith(resultDataEdit);
 
-	addbikepresenter.onDestroy();
+	// addbikepresenter.onDestroy();
 	Database.removeBikeItem(1, (_) => 'default');
 });
 
 test('should build data from view data', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
 	
 	const dataToPass = { 
 		inputTextData: [
@@ -201,13 +194,10 @@ test('should build data from view data', () => {
 
 	expect(addbikepresenter._buildDataFromView(dataToPass)).toEqual(result_data);
 
-	addbikepresenter.onDestroy();
+	// addbikepresenter.onDestroy();
 });
 
 test('should check editing state and execute expected function', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
-
 	const success = jest.fn(() => 'success').mockName('success');
 	const failure = jest.fn(() => 'failure').mockName('failure');
 
@@ -220,13 +210,10 @@ test('should check editing state and execute expected function', () => {
 	expect(failure).toHaveBeenCalled();
 	expect(failure).toHaveBeenCalledWith();
 
-	addbikepresenter.onDestroy();
+	// addbikepresenter.onDestroy();
 });
 
 test('should set view state with modified colour list', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
-
 	const colourData = {
 		data: [ {name: "Alice Blue", colour: "#f0f8ff"} ]
 	};
@@ -250,13 +237,9 @@ test('should set view state with modified colour list', () => {
 	expect(setState).toHaveBeenCalled();
 	expect(setState).toHaveBeenCalledWith(result_data);
 
-	addbikepresenter.onDestroy();
 });
 
 test('should filter colours by search term', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
-
 	const searchTermValid = 'Blue';
 	const searchTermInvalid = 'Green';
 	const subKey = '';
@@ -275,14 +258,9 @@ test('should filter colours by search term', () => {
 
 	expect(addbikepresenter.filterItems(searchTermValid, items, {subKey, displayKey, uniqueKey})).toEqual([items[0]]);
 	expect(addbikepresenter.filterItems(searchTermInvalid, items, {subKey, displayKey, uniqueKey})).toEqual([]);
-
-	addbikepresenter.onDestroy();
 });
 
 test('should translate item data to text input form', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
-
 	const inputData = {
 		id: 1,
 		name: 'BikeName1',
@@ -351,39 +329,32 @@ test('should translate item data to text input form', () => {
 	];
 
 	expect(addbikepresenter._translateDataToInput(inputData)).toEqual(result_data);
-
-	addbikepresenter.onDestroy();
 });
 
 test('should produce deep copy of array', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
-
 	const array = [{id: '1'}, {id: '2'}];
 	const result_array = [{id: '1'}, {id: '2'}];
 
 	expect(addbikepresenter._deepCopy(array)).toEqual(result_array);
 	expect(addbikepresenter._deepCopy(array)).not.toBe(array);
-
-	addbikepresenter.onDestroy();
 });
 
 test('should add view as attribute', () => {
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
+	const viewTest = new TestView();
+	const addbikepresenterTest = new AddBikePresenter(viewTest);
 
-	expect(addbikepresenter.view).toEqual(view);
+	expect(addbikepresenterTest.view).toEqual(viewTest);
 
-	addbikepresenter.onDestroy();
+	addbikepresenterTest.onDestroy();
 });
 
 test('should subscribe presenter to model', () => {
 	const spy = jest.spyOn(Model.prototype, 'subscribe');
-	const view = new TestView();
-	const addbikepresenter = new addBikePresenter(view);
+	const viewTest = new TestView();
+	const addbikepresenterTest = new AddBikePresenter(viewTest);
 
 	expect(spy).toHaveBeenCalled();
 
-	addbikepresenter.onDestroy();
-	expect(spy).toHaveBeenCalledWith(addbikepresenter);
+	addbikepresenterTest.onDestroy();
+	expect(spy).toHaveBeenCalledWith(addbikepresenterTest);
 });

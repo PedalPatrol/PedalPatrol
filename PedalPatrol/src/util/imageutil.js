@@ -103,9 +103,11 @@ class ImageUtility {
 	 */
 	formThumbnail(thumbnails) {
 		let formedThumbnails = [];
-		for (let i=0; i < thumbnails.length; i++) {
-			// Need to form the thumbnail property for the carousel
-			formedThumbnails.push({illustration: thumbnails[i]});
+		if (thumbnails != undefined) {
+			for (let i=0; i < thumbnails.length; i++) {
+				// Need to form the thumbnail property for the carousel
+				formedThumbnails.push({illustration: thumbnails[i]});
+			}
 		}
 		return formedThumbnails;
 	}
