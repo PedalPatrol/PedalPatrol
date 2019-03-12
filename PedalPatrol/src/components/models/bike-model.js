@@ -85,7 +85,6 @@ class BikeModel extends Model {
 		if (newData.data.id === '' || newData.data.id === undefined) {
 			console.log('Fetching new ID...');
 			newData.data.id = Database.getNewBikeID();
-			console.log(newData.data.id);
 		}
 
 		try {
@@ -96,7 +95,6 @@ class BikeModel extends Model {
 				this._editExistingInDatabase(newData.data, (result) => {this._callback(true); this._notifyAll(this._data);});
 
 			} else {
-				console.log(newData.data.thumbnail)
 				// Write to database
 				this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
 					newData.data.thumbnail = uploaded_images;

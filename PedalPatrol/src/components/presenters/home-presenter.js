@@ -1,5 +1,5 @@
 import BasePresenter from './presenter';
-import { HomeM } from '../models/export-models';
+import { HomeM, AlertM } from '../models/export-models';
 
 /**
  * Class for the Home presenter and view
@@ -17,6 +17,7 @@ class HomePresenter extends BasePresenter {
 		this.stores = [HomeM];
 		this.view = view;
 		HomeM.subscribe(this);
+		AlertM.subscribe(this);
 	}
 
 	/**
@@ -60,10 +61,20 @@ class HomePresenter extends BasePresenter {
 	};
 
 	/**
+	 * Get the number of notifications from the Alerts model.
+	 *
+	 * @return {Number} The number of notifications
+	 */
+	getNotificationCount = () => {
+		return AlertM.getNotificationsCount();
+	}
+
+	/**
 	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
 	 */
 	onDestroy = () => {
 		HomeM.unsubscribe(this);
+		AlertM.unsubscribe(this);
 	};
 
 	// Maybe differentiate between cancel and clear	

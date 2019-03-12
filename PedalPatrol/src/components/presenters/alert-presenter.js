@@ -1,22 +1,21 @@
 import BasePresenter from './presenter';
-import { BikeM, AlertM } from '../models/export-models';
+import { AlertM } from '../models/export-models';
 
 /**
- * Class for the Bike presenter and view
+ * Class for the Home presenter and view
  * @extends BasePresenter
  */
-class BikePresenter extends BasePresenter {
+class AlertPresenter extends BasePresenter {
 	/**
-	 * Creates an instance of BikePresenter
+	 * Creates an instance of AlertPresenter
 	 *
 	 * @constructor
 	 * @param {Object} view - An instance of a view class
 	 */
 	constructor(view) {
-		super();
-		// this.stores = [BikeM];
+		super()
+		this.stores = [AlertM];
 		this.view = view;
-		BikeM.subscribe(this);
 		AlertM.subscribe(this);
 	}
 
@@ -26,7 +25,7 @@ class BikePresenter extends BasePresenter {
 	 * @param {Object} newData - New data to update the model's data with.
 	 */
 	update = (newData) => {
-		BikeM.update(newData); 
+		AlertM.update(newData); 
 	};
 
 
@@ -39,7 +38,6 @@ class BikePresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		// console.log(newData)
 		this.view.refreshState();
 	};
 
@@ -49,8 +47,8 @@ class BikePresenter extends BasePresenter {
 	 * Better way to refresh the state?
 	 */
 	onUpdated = () => {
-	 	this.forceRefresh(); // Force a refresh here because we got the data from the database
-	};
+	 	this.view.refreshState();
+	 };
 
 	/**
 	 * Gets the data from the model and returns it to the caller.
@@ -58,28 +56,17 @@ class BikePresenter extends BasePresenter {
 	 * @return {Object} Data from the model.
 	 */
 	getData = () => {
-		return BikeM.get().data;
+		return AlertM.get().data;
 	};
-
-	/**
-	 * Get the number of notifications from the Alerts model.
-	 *
-	 * @return {Number} The number of notifications
-	 */
-	getNotificationCount = () => {
-		return AlertM.getNotificationsCount();
-	}
 
 	/**
 	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
 	 */
 	onDestroy = () => {
-		BikeM.unsubscribe(this);
 		AlertM.unsubscribe(this);
 	};
 
-	
-	// Maybe differentiate between cancel and clear
+	// Maybe differentiate between cancel and clear	
 	/**
 	 * Handle the search cancel.
 	 */
@@ -104,25 +91,26 @@ class BikePresenter extends BasePresenter {
 	 * @param {string} text - A word(s) to filter on
 	 */
 	handleSearchFilter = (text) => {
-		console.log(this.getData());
 		const newData = this.getData().filter(item => {
-			const itemData = `${item.name.toUpperCase()}}`;
+			const itemData = `${item.model.toUpperCase()}}`;
 			const textData = text.toUpperCase();
 			return itemData.indexOf(textData) > -1;
 		});
 		this.view.setState({
 			data: newData
 		});
-	}; 
+	};
 
 	/**
-	 * Forces a refresh of the view by fetching the data again.
+	 * Forces a refresh for the view by recalcuating the timeago property, resorting bookmarked data and setting the state again.
 	 */
 	forceRefresh = () => {
+		AlertM.recalculateTimeAgo();
+		AlertM.moveTimeDataToFront();
 		this.view.setState({
 			data: this.getData()
 		});
 	};
 }
 
-export default BikePresenter;
+export default AlertPresenter;

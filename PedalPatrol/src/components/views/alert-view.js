@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
+import { HeaderBackButton } from 'react-navigation';
 
 import SafeArea from './helpers/safearea';
 import NotificationBikeItemHelper from './helpers/notificationbikeitem';
 import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';
-import HomePresenter from '../presenters/home-presenter';
+import AlertPresenter from '../presenters/alert-presenter';
 
 /**
  * Class for the Home view
@@ -24,7 +25,19 @@ class HomeView extends BaseView {
 		this.resetState();
 		this._renderItem = this._renderItem.bind(this);
 		this._renderSearchBar = this._renderSearchBar.bind(this);
-		this.HomeP = new HomePresenter(this);
+		this.AlertP = new AlertPresenter(this);
+	}
+
+	/**
+	 * Set the navigation options, change the header to handle a back button.
+	 *
+	 * @return {Object} Navigation option
+	 */
+	static navigationOptions = ({navigation, transitioning}) => {
+		return {
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
+			title: navigation.getParam('title', 'Alerts') // Default title is Alerts
+		};
 	}
 
 	/**
@@ -42,9 +55,7 @@ class HomeView extends BaseView {
 	_renderItem = ({item}) => (
 		<NotificationBikeItemHelper
 			data={item}
-			type={'stolen'}
-			setBookmark={this.HomeP.setBookmark}
-			bookmarked={this.HomeP.getBookmarked(item.id)}
+			type={'found'}
 			navigation={this.props.navigation}/>
 	);
 
@@ -66,12 +77,11 @@ class HomeView extends BaseView {
 	 */
 	_renderSearchBar = () => (
 		<SearchBarHelper 
-			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
-			handleSearchCancel={this.HomeP.handleSearchCancel}
-			handleSearchClear={this.HomeP.handleSearchClear}
+			handleSearchFilter={(text) => this.AlertP.handleSearchFilter(text)}
+			handleSearchCancel={this.AlertP.handleSearchCancel}
+			handleSearchClear={this.AlertP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}
-			numNotifications={this.HomeP.getNotificationCount()}/>
+			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
 	);
 
 
@@ -88,8 +98,13 @@ class HomeView extends BaseView {
 	 * Triggers when a component or this component is mounted.
 	 */
 	componentWillMount = () => {
+		// There's a problem with clicking the back button too quickly so need to find a better place to put this
+		this.props.navigation.setParams({
+			_onBack: this._onBack
+		});
+
 		this.setState({
-			data: this.HomeP.getData()
+			data: this.AlertP.getData()
 		});
 	};
 
@@ -99,14 +114,21 @@ class HomeView extends BaseView {
 	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
 	 */
 	componentWillUnmount = () => {
-		this.viewUnmounting(this.HomeP);
+		this.viewUnmounting(this.AlertP);
+	}
+
+	/**
+	 * When the back button is clicked, check if the user was editing.
+	 */
+	_onBack = () => {
+		this.props.navigation.navigate('Tabs');
 	}
 
 	/**
 	 * Triggers a force refresh of the view
 	 */
 	_onRefresh = () => {
-		this.HomeP.forceRefresh();
+		this.AlertP.forceRefresh();
 	}
 
 	/**
@@ -130,8 +152,6 @@ class HomeView extends BaseView {
 						extraData={this.state.refresh}
 						keyExtractor={this._keyExtractor}
 						renderItem={this._renderItem}
-						ListHeaderComponent={this._renderSearchBar}
-						stickyHeaderIndices={[0]}
 						refreshControl={
 						    <RefreshControl
 						        colors={["#9Bd35A", "#689F38"]}

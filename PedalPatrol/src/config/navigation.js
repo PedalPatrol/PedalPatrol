@@ -12,6 +12,7 @@ import SignUpView from '../components/views/signup-view';
 import LoginView from '../components/views/login-view';
 import AuthLoadingView from '../components/views/authloading-view';
 import ProfileView from '../components/views/profile-view';
+import AlertView from '../components/views/alert-view';
 
 let screen = Dimensions.get('window');
 
@@ -96,6 +97,36 @@ const AddBikeStack = createStackNavigator({
 });
 
 /**
+ * Stack navigator for profile page. We need to define a stack navigator for views in the drawer if we want a header.
+ */
+const ProfileStack = createStackNavigator({
+	Profile: {
+		screen: ProfileView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitle: 'Profile',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+});
+
+/**
+ * Stack navigator for alerts page. We need to define a stack navigator for views in the drawer if we want a header.
+ */
+const AlertStack = createStackNavigator({
+	Alerts: {
+		screen: AlertView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitle: 'Alerts',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+});
+
+/**
  * Stack navigator for the login page to allow for the signup page to be opened from the login page
  */
 const LoginStack = createStackNavigator({
@@ -168,8 +199,14 @@ export const createRootNavigator = () => {
 					gesturesEnabled: false,
 				})
 			},
-			Profile: {
-				screen: ProfileView,
+			ProfileStack: {
+				screen: ProfileStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
+			AlertStack: {
+				screen: AlertStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

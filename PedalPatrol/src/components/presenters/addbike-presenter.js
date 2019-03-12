@@ -341,7 +341,8 @@ class AddBikePresenter extends BasePresenter {
 		dataCopy[inputDataList.index.wheel_size].text			= this._getString(data.wheel_size);
 		dataCopy[inputDataList.index.frame_size].text			= this._getString(data.frame_size);
 
-		this.currentPhotos = ImageUtil.formThumbnail(data.thumbnail);
+		const thumbnail = ImageUtil.formThumbnail(data.thumbnail);
+		this.currentPhotos = ImageUtil.addRemainingDefaults(thumbnail);
 		this.view.setState({ currentID: data.id });
 
 		return this._deepCopy(dataCopy); 

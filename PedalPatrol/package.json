@@ -5,17 +5,20 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest --silent",
+    "test:coverage": "jest --coverage",
     "test:watch": "npm test -- --watch",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
     "docs": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow"
   },
   "dependencies": {
+    "async-lock": "^1.1.4",
     "firebase": "^5.8.5",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-devtools": "^3.6.0",
     "react-native": "^0.58.6",
+    "react-native-badge-avatar": "^1.1.2",
     "react-native-drawer": "^2.5.1",
     "react-native-elements": "^1.0.0-beta7",
     "react-native-gesture-handler": "^1.0.16",

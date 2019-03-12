@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Icon, SearchBar } from 'react-native-elements';
+import Avatar from 'react-native-badge-avatar';
 
 import DrawerHelp from '../../../util/drawerhelper';
 
@@ -8,13 +9,20 @@ import DrawerHelp from '../../../util/drawerhelper';
  * Class to add a profile button to the search bar header
  */
 class ProfileButton extends Component {
+	//<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
 	render() {
 		return (
 			<View>
 				{/* Profile */}
 				<View style={{flex:1}}>
-					<TouchableOpacity onPress={() => {DrawerHelp.openDrawer()}}>
-						<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
+					<TouchableOpacity onPress={() => {DrawerHelp.openDrawer(this.props.numNotifications)}}>
+						<Avatar
+							style={styles.profile}
+							size={40}
+							name="Sean"
+							source={this.props.profilePicture}
+							badge={this.props.numNotifications}
+				        />
 					</TouchableOpacity>
 				</View>
 			</View>

@@ -20,7 +20,7 @@ class SideDrawer extends Component {
 	 */
 	constructor (props) {
 		super(props);
-		this.state = {drawerOpen: false};
+		this.state = {drawerOpen: false, numNotifications: 0};
 		// console.log(this.state.drawerOpen);
 		DrawerHelp.setDrawer(this);
 	};
@@ -47,9 +47,16 @@ class SideDrawer extends Component {
 				type={item.icon_type}
 				backgroundColor="#F5FCFF"
 				color="#000"
-				size={25}
+				size={30}
 				onPress={() => this.navigateToScreen(item.screen)}>
 				<Text style={styles.itemText}>{item.text}</Text>
+				{
+					this.state.numNotifications > 0 &&
+					item.text === 'Alerts' &&
+					<View style={styles.notifications}>
+					<Text style={styles.notificationsText}>{this.state.numNotifications}</Text>
+					</View>
+				}
 			</Icon.Button>
 		</View>
 	);
@@ -75,10 +82,12 @@ class SideDrawer extends Component {
 	
 	/**
 	 * Opens the drawer.
+	 *
+	 * @param {Number} numNotifications - The number of notifications
 	 */
-	openDrawer = () => {
+	openDrawer = (numNotifications) => {
 		this._drawer.open();
-		this.setState({drawerOpen: true});
+		this.setState({drawerOpen: true, numNotifications});
 	};
 
 
@@ -137,30 +146,33 @@ class SideDrawer extends Component {
 
 export default SideDrawer;
 
+/**
+ * screen property must be the stack navigator defined in navigation.js
+ */
 const data = [
 	{
 		text: 'Profile',
 		icon_name: 'user',
 		icon_type: 'FontAwesome',
-		screen: 'Profile'
+		screen: 'ProfileStack'
 	},
 	{
 		text: 'Alerts',
 		icon_name: 'exclamation-circle',
 		icon_type: 'FontAwesome',
-		screen: 'Alerts'
+		screen: 'AlertStack'
 	},
 	{
 		text: 'Settings',
 		icon_name: 'cog',
 		icon_type: 'FontAwesome',
-		screen: 'Settings'
+		screen: 'SettingStack'
 	},
 	{
 		text: 'Logout',
 		icon_name: 'sign-out',
 		icon_type: 'FontAwesome',
-		screen: 'Logout'
+		screen: 'LogoutStack'
 	}
 
 ]
@@ -201,5 +213,18 @@ const styles = StyleSheet.create({
 	    paddingRight: 40,
 	    marginLeft: 20,
 	    marginTop: 3
+	},
+	notifications: {
+		width: 30,
+		height: 30,
+		borderRadius: 15,
+		marginLeft: 5,
+		backgroundColor: '#696969',
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	notificationsText: {
+		fontSize: 20, 
+		color: 'white', 
 	}
 });

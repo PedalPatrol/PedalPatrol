@@ -39,7 +39,6 @@ class HomeModel extends Model {
 			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
 			this.moveBookmarkedDataToFront();
-			this._notifyAll(this._data);
 		});
 	}
 
@@ -56,15 +55,17 @@ class HomeModel extends Model {
 				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
 					continue;
 				}
-				if (!databaseData[val].hasOwnProperty('stolen') || !databaseData[val].stolen) {
-					continue;
-				}
+				// if (!databaseData[val].hasOwnProperty('stolen') || !databaseData[val].stolen) {
+				// 	continue;
+				// }
 
-				databaseData[val].dataID = dataID++;
-				// Add timeago and datetime formatted info
-				databaseData[val].timeago = this._getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
-				databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].milliseconds);
-				tempData.data.push(databaseData[val]);
+				if (databaseData[val].hasOwnProperty('stolen') && databaseData[val].stolen) {
+					databaseData[val].dataID = dataID++;
+					// Add timeago and datetime formatted info
+					databaseData[val].timeago = this._getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
+					databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].milliseconds);
+					tempData.data.push(databaseData[val]);
+				}
 			}
 			this._data = tempData;
 		}
@@ -180,7 +181,7 @@ class HomeModel extends Model {
 	 * Moves the bookmarked data to the front of the list.
 	 */
 	moveBookmarkedDataToFront() {
-		if (typeof this._data !== "undefined" || this._data != undefined) {
+		if (typeof this._data !== "undefined" && this._data != undefined) {
 			const temp = this._data.data;
 
 			const nonBookmarkedData = this.getBookmarkedData(temp, false);

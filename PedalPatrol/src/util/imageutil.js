@@ -107,11 +107,16 @@ class ImageUtility {
 			// Need to form the thumbnail property for the carousel
 			formedThumbnails.push({illustration: thumbnails[i]});
 		}
-		formedThumbnails = this._addRemainingDefaults(formedThumbnails);
 		return formedThumbnails;
 	}
 
-	_addRemainingDefaults(thumbnails) {
+	/**
+	 * Add remaining defaults to the list of thumbnails for editing purposes.
+	 *
+	 * @param {List} thumbnails - A list of thumbnails
+	 * @return {List} A list of thumbnails of length NUMBER_OF_IMAGES with defaults
+	 */
+	addRemainingDefaults(thumbnails) {
 		const defaults_remaining = NUMBER_OF_IMAGES - thumbnails.length;
 		const default_thumbnail = {illustration: DEFAULT_IMAGE};
 		for (let i=0; i < defaults_remaining; i++) {

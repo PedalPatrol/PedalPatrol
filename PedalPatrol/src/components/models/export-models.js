@@ -1,3 +1,4 @@
+import AlertModel from './alert-model';
 import BikeModel from './bike-model';
 import HomeModel from './home-model';
 import LoginModel from './login-model';
@@ -10,11 +11,13 @@ import LoginModel from './login-model';
  * import { NameM } from '../models/export-models';
  * where NameM is the name of the instance.
  */
+const AlertM = new AlertModel();
 const BikeM = new BikeModel();
 const HomeM = new HomeModel();
 const LoginM = new LoginModel();
 
-export { 
+export {
+	AlertM,
 	BikeM, 
 	HomeM,
 	LoginM

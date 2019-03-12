@@ -12,7 +12,7 @@ import FilterHelper from './filter';
  */
 class SearchBarHelper extends Component {
 	state = {
-		value: ''
+		value: '',
 	}
 
 	render() {
@@ -20,9 +20,11 @@ class SearchBarHelper extends Component {
 			<View>
 				<SafeArea/>
 				<View style={styles.searchContainer}>
-                    {/* Profile */}
-                    <ProfileButton profilePicture={this.props.profilePicture} />
-          
+					{/* Profile */}
+					<ProfileButton 
+						profilePicture={this.props.profilePicture} 
+						numNotifications={this.props.numNotifications}/>
+
 					{/* Search Bar */}
 					<View style={{flex:6}}>
 						<Searchbar        
@@ -68,12 +70,5 @@ const styles = StyleSheet.create({
 		left: 20,
 		top: 5,
 		marginRight: 20
-	},
-	profile: {
-		flex: 1,
-		width: 40,
-		height: 40,
-		borderRadius: 20,
-		
 	}
 });

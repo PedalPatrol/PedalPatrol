@@ -49,11 +49,13 @@ class DrawerHelper {
 	}
 
 	/**
-	 * Opens the drawer if it exists.
+	 * Opens the drawer if it exists and adds the number of notifications if it exists.
+	 *
+	 * @param {Number} numNotifications - The number of notifications
 	 */
-	openDrawer() {
+	openDrawer(numNotifications) {
 		if (this.drawerExists()) {
-			this.drawer.openDrawer();
+			this.drawer.openDrawer(numNotifications);
 		}
 	}
 

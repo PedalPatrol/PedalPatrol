@@ -4,10 +4,19 @@ import { Icon } from 'react-native-elements';
 
 import ImageUtil from '../../../util/imageutil';
 
+const TYPE_STOLEN = 'stolen';
+const TYPE_FOUND = 'found';
+
 /**
  * Class to help the displaying of notification items on the home view page
  */
 class NotificationBikeItemHelper extends Component {
+
+	componentWillMount = () => {
+		this.setState({
+			type: this.props.type
+		});
+	}
 
 	/**
 	 * Navigate to the Add bike page with the edit bike title.
@@ -81,25 +90,28 @@ class NotificationBikeItemHelper extends Component {
 									</Text>
 								</View>
 
-								{/* Bottom icons */}
-								<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
-									{/* Toggle for the bookmark button*/}
-									<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
-										{ this.props.bookmarked ? 
-											(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
-											:
-											(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
-										}
-									</TouchableOpacity>
-									{/* Map pin */}
-									<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
-										<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
-									</TouchableOpacity>
-									{/* Comment button */}
-									<TouchableOpacity style={styles.icon} accessibilityLabel="Pin">
-										<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
-									</TouchableOpacity>
-								</View>
+								{/* Bottom icons only show if stolen bikes are shown */}
+								{ this.state.type === TYPE_STOLEN &&
+									
+									<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
+										{/* Toggle for the bookmark button*/}
+										<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
+											{ this.props.bookmarked ? 
+												(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
+												:
+												(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
+											}
+										</TouchableOpacity>
+										{/* Map pin */}
+										<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
+											<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
+										</TouchableOpacity>
+										{/* Comment button */}
+										<TouchableOpacity style={styles.icon} accessibilityLabel="Pin">
+											<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
+										</TouchableOpacity>
+									</View>
+								}
 
 							</View>
 						</View>

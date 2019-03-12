@@ -97,7 +97,7 @@ class BikeDetailsPresenter extends BasePresenter {
 		});
 
 		// Need to form the thumbnail properly because it's just a link right now
-		const thumbnail = ImageUtil.formThumbnail(data.thumbnail);
+		let thumbnail = ImageUtil.formThumbnail(data.thumbnail);
 
 		formedData = this.reorderData(formedData);
 
@@ -152,6 +152,8 @@ class BikeDetailsPresenter extends BasePresenter {
   	/**
   	 * Returns the order of the details as a list. List will appear in this order.
   	 * Keys should be defined as the property name replacing all underscores with spaces then converted to title case (Does not include ': ').
+  	 *
+  	 * @return {List} A list of title case key names in the order that is needed
   	 */
   	getDetailsOrder = () => {
   		return ["Name", "Serial Number", "Timeago", "Datetime", "Model", "Brand", "Colour", "Frame Size", "Wheel Size", "Notable Features"];

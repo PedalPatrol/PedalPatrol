@@ -68,7 +68,8 @@ class BikeView extends BaseView {
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
+			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}
+			numNotifications={this.BikeP.getNotificationCount()}/>
 	);
 
 
