@@ -2,6 +2,7 @@ import { PHOTO_ENTRIES } from '../assets/static/entries';
 
 const FILE_EXTENSION = '.jpg';
 const DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
+const FIREBASE_URL = 'https://firebasestorage.googleapis.com';
 const NUMBER_OF_IMAGES = PHOTO_ENTRIES.length;
 
 /**
@@ -18,6 +19,16 @@ class ImageUtility {
 	 */
 	checkNumDefaults(num_defaults, uploaded_images) {
 		 return (NUMBER_OF_IMAGES-num_defaults === uploaded_images.length);
+	}
+
+	/**
+	 * Checks if an image has already been uploaded by checking if it contains the firebase url.
+	 *
+	 * @param {string} image - An image url to check. Might be an object if image is trying to be uploaded
+	 * @return {Boolean} true: If the image has already been uploaded; false: otherwise
+	 */
+	isAlreadyUploaded(image) {
+		return image.hasOwnProperty('uri') ? false : image.startsWith(FIREBASE_URL);
 	}
 
 	/**
@@ -96,7 +107,17 @@ class ImageUtility {
 			// Need to form the thumbnail property for the carousel
 			formedThumbnails.push({illustration: thumbnails[i]});
 		}
+		formedThumbnails = this._addRemainingDefaults(formedThumbnails);
 		return formedThumbnails;
+	}
+
+	_addRemainingDefaults(thumbnails) {
+		const defaults_remaining = NUMBER_OF_IMAGES - thumbnails.length;
+		const default_thumbnail = {illustration: DEFAULT_IMAGE};
+		for (let i=0; i < defaults_remaining; i++) {
+			thumbnails.push(default_thumbnail);
+		}
+		return thumbnails;
 	}
 
 	/**

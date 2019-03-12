@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableHighlight, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+import SafeArea from './helpers/safearea';
 import BikeItemHelper from './helpers/bikeitem';
 import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';
@@ -112,6 +113,7 @@ class BikeView extends BaseView {
 	render() {
 		return (	
 				<View style={styles.container}>
+					<SafeArea/>
 					{/* List of bikes */}
 					<FlatList
 						data={this.state.data}

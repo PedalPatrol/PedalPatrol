@@ -56,6 +56,9 @@ class HomeModel extends Model {
 				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
 					continue;
 				}
+				if (!databaseData[val].hasOwnProperty('stolen') || !databaseData[val].stolen) {
+					continue;
+				}
 
 				databaseData[val].dataID = dataID++;
 				// Add timeago and datetime formatted info

@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#F5FCFF',
 		flexDirection:'row',
 		paddingTop: 5,
+		paddingBottom: 5,
 	},
 	searchBar: {
 		backgroundColor:'transparent', 

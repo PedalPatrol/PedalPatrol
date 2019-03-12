@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+import SafeArea from './helpers/safearea';
 import NotificationBikeItemHelper from './helpers/notificationbikeitem';
 import SearchBarHelper from './helpers/searchbar';
 import BaseView from './view';
@@ -120,6 +122,7 @@ class HomeView extends BaseView {
 		// RefreshControl (below) allows for the pull down of the list to update it
 		return (	
 				<View style={styles.container}>
+					<SafeArea/>
 					<FlatList
 						data={this.state.data}
 						extraData={this.state.refresh}

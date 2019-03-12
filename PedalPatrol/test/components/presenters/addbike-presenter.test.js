@@ -65,7 +65,13 @@ test('should update model with edited bike', () => {
 				}
 			],
 		selectedColours: ['Red'],
-		picture: { uri: 'file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg' },
+		picture: [
+			{ illustration: {uri: 'file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg'}},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+		],
 		currentID: 1
 	};
 	const resultDataNew = {
@@ -81,6 +87,8 @@ test('should update model with edited bike', () => {
 						frame_size: 'frame_test',
 						colour: ['Red'],
 						owner: 'Owner',
+						stolen: false,
+						found: false,
 						thumbnail: ['file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg'],
 					}
 			]
@@ -99,6 +107,8 @@ test('should update model with edited bike', () => {
 						frame_size: 'frame_test',
 						colour: ['Blue'],
 						owner: 'Owner',
+						stolen: false,
+						found: false,
 						thumbnail: ['file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg']
 					}
 			]
@@ -157,11 +167,20 @@ test('should build data from view data', () => {
 				}
 			],
 		selectedColours: ['Red'],
-		picture: { uri: 'file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg' }
+		picture: [
+			{ illustration: {uri: 'file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg'}},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+			{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+		],
 	};
 
 	const result_data = {
 		data: {
+				id: undefined,
+				stolen: false,
+				found: false,
 				name: 'name_test',
 				model: 'model_test',
 				brand: 'brand_test',
@@ -170,7 +189,13 @@ test('should build data from view data', () => {
 				wheel_size: 'wheel_test',
 				frame_size: 'frame_test',
 				colour: ['Red'],
-				thumbnail: {uri: 'file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg'}
+				thumbnail: [
+					{ illustration: {uri: 'file:///Users/seanr/Library/Developer/CoreSimulato…ocuments/E5374902-C179-42AD-BDB9-760EEBB5E893.jpg'}},
+					{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+					{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+					{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+					{ illustration: 'https://i.imgur.com/Fwx1TXQ.png'},
+				]
 			}
 	};
 

@@ -28,6 +28,15 @@ class FirebaseDatabase {
 		this.refStorage = firebase.storage().ref();
 	}
 
+	/**
+	 * Returns the storage without a reference.
+	 *
+	 * @return {Object} The storage without reference
+	 */
+	getStorageWithoutRef() {
+		return firebase.storage();
+	}
+
 
 	/**
 	 * Accesses Firebase data to sign in with email and password.
@@ -206,6 +215,26 @@ class FirebaseDatabase {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Remove a bike image folder from the database storage.
+	 *
+	 * @param {string} id - A bike id
+	 * @param {Function} callback - A function to call on completion or on failure
+	 */
+	removeBikeImages(thumbnails, callback) {
+		let result = true;
+		const storageWithoutRef = this.getStorageWithoutRef(); // We need to use the refFromURL so we can only use the storage without a reference
+		// Firebase does not support deleting directories so we must loop through the thumbnails and delete each file
+		for (let i=0; i < thumbnails.length; i++) {
+			storageWithoutRef.refFromURL(thumbnails[i]).delete().then(() => { 
+				result = result && true; 
+			}).catch((error) => { 
+				result = result && false; 
+			});	
+		}
+		callback(result);
 	}
 
 	/**

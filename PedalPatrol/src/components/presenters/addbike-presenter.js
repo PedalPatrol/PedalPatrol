@@ -72,14 +72,16 @@ class AddBikePresenter extends BasePresenter {
 			data: {
 				id: currentID,
 				name: inputTextData[inputDataList.index.name].text,
-				model: inputTextData[inputDataList.index.model].text,
+				model: inputTextData[inputDataList.index.model].text === '' ? 'Model Unknown' : inputTextData[inputDataList.index.model].text,
 				brand: inputTextData[inputDataList.index.brand].text,
 				colour: selectedColours,
 				serial_number: inputTextData[inputDataList.index.serial_number].text,
 				wheel_size: inputTextData[inputDataList.index.wheel_size].text,
 				frame_size: inputTextData[inputDataList.index.frame_size].text,
 				notable_features: inputTextData[inputDataList.index.notable_features].text,
-				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage()}]
+				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage()}],
+				stolen: false, // true: if bike is stolen; false: if the bike is not stolen or the owner has marked it as found
+				found: false, // true: if stolen=true && bike was found; false: if stolen=false || (stolen=true && bike is not found)
 			}
 		}
 

@@ -29,7 +29,13 @@ class BikeModel extends Model {
 	 * @param {Function} callback - A function to call when remove succeeds or fails
 	 */
 	deleteBikeByID(id, callback) {
-		Database.removeBikeItem(id, callback);
+		const { index } = this._bikeIDExists(id);
+		const bike = this._data.data[index];
+		Database.removeBikeItem(id, (resultItem) => {
+			Database.removeBikeImages(bike.thumbnail, (resultImage) => {
+				callback(resultItem && resultImage);
+			});
+		});
 	}
 
 	/**
@@ -82,37 +88,44 @@ class BikeModel extends Model {
 			console.log(newData.data.id);
 		}
 
-		if (this._bikeExists(newData)) {
-			newData.data.thumbnail = this._removeIllustrationKey(newData.data.thumbnail);
-			this._editExistingInDatabase(newData.data, (result) => {this._callback(true); this._notifyAll(this._data);});
+		try {
+			const {exists, index} = this._bikeDataExists(newData);
+			if (exists && this._checkNewImages(index, newData.data.thumbnail)) {
+				newData.data.thumbnail = this._removeIllustrationKey(newData.data.thumbnail);
+				this._insertDataOnUpdate(exists, index, newData);
+				this._editExistingInDatabase(newData.data, (result) => {this._callback(true); this._notifyAll(this._data);});
 
-		} else {
+			} else {
+				console.log(newData.data.thumbnail)
+				// Write to database
+				this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
+					newData.data.thumbnail = uploaded_images;
 
-			// Write to database
-			this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
-				newData.data.thumbnail = uploaded_images;
+					// Check if there's actually images 
+					if (!ImageUtil.checkImageListValid(uploaded_images)) {
+						this._callback(false);
+						return;
+					}
 
-				// Check if there's actually images 
-				if (!ImageUtil.checkImageListValid(uploaded_images)) {
-					this._callback(false);
-					return;
-				}
+					this._insertDataOnUpdate(exists, index, newData);
 
-				let result = this._insertDataOnUpdate(newData);
+					// console.log(result);
+					// console.log(this._data.data);
 
-				// console.log(result);
-				// console.log(this._data.data);
+					// If the number of defaults in the original amount is the same 
+					const finishCallback = ImageUtil.checkNumDefaults(num_defaults, uploaded_images) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
 
-				// If the number of defaults in the original amount is the same 
-				const finishCallback = ImageUtil.checkNumDefaults(num_defaults, uploaded_images) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
+					// variable 'result' - true: ID was found in database so edit it; false: ID not found in database so add it
+					// const dbCall = result ? Database.editBikeData : Database.writeBikeData;
+					// this._addToDatabase(dbCall, newData.data, finishCallback);
+					const funcCall = exists ? this._editExistingInDatabase : this._writeNewInDatabase;
+					funcCall(newData.data, finishCallback);
 
-				// variable 'result' - true: ID was found in database so edit it; false: ID not found in database so add it
-				// const dbCall = result ? Database.editBikeData : Database.writeBikeData;
-				// this._addToDatabase(dbCall, newData.data, finishCallback);
-				const funcCall = result ? this._editExistingInDatabase : this._writeNewInDatabase;
-				funcCall(newData.data, finishCallback);
-
-			}, this._callback);
+				}, this._callback);
+			}
+		} catch (error) {
+			console.log(error);
+			this._callback(false);
 		}
 
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
@@ -120,6 +133,15 @@ class BikeModel extends Model {
 		// console.log(this._data);
 		// this._notifyAll() // Send with no message?
 		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
+	}
+
+	_checkNewImages(index, thumbnails) {
+		if (index >= 0) {
+			const bike = this._data.data[index];
+			return JSON.stringify(bike.thumbnail) == JSON.stringify(thumbnails);
+		} else {
+			return false; // Bike does not exist
+		}
 	}
 
 	/**
@@ -160,10 +182,13 @@ class BikeModel extends Model {
 			if (ImageUtil.isDefaultImage(images[i].illustration)) {
 				count_default++;
 				continue;
+			} else if (ImageUtil.isAlreadyUploaded(images[i].illustration)) {
+				uploaded_pictures.push(images[i].illustration);
+				continue;
 			}
 
 			// Name of file is the current timestamp. 
-			const filename = ImageUtil.getDateTime() + i + ImageUtil.getFileExtension();
+			const filename = i + ImageUtil.getFileExtension();
 			// Write image to database
 			Database.writeImage(id, images[i].illustration, filename, (url) => {
 				uploaded_pictures.push(url);
@@ -186,7 +211,7 @@ class BikeModel extends Model {
 	 */
 	_writeNewInDatabase(newData, callback) {
 		return Database.writeBikeData(newData, (data) => {
-			console.log(data);
+			// console.log(data);
 			callback(typeof data !== 'undefined' && data !== undefined);
 			// return typeof data !== 'undefined' && data !== undefined
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
@@ -204,7 +229,7 @@ class BikeModel extends Model {
 	 */
 	_editExistingInDatabase(newData, callback) {
 		return Database.editBikeData(newData, (data) => {
-			console.log(data);
+			// console.log(data);
 			callback(typeof data !== 'undefined' && data !== undefined);
 			// return typeof data !== 'undefined' && data !== undefined;
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
@@ -219,9 +244,11 @@ class BikeModel extends Model {
 	 * Insert data into the data object on an update trigger (from Presenter).
 	 *
 	 * @param {Object} newData - New data passed in, of the form : {data: []}
+	 * @param {Boolean} exists - If the bike already exists
+	 * @param {Number} index - The index of the bike. Positive if it exists, negative if it doesn't
 	 * @return {Boolean} true: Data was an edited value; false: Data was a new value
 	 */
-	_insertDataOnUpdate(newData) {
+	_insertDataOnUpdate(newData, exists, index) {
 		let i = 0;
 
 		// If only one piece, just insert it
@@ -230,8 +257,8 @@ class BikeModel extends Model {
 			return false;
 		}
 
-		if (this._bikeExists(newData)) {
-			this._data.data[i] = newData.data;  // Data found, overwrite
+		if (exists && index >= 0) {
+			this._data.data[index] = newData.data;  // Data found, overwrite
 			return true;
 		} else {
 			this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
@@ -248,18 +275,30 @@ class BikeModel extends Model {
 	}
 
 	/**
-	 * Checks if the bike exists.
+	 * Checks if the bike exists based on the data of the bike.
 	 * 
 	 * @param {Object} bikeData - The data to check
-	 * @return {Boolean} true: If the bike exists; false: otherwise
+	 * @return {Boolean, Number} exists: true: If the bike exists; false: otherwise. index - The index of the bike if it exists, -1 if not
 	 */
-	_bikeExists(bikeData) {
+	_bikeDataExists(bikeData) {
+		return this._bikeIDExists(bikeData.data.id)
+	}
+
+	/**
+	 * Checks if the bike exists based on the id.
+	 *
+	 * @param {string} id - The id of a bike
+	 * @return {Boolean, Number} exists: true: If the bike exists; false: otherwise. index - The index of the bike if it exists, -1 if not
+	 */
+	_bikeIDExists(id) {
 		let i = 0;
 		// Loop through and see if there's a match, probably a better way to do this with indexOf or filter
-		while (i < this._data.data.length && this._data.data[i].id !== bikeData.data.id) {
+		while (i < this._data.data.length && this._data.data[i].id !== id) {
 			i++;
 		}
-		return i !== this._data.data.length;
+		const exists = i !== this._data.data.length;
+		const index = exists ? i : -1;
+		return { exists, index};
 	}
 
 	/**

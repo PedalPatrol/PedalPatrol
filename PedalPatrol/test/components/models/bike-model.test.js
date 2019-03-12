@@ -77,3 +77,17 @@ test('should insert new data', () => {
 	BikeM._insertDataOnUpdate(newData);
 	expect(BikeM._data.data).toEqual(result_data.data);
 });
+
+test('should check if bike exists', () => {
+	const BikeM = new BikeModel();
+
+	const bikes = [{ id: 1 }, { id: 2 }];
+	BikeM._data.data = bikes;
+
+	const existingBike = {data: { id: 1 }};
+	const missingBike = {data: { id: 3}};
+
+	expect(BikeM._bikeDataExists(existingBike)).toEqual({exists: true, index: 0});
+	expect(BikeM._bikeDataExists(missingBike)).toEqual({exists: false, index: -1});
+
+});
