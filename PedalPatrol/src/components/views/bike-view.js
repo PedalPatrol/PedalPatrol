@@ -97,7 +97,7 @@ class BikeView extends BaseView {
 	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
 	 */
 	componentWillUnmount = () => {
-		this.viewUnmounting(this.BikeP);	
+		this.viewUnmounting(this.BikeP);
 	}
 
 	/**

@@ -247,6 +247,7 @@ class AddBikeView extends BaseView {
 			style={styles.textInput}
 			label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
 			multiline={item.multiline}
+			disabled={item.disabled}
 			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
 					let { inputData } = this.state; // inputData is a keyword in state

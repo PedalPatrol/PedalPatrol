@@ -53,7 +53,7 @@ class AddBikePresenter extends BasePresenter {
 	/**
 	 * Build the data obtained from the view and insert it into a new data object.
 	 * Current attributes of newData object: 
-	 * 			{Object} inputTextData: [{name, multiline, bike_editable, text}]
+	 * 			{Object} inputTextData: [{name, multiline, disabled, text}]
 	 * 			{List} selectedColours
 	 * 			{Object} picture: uri
 	 *		
@@ -312,6 +312,7 @@ class AddBikePresenter extends BasePresenter {
 	 * Return the data for the text inputs.
 	 * Object:
 	 *		name: the name/label of the text input
+	 * 		disabled: true: if the field is disabled; false: otherwise
 	 * 		multiline: true: if the input is allowed to span multiple lines; false: otherwise
 	 *		text: initial text of the input
 	 *
@@ -413,6 +414,7 @@ export default AddBikePresenter;
 /*
  * data:
  *		name: The name/label of the text input
+ *		disabled: true: if the user can edit the field; false: otherwise
  *		multiline: true: if the user's text can span multiple lines; false: otherwise
  *		text: The initial text of the name/label
  */
@@ -430,49 +432,49 @@ const inputDataList = {
 		{
 			name: 'Name',
 			multiline: false,
-			bike_editable: false,
+			disabled: true,
 			required: true,
 			text: '',
 		},
 		{
 			name: 'Serial Number',
 			multiline: false,
-			bike_editable: true,
+			disabled: true,
 			required: true,
 			text: ''
 		},
 		{
 			name: 'Brand',
 			multiline: false,
-			bike_editable: true,
+			disabled: false,
 			required: false,
 			text: ''
 		},
 		{
 			name: 'Model',
 			multiline: false,
-			bike_editable: true,
+			disabled: false,
 			required: false,
 			text: ''
 		},
 		{
 			name: 'Notable Features',
 			multiline: true,
-			bike_editable: true,
+			disabled: false,
 			required: false,
 			text: ''
 		},
 		{
 			name: 'Wheel Size',
 			multiline: false,
-			bike_editable: true,
+			disabled: false,
 			required: false,
 			text: ''
 		},
 		{
 			name: 'Frame Size',
 			multiline: false,
-			bike_editable: true,
+			disabled: false,
 			required: false,
 			text: ''
 		}
