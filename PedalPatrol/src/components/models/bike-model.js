@@ -32,7 +32,7 @@ class BikeModel extends Model {
 		const { index } = this._bikeIDExists(id);
 		const bike = this._data.data[index];
 		Database.removeBikeItem(id, (resultItem) => {
-			Database.removeBikeImages(bike.thumbnail, (resultImage) => {
+			Database.removeImages(bike.thumbnail, (resultImage) => {
 				callback(resultItem && resultImage);
 			});
 		});
@@ -91,12 +91,14 @@ class BikeModel extends Model {
 			const {exists, index} = this._bikeDataExists(newData);
 			if (exists && this._checkNewImages(index, newData.data.thumbnail)) {
 				newData.data.thumbnail = this._removeIllustrationKey(newData.data.thumbnail);
-				this._insertDataOnUpdate(exists, index, newData);
+				this._insertDataOnUpdate(newData, exists, index);
 				this._editExistingInDatabase(newData.data, (result) => {this._callback(true); this._notifyAll(this._data);});
 
-			} else {
+			} else { 
+				const { BikeImages } = Database.getImageFolders();
+
 				// Write to database
-				this._writeImageToStorage(newData.data.id, newData.data.thumbnail, (uploaded_images, num_defaults) => {
+				this._writeImageToStorage(newData.data.id, newData.data.thumbnail, BikeImages, (uploaded_images, num_defaults) => {
 					newData.data.thumbnail = uploaded_images;
 
 					// Check if there's actually images 
@@ -105,7 +107,8 @@ class BikeModel extends Model {
 						return;
 					}
 
-					this._insertDataOnUpdate(exists, index, newData);
+					const {exists, index} = this._bikeDataExists(newData); // Need to recompute each time because would have changed on second image
+					this._insertDataOnUpdate(newData, exists, index);
 
 					// console.log(result);
 					// console.log(this._data.data);
@@ -133,6 +136,13 @@ class BikeModel extends Model {
 		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
+	/**
+	 * Checks if there are new images in the bike stored vs what was passed in.
+	 *
+	 * @param {Number} index - The index of the bike in the local data
+	 * @param {List} thumbnails - A list of thumbnails
+	 * @return {Boolean} true: If the thumbnails are the same; false: If the thumbnails are different or if the bike doesn't exist
+	 */
 	_checkNewImages(index, thumbnails) {
 		if (index >= 0) {
 			const bike = this._data.data[index];
@@ -161,10 +171,11 @@ class BikeModel extends Model {
 	 *
 	 * @param {Number} id - The id of the bike corresponding to the image
 	 * @param {List} images - A list of objects with the property 'illustration'
+	 * @param {string} imagesFolder - The folder to upload images to
 	 * @param {Function} onSuccess - A callback to call when an image has been successfully uploaded
 	 * @param {Function} onError - A callback to call when an image has failed to upload
 	 */
-	_writeImageToStorage(id, images, onSuccess, onError) {
+	_writeImageToStorage(id, images, imagesFolder, onSuccess, onError) {
 		const FILE_EXTENSION = '.jpg';
 		let uploaded_pictures = [];
 		let count_default = 0;
@@ -188,7 +199,7 @@ class BikeModel extends Model {
 			// Name of file is the current timestamp. 
 			const filename = i + ImageUtil.getFileExtension();
 			// Write image to database
-			Database.writeImage(id, images[i].illustration, filename, (url) => {
+			Database.writeImage(id, images[i].illustration, filename, imagesFolder, (url) => {
 				uploaded_pictures.push(url);
 				onSuccess(uploaded_pictures, count_default);
 				return url;
@@ -206,6 +217,7 @@ class BikeModel extends Model {
 	 * Write new data in database and call the function callback depending on if it was successful or not.
 	 *
 	 * @param {Object} newData - Data to be written to the database
+	 * @param {Function} callback - A function to call on the success or failure of the call
 	 */
 	_writeNewInDatabase(newData, callback) {
 		return Database.writeBikeData(newData, (data) => {
@@ -224,6 +236,7 @@ class BikeModel extends Model {
 	 * Overwrite existing data in database and call the function callback depending on if it was successful or not.
 	 *
 	 * @param {Object} newData - Data to be written to the database
+	 * @param {Function} callback - A function to call on the success or failure of the call
 	 */
 	_editExistingInDatabase(newData, callback) {
 		return Database.editBikeData(newData, (data) => {

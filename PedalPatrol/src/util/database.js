@@ -2,6 +2,9 @@ import firebase from 'firebase';
 import 'firebase/storage'; // Necessary for jest tests
 import config from '../config/config.json';
 
+const BikeImages = 'BikeImages/';
+const ProfileImages = 'ProfileImages/';
+
 /**
  * Class for the firebase database connection and operations
  */
@@ -218,12 +221,12 @@ class FirebaseDatabase {
 	}
 
 	/**
-	 * Remove a bike image folder from the database storage.
+	 * Remove a images by their url from storage.
 	 *
-	 * @param {string} id - A bike id
+	 * @param {string} thumbnails - A list of images to delete
 	 * @param {Function} callback - A function to call on completion or on failure
 	 */
-	removeBikeImages(thumbnails, callback) {
+	removeImages(thumbnails, callback) {
 		let result = true;
 		const storageWithoutRef = this.getStorageWithoutRef(); // We need to use the refFromURL so we can only use the storage without a reference
 		// Firebase does not support deleting directories so we must loop through the thumbnails and delete each file
@@ -238,15 +241,27 @@ class FirebaseDatabase {
 	}
 
 	/**
+	 * Return the possible image folders in the firebase storage.
+	 * See top definitions for names.
+	 * Possible TODO : Fetch folder names from the storage so to not hardcode them in.
+	 *
+	 * @return {Object} The string names of the folders, includes '/' in each name
+	 */
+	getImageFolders() {
+		return { BikeImages, ProfileImages };
+	}
+
+	/**
 	 * Asynchronously write an image to firebase storage.
 	 *
 	 * @param {string} id - The id of the bike to write to
 	 * @param {Object} file - The file object to write
 	 * @param {string} filename - The name of the file
+	 * @param {string} baseFolder - The base folder of the images. One of "BikeImages/", "ProfileImages/" etc. (Must include '/')
 	 * @param {Function} onSuccess - The callback to call on a successful upload
 	 * @param {Function} onError - The callback to call on a failed upload
 	 */
-	async writeImage(id, file, filename, onSuccess, onError) {
+	async writeImage(id, file, filename, baseFolder, onSuccess, onError) {
 		// Create a blob because the firebase 'put' function requires a blob
 		// I found out later that when we get an image from the user, we can actually get it as data
 		// and since the firebase 'put' function also accepts the data format, we can use that instead
@@ -267,7 +282,7 @@ class FirebaseDatabase {
 			xhr.send(null);
 		});
 
-		const task = this.refStorage.child('BikeImages/' + id + '/' + filename).put(blob);
+		const task = this.refStorage.child(baseFolder + id + '/' + filename).put(blob);
 		task.on('state_changed', (snapshot) => {
 			// Observe state change events such as progress, pause, and resume
 			// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded

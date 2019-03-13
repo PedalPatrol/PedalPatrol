@@ -69,7 +69,6 @@ class HomeModel extends Model {
 			}
 			this._data = tempData;
 		}
-		// console.log(this._data);
 	}
 
 	/**
