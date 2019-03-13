@@ -51,7 +51,7 @@ export default class MapModel extends Model {
 	_insertDataOnRead = (newdata) => {
 	    //let temp = [{coordinate:{latitude:44.237424,longitude:-76.5131},title:"bike1",description:"help"}];
 	    let temp = [];
-	    console.log(Object.values(newdata));
+	    // console.log(Object.values(newdata));
 	    newdatalist = Object.values(newdata);
 	     for (var i = 0; i < newdatalist.length; i ++ ){
 	        if ( newdatalist[i].hasOwnProperty("longitude")&&newdatalist[i].hasOwnProperty("latitude")&&newdatalist[i].hasOwnProperty("stolen")&& newdatalist[i].stolen){
@@ -67,8 +67,8 @@ export default class MapModel extends Model {
                         latitude:markerElement.latitude,
                         longitude: markerElement.longitude,
                 },
-                key : markerElement.UID,
-                title: markerElement.BID,
+                key : markerElement.id,
+                title: markerElement.model,
                 description: markerElement.description,
             }
             return singleMarker;

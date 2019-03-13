@@ -45,23 +45,23 @@ constructor(props){
 resetState = () => {
 		this.state = {
 		refresh: true,
-                                 circleRadius : 500,
-                                 x: {
-                                 latitude: 44.257424,
-                                 longitude: -76.5231,
-                                 },
-                                 region:{
-                                 latitude: 44.237424,
-                                       longitude: -76.5131,
-                                       latitudeDelta: 0.0922,
-                                       longitudeDelta: 0.0421,
-                                 },
-                                 showCircle: false,
-                                 showMarker: false,
-                                 showButton: false,
-                                 markerCreated:[],
-                                 markers: [],
-                        };
+								 circleRadius : 500,
+								 x: {
+								 latitude: 44.257424,
+								 longitude: -76.5231,
+								 },
+								 region:{
+								 latitude: 44.237424,
+									   longitude: -76.5131,
+									   latitudeDelta: 0.0922,
+									   longitudeDelta: 0.0421,
+								 },
+								 showCircle: false,
+								 showMarker: false,
+								 showButton: false,
+								 markerCreated:[],
+								 markers: [],
+						};
 	}
 
 
@@ -69,49 +69,49 @@ resetState = () => {
 * Render "save/delete" button after clicking "create lost report" button
 */
 renderSDButton(){
-    if (this.state.showButton){
-        return(
-        <View style={styles.saveDeleteButton}>
-            <View style={styles.Buttons}>
-            <Button
-                onPress={()=>{this.sendNewMarker()}}
-                title="save"/></View>
-               <View style={styles.Buttons}>
-            <Button
-                onPress={()=>{
-                    this.deleteItem()
-                }}
-                title="delete"/></View>
-        </View>
-        )
-    }
+	if (this.state.showButton){
+		return(
+		<View style={styles.saveDeleteButton}>
+			<View style={styles.Buttons}>
+			<Button
+				onPress={()=>{this.sendNewMarker()}}
+				title="save"/></View>
+			   <View style={styles.Buttons}>
+			<Button
+				onPress={()=>{
+					this.deleteItem()
+				}}
+				title="delete"/></View>
+		</View>
+		)
+	}
 }
 
 /**
 *  Save data of created marker or circle after clicking save button
 */
 saveItem(){
-    if (this.state.showCircle){
-        this.saveCircle();
-    }
-    if (this.state.showMarker){
-        this.sendNewMarker();
-    }
+	if (this.state.showCircle){
+		this.saveCircle();
+	}
+	if (this.state.showMarker){
+		this.sendNewMarker();
+	}
 }
 
 /**
 * Delete created marker or circle after clicking delete button
 */
 deleteItem(){
-    this.setState()
-    if (this.state.showCircle){
-        this.setState({x:{latitude: 44.257424,longitude: -76.5231, },
-                        circleRadius: 500, showCircle:false,showButton:false,
-                                               })
-    }
-    if (this.state.showMarker){
-        this.setState({showButton:false,showMarker:false,markerCreated:[]})
-    }
+	this.setState()
+	if (this.state.showCircle){
+		this.setState({x:{latitude: 44.257424,longitude: -76.5231, },
+						circleRadius: 500, showCircle:false,showButton:false,
+											   })
+	}
+	if (this.state.showMarker){
+		this.setState({showButton:false,showMarker:false,markerCreated:[]})
+	}
 
 }
 
@@ -119,64 +119,64 @@ deleteItem(){
 * Render buttons that can adjust circle's radius
 */
 renderForCircle(){
-    if (this.state.showCircle){
-        return(
-        <View style={styles.circleRadiusButton}>
-            <View style={styles.Buttons}>
-            <Button
-                onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200})}}
-                title="more"/></View>
-               <View style={styles.Buttons}>
-            <Button
-                onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
-                title="less"/></View>
-        </View>
-        )
-    }
+	if (this.state.showCircle){
+		return(
+		<View style={styles.circleRadiusButton}>
+			<View style={styles.Buttons}>
+			<Button
+				onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200})}}
+				title="more"/></View>
+			   <View style={styles.Buttons}>
+			<Button
+				onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
+				title="less"/></View>
+		</View>
+		)
+	}
 }
 
 /**
 * Render a circle to set notification receiving area
 */
 renderCircle(){
-    if (this.state.showCircle){
-        return (
-            <Circle
-                center = {{latitude:this.state.x.latitude,longitude:this.state.x.longitude}}
-                radius = {this.state.circleRadius}
-                strokeColor = "#4F6D7A"
-                            strokeWidth = { 2 }
-                fillColor = 'rgba(200,0,0,0.5)'
-            />
-        )
-    }
+	if (this.state.showCircle){
+		return (
+			<Circle
+				center = {{latitude:this.state.x.latitude,longitude:this.state.x.longitude}}
+				radius = {this.state.circleRadius}
+				strokeColor = "#4F6D7A"
+							strokeWidth = { 2 }
+				fillColor = 'rgba(200,0,0,0.5)'
+			/>
+		)
+	}
 }
 
 /**
 * Save data of circle to notification settings
 */
 saveCircle(){
-    //nothing
-    newData ={
-        data: {
-            circleLatitude: this.state.x.latitude,
-            circleLongitude: this.state.x.longitude,
-            radius: this.state.circleRadius,
-        }
-    }
-    console.log(newData);
+	//nothing
+	newData ={
+		data: {
+			circleLatitude: this.state.x.latitude,
+			circleLongitude: this.state.x.longitude,
+			radius: this.state.circleRadius,
+		}
+	}
+	// console.log(newData);
 }
 
 /**
 * Save data of created marker to report lost page
 */
 sendNewMarker(){
-    newData={
-        data:
-            {latitude: this.state.markerCreated[0].coordinate.latitude,
-            longitude: this.state.markerCreated[0].coordinate.longitude,}
-    }
-    console.log(newData);
+	newData={
+		data:
+			{latitude: this.state.markerCreated[0].coordinate.latitude,
+			longitude: this.state.markerCreated[0].coordinate.longitude,}
+	}
+	// console.log(newData);
 }
 
 /**
@@ -186,27 +186,27 @@ sendNewMarker(){
 */
 setCircleLat(e) {
 cor = e.nativeEvent.coordinate;
-    if (this.state.showCircle){
-        this.setState({
-            x: {
-                latitude: cor.latitude,
-                longitude: cor.longitude,
-            }
+	if (this.state.showCircle){
+		this.setState({
+			x: {
+				latitude: cor.latitude,
+				longitude: cor.longitude,
+			}
 
-        })
-    }
+		})
+	}
 }
 
 /**
 * handle click event after clicking "create marker" button
 */
 _onPressButton=()=> {
-    this.setState({
-                showButton: true,
-                showMarker: true,
-                showCircle: false,
-                markerCreated:  [this.newMarker(this.state.region.latitude,this.state.region.longitude)],
-            });
+	this.setState({
+				showButton: true,
+				showMarker: true,
+				showCircle: false,
+				markerCreated:  [this.newMarker(this.state.region.latitude,this.state.region.longitude)],
+			});
   }
 
 /**
@@ -215,8 +215,8 @@ _onPressButton=()=> {
 * @param {Integer} latitude and longitude of a marker
 */
 newMarker = (lat,long) => {
-    return({coordinate: {latitude: lat,longitude: long},
-    });
+	return({coordinate: {latitude: lat,longitude: long},
+	});
 };
 
 /**
@@ -235,32 +235,32 @@ onRegionChange = (region) => {
 render() {
   return (
   <View style={{ flex: 1 }}>
-      <RNMapView style ={{flex:1}}
-        region={this.state.region}
-        onRegionChangeComplete={this.onRegionChange.bind(this)}
-        onLongPress = {e => this.setCircleLat(e)}
-      >
-          {this.state.markers.map(marker => (
-              <Marker {...marker} >
-             <Callout >
-                     <Text > {marker.title}</Text>
-                      <Text> {marker.description} </Text>
-               </Callout>
-              </Marker>
-            ))}
-            {console.log(this.state.markers)}
-            {this.state.markerCreated.map(marker => (<Marker draggable{...marker} />))}
-            {this.renderCircle(this)}
-      </RNMapView>
-       <View style={styles.reportButton}>
-              <Button onPress={this._onPressButton}
-               title="create lost report"/>
-               <Button onPress={()=>{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}
-               title="create receiving area"/>
-          </View>
-          {this.renderSDButton(this)}
-          {this.renderForCircle(this)}
-          </View>
+	  <RNMapView style ={{flex:1}}
+		region={this.state.region}
+		onRegionChangeComplete={this.onRegionChange.bind(this)}
+		onLongPress = {e => this.setCircleLat(e)}
+	  >
+		  {this.state.markers.map(marker => (
+			  <Marker {...marker} >
+			 <Callout >
+					 <Text > {marker.title}</Text>
+					  <Text> {marker.description} </Text>
+			   </Callout>
+			  </Marker>
+			))}
+			{/*console.log(this.state.markers)*/}
+			{this.state.markerCreated.map(marker => (<Marker draggable{...marker} />))}
+			{this.renderCircle(this)}
+	  </RNMapView>
+	   <View style={styles.reportButton}>
+			  <Button onPress={this._onPressButton}
+			   title="create lost report"/>
+			   <Button onPress={()=>{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}
+			   title="create receiving area"/>
+		  </View>
+		  {this.renderSDButton(this)}
+		  {this.renderForCircle(this)}
+		  </View>
   );
   }
 }
@@ -269,23 +269,23 @@ export default MapView;
 
 const styles = StyleSheet.create({
   reportButton:{
-             position: 'absolute',
-             top: '70%',
-             alignSelf: 'flex-end',},
+			 position: 'absolute',
+			 top: '70%',
+			 alignSelf: 'flex-end',},
   saveDeleteButton:{
-      position: 'absolute',
-      top: '70%',
-      left:'30%',
-      },
+	  position: 'absolute',
+	  top: '70%',
+	  left:'30%',
+	  },
    circleRadiusButton: {
-         position: 'absolute',
-         top: '20%',
-         alignSelf:'flex-end',
+		 position: 'absolute',
+		 top: '20%',
+		 alignSelf:'flex-end',
 
    },
-    Buttons:{
-          marginTop:10,
-          borderWidth:2,
-          borderColor: 'grey',
-    }
+	Buttons:{
+		  marginTop:10,
+		  borderWidth:2,
+		  borderColor: 'grey',
+	}
 });

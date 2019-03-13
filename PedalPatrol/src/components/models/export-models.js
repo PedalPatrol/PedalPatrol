@@ -2,7 +2,7 @@ import AlertModel from './alert-model';
 import BikeModel from './bike-model';
 import HomeModel from './home-model';
 import LoginModel from './login-model';
-
+import MapModel from './map-model';
 /**
  * This file allows for singleton instances of a class to be created.
  * To export a new model, add the class instance creation as a const below,
@@ -15,10 +15,12 @@ const AlertM = new AlertModel();
 const BikeM = new BikeModel();
 const HomeM = new HomeModel();
 const LoginM = new LoginModel();
+const MapM = new MapModel();
 
 export {
 	AlertM,
 	BikeM, 
 	HomeM,
-	LoginM
+	LoginM,
+	MapM
 };
