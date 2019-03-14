@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimensions} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimensions, NativeModules} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
 import { Marker,Callout,Polygon,Circle } from 'react-native-maps';
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
 
+const {StatusBarManager} = NativeModules;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
 /**
