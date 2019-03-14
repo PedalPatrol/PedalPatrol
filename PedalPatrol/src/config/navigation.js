@@ -20,21 +20,21 @@ let screen = Dimensions.get('window');
  * Bottom tab navigator, home, map and bike
  */
 const Tabs = createBottomTabNavigator({
-  	'Home': {
+  	Home: {
 		screen: HomeView,
 		navigationOptions: {
 	  		tabBarLabel: 'Home',
 	  		tabBarIcon: ({ tintColor }) => <Icon name="home" type="entypo" size={28} color={tintColor} />
 		},
   	},
-  	'Map': {
+  	Map: {
 		screen: MapView,
 		navigationOptions: {
 	  		tabBarLabel: 'Map',
 	  		tabBarIcon: ({ tintColor }) => <Icon name="md-map" type="ionicon" size={28} color={tintColor} />
 		},
   	},
-  	'Bike': {
+  	Bike: {
 		screen: BikeView,
 		navigationOptions: {
 	  		tabBarLabel: 'Bike',
@@ -49,16 +49,22 @@ const Tabs = createBottomTabNavigator({
 	  	tabBarOnPress: ({ navigation, defaultHandler }) => {
 			defaultHandler();
 	  	},
+	  	tabBarVisible: true
   	},
   	lazy: false,
   	initialRouteName: 'Map',
+  	initialLayout: {
+  		height: screen.height,
+  		width: screen.width
+  	},
+  	backBehavior: 'none'
 });
 
 /**
  * Bike details stack
  */
 const BikeDetailsStack = createStackNavigator({
-	Home: {
+	HomeStack: {
 		screen: HomeView,
 		navigationOptions: ({navigation}) => ({
 			tabBarVisible: false,
@@ -74,6 +80,9 @@ const BikeDetailsStack = createStackNavigator({
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	}
+},
+{
+	initialRouteName: 'HomeStack'
 });
 
 /**
@@ -83,6 +92,8 @@ const AddBikeStack = createStackNavigator({
 	BikeStack: {
 		screen: BikeView,
 		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
 			header: null,
 		}),
 	},
@@ -94,6 +105,9 @@ const AddBikeStack = createStackNavigator({
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	},
+},
+{
+	initialRouteName: 'BikeStack'
 });
 
 /**

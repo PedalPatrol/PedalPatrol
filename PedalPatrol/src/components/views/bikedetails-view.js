@@ -87,7 +87,7 @@ class BikeDetailsView extends BaseView {
 			data: [],
 			photoEntries: []
 		});
-		this.props.navigation.navigate('Tabs');
+		this.props.navigation.navigate('Home');
 	}
 
 	/**

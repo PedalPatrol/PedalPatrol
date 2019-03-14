@@ -81,7 +81,7 @@ class AddBikeView extends BaseView {
 
 		// This can be done before the component has mounted so we do it before so data appears immediately
 		this.setState({
-			inputData: this.AddBikeP.getTextInputData(data),
+			inputData: this.AddBikeP.getTextInputData(data, this.state.isEditPage),
 			photoEntries: this.AddBikeP.getCurrentPhotos(),
 			isEditPage: this.isEditBikePage(viewTitle)
 		});
@@ -178,7 +178,7 @@ class AddBikeView extends BaseView {
 	 */
 	resetAllOnBack = () => {
 		this._clearData();
-		this.props.navigation.navigate('Tabs');
+		this.props.navigation.navigate('Bike');
 	}
 
 	/**
@@ -187,7 +187,7 @@ class AddBikeView extends BaseView {
 	_clearData = () => {
 		this.AddBikeP.clearPhotos();
 		this.sectionedMultiSelect._removeAllItems();
-		let inputData = this.AddBikeP.getTextInputData(NO_DATA); // inputData is a property in state
+		let inputData = this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage); // inputData is a property in state
 		let photoEntries = ImageUtil.getDefaultPhotos();
 		this.setState({ inputData, photoEntries });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
@@ -401,7 +401,7 @@ class AddBikeView extends BaseView {
 							{/* List of text inputs */}
 							<FlatList
 								style={styles.flatList}
-								data={this.AddBikeP.getTextInputData(NO_DATA)}
+								data={this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage)}
 								extraData={this.state}
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>

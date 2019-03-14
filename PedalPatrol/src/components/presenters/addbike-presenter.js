@@ -317,9 +317,12 @@ class AddBikePresenter extends BasePresenter {
 	 *		text: initial text of the input
 	 *
 	 * @param {Object} data - type 'Object' if there is data, type 'string' if no data
+	 * @param {Boolean} isEditPage - true: If the current page is 'Edit Bike' page; false: If 'Add Bike' page
 	 * @return {List} A list of data objects (name, multiline, text)
 	 */
-	getTextInputData = (data) => {
+	getTextInputData = (data, isEditPage) => {
+		// Do something with isEditPage to make sure that data isn't cleared that can't be edited.
+		// For example, if we don't want user to edit the Serial Number, it would be disabled and not cleared when the 'Clear' button is clicked
 		return data === NO_DATA ? this._deepCopy(inputDataList.data) : this._translateDataToInput(data);
 	}
 
@@ -432,14 +435,14 @@ const inputDataList = {
 		{
 			name: 'Name',
 			multiline: false,
-			disabled: true,
+			disabled: false,
 			required: true,
 			text: '',
 		},
 		{
 			name: 'Serial Number',
 			multiline: false,
-			disabled: true,
+			disabled: false,
 			required: true,
 			text: ''
 		},
