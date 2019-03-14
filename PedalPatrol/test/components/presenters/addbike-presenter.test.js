@@ -280,14 +280,14 @@ test('should translate item data to text input form', () => {
 		{
 			name: 'Name',
 			multiline: false,
-			disabled: true,
+			disabled: false,
 			required: true,
 			text: 'BikeName1'
 		},
 		{
 			name: 'Serial Number',
 			multiline: false,
-			disabled: true,
+			disabled: false,
 			required: true,
 			text: '72613671'
 		},
