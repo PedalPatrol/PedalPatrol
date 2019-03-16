@@ -7,6 +7,7 @@
     "test": "jest --silent",
     "test:coverage": "jest --coverage",
     "test:watch": "npm test -- --watch",
+    "coveralls": "jest --silent --coverage && cat ./coverage/lcov.info | coveralls",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
     "docs": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow"
