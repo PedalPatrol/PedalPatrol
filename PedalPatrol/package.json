@@ -49,6 +49,7 @@
     "babel-minify-webpack-plugin": "^0.2.0",
     "babel-plugin-root-import": "^6.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "coveralls": "^3.0.3",
     "documentation": "^9.3.0",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "0.51.1",
