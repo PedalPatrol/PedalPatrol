@@ -2,6 +2,7 @@ import Model from './model';
 import Database from '../../util/database';
 import ImageUtil from '../../util/imageutil';
 import PersistStorage from '../../util/persistentstorage';
+import AuthState from '../../util/authenticationstate';
 
 /**
  * Class for the bike model to be used by the BikePresenter and AddBikePresenter
@@ -63,7 +64,7 @@ class BikeModel extends Model {
 		Database.readBikeDataOn((snapshot) => {
 			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
-			this._notifyAll(); // Don't supply data to force a refresh by the presenter
+			this._notifyAll(null); // Don't supply data to force a refresh by the presenter
 		});
 	}
 
@@ -134,7 +135,7 @@ class BikeModel extends Model {
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		// this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
 		// console.log(this._data);
-		// this._notifyAll() // Send with no message?
+		// this._notifyAll(null) // Send with no message?
 		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
@@ -334,42 +335,40 @@ class BikeModel extends Model {
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
-		Database.getCurrentUser((userID) => {
-			const currentUser = userID;	
+		const currentUser = AuthState.getCurrentUserID();	
 
-			if (databaseData != null) { // Check if there are objects in the database
-				for (let val in databaseData) {
-					if (!this._hasProperty(databaseData[val], 'id')) { // If it doesn't have an id, skip it because it isn't valid
-						continue;
-					}
-
-					// Bike page only displays current user
-					if (currentUser == null || currentUser != databaseData[val].owner) {
-						continue;
-					}
-
-					const {exists} = this._bikeIDExists(databaseData[val].id);
-					if (exists) {
-						continue;
-					}
-
-					// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
-					if (!this._hasProperty(databaseData[val], 'colour')) {
-						databaseData[val].colour = [];
-					}
-					if (!this._hasProperty(databaseData[val], 'thumbnail')) {
-						databaseData[val].thumbnail = [];
-					}
-
-					databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value
-					tempData.data.push(databaseData[val]);
-					dataID++;
+		if (databaseData != null) { // Check if there are objects in the database
+			for (let val in databaseData) {
+				if (!this._hasProperty(databaseData[val], 'id')) { // If it doesn't have an id, skip it because it isn't valid
+					continue;
 				}
-				this._data = tempData;
-				this._saveDataToLocalStorage('data', this._data);
+
+				// Bike page only displays current user
+				if (currentUser == null || currentUser != databaseData[val].owner) {
+					continue;
+				}
+
+				const {exists} = this._bikeIDExists(databaseData[val].id);
+				if (exists) {
+					continue;
+				}
+
+				// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
+				if (!this._hasProperty(databaseData[val], 'colour')) {
+					databaseData[val].colour = [];
+				}
+				if (!this._hasProperty(databaseData[val], 'thumbnail')) {
+					databaseData[val].thumbnail = [];
+				}
+
+				databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value
+				tempData.data.push(databaseData[val]);
+				dataID++;
 			}
-			// console.log(this._data);
-		});
+			this._data = tempData;
+			this._saveDataToLocalStorage('data', this._data);
+		}
+		// console.log(this._data);
 	}
 
 	/**
@@ -379,7 +378,14 @@ class BikeModel extends Model {
 	 * @param {Object} data - The data to store 
 	 */
 	_saveDataToLocalStorage(key, data) {
-		PersistStorage.storeData(key, JSON.stringify(data), (error) => {
+		PersistStorage.retrieveData(key, (retrievedData) => {
+			if (retrievedData != [] && retrievedData != null && retrievedData != undefined) {
+				// We only want to store data if there isn't already data.
+				PersistStorage.storeData(key, JSON.stringify(data), (error) => {
+					console.log(error);
+				});
+			}
+		}, (error) => {
 			console.log(error);
 		});
 	}
@@ -392,9 +398,10 @@ class BikeModel extends Model {
 	 */
 	_checkForLocalData(key) {
 		PersistStorage.retrieveData(key, (data) => {
+			console.log(data)
 			if (data != null) {
 				this._data = JSON.parse(data);
-				this._notifyAll();
+				this._notifyAll(null);
 			}
 		}, (error) => {
 			console.log(error);

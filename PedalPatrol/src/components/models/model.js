@@ -1,86 +1,79 @@
-import ObserverList from '../../util/observerlist';
+import {Subject} from 'rxjs';
 
 /**
  * Base class for all models
  */
 class Model {
 	/**
-	 * Private method to only be used by classes that extend Model.
-	 * Creates an observer list for the child that classes can subscribe to.
+	 * @deprecated
+	 * Use _createEventStream instead. This function is only used because currently all classes call it
 	 */
 	_createObserverList() {
-		this.observerList = new ObserverList();
+		this._createEventStream();
 	}
 
 	/**
-	 * Private method to only be used by classes that extend Model.
-	 * Notifies all subscribers/observers of the calling child. 
-	 * This function forces the presenter to fetch any data from the model itself.
+	 * Creates an event stream (Subject/Observable) for presenters to subscribe to.
 	 */
-	_notifyAll() {
-		let count = this.observerList.count();
-		for (let i=0; i < count; i++) {
-			this.observerList.get(i).onUpdated(); // Calls the update function
-		}
+	_createEventStream() {
+		this.eventStream = new Subject();
+		this.observers = [];
 	}
 
 	/**
-	 * Private method to only be used by classes that extend Model.
-	 * Notifies all subscribers/observers of the calling child and sends a message.
+	 * Subscribes to the event stream.
 	 *
-	 * @param {Object} message - A message to send to the observers
-	 */
-	_notifyAll(message) {
-		let count = this.observerList.count();
-		for (let i=0; i < count; i++) {
-			this.observerList.get(i).onUpdated(message); // Calls the update function
-		}
-	}
-
-	/**
-	 * Private method to only be used by classes that extend Model.
-	 * Notifies a specific subscriber/observer of the calling child.
-	 *
-	 * @param {Object} observer - An observer to send a message to
-	 * @param {Object} message - A message to send to the observer
-	 * @return {Boolean} true: if the observer exists, a message will be sent; false: if the observer does not exist, no message sent
-	 */
-	_notify(observer, message) {
-		if (this.observerList.exists(observer)) {
-			observer.onUpdated(message);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Adds (subscribes) an observer to the calling child/subject to the subscription list.
-	 *
-	 * @param {Object} observer - An observing class
+	 * @param {Class} observer - A class that will observe the event stream. Must implement onUpdated
 	 */
 	subscribe(observer) {
-		this.observerList.add(observer);
+		if (this.eventStream != null && this.eventStream != undefined) {
+			const subscription = this.eventStream.subscribe(
+				observer.onUpdated,
+				(error) => {console.log(error)},
+				() => {console.log('Completed')}
+			);
+
+			const newObserver = {observer, subscription};
+			this.observers.push(newObserver);
+		}
 	}
 
 	/**
-	 * Removes (unsubscribes) an observer from the calling child/subject's subscription list.
+	 * Unsubscribe from the event stream.
 	 *
-	 * @param {Object} observer - An observing class
+	 * @param {Class} observer - A class that is subscribed to be unsubscribed.
 	 */
 	unsubscribe(observer) {
-		this.observerList.remove(observer);
+		let newObservers = [];
+		for (let i=0; i < this.observers.length; i++) {
+			if (this.observers[i].observer == observer) {
+				const {subscription} = this.observers[i];
+				subscription.unsubscribe();
+			} else {
+				newObservers.push(this.observers[i]);
+			}
+		}
+		this.observers = this._deepCopy(newObservers);
 	}
 
 	/**
-	 * Checks if an observer exists in the observer list.
-	 * 
-	 * @param {Object} objectClass - A class
-	 * @return {Boolean} true: if the class is an observer; false: if the class is not an observer
+	 * Notify all observers with a message.
+	 *
+	 * @param {Object} message - A message to send to the observers.
 	 */
-	exists(objectClass) {
-	 	return this.observerList.exists(objectClass);
+	_notifyAll(message) {
+		this.eventStream.next(message);
 	}
+
+	/**
+	 * Returns a deep copy of the array by reassigning the values. This is to make sure we can clear the data.
+	 *
+	 * @return {List} A list to copy
+	 */
+	_deepCopy = (array) => {
+		return array.map(a => Object.assign({}, a));
+	}
+
 }
 
 export default Model;

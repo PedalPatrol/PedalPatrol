@@ -41,15 +41,6 @@ class AlertPresenter extends BasePresenter {
 		this.view.refreshState();
 	};
 
-
-	/**
-	 * Called when the model is updated with new data. Refreshes the state of the view.
-	 * Better way to refresh the state?
-	 */
-	onUpdated = () => {
-	 	this.view.refreshState();
-	 };
-
 	/**
 	 * Gets the data from the model and returns it to the caller.
 	 *

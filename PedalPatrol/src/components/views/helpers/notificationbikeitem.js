@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View, TouchableHighlight } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import ImageUtil from '../../../util/imageutil';
+import TimeUtil from '../../../util/timeutility';
 
 const TYPE_STOLEN = 'stolen';
 const TYPE_FOUND = 'found';
@@ -31,7 +31,7 @@ class NotificationBikeItemHelper extends Component {
 			params: {
 				data: this.props.data, 
 			},
-			key: 'BikeDetails' + ImageUtil.getDateTime()
+			key: 'BikeDetails' + TimeUtil.getDateTime()
 		});
 	}
 

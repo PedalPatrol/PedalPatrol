@@ -51,15 +51,6 @@ class ImageUtility {
 	}
 
 	/**
-	 * Returns the current date and time in milliseconds.
-	 * 
-	 * @return {Number} The date and time in milliseconds
-	 */
-	getDateTime() {
-		return (new Date()).getTime();
-	}
-
-	/**
 	 * Checks whether the image list is valid using an overly complex set of logical comparisons.
 	 * Really not needed but all these cases came up and proved to be a problem.
 	 *

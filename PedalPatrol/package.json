@@ -23,6 +23,7 @@
     "react-native-elements": "^1.0.0-beta7",
     "react-native-gesture-handler": "^1.0.16",
     "react-native-image-picker": "^0.28.0",
+    "react-native-map-link": "^2.2.1",
     "react-native-maps": "0.23.0",
     "react-native-material-textfield": "^0.12.0",
     "react-native-paper": "^2.11.0",
@@ -30,6 +31,7 @@
     "react-native-snap-carousel": "^3.7.5",
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^3.0.9",
+    "rxjs": "^6.4.0",
     "webpack": "^3.12.0"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 import Model from './model';
 import Database from '../../util/database';
-import { HomeM } from './export-models'; // Rather than duplicate code, use the Home Model's functions
+import AuthState from '../../util/authenticationstate';
+import TimeUtil from '../../util/timeutility';
 
 /**
  * Class for the alert model to be used by the alert Presenter
@@ -60,20 +61,24 @@ class AlertModel extends Model {
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
+		const currentUser = AuthState.getCurrentUserID();
+
 		if (databaseData != null) { // Check if there are objects in the database
 			for (let val in databaseData) {
 				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
 					continue;
 				}
-				// if (!databaseData[val].hasOwnProperty('found') || !databaseData[val].found) {
-				// 	continue;
-				// }
+
+				if (currentUser == null || databaseData[val].owner !== currentUser) {
+					console.log(currentUser)
+					continue;
+				}
 
 				if (databaseData[val].hasOwnProperty('found') && databaseData[val].found) {
 					databaseData[val].dataID = dataID++;
 					// Add timeago and datetime formatted info
-					databaseData[val].timeago = HomeM._getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
-					databaseData[val].datetime = HomeM._getDateFormatFromDateTime(databaseData[val].milliseconds);
+					databaseData[val].timeago = TimeUtil.getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
+					databaseData[val].datetime = TimeUtil.getDateFormatFromDateTime(databaseData[val].milliseconds);
 					tempData.data.push(databaseData[val]);
 				}
 			}
@@ -90,7 +95,7 @@ class AlertModel extends Model {
 		for (let i=0; i < tempData.length; i++) {
 			tempData[i].dataID = dataID++;
 			// Convert back to timeago from milliseconds
-			tempData[i].timeago = HomeM._getTimeAgoFromMilliseconds(tempData[i].milliseconds);
+			tempData[i].timeago = TimeUtil.getTimeAgoFromMilliseconds(tempData[i].milliseconds);
 		}
 		this._data.data = Object.assign(tempData);
 	}
@@ -104,7 +109,7 @@ class AlertModel extends Model {
 			const temp = this._data.data;
 
 			// Reverse the lists because we want latest time first
-			const sortedData = HomeM._sortOnTime(temp).reverse();
+			const sortedData = TimeUtil.sortOnTime(temp).reverse();
 
 			this._data.data = sortedData;
 			this._data.numNotifications = sortedData.length;
@@ -121,7 +126,7 @@ class AlertModel extends Model {
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		// this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
 		// console.log(this._data);
-		// this.notifyAll() // Send with no message?
+		// this.notifyAll(null) // Send with no message?
 		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 		// this._eventEmitter.emit('change')
 	}

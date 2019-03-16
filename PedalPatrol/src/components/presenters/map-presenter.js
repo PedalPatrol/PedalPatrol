@@ -1,67 +1,54 @@
-
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View,Button,Alert} from 'react-native';
 import BasePresenter from './presenter';
-import  {MapM} from '../models/export-models';
+import { HomeM, MapM } from '../models/export-models';
 
 
 class MapPresenter extends BasePresenter {
-    constructor(view){
-       super();
-       this.view = view;
-       MapM.subscribe(this);
+	constructor(view){
+		super();
 
-    }
-    //markers=this.createMarkerList();
+		this.view = view;
+		HomeM.subscribe(this);
+		MapM.subscribe(this);
+	}
+	
+	/**
+	 * @private
+	 * We're cheating here because the map presenter subscribes too late to receive data from the home model
+	 * so we just force a notifyAll and move on. This only happens when the component mounts
+	 */
+	forceRequestData() {
+		HomeM.forceNotifyAll();
+	}
 
-/* test command
-    getG(){
-        console.log('im G');
-        MapM.readMarkerData();
-    }
-    */
-    createMarkerList(){
-        markers = [];
-       //markerList = MapM.get();
+	getData = () => {
+		return MapM.get();
+	}
 
-        markerList=[];
-        for (var i = 0; i < markerList .length; i ++ ){
-                markers.push(this.createMarker(markerList[i]));
-             }
-        return markers;
-    };
-    createMarker(markerElement){
-        decode = Object.values(markerElement);
-        singleMarker={
-            coordinate:{
-                    latitude:decode[3],
-                    longitude: decode[4],
-            },
-            key : decode[2],
-            title: decode[1],
-            description: decode[2],
-        }
-        return singleMarker;
-    };
-    getData = () =>{
-        return MapM.get();
-    }
-
-    /**
-    	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
-    	 */
-    	onDestroy = () => {
-    		MapM.unsubscribe(this);
-    	};
-    onUpdated = () => {
-		// Do something with the new data or let the view auto update?
-        this.forceRefresh();
+	/**
+	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
+	 */
+	onDestroy = () => {
+		HomeM.unsubscribe(this);
+		MapM.unsubscribe(this);
 	};
 
+	/**
+	 * onUpdated only called from HomeModel because MapModel doesn't call it.
+	 * Since data in MapModel should be the same as the from the HomeModel, we don't have to read from the database in the MapModel
+	 * and we can just wait for data to be received.
+	 */
+	onUpdated = (data) => {
+		MapM.update(data);
+		this.forceRefresh(); // We always want to force a refresh for the model because data only comes from the HomeModel
+	}
+
+	/**
+	 * Force the view/presenter to refresh the view's data
+	 */
 	forceRefresh = () => {
-    	this.view.setState({
-    	markers: this.getData()
-    	});
-    };
+		this.view.setState({
+			markers: this.getData()
+		});
+	};
 }
 export default MapPresenter;

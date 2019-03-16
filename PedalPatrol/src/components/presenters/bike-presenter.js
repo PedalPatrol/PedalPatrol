@@ -40,16 +40,11 @@ class BikePresenter extends BasePresenter {
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
 		// console.log(newData)
-		this.view.refreshState();
-	};
-
-
-	/**
-	 * Called when the model is updated with new data. Refreshes the state of the view.
-	 * Better way to refresh the state?
-	 */
-	onUpdated = () => {
-	 	this.forceRefresh(); // Force a refresh here because we got the data from the database
+		if (newData == null) {
+			this.forceRefresh(); // Force a refresh here because we got the data from the database
+		} else {
+			this.view.refreshState();
+		}
 	};
 
 	/**

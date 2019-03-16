@@ -1,80 +1,64 @@
 import Model from '@/src/components/models/model';
-import ObserverList from '@/src/util/observerlist';
 import BasePresenter from '@/src/components/presenters/presenter';
 
-test('should create observer list', () => {
-	const model = new Model();
+const model = new Model();
+const presenter = new BasePresenter();
+
+test('should call non-deprecated function', () => {
+	const _createEventStream = model._createEventStream = jest.spyOn(Model.prototype, '_createEventStream');
 
 	model._createObserverList();
-	expect(model.observerList).toBeDefined();
-	expect(model.observerList).toBeInstanceOf(ObserverList);
+	expect(_createEventStream).toHaveBeenCalled();
+	expect(_createEventStream).toHaveBeenCalledWith();
+});
+
+test('should create event stream', () => {
+	model._createEventStream();
+	expect(model.eventStream).not.toEqual(null);
 });
 
 test('should subscribe observer', () => {
-	const model = new Model();
-	const presenter = new BasePresenter();
-
-	model._createObserverList();
-
-	const add = model.observerList.add = jest.fn();
-
+	model._createEventStream();
 	model.subscribe(presenter);
+	const {observer, subscription} = model.observers[0];
 
-	expect(add).toHaveBeenCalled();
-	expect(add).toHaveBeenCalledWith(presenter);
+	expect(observer).toEqual(presenter);
+	expect(subscription).not.toEqual(null);
 });
 
 test('should unsubscribe observer', () => {
-	const model = new Model();
-	const presenter = new BasePresenter();
+	model._createEventStream();
+	model.subscribe(presenter);
+	const observers = model.observers;
 
-	model._createObserverList();
-
-	const remove = model.observerList.remove = jest.fn();
+	model.unsubscribe(null);
+	expect(model.observers).toEqual(observers);
 
 	model.unsubscribe(presenter);
-
-	expect(remove).toHaveBeenCalled();
-	expect(remove).toHaveBeenCalledWith(presenter);
-});
-
-test('should notify observer with message', () => {
-	const model = new Model();
-	const presenter = new BasePresenter();
-	const onUpdated = presenter.onUpdated = jest.fn((message) => 'default').mockName('notifyMessage');
-	const message = { data: 'test' };
-
-	model._createObserverList();
-	model.subscribe(presenter);
-	model._notify(presenter, message);
-
-	expect(onUpdated).toHaveBeenCalled();
-	expect(onUpdated).toHaveBeenCalledWith(message);
+	expect(model.observers).toEqual([]);
 });
 
 test('should notify all observers with message', () => {
-	const model = new Model();
-	const presenter = new BasePresenter();
 	const onUpdated = presenter.onUpdated = jest.fn((message) => 'default').mockName('notifyAllMessage');
 	const message = { data: 'test' };
 
-	model._createObserverList();
+	model._createEventStream();
 	model.subscribe(presenter);
 	model._notifyAll(message);
 
 	expect(onUpdated).toHaveBeenCalled();
 	expect(onUpdated).toHaveBeenCalledWith(message);
+	model.unsubscribe(presenter);
 });
 
-test('should notify all observers with no message', () => {
-	const model = new Model();
-	const presenter = new BasePresenter();
+test('should notify all observers with null message', () => {
 	const onUpdated = presenter.onUpdated = jest.fn((message) => 'default').mockName('notifyAllNoMessage');
 
-	model._createObserverList();
+	model._createEventStream();
 	model.subscribe(presenter);
-	model._notifyAll();
+	model._notifyAll(null);
 
 	expect(onUpdated).toHaveBeenCalled();
-	expect(onUpdated).toHaveBeenCalledWith(undefined);
+	expect(onUpdated).toHaveBeenCalledWith(null);
+	model.unsubscribe(presenter);
 });

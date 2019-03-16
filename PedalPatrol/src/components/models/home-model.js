@@ -1,5 +1,6 @@
 import Model from './model';
 import Database from '../../util/database';
+import TimeUtil from '../../util/timeutility';
 
 /**
  * Class for the home/notification model to be used by the Home Presenter
@@ -62,103 +63,13 @@ class HomeModel extends Model {
 				if (databaseData[val].hasOwnProperty('stolen') && databaseData[val].stolen) {
 					databaseData[val].dataID = dataID++;
 					// Add timeago and datetime formatted info
-					databaseData[val].timeago = this._getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
-					databaseData[val].datetime = this._getDateFormatFromDateTime(databaseData[val].milliseconds);
+					databaseData[val].timeago = TimeUtil.getTimeAgoFromMilliseconds(databaseData[val].milliseconds);
+					databaseData[val].datetime = TimeUtil.getDateFormatFromDateTime(databaseData[val].milliseconds);
 					tempData.data.push(databaseData[val]);
 				}
 			}
 			this._data = tempData;
 		}
-	}
-
-	/**
-	 * Returns the milliseconds time formatted as 'HH:MM - DD/MM/YY'.
-	 *
-	 * @param {Number} datetime - The time in milliseconds
-	 * @return {string} Milliseconds represented as a string
-	 */
-	_getDateFormatFromDateTime(datetime) {
-		let converted = new Date(datetime);
-		let date = converted.getDate() + '/' + (converted.getMonth()+1) + '/' + converted.getFullYear();
-		let time = converted.getHours() + ":" + converted.getMinutes();
-		let dateTime = time+' - '+date;
-		return dateTime
-	}
-
-	/**
-	 * Returns millisecond time as a time ago string (# __ ago).
-	 *
-	 * @param {Number} milliseconds - The time in milliseconds
-	 * @return {string} The millisecond time represented as a string
-	 */
-	_getTimeAgoFromMilliseconds(milliseconds) {
-		const currentTime = new Date();
-		
-		let time = this._parseMillisecondsIntoReadableTime(currentTime-milliseconds);
-
-		let parsetime = time.split(':');
-		let suffix = '';
-		let outtime = '';
-
-		const hours = parseInt(parsetime[0]);
-		const minutes = parseInt(parsetime[1]);
-		const seconds = parseInt(parsetime[2]);
-
-		// console.log(hours, minutes, seconds);
-
-		// Probably could make more concise
-		if (hours >= 24) {
-			outtime = Math.floor(hours/24); // Round to days
-			suffix = outtime === 1 ? ' day ago' : ' days ago';
-
-			if (outtime >= 30 && outtime < 365) { // 30 days - 365 days
-				outtime = Math.floor(outtime/30); // Round to months
-				suffix = outtime === 1 ? ' month ago' : ' months ago';
-			} else if (outtime >= 365) { // > 365 days
-				outtime = Math.floor(outtime/365); // Round to years
-				suffix = outtime === 1 ? ' year ago' : ' years ago';
-			}
-
-		} else if (hours > 0) {
-			outtime = hours;
-			suffix = outtime === 1 ? ' hour ago' : ' hrs ago';
-
-		} else {
-			if (minutes > 0) {
-				outtime = minutes;
-				suffix = outtime === 1 ? ' min ago' : ' mins ago';
-			} else {
-				outtime = seconds;
-				suffix = outtime === 1 ? ' sec ago' : ' secs ago';
-			}
-		}
-
-		return outtime + suffix;
-	}
-
-	/**
-	 * Returns the milliseconds time as readable time (HH:MM:SS)
-	 *
-	 * @param {Number} milliseconds - The time in milliseconds
-	 * @return {string} Milliseconds formatted to time
-	 */
-	_parseMillisecondsIntoReadableTime(milliseconds){
-		//  Get hours from milliseconds
-		let hours = milliseconds / (1000*60*60);
-		let absoluteHours = Math.floor(hours);
-		let h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-
-		// Get remainder from hours and convert to minutes
-		let minutes = (hours - absoluteHours) * 60;
-		let absoluteMinutes = Math.floor(minutes);
-		let m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
-
-		// Get remainder from minutes and convert to seconds
-		let seconds = (minutes - absoluteMinutes) * 60;
-		let absoluteSeconds = Math.floor(seconds);
-		let s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-
-		return h + ':' + m + ':' + s;
 	}
 
 	/**
@@ -170,7 +81,7 @@ class HomeModel extends Model {
 		for (let i=0; i < tempData.length; i++) {
 			tempData[i].dataID = dataID++;
 			// Convert back to timeago from milliseconds
-			tempData[i].timeago = this._getTimeAgoFromMilliseconds(tempData[i].milliseconds);
+			tempData[i].timeago = TimeUtil.getTimeAgoFromMilliseconds(tempData[i].milliseconds);
 		}
 		this._data.data = Object.assign(tempData);
 	}
@@ -187,8 +98,8 @@ class HomeModel extends Model {
 			const bookmarkedData	= this.getBookmarkedData(temp, true);
 
 			// Reverse the lists because we want latest time first
-			const sortedBookmarkedData 		= this._sortOnTime(bookmarkedData).reverse();
-			const sortedNonBookmarkedData 	= this._sortOnTime(nonBookmarkedData).reverse();
+			const sortedBookmarkedData 		= TimeUtil.sortOnTime(bookmarkedData).reverse();
+			const sortedNonBookmarkedData 	= TimeUtil.sortOnTime(nonBookmarkedData).reverse();
 		
 			// console.log(sortedNonBookmarkedData);
 
@@ -211,30 +122,6 @@ class HomeModel extends Model {
 	}
 
 	/**
-	 * Quick sorts the data based on the timeago property. Arguably faster than using the built in sort function
-	 * with a custom compare function.
-	 *
-	 * @param {List} data - Unsorted object data with a timeago property
-	 * @return {List} Sorted data
-	 */
-	_sortOnTime(data) {
-		if (data.length <= 1) {
-			return data;
-		}
-
-		let pivot = data[0];
-
-		let left = []; 
-		let right = [];
-
-		for (let i = 1; i < data.length; i++) {
-			data[i].milliseconds < pivot.milliseconds ? left.push(data[i]) : right.push(data[i]);
-		}
-
-		return this._sortOnTime(left).concat(pivot, this._sortOnTime(right));
-	};
-
-	/**
 	 * Update method for presenters to update the model's data.
 	 *
 	 * @param {Object} newData - New data to add
@@ -243,7 +130,7 @@ class HomeModel extends Model {
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
 		// console.log(this._data);
-		// this.notifyAll() // Send with no message?
+		// this.notifyAll(null) // Send with no message?
 		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 		// this._eventEmitter.emit('change')
 	}
@@ -274,6 +161,17 @@ class HomeModel extends Model {
 	 */
 	unsetBookmark(id) {
 		this._activeBookmarks = this._activeBookmarks.filter(bid => {return bid != id;})
+	}
+
+	/**
+	 * @private
+	 * DON'T USE THIS FUNCTION IF YOU DON'T HAVE TO.
+	 * I hope you know what you're doing.
+	 * We force a notifyAll here because if a presenter subscribes too late and needs data on startup, it won't
+	 * receive anything because it mounts after data is received. Force a notifyAll so it can start with data.
+	 */
+	forceNotifyAll() {
+		this._notifyAll(this._data);
 	}
 }
 

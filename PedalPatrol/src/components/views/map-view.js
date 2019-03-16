@@ -23,9 +23,8 @@ class MapView extends BaseView {
 	*/
 	constructor(props){
 	   super(props);
-	   this.mapPresenter = new MapPresenter(this);
+	   this.MapP = new MapPresenter(this);
 	   this.resetState();
-
 	}
 
 	/**
@@ -33,21 +32,28 @@ class MapView extends BaseView {
 	 */
 	componentDidMount = () => {
 		this._setUserLocation();
+		this.MapP.forceRequestData();
 		
 		this.setState({
-			markers : this.mapPresenter.getData()
+			markers : this.MapP.getData()
 		});
 	};
-
-
-
 
 	/**
 	 * Component is about to unmount, do any cleanup here.
 	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
 	 */ 
 	componentWillUnmount = () => {
-		this.viewUnmounting(this.mapPresenter);
+		this.viewUnmounting(this.MapP);
+	}
+
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () => {
+		this.setState({ 
+			refresh: !this.state.refresh
+		});
 	}
 
 	resetState = () => {
@@ -98,8 +104,8 @@ class MapView extends BaseView {
 
 
 	/**
-	* Render "save/delete" button after clicking "create lost report" button
-	*/
+	 * Render "save/delete" button after clicking "create lost report" button
+	 */
 	renderSDButton(){
 		if (this.state.showButton){
 			return(
@@ -120,8 +126,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	*  Save data of created marker or circle after clicking save button
-	*/
+	 *  Save data of created marker or circle after clicking save button
+	 */
 	saveItem(){
 		if (this.state.showCircle){
 			this.saveCircle();
@@ -132,8 +138,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	* Delete created marker or circle after clicking delete button
-	*/
+	 * Delete created marker or circle after clicking delete button
+	 */
 	deleteItem(){
 		this.setState()
 		if (this.state.showCircle){
@@ -148,8 +154,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	* Render buttons that can adjust circle's radius
-	*/
+	 * Render buttons that can adjust circle's radius
+	 */
 	renderForCircle(){
 		if (this.state.showCircle){
 			return(
@@ -168,8 +174,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	* Render a circle to set notification receiving area
-	*/
+	 * Render a circle to set notification receiving area
+	 */
 	renderCircle(){
 		if (this.state.showCircle){
 			return (
@@ -185,8 +191,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	* Save data of circle to notification settings
-	*/
+	 * Save data of circle to notification settings
+	 */
 	saveCircle(){
 		//nothing
 		newData ={
@@ -200,8 +206,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	* Save data of created marker to report lost page
-	*/
+	 * Save data of created marker to report lost page
+	 */
 	sendNewMarker(){
 		newData={
 			data:
@@ -212,10 +218,10 @@ class MapView extends BaseView {
 	}
 
 	/**
-	*  Long press the map to change the coordinate of circle
-	*
-	* @param {Event} The event of long press on the map
-	*/
+	 *  Long press the map to change the coordinate of circle
+	 *
+	 * @param {Event} The event of long press on the map
+	 */
 	setCircleLat(e) {
 	cor = e.nativeEvent.coordinate;
 		if (this.state.showCircle){
@@ -230,8 +236,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	* handle click event after clicking "create marker" button
-	*/
+	 * handle click event after clicking "create marker" button
+	 */
 	_onPressButton=()=> {
 		this.setState({
 					showButton: true,
@@ -242,27 +248,42 @@ class MapView extends BaseView {
 	  }
 
 	/**
-	* helper function of _onPressButton
-	*
-	* @param {Integer} latitude and longitude of a marker
-	*/
+	 * helper function of _onPressButton
+	 *
+	 * @param {Integer} latitude and longitude of a marker
+	 */
 	newMarker = (lat,long) => {
 		return({coordinate: {latitude: lat,longitude: long}});
 	};
 
 	/**
-	*  Change region state as moving the map
-	*
-	* @param {region} A presenter class instance
-	*/
+	 *  Change region state as moving the map
+	 *
+	 * @param {region} A presenter class instance
+	 */
 	onRegionChange = (region) => {
 	  this.setState({region: region });
 	};
 
+	_renderCallout = (item) => (
+		<Callout>
+			<View style={{flexDirection: 'row'}}>
+				<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
+					{item.data.model}
+				</Text>
+				{/*console.log(item.data)*/}
+				<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
+					{item.data.timeago}
+				</Text>
+
+			</View>
+		</Callout>
+	);
+
 
 	/**
-	* Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
-	*/
+	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
+	 */
 	render() {
 		const { height: windowHeight } = Dimensions.get('window');
 		const varTop = windowHeight - 125;
@@ -305,10 +326,8 @@ class MapView extends BaseView {
 						onLongPress = {e => this.setCircleLat(e)}>
 					  	{this.state.markers.map(marker => (
 							<Marker {...marker} >
-								<Callout >
-									<Text > {marker.title}</Text>
-									<Text> {marker.description} </Text>
-							    </Callout>
+								{this._renderCallout(marker)}
+								
 							</Marker>
 						))}
 						{/*console.log(this.state.markers)*/}
@@ -368,5 +387,20 @@ const styles = StyleSheet.create({
 		shadowRadius: 8,
 		shadowOpacity: 0.12,
 		zIndex: 10,
+	},
+	model: {
+		paddingLeft: 5,
+		paddingTop: 5,
+		fontSize: 16,
+		fontWeight: 'bold',
+		color: '#777',
+	},
+	time: {
+		paddingRight: 5,
+		marginTop: 5,
+		fontSize: 16,
+		fontWeight: 'bold',
+		color: '#777',
+		flex:1,
 	},
 });

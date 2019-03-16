@@ -1,6 +1,7 @@
 import Model from './model';
 import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
+import AuthState from '../../util/authenticationstate';
 
 /**
  * Class for the AuthLoading model to be used by the AuthLoadingPresenter
@@ -29,10 +30,12 @@ class AuthLoadingModel extends Model {
 				console.log('No user token, checking database authentication...');
 				// Only check database user if no user token stored
 				await Database.getCurrentUser((userID) => {
+					AuthState.setCurrentUserID(userID);
 					onComplete(userID);
 				});	
 			} else {
 				console.log('User token found');
+				AuthState.setCurrentUserID(userToken);
 				onComplete(userToken);
 			}
 		}, (error) => {

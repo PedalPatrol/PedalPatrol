@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/storage'; // Necessary for jest tests
 import config from '../config/config.json';
+import TimeUtil from './timeutility';
 
 const BikeImages = 'BikeImages/';
 const ProfileImages = 'ProfileImages/';
@@ -10,6 +11,8 @@ const ProfileImages = 'ProfileImages/';
  */
 class FirebaseDatabase {
 	constructor() {
+		this.currentUser = null;
+
 		if (!firebase.apps.length) {
 			firebase.initializeApp(config.databaseConfig);
 		}
@@ -60,6 +63,7 @@ class FirebaseDatabase {
 	 * @param {Function} onError - A callback function on a failure to signout
 	 */
 	signOut(onSuccess, onError) {
+		this.currentUser = null;
 		firebase.auth().signOut().then(onSuccess, onError);
 	}
 
@@ -72,7 +76,7 @@ class FirebaseDatabase {
 	 * @param {Function} onError - A function callback to execute on an error when writing to the database
 	 */
 	writeBikeData(bikeData, onSuccess, onError) {
-		bikeData.milliseconds = this.getDateTime(); 
+		bikeData.milliseconds = TimeUtil.getDateTime(); 
 		this.getCurrentUser((userID) => {
 			bikeData.owner = userID;	
 			this.refDB.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
@@ -183,15 +187,6 @@ class FirebaseDatabase {
 	 */
 	getNewBikeID() {
 		return this.refDB.child('Bike').push().key;
-	}
-
-	/**
-	 * Generates the current time and returns it in milliseconds.
-	 * 
-	 * @return {Number} Returns the current time in milliseconds
-	 */
-	getDateTime() {
-		return (new Date()).getTime();
 	}
 
 	/**

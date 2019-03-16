@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import ImageUtil from '../../../util/imageutil';
+import TimeUtil from '../../../util/timeutility';
 
 /**
  * Class to help the displaying of bike items on the bike view page
@@ -23,7 +23,7 @@ class BikeItemHelper extends Component {
 				data: this.props.data, 
 				title: 'Edit Bike'
 			},
-			key: 'AddBike' + ImageUtil.getDateTime()
+			key: 'AddBike' + TimeUtil.getDateTime()
 		});
 	}
 

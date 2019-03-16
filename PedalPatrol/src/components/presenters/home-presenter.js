@@ -13,8 +13,7 @@ class HomePresenter extends BasePresenter {
 	 * @param {Object} view - An instance of a view class
 	 */
 	constructor(view) {
-		super()
-		this.stores = [HomeM];
+		super();
 		this.view = view;
 		HomeM.subscribe(this);
 		AlertM.subscribe(this);
@@ -41,15 +40,6 @@ class HomePresenter extends BasePresenter {
 		// Do something with the new data or let the view auto update?
 		this.view.refreshState();
 	};
-
-
-	/**
-	 * Called when the model is updated with new data. Refreshes the state of the view.
-	 * Better way to refresh the state?
-	 */
-	onUpdated = () => {
-	 	this.view.refreshState();
-	 };
 
 	/**
 	 * Gets the data from the model and returns it to the caller.

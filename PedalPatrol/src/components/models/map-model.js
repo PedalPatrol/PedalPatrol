@@ -9,19 +9,29 @@ export default class MapModel extends Model {
 		
 		this._data = [];
 		this._createObserverList();
-		this._databaseRead();
+		/*
+		 * Since data in MapModel should be the same as the from the HomeModel, we don't have to read from the database in the MapModel
+		 * and we can just wait for data to be received.
+		 */
 	}
-	
+
 	get = () => {
 		return (this._data);
 	}
-	
-	_databaseRead() {
-		Database.readBikeDataOn((snapshot) => {
-			this._insertDataOnRead(snapshot.val());
-			this._notifyAll(this._data); // Don't supply data to force a refresh by the presenter
-		});
+
+	/**
+	 * Updates the map model data by inserting the data as markers
+	 */
+	update = (newData) => {
+		this._insertDataOnRead(newData);
 	}
+	
+	// _databaseRead() {
+	// 	Database.readBikeDataOn((snapshot) => {
+	// 		this._insertDataOnRead(snapshot.val());
+	// 		this._notifyAll(this._data); // Don't supply data to force a refresh by the presenter
+	// 	});
+	// }
 	/*required data sample
 	[{coordinate:{latitude:44.237424,longitude:-76.5131},
 	title:"bike1",
@@ -33,12 +43,12 @@ export default class MapModel extends Model {
 		//let temp = [{coordinate:{latitude:44.237424,longitude:-76.5131},title:"bike1",description:"help"}];
 		let temp = [];
 		// console.log(Object.values(newdata));
-		let newdatalist = Object.values(newdata);
-		 for (let i = 0; i < newdatalist.length; i ++ ){
-			if ( newdatalist[i].hasOwnProperty("longitude")&&newdatalist[i].hasOwnProperty("latitude")&&newdatalist[i].hasOwnProperty("stolen")&& newdatalist[i].stolen){
-			  temp.push(this.createMarker(newdatalist[i]));
+		let newdatalist = Object.values(newdata.data);
+		for (let i = 0; i < newdatalist.length; i ++ ){
+			if ( newdatalist[i].hasOwnProperty("longitude") && newdatalist[i].hasOwnProperty("latitude") && newdatalist[i].hasOwnProperty("stolen") && newdatalist[i].stolen) {
+				temp.push(this.createMarker(newdatalist[i]));
 			}
-		 }
+		}
 
 		this._data = temp;
 	}
@@ -46,12 +56,11 @@ export default class MapModel extends Model {
 	createMarker(markerElement){
 		let singleMarker={
 			coordinate:{
-					latitude:markerElement.latitude,
-					longitude: markerElement.longitude,
+				latitude: markerElement.latitude,
+				longitude: markerElement.longitude,
 			},
 			key : markerElement.id,
-			title: markerElement.model,
-			description: markerElement.description,
+			data: markerElement
 		}
 		return singleMarker;
 	}

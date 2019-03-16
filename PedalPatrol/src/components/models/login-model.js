@@ -59,16 +59,16 @@ class LoginModel extends Model {
 		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
 			errorMessage = false;
-			// console.log('erroraftercheck: '+errorMessage);
+			console.log('erroraftercheck: '+errorMessage);
 		});
 
-		if (errorMessage === true) {
+		if (errorMessage) {
 			this.authenticationSuccess();
 		}
 
 		//var message = errorMessage;
 		// console.log('ddd:'+errorMessage)
-		// this.notifyAll() // Send with no message?
+		// this.notifyAll(null) // Send with no message?
 		//console.log('errorbeforenotify: '+ errorMessage)
 		this._notifyAll(errorMessage); // Consider not having a message and forcing the presenter to 'get' the message itself
 		// this._eventEmitter.emit('change')
