@@ -82,6 +82,7 @@ class MapView extends BaseView {
 					longitudeDelta: 0.0421,
 				};
 				this.setState({
+					x: location,
 					user: location,
 					region: location
 				});
@@ -271,8 +272,8 @@ class MapView extends BaseView {
 			left: 15,
 			right: 15,
 		}
-		bbStyle = (vheight) => {
-			style = {
+		let bbStyle = (vheight) => {
+			let style = {
 				position: 'absolute',
 				top: vheight-20,
 				left: 10,

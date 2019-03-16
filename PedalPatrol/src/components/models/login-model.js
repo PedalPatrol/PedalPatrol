@@ -74,9 +74,13 @@ class LoginModel extends Model {
 		// this._eventEmitter.emit('change')
 	}
 
+	/**
+	 * Function to call on a successful authentication of the user signing in to the database.
+	 */
 	authenticationSuccess() {
-		const userToken = Database.getCurrentUser();
-		PersistStorage.storeData('userToken', userToken, (error) => {console.log(error)});
+		Database.getCurrentUser((userID) => {
+			PersistStorage.storeData('userToken', userID, (error) => {console.log(error)});
+		});
 	}
 
 	 //onError() => {}

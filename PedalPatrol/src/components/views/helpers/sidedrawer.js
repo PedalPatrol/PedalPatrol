@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform, TouchableHighlight, Text, View, StyleSheet, FlatList } from 'react-native';
 import Drawer from 'react-native-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Database from '../../../util/database';
 
 import DrawerHelp from '../../../util/drawerhelper';
 import SafeArea from './safearea';
@@ -48,7 +49,7 @@ class SideDrawer extends Component {
 				backgroundColor="#F5FCFF"
 				color="#000"
 				size={30}
-				onPress={() => this.navigateToScreen(item.screen)}>
+				onPress={() => this.onItemPressed(item)}>
 				<Text style={styles.itemText}>{item.text}</Text>
 				{
 					this.state.numNotifications > 0 &&
@@ -62,14 +63,46 @@ class SideDrawer extends Component {
 	);
 
 	/**
+	 * Function is called when a drawer item is pressed.
+	 *
+	 * @param {Object} item - The drawer item that is pressed, see drawerData for possible items.
+	 */
+	onItemPressed = (item) => {
+		let routeParams = {};
+		if (item.hasOwnProperty('params')) { // If there's parameters, flatten them
+			routeParams = this.getParams(item.params);
+		}
+		this.navigateToScreen(item.screen, routeParams);
+	}
+
+	/**
+	 * Flattens a list of objects into an object with properties.
+	 * Example:
+	 * 		Original: [{key: k1, value: v1}, {key: k2, value: v2}]
+	 * 		After:	  {k1: v1, k2: v2}
+	 * 
+	 * @param {List} params - A list of key, value pair objects
+	 * @return {Object} An object with properties 
+	 */
+	getParams = (params) => {
+		let paramsAsObject = {};
+		for (let i=0; i < params.length; i++) {
+			// Property value 'key' becomes the property in final object
+			paramsAsObject[params[i].key] = params[i].value;
+		}
+		return paramsAsObject;
+	}
+
+	/**
 	 * Navigate to a specified screen. Screen must be a possible navigation
 	 *
 	 * @param {string} screen - The name of the screen to navigate to.
 	 */
-	navigateToScreen = (screen) => {
+	navigateToScreen = (screen, params) => {
 		// console.log(screen);
 		this.closeDrawer();
-		NavigatorService.navigate(screen);
+		// Need to use navigator service because we are navigating from above the root navigator
+		NavigatorService.navigate(screen, params);
 	}
 
 	/**
@@ -107,7 +140,7 @@ class SideDrawer extends Component {
 		
 				<FlatList
 					style={styles.flatList}
-					data={data}
+					data={drawerData}
 					extraData={this.state}
 					keyExtractor={this._keyExtractor}
 					renderItem={this._renderItem}/>
@@ -147,14 +180,18 @@ class SideDrawer extends Component {
 export default SideDrawer;
 
 /**
- * screen property must be the stack navigator defined in navigation.js
+ * 'text' property is the drawer name
+ * 'icon_name' property is the icon name from the icon type
+ * 'icon_type' property is the type of icon (see react-native-vector-icons)
+ * 'screen' property must be the stack navigator defined in navigation.js
+ * 'params' property is a list of key, value pair objects. The 'key' property will appear as a param in the navigated to screen, with value 'value'
  */
-const data = [
+const drawerData = [
 	{
 		text: 'Profile',
 		icon_name: 'user',
 		icon_type: 'FontAwesome',
-		screen: 'ProfileStack'
+		screen: 'ProfileStack',
 	},
 	{
 		text: 'Alerts',
@@ -172,7 +209,8 @@ const data = [
 		text: 'Logout',
 		icon_name: 'sign-out',
 		icon_type: 'FontAwesome',
-		screen: 'LogoutStack'
+		screen: 'AuthLoading',
+		params: [{ key: 'logout', value: true }]
 	}
 
 ]

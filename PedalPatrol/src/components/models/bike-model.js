@@ -1,6 +1,7 @@
 import Model from './model';
 import Database from '../../util/database';
 import ImageUtil from '../../util/imageutil';
+import PersistStorage from '../../util/persistentstorage';
 
 /**
  * Class for the bike model to be used by the BikePresenter and AddBikePresenter
@@ -19,7 +20,8 @@ class BikeModel extends Model {
 
 		this._data = {data: []};
 		this._createObserverList();
-		this._registerDatabaseRead();		
+		this._registerDatabaseRead();
+		this._checkForLocalData('data'); // Offline equivalent of _registerDatabaseRead, only useful if the user hasn't logged out	
 	}
 
 	/**
@@ -89,7 +91,7 @@ class BikeModel extends Model {
 
 		try {
 			const {exists, index} = this._bikeDataExists(newData);
-			if (exists && this._checkNewImages(index, newData.data.thumbnail)) {
+			if (exists && this._checkImages(index, newData.data.thumbnail)) {
 				newData.data.thumbnail = this._removeIllustrationKey(newData.data.thumbnail);
 				this._insertDataOnUpdate(newData, exists, index);
 				this._editExistingInDatabase(newData.data, (result) => {this._callback(true); this._notifyAll(this._data);});
@@ -143,7 +145,7 @@ class BikeModel extends Model {
 	 * @param {List} thumbnails - A list of thumbnails
 	 * @return {Boolean} true: If the thumbnails are the same; false: If the thumbnails are different or if the bike doesn't exist
 	 */
-	_checkNewImages(index, thumbnails) {
+	_checkImages(index, thumbnails) {
 		if (index >= 0) {
 			const bike = this._data.data[index];
 			return JSON.stringify(bike.thumbnail) == JSON.stringify(thumbnails);
@@ -212,6 +214,7 @@ class BikeModel extends Model {
 	}
 
 	// Could generalize _writeNewInDatabase and _editExistingInDatabase into one function
+	// But there was a problem with assigning the functions to variables so just went with this instead
 
 	/**
 	 * Write new data in database and call the function callback depending on if it was successful or not.
@@ -331,35 +334,71 @@ class BikeModel extends Model {
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
-		const currentUser = Database.getCurrentUser();
+		Database.getCurrentUser((userID) => {
+			const currentUser = userID;	
 
-		if (databaseData != null) { // Check if there are objects in the database
-			for (val in databaseData) {
-				if (!this._hasProperty(databaseData[val], 'id')) { // If it doesn't have an id, skip it because it isn't valid
-					continue;
+			if (databaseData != null) { // Check if there are objects in the database
+				for (let val in databaseData) {
+					if (!this._hasProperty(databaseData[val], 'id')) { // If it doesn't have an id, skip it because it isn't valid
+						continue;
+					}
+
+					// Bike page only displays current user
+					if (currentUser == null || currentUser != databaseData[val].owner) {
+						continue;
+					}
+
+					const {exists} = this._bikeIDExists(databaseData[val].id);
+					if (exists) {
+						continue;
+					}
+
+					// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
+					if (!this._hasProperty(databaseData[val], 'colour')) {
+						databaseData[val].colour = [];
+					}
+					if (!this._hasProperty(databaseData[val], 'thumbnail')) {
+						databaseData[val].thumbnail = [];
+					}
+
+					databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value
+					tempData.data.push(databaseData[val]);
+					dataID++;
 				}
-
-				// Bike page only displays current user
-				if (currentUser == null || currentUser != databaseData[val].owner) {
-					continue;
-				}
-
-
-				// Arrays don't show up in firebase so we manually have to insert to make sure we don't get errors in the view
-				if (!this._hasProperty(databaseData[val], 'colour')) {
-					databaseData[val].colour = [];
-				}
-				if (!this._hasProperty(databaseData[val], 'thumbnail')) {
-					databaseData[val].thumbnail = [];
-				}
-
-				databaseData[val].dataID = dataID; // Assign a dataID which is just an incremental temporary value
-				tempData.data.push(databaseData[val]);
-				dataID++;
+				this._data = tempData;
+				this._saveDataToLocalStorage('data', this._data);
 			}
-			this._data = tempData;
-		}
-		// console.log(this._data);
+			// console.log(this._data);
+		});
+	}
+
+	/**
+	 * Save data to local storage.
+	 *
+	 * @param {string} key - A key to store the data under
+	 * @param {Object} data - The data to store 
+	 */
+	_saveDataToLocalStorage(key, data) {
+		PersistStorage.storeData(key, JSON.stringify(data), (error) => {
+			console.log(error);
+		});
+	}
+
+	/**
+	 * Checks if local data is stored, and if so, update the data. This is because we don't wait for this data
+	 * when authenticating and the user can see their bikes if offline.
+	 *
+	 * @param {string} key - Key to get data for 
+	 */
+	_checkForLocalData(key) {
+		PersistStorage.retrieveData(key, (data) => {
+			if (data != null) {
+				this._data = JSON.parse(data);
+				this._notifyAll();
+			}
+		}, (error) => {
+			console.log(error);
+		});
 	}
 }
 

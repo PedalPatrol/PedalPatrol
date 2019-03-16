@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, ViewStyle } from 'react-native';
+import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, ViewStyle, NativeModules } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Searchbar } from 'react-native-paper';
 
 import SafeArea from './safearea';
 import ProfileButton from './profilebutton';
 import FilterHelper from './filter';
+
+const {StatusBarManager} = NativeModules;
+const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
 /**
  * Class to add a search bar header to a page
@@ -61,6 +64,7 @@ const styles = StyleSheet.create({
 		flexDirection:'row',
 		paddingTop: 5,
 		paddingBottom: 5,
+		paddingTop: STATUSBAR_HEIGHT
 	},
 	searchBar: {
 		backgroundColor:'transparent', 

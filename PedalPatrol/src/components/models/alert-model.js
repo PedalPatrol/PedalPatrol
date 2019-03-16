@@ -32,6 +32,11 @@ class AlertModel extends Model {
 		return {...this._data} // immutable
 	}
 
+	/**
+	 * Return the number of notifications.
+	 *
+	 * @return {Number} The number of notifications
+	 */
 	getNotificationsCount() {
 		return this._data.numNotifications;
 	}

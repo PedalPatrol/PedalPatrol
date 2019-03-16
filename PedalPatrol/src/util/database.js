@@ -53,6 +53,16 @@ class FirebaseDatabase {
 		firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
 	}
 
+	/**
+	 * Sign out of the database.
+	 *
+	 * @param {Function} onSuccess - A callback function on a successful signout
+	 * @param {Function} onError - A callback function on a failure to signout
+	 */
+	signOut(onSuccess, onError) {
+		firebase.auth().signOut().then(onSuccess, onError);
+	}
+
 
 	/** 
 	 * Write to the database in table 'Bike' using the id as the child. Adds a date time and owner to the data
@@ -63,9 +73,10 @@ class FirebaseDatabase {
 	 */
 	writeBikeData(bikeData, onSuccess, onError) {
 		bikeData.milliseconds = this.getDateTime(); 
-		bikeData.owner = this.getCurrentUser();
-
-		this.refDB.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
+		this.getCurrentUser((userID) => {
+			bikeData.owner = userID;	
+			this.refDB.child('Bike/').child(bikeData.id).set(bikeData, onSuccess).catch(onError);
+		});
 	}
 
 	/**
@@ -211,13 +222,23 @@ class FirebaseDatabase {
 	 *
 	 * @return {string} user id of the currently logged in user
 	 */
-	getCurrentUser() {
-		if (firebase.auth().currentUser !== null) {
-			console.log("user id: " + firebase.auth().currentUser.uid);
-			return firebase.auth().currentUser.uid;
-		} else {
-			return null;
-		}
+	getCurrentUser(onComplete) {
+		firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				console.log("user id: " + user.uid);
+				onComplete(user.uid);
+			} else {
+				console.log("user not defined");
+				onComplete(null);
+			}
+		});
+
+		// if (firebase.auth().currentUser !== null) {
+		// 	console.log("user id: " + firebase.auth().currentUser.uid);
+		// 	return firebase.auth().currentUser.uid;
+		// } else {
+		// 	return null;
+		// }
 	}
 
 	/**

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
@@ -389,10 +389,19 @@ class AddBikeView extends BaseView {
 	 */
 	render() {
 		return (
+			
+			 <KeyboardAvoidingView
+			 	style={styles.container}
+				behavior="padding"
+				enabled
+			    >
 				<HandleBack onBack={this._onBack}>
 					<SafeArea/>
 					<View style={styles.container}>
-						<ScrollView contentContainerStyle={styles.contentContainer}>
+						<ScrollView 
+							contentContainerStyle={styles.contentContainer}
+							keyboardShouldPersistTaps='always'
+							keyboardDismissMode='interactive'>
 
 							<ImageCarousel 
 								photos={this.state.photoEntries} 
@@ -460,6 +469,8 @@ class AddBikeView extends BaseView {
 					</View>
 					<SafeArea/>
 				</HandleBack>
+				</KeyboardAvoidingView>
+			
 		);
 	}
 }
@@ -564,5 +575,8 @@ const styles = StyleSheet.create({
 		height: 2, 
 		flex: 1, 
 		alignSelf: 'center'
+	},
+	contentContainer: {
+		flexGrow: 1
 	}
 });

@@ -81,6 +81,34 @@ class PersistentStorage extends Component {
 			onError('Key is undefined or null');
 		}
 	}
+
+	/**
+	 * Get all the stored keys.
+	 *
+	 * @param {Function} onComplete - A callback function to call with an array of keys and an error if it failed. onComplete(error, keys)
+	 */
+	async getAllStoredKeys(onComplete) {
+		await AsyncStorage.getAllKeys(onComplete);
+	}
+
+	/**
+	 * Removes all stored keys in the AsyncStorage.
+	 *
+	 * @param {Function} onSuccess - A callback function to call if all keys were successfully removed.
+	 * @param {Function} onError - A callback function to call if one or more keys threw an error when being removed.
+	 */
+	async removeAllData(onSuccess, onError) {
+		this.getAllStoredKeys(async (error, keys) => {
+			await AsyncStorage.multiRemove(keys, (err) => {
+				if (err == null) {
+					onSuccess();
+				} else {
+					console.log(err);
+					onError(err);
+				}
+			});
+		});
+	}
 }
 
 const PersistStorage = new PersistentStorage();

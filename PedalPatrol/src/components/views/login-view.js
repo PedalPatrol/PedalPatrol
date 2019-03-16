@@ -110,13 +110,13 @@ class LoginView extends BaseView {
 	 */
 	sendUpdate = () => {
 		// Extract data from components
-		new_data = {
+		let new_data = {
 			data:	{
 				username: this.state.username,
 				password: this.state.password
 			}
 		}
-		data = new_data;
+		let data = new_data;
 		this.LoginP.update(data);
 	}
 

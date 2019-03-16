@@ -1,0 +1,65 @@
+import Model from './model';
+import Database from '../../util/database';
+import PersistStorage from '../../util/persistentstorage';
+
+/**
+ * Class for the AuthLoading model to be used by the AuthLoadingPresenter
+ * @extends Model
+ */
+class AuthLoadingModel extends Model {
+	/**
+	 * Creates an instance of AuthLoadingModel and creates an observerlist.
+	 *
+	 * @constructor
+	 */
+	constructor(){
+		super();
+		this._createObserverList();
+	}
+
+	/**
+	 * Check the authentication state of the user.
+	 *
+	 * @param {Function} onComplete - A callback function to call when authentication has completed
+	 */
+	async checkAuthenticationState(onComplete) {
+		// Offline authentication check first, if it fails, then check database
+		await PersistStorage.retrieveData('userToken', async (userToken) => {
+			if (userToken == null || userToken == undefined) {
+				console.log('No user token, checking database authentication...');
+				// Only check database user if no user token stored
+				await Database.getCurrentUser((userID) => {
+					onComplete(userID);
+				});	
+			} else {
+				console.log('User token found');
+				onComplete(userToken);
+			}
+		}, (error) => {
+			console.log(error);
+			onComplete(null);
+		});
+	}
+
+	/**
+	 * Tries to log out of the database and remove all stored keys.
+	 *
+	 * @param {Function} onSuccess - A callback function on a successful logout
+	 * @param {Function} onFailure - A callback function on a failure to logout
+	 */
+	logout(onSuccess, onFailure) {		
+		Database.signOut(() => {
+			PersistStorage.removeAllData(() => {
+				console.log('All data removed');
+			}, (error) => {
+				console.log('Error removing data:', error);
+			});
+			onSuccess();
+		}, (error) => {
+			onFailure();
+			console.log('Logout error');
+		});
+	}
+}
+
+export default AuthLoadingModel;

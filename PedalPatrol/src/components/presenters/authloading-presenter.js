@@ -1,9 +1,7 @@
 import AsyncLock from 'async-lock';
 
 import BasePresenter from './presenter';
-import PersistStorage from '../../util/persistentstorage';
-import Database from '../../util/database';
-import { AlertM, HomeM } from '../models/export-models';
+import { AlertM, AuthLoadingM, HomeM } from '../models/export-models';
 
 const lock = new AsyncLock({timeout: 10000});
 
@@ -12,7 +10,11 @@ const lock = new AsyncLock({timeout: 10000});
  * Uses the persist storage as the model.
  */
 class AuthLoadingPresenter extends BasePresenter {
-
+	/**
+	 * Creates an instance of AuthLoadingPresenter. Subscribes to models to await data 
+	 *
+	 * @constructor
+	 */
 	constructor() {
 		super();
 		this._dataLoaded = false;
@@ -21,9 +23,14 @@ class AuthLoadingPresenter extends BasePresenter {
 
 		// This is just used to see how many models we have
 		// We could declare the import using 'as Models' but doing Object.keys(Models).length is O(n) so this is faster
+		// Only add models that we expect data from
 		this._numModels = [AlertM, HomeM].length;
 		AlertM.subscribe(this);
 		HomeM.subscribe(this);
+
+		// This model is really only used to logout, so we don't expect an onUpdated call from it
+		// We use callbacks since logout is an async call
+		AuthLoadingM.subscribe(this); // We don't expect data from it so don't need to add it to '_numModels'
 	}
 
 	/**
@@ -32,19 +39,16 @@ class AuthLoadingPresenter extends BasePresenter {
 	 * @param {Function} onSuccess - A success callback
 	 * @param {Function} onFailure - A failure callback
 	 */
-	async checkAuthenticationState(onSuccess, onFailure) {
-		await PersistStorage.retrieveData('userToken', (userToken) => {
+	async checkAuthState(onSuccess, onFailure) {
+		await AuthLoadingM.checkAuthenticationState((userID) => {
 			if (this._dataLoaded) { // In-case this is reached after data is received
-				this.onRetrievalSuccess(userToken, onSuccess, onFailure);
+				this.onRetrievalSuccess(userID, onSuccess, onFailure);
 			} else { // If data is received after authentication completes
 				this.setCallback(() => {
-					this.onRetrievalSuccess(userToken, onSuccess, onFailure);
+					this.onRetrievalSuccess(userID, onSuccess, onFailure);
 				});
 			}
-		}, (error) => {
-			onFailure();
-			console.log(error);
-		});
+		})
 	}
 
 	/**
@@ -66,7 +70,6 @@ class AuthLoadingPresenter extends BasePresenter {
 	onRetrievalSuccess(userToken, onSuccess, onFailure) {
 		// console.log(userToken);
 		userToken ? onSuccess() : onFailure();
-		// PersistStorage.removeData('userToken', (error) => console.log(error)); // Remove from storage
 	}
 
 	/**
@@ -83,8 +86,7 @@ class AuthLoadingPresenter extends BasePresenter {
 
 			// Check if the amount of data received is the same as the number of models we expect data from
 			if (this._dataCount === this._numModels) {
-				AlertM.unsubscribe(this);
-				HomeM.unsubscribe(this);
+				this.onDestroy(); // Unsubscribe from the models
 				this._dataLoaded = true; // In-case authentication occurs after data is received
 				if (this._callback != null) {
 					this._callback();
@@ -96,7 +98,29 @@ class AuthLoadingPresenter extends BasePresenter {
 			// Lock is released
 			// console.log(err);
 		});
+	}
 
+	/**
+	 * Unsubscribe from models
+	 */
+	onDestroy = () => {
+		AlertM.unsubscribe(this);
+		AuthLoadingM.unsubscribe(this);
+		HomeM.unsubscribe(this);
+	}
+
+	/**
+	 * Try to logout. Function is called on every entry to the authloading view so only execute logout if logout is requested.
+	 *
+	 * @param {Boolean} shouldLogout - true: if a logout is requested; false: otherwise
+	 * @param {Function} onSuccess - A function to call on a successful logout
+	 * @param {Function} onFailure - A function to call on failure to logout
+	 */
+	tryLogout = (shouldLogout, onSuccess, onFailure) => {
+		// console.log(shouldLogout);
+		if (shouldLogout) {
+			AuthLoadingM.logout(onSuccess, onFailure);
+		}
 	}
 
 }
