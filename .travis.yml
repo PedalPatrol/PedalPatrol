@@ -8,5 +8,5 @@ before_script:
   - npm install --prefix PedalPatrol
 script:
   - npm test --prefix PedalPatrol
-after_success:
+after_script:
   - npm run coverage --prefix PedalPatrol
