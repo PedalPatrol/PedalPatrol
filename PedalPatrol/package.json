@@ -6,7 +6,6 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest --silent",
     "test:coverage": "jest --coverage",
-    "test:coverageTravis": "jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "test:watch": "npm test -- --watch",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
