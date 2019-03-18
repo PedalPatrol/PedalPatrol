@@ -268,16 +268,19 @@ class MapView extends BaseView {
 	_renderCallout = (item) => (
 		<Callout>
 			<View style={{flexDirection: 'row'}}>
-				<View style={{justifyContent: 'flex-start'}}
-				<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
-					{item.data.model}
-				</Text>
+				<View style={{justifyContent: 'flex-start'}}>
+					<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
+						{item.data.model}
+					</Text>
 				</View>
 				{/*console.log(item.data)*/}
-				<View style={{justifyContent: 'flex-end'}}
-				<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
-					{item.data.timeago}
+				<Text>
+				{'      '}
 				</Text>
+				<View style={{justifyContent: 'flex-end'}}>
+					<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
+						{item.data.timeago}
+					</Text>
 				</View>
 			</View>
 		</Callout>
