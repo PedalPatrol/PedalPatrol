@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimensions, NativeModules} from 'react-native';
+import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimensions, NativeModules, ScrollView} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
 import { Marker,Callout,Polygon,Circle } from 'react-native-maps';
@@ -36,8 +36,18 @@ class MapView extends BaseView {
 		
 		this.setState({
 			markers : this.MapP.getData()
-		});
+		});		
 	};
+
+	componentWillReceiveProps = () => {
+		console.log(this.props)
+		const { navigation } = this.props;
+		const data = navigation.getParam('data', 'NO-DATA');
+		if (data !== 'NO-DATA') {
+			console.log('test');
+			this._setLocationToMarkerItem(data);
+		}
+	}
 
 	/**
 	 * Component is about to unmount, do any cleanup here.
@@ -75,7 +85,22 @@ class MapView extends BaseView {
 			showButton: false,
 			markerCreated:[],
 			markers: [],
+			markerRefs: {}
 		};
+	}
+
+	_setLocationToMarkerItem = (item) => {
+		if (item.hasOwnProperty('longitude') && item.hasOwnProperty('latitude')) {
+			const location = {
+				latitude: item.latitude,
+				longitude: item.longitude,
+				latitudeDelta: 0.0922,
+				longitudeDelta: 0.0421,
+			};
+			this.onRegionChange(location);
+			console.log(this.state.markerRefs);
+			this.state.markerRefs[item.id].showCallout();
+		}
 	}
 
 	_setUserLocation = () => {
@@ -267,22 +292,24 @@ class MapView extends BaseView {
 
 	_renderCallout = (item) => (
 		<Callout>
-			<View style={{flexDirection: 'row'}}>
-				<View style={{justifyContent: 'flex-start'}}>
-					<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
-						{item.data.model}
-					</Text>
-				</View>
-				{/*console.log(item.data)*/}
-				<Text>
-				{'      '}
-				</Text>
-				<View style={{justifyContent: 'flex-end'}}>
-					<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
-						{item.data.timeago}
-					</Text>
-				</View>
-			</View>
+			<ScrollView>
+				<ScrollView horizontal>
+					<View style={styles.calloutColumn}>
+						<View style={styles.calloutRow}>
+							<Text style={styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
+								{item.data.model}
+							</Text>
+						
+							<Text style={styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
+								{item.data.timeago}
+							</Text>
+						</View>
+						<Text>
+							{item.data.description}
+						</Text>
+					</View>
+				</ScrollView>
+			</ScrollView>
 		</Callout>
 	);
 
@@ -331,7 +358,9 @@ class MapView extends BaseView {
 						onRegionChangeComplete={this.onRegionChange.bind(this)}
 						onLongPress = {e => this.setCircleLat(e)}>
 					  	{this.state.markers.map(marker => (
-							<Marker {...marker} >
+							<Marker 
+								{...marker} 
+								ref={(ref) => this.state.markerRefs[marker.key] = ref}>
 								{this._renderCallout(marker)}
 								
 							</Marker>
@@ -394,19 +423,17 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.12,
 		zIndex: 10,
 	},
-	model: {
-		paddingLeft: 5,
-		paddingTop: 5,
-		fontSize: 16,
-		fontWeight: 'bold',
-		color: '#777',
+	mapText: {
+		fontSize: 14,
+		color: '#777'
 	},
-	time: {
-		paddingRight: 5,
-		marginTop: 5,
-		fontSize: 16,
-		fontWeight: 'bold',
-		color: '#777',
-		flex:1,
+	calloutColumn: {
+		flexDirection: 'column', 
+		width: 150,
 	},
+	calloutRow: {
+		flexDirection: 'row', 
+		flex: 1, 
+		justifyContent: 'space-between'
+	}
 });

@@ -19,25 +19,27 @@ class NotificationBikeItemHelper extends Component {
 	}
 
 	/**
-	 * Navigate to the Add bike page with the edit bike title.
+	 * Navigate to a page with a title.
 	 * This method is used over the commented out line below because successive touches of a bike item
 	 * would not add the data because data is only received in process in the componentWillMount function.
 	 * So adding the 'key' property to navigate makes it see that the new page is unique.
+	 *
+	 * @param {string} screen - The route to navigate to. See navigation.js stacks and screens
 	 */
-	navigate = () => {
+	navigate = (screen) => {
 		// <TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
 		this.props.navigation.navigate({
-			routeName: 'BikeDetails',
+			routeName: screen,
 			params: {
 				data: this.props.data, 
 			},
-			key: 'BikeDetails' + TimeUtil.getDateTime()
+			key: screen + TimeUtil.getDateTime()
 		});
 	}
 
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.navigate()}>
+			<TouchableOpacity onPress={() => this.navigate('BikeDetails')}>
 				<View style={styles.rowContainer}>
 				  	{/* Everything is put as columns from the top row */}
 					<View style={styles.topRow}>
@@ -103,11 +105,11 @@ class NotificationBikeItemHelper extends Component {
 											}
 										</TouchableOpacity>
 										{/* Map pin */}
-										<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
+										<TouchableOpacity style={styles.icon} accessibilityLabel="Pin" onPress={() => this.navigate('Map')}>
 											<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
 										</TouchableOpacity>
 										{/* Comment button */}
-										<TouchableOpacity style={styles.icon} accessibilityLabel="Pin">
+										<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
 											<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
 										</TouchableOpacity>
 									</View>

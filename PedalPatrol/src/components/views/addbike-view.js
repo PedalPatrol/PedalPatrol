@@ -188,7 +188,7 @@ class AddBikeView extends BaseView {
 		this.AddBikeP.clearPhotos();
 		this.sectionedMultiSelect._removeAllItems();
 		let inputData = this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage); // inputData is a property in state
-		let photoEntries = ImageUtil.getDefaultPhotos();
+		let photoEntries = ImageUtil.getDefaultPhotos(ImageUtil.getTypes().BIKE);
 		this.setState({ inputData, photoEntries });
 		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
 	}

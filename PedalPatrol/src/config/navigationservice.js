@@ -1,4 +1,5 @@
 import { NavigationActions } from 'react-navigation';
+import TimeUtil from '../util/timeutility';
 
 /**
  * Class for navigation service to facilitate navigating outside of the root stack navigator.
@@ -23,7 +24,8 @@ class NavigationService {
 	}
 
 	/**
-	 * Navigate to a specific route.
+	 * Navigate to a specific route. The key property makes sure the component remounts if it has already mounted 
+	 * because it is technically a new component.
 	 *
 	 * @param {string} routeName - A specific route defined in navigation.js
 	 * @param {Object} params - Parameters for the component being navigated to
@@ -33,6 +35,7 @@ class NavigationService {
 			NavigationActions.navigate({
 				routeName,
 				params,
+				key: routeName + TimeUtil.getDateTime()
 			})
 		);
 	}

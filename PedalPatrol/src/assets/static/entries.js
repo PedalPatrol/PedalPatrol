@@ -1,17 +1,26 @@
-export const PHOTO_ENTRIES = [
+export const BIKE_DEFAULT_IMAGE = 'https://i.imgur.com/Fwx1TXQ.png';
+export const PROFILE_DEFAULT_IMAGE = 'http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg';
+
+export const BIKE_PHOTO_ENTRIES = [
 	{
-		illustration: 'https://i.imgur.com/Fwx1TXQ.png'
+		illustration: BIKE_DEFAULT_IMAGE
 	},
 	{
-		illustration: 'https://i.imgur.com/Fwx1TXQ.png'
+		illustration: BIKE_DEFAULT_IMAGE
 	},
 	{
-		illustration: 'https://i.imgur.com/Fwx1TXQ.png'
+		illustration: BIKE_DEFAULT_IMAGE
 	},
 	{
-		illustration: 'https://i.imgur.com/Fwx1TXQ.png'
+		illustration: BIKE_DEFAULT_IMAGE
 	},
 	{
-		illustration: 'https://i.imgur.com/Fwx1TXQ.png'
+		illustration: BIKE_DEFAULT_IMAGE
+	}
+];
+
+export const PROFILE_PHOTO_ENTRIES = [
+	{
+		illustration: PROFILE_DEFAULT_IMAGE
 	}
 ];

@@ -57,6 +57,7 @@ class AuthLoadingModel extends Model {
 			}, (error) => {
 				console.log('Error removing data:', error);
 			});
+			AuthState.setCurrentUserID(null);
 			onSuccess();
 		}, (error) => {
 			onFailure();

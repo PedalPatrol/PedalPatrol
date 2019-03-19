@@ -4,6 +4,8 @@ import ImageUtil from '../../util/imageutil';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
 
+const BIKE_TYPE = ImageUtil.getTypes().BIKE;
+
 /**
  * Class for the bike model to be used by the BikePresenter and AddBikePresenter
  * @extends Model
@@ -117,7 +119,7 @@ class BikeModel extends Model {
 					// console.log(this._data.data);
 
 					// If the number of defaults in the original amount is the same 
-					const finishCallback = ImageUtil.checkNumDefaults(num_defaults, uploaded_images) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
+					const finishCallback = ImageUtil.checkNumDefaults(BIKE_TYPE, num_defaults, uploaded_images) ? (result) => {this._callback(result); this._notifyAll(this._data);} : (_) => 'default';
 
 					// variable 'result' - true: ID was found in database so edit it; false: ID not found in database so add it
 					// const dbCall = result ? Database.editBikeData : Database.writeBikeData;
@@ -191,7 +193,7 @@ class BikeModel extends Model {
 
 		for (let i=0; i < images.length; i++) {
 			// Check if there's a default image, if so, skip it
-			if (ImageUtil.isDefaultImage(images[i].illustration)) {
+			if (ImageUtil.isDefaultImage(BIKE_TYPE, images[i].illustration)) {
 				count_default++;
 				continue;
 			} else if (ImageUtil.isAlreadyUploaded(images[i].illustration)) {
@@ -199,7 +201,7 @@ class BikeModel extends Model {
 				continue;
 			}
 
-			// Name of file is the current timestamp. 
+			// Name of file is the name of the index and file extension
 			const filename = i + ImageUtil.getFileExtension();
 			// Write image to database
 			Database.writeImage(id, images[i].illustration, filename, imagesFolder, (url) => {
@@ -279,14 +281,6 @@ class BikeModel extends Model {
 			this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
 			return false; // Data not found
 		}
-
-		// if (i === this._data.data.length) {
-		// 	this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
-		// 	return false; // Data not found
-		// } else {
-		// 	this._data.data[i] = newData.data;  // Data found, overwrite
-		// 	return true;
-		// }
 	}
 
 	/**

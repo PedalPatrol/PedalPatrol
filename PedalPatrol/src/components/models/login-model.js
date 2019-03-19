@@ -79,6 +79,7 @@ class LoginModel extends Model {
 	 */
 	authenticationSuccess() {
 		Database.getCurrentUser((userID) => {
+			AuthState.setCurrentUser(userID);
 			PersistStorage.storeData('userToken', userID, (error) => {console.log(error)});
 		});
 	}

@@ -25,19 +25,6 @@ export default class MapModel extends Model {
 	update = (newData) => {
 		this._insertDataOnRead(newData);
 	}
-	
-	// _databaseRead() {
-	// 	Database.readBikeDataOn((snapshot) => {
-	// 		this._insertDataOnRead(snapshot.val());
-	// 		this._notifyAll(this._data); // Don't supply data to force a refresh by the presenter
-	// 	});
-	// }
-	/*required data sample
-	[{coordinate:{latitude:44.237424,longitude:-76.5131},
-	title:"bike1",
-	description:"help"}]
-	*/
-
 
 	_insertDataOnRead = (newdata) => {
 		//let temp = [{coordinate:{latitude:44.237424,longitude:-76.5131},title:"bike1",description:"help"}];

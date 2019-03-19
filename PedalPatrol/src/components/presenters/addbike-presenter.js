@@ -3,6 +3,7 @@ import { BikeM } from '../models/export-models'; // Using the BikeModel class be
 import ImageUtil from '../../util/imageutil';
 
 const NO_DATA = 'NO-DATA';
+const BIKE_TYPE = ImageUtil.getTypes().BIKE;
 
 /**
  * Class for the AddBike presenter and view
@@ -18,7 +19,8 @@ class AddBikePresenter extends BasePresenter {
 	constructor(view) {
 		super();
 		this.view = view;
-		this.currentPhotos = Object.assign(ImageUtil.getPhotoEntries());
+		this.currentPhotos = Object.assign(ImageUtil.getPhotoEntries(BIKE_TYPE));
+		// this.currentPhotos = Object.assign(ImageUtil.getPhotoEntries());
 		BikeM.subscribe(this);
 	}
 
@@ -79,7 +81,7 @@ class AddBikePresenter extends BasePresenter {
 				wheel_size: inputTextData[inputDataList.index.wheel_size].text,
 				frame_size: inputTextData[inputDataList.index.frame_size].text,
 				notable_features: inputTextData[inputDataList.index.notable_features].text,
-				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage()}],
+				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage(BIKE_TYPE)}],
 				stolen: false, // true: if bike is stolen; false: if the bike is not stolen or the owner has marked it as found
 				found: false, // true: if stolen=true && bike was found; false: if stolen=false || (stolen=true && bike is not found)
 			}
@@ -270,7 +272,7 @@ class AddBikePresenter extends BasePresenter {
 	 * @return {Boolean} true: some required inputs are blank; false: required inputs are not blank
 	 */
 	checkInputs = (inputData, inputRequirementFailure) => {
-		const all_defaults = ImageUtil.checkPhotosForDefaults(this.currentPhotos);
+		const all_defaults = ImageUtil.checkPhotosForDefaults(BIKE_TYPE, this.currentPhotos);
 		let required = this._getRequiredInputs(inputData);
 		let names = [];
 		for (let i=0; i < required.length; i++) {
@@ -337,7 +339,7 @@ class AddBikePresenter extends BasePresenter {
 		dataCopy[inputDataList.index.frame_size].text			= this._getString(data.frame_size);
 
 		const thumbnail = ImageUtil.formThumbnail(data.thumbnail);
-		this.currentPhotos = ImageUtil.addRemainingDefaults(thumbnail);
+		this.currentPhotos = ImageUtil.addRemainingDefaults(BIKE_TYPE, thumbnail);
 		this.view.setState({ currentID: data.id });
 
 		return this._deepCopy(dataCopy); 
@@ -357,7 +359,7 @@ class AddBikePresenter extends BasePresenter {
 	 * Resets the current photos to the default photos.
 	 */
 	clearPhotos = () => {
-		this.currentPhotos = ImageUtil.getDefaultPhotos();
+		this.currentPhotos = ImageUtil.getDefaultPhotos(BIKE_TYPE);
 	}
 
 	/**
