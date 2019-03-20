@@ -62,6 +62,7 @@ class LoginModel extends Model {
 			// Handle Errors here.
 			errorMessage = false;
 			console.log('erroraftercheck: '+errorMessage);
+			console.log(error);
 		});
 
 		if (errorMessage) {

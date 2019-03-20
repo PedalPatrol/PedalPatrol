@@ -65,7 +65,7 @@ class ProfileModel extends Model {
 		Database.readProfileDataOnce(userID, (snapshot) => {
 			const retrievedData = snapshot.val();
 			this._insertDataOnRead(userID, retrievedData);
-			if (retrievedData != null && retrieveData != undefined) {
+			if (retrievedData != null && retrievedData != undefined) {
 				this._addProfileImageLocally(userID, retrievedData.thumbnail[0]);
 			}
 			this._notifyAll(null); // Don't supply data to force a refresh by the presenter
