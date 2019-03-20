@@ -52,22 +52,31 @@ export default class MapModel extends Model {
 		return singleMarker;
 	}
 
-	openMaps = () => {
-		showLocation({
-		   	latitude: 44.257424,
-			longitude: -76.5231,
-		    // sourceLatitude: -8.0870631,  // optionally specify starting location for directions
-		    // sourceLongitude: -34.8941619,  // not optional if sourceLatitude is specified
-		    // title: 'Current Location',  // optional
-		    googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
-		    // googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
-		    dialogTitle: 'This is the dialog Title', // optional (default: 'Open in Maps')
-		    dialogMessage: 'This is the amazing dialog Message', // optional (default: 'What app would you like to use?')
-		    cancelText: 'This is the cancel button text', // optional (default: 'Cancel')
-		    appsWhiteList: ['google-maps', 'apple-maps'] // optionally you can set which apps to show (default: will show all supported apps installed on device)
-		    // app: 'apple-maps'  // optionally specify specific app to use
-		})
+	getCurrentLocation = () => {
+		return new Promise((resolve, reject) => {
+			navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
+		});
+	};
+
+	showMaps = (destination) => {
+		this.getCurrentLocation().then(source => {
+			if (source) {
+				showLocation({
+					latitude: destination.latitude,
+					longitude: destination.longitude,
+					sourceLatitude: source.coords.latitude,  // optionally specify starting location for directions
+					sourceLongitude: source.coords.longitude,  // not optional if sourceLatitude is specified
+					// title: 'Current Location',  // optional
+					googleForceLatLon: false,  // optionally force GoogleMaps to use the latlon for the query instead of the title
+					// googlePlaceId: 'ChIJGVtI4by3t4kRr51d_Qm_x58',  // optionally specify the google-place-id
+					dialogTitle: 'Open in Maps', // optional (default: 'Open in Maps')
+					dialogMessage: 'What app would you like to use?', // optional (default: 'What app would you like to use?')
+					cancelText: 'Cancel', // optional (default: 'Cancel')
+				 	// appsWhiteList: ['google-maps', 'apple-maps'] // optionally you can set which apps to show (default: will show all supported apps installed on device)
+					// app: 'apple-maps'  // optionally specify specific app to use
+				})
+			}
+		});
 	}
 
 }
-

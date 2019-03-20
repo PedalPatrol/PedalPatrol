@@ -50,5 +50,9 @@ class MapPresenter extends BasePresenter {
 			markers: this.getData()
 		});
 	};
+
+	getUserLocation = () => {
+		return MapM.getCurrentLocation();
+	}
 }
 export default MapPresenter;

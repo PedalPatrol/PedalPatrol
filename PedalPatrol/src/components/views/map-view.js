@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimensions, NativeModules, ScrollView} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
-import { Marker,Callout,Polygon,Circle } from 'react-native-maps';
+import { Marker, Callout, Polygon, Circle } from 'react-native-maps';
 
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
@@ -105,7 +105,7 @@ class MapView extends BaseView {
 	}
 
 	_setUserLocation = () => {
-		this._getCurrentLocation().then(position => {
+		this.MapP.getUserLocation().then(position => {
 			if (position) {
 				const location = {
 					latitude: position.coords.latitude,
@@ -121,13 +121,6 @@ class MapView extends BaseView {
 			}
 		});
 	}
-
-	_getCurrentLocation = () => {
-		return new Promise((resolve, reject) => {
-			navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
-		});
-	};
-
 
 	/**
 	 * Render "save/delete" button after clicking "create lost report" button

@@ -56,6 +56,7 @@ class BikeDetailsView extends BaseView {
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
 
 		this.setState({
+			rawData: data,
 			from: fromTab,
 			data: formedData,
 			photoEntries: thumbnail
@@ -111,6 +112,17 @@ class BikeDetailsView extends BaseView {
 	 */
 	_keyExtractor = (item, index) => item.id;
 
+	onMapOpenError = () => {
+		Alert.alert(
+			"Unable to Open Directions",
+			"",
+			[
+				{ text: "Ok", onPress: () => {}, style: "ok" },
+			],
+			{ cancelable: false },
+		);
+	}
+
 	/**
 	 * Renders items to the screen
 	 *
@@ -135,6 +147,11 @@ class BikeDetailsView extends BaseView {
 								extraData={this.state}
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>
+
+							<Button 
+								style={styles.direction}
+								title='Get Directions'
+								onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
 
 							</ScrollView>
 						</View>
@@ -170,4 +187,12 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 		backgroundColor: '#F5FCFF',
 	},
+	direction: {
+		borderWidth: 1,
+		borderColor: 'black',
+		marginRight: 10,
+		marginLeft: 10,
+		marginBottom: 10,
+		backgroundColor: '#F5FCFF'
+	}
 });

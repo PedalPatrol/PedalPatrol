@@ -1,5 +1,5 @@
 import BasePresenter from './presenter';
-import { HomeM } from '../models/export-models';
+import { HomeM, MapM } from '../models/export-models';
 import ImageUtil from '../../util/imageutil';
 
 const NO_DATA = 'NO-DATA';
@@ -159,6 +159,18 @@ class BikeDetailsPresenter extends BasePresenter {
   	 */
   	getIgnoredDetails = () => {
   		return ['id', 'owner', 'thumbnail', 'dataID', 'milliseconds'];
+  	}
+
+  	goToDirectionsOnMap = (data, onError) => {
+  		if (!data.hasOwnProperty('longitude') && !data.hasOwnProperty('latitude')) {
+  			onError();
+  			return;
+  		}
+  		const location = {
+  			longitude: data.longitude,
+  			latitude: data.latitude
+  		};
+  		MapM.showMaps(location);
   	}
 
 }
