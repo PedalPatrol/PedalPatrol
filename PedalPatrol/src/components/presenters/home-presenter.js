@@ -39,7 +39,11 @@ class HomePresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		this.view.refreshState();
+		if (newData == null) {
+			this.forceRefresh(); // Force a refresh here because we got the data from the database
+		} else {
+			this.view.refreshState();
+		}
 	};
 
 	/**
@@ -70,6 +74,7 @@ class HomePresenter extends BasePresenter {
 	onDestroy = () => {
 		HomeM.unsubscribe(this);
 		AlertM.unsubscribe(this);
+		ProfileM.unsubscribe(this);
 	};
 
 	// Maybe differentiate between cancel and clear	
@@ -138,8 +143,9 @@ class HomePresenter extends BasePresenter {
 		HomeM.recalculateTimeAgo();
 		HomeM.moveBookmarkedDataToFront();
 		this.view.setState({
-			data: this.getData()
+			data: this.getData(),
 		});
+		this.getProfileImage((result) => this.view.setState({profilePicture: result}));
 	};
 }
 

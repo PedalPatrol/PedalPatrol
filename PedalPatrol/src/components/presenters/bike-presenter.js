@@ -14,10 +14,10 @@ class BikePresenter extends BasePresenter {
 	 */
 	constructor(view) {
 		super();
-		// this.stores = [BikeM];
 		this.view = view;
 		BikeM.subscribe(this);
 		AlertM.subscribe(this);
+		ProfileM.subscribe(this);
 	}
 
 	/**
@@ -75,6 +75,7 @@ class BikePresenter extends BasePresenter {
 	onDestroy = () => {
 		BikeM.unsubscribe(this);
 		AlertM.unsubscribe(this);
+		ProfileM.unsubscribe(this);
 	};
 
 	
@@ -119,8 +120,9 @@ class BikePresenter extends BasePresenter {
 	 */
 	forceRefresh = () => {
 		this.view.setState({
-			data: this.getData()
+			data: this.getData(),
 		});
+		this.getProfileImage((result) => this.view.setState({profilePicture: result}));
 	};
 }
 

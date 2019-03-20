@@ -1,3 +1,6 @@
+import { ProfileM } from '../components/models/export-models';
+import ImageUtil from './imageutil';
+
 /**
  * Class to help with the facilitation of the side drawer.
  * The drawer cannot be accessed across components so this class allows the drawer to register itself and be used.
@@ -10,6 +13,7 @@ class DrawerHelper {
 	 */
 	constructor() {
 		this.drawer = null;
+		this.profilePicture = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
 	}
 
 	/**
@@ -55,6 +59,7 @@ class DrawerHelper {
 	 */
 	openDrawer(numNotifications) {
 		if (this.drawerExists()) {
+			this.fetchProfileImageFromStorage();
 			this.drawer.openDrawer(numNotifications);
 		}
 	}
@@ -66,6 +71,10 @@ class DrawerHelper {
 		if (this.drawerExists()) {
 			this.drawer.closeDrawer();
 		}
+	}
+
+	fetchProfileImageFromStorage() {
+		ProfileM.getProfilePicture((result) => {this.drawer.setState({profilePicture: result});});
 	}
 }
 

@@ -15,7 +15,7 @@ class DrawerHeader extends Component {
 		return (
 			<TouchableOpacity>
 				<View style={styles.container} >
-					<Image style={styles.image} source={{uri: LOGO_URL, flex:1, width: 80, height: 80, left: 40}}/>
+					<Image style={styles.image} source={{uri: this.props.image, flex:1, width: 80, height: 80, left: 40}}/>
 					<Text style={styles.text}>
 						Sean Remedios
 					</Text>

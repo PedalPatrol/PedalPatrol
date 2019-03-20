@@ -136,7 +136,7 @@ class SideDrawer extends Component {
 		return (
 			<View style={{height: '100%'}}>
 				<SafeArea/>
-				<DrawerHeader/>
+				<DrawerHeader image={this.state.profilePicture}/>
 		
 				<FlatList
 					style={styles.flatList}

@@ -64,11 +64,11 @@ class ProfileModel extends Model {
 	_readDBUserOnce(userID) {
 		Database.readProfileDataOnce(userID, (snapshot) => {
 			const retrievedData = snapshot.val();
-			this._insertDataOnRead(userID, retrievedData);
 			if (retrievedData != null && retrievedData != undefined) {
+				this._insertDataOnRead(userID, retrievedData);
 				this._addProfileImageLocally(userID, retrievedData.thumbnail[0]);
+				this._notifyAll(null); // Don't supply data to force a refresh by the presenter
 			}
-			this._notifyAll(null); // Don't supply data to force a refresh by the presenter
 		});
 	}
 
@@ -106,9 +106,8 @@ class ProfileModel extends Model {
 	async getProfilePicture(callback) {
 		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
 		const userID = AuthState.getCurrentUserID();
-		return await PersistStorage.retrieveData(userID, (retrievedImage) => {
+		await PersistStorage.retrieveData(userID, (retrievedImage) => {
 			callback(retrievedImage)
-			return retrievedImage;
 		}, (error) => {
 			console.log(error);
 		});
@@ -367,8 +366,8 @@ class ProfileModel extends Model {
 	async _addProfileImageLocally(userID, image) {
 		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
 		await PersistStorage.retrieveData(userID, (retrievedImage) => {
-			if (retrievedImage === DEFAULT_PROFILE_IMAGE && image !== retrievedImage && image !== DEFAULT_PROFILE_IMAGE) {
-				PersistStorage.storeData(userID, ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE), (error) => {console.log(error)});
+			if ((retrievedImage === DEFAULT_PROFILE_IMAGE || image !== retrievedImage) && image !== DEFAULT_PROFILE_IMAGE) {
+				PersistStorage.storeData(userID, image, (error) => {console.log(error)});
 			}
 		}, (error) => {
 			console.log(error);
