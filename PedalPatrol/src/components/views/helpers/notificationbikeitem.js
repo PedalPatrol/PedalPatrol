@@ -14,7 +14,7 @@ class NotificationBikeItemHelper extends Component {
 
 	componentWillMount = () => {
 		this.setState({
-			type: this.props.type
+			type: this.props.type,
 		});
 	}
 
@@ -25,21 +25,33 @@ class NotificationBikeItemHelper extends Component {
 	 * So adding the 'key' property to navigate makes it see that the new page is unique.
 	 *
 	 * @param {string} screen - The route to navigate to. See navigation.js stacks and screens
+	 * @param {Boolean} shouldRenavigate - If the component should call the navigation function again or not because parameters don't pass correctly
 	 */
-	navigate = (screen) => {
+	navigate = (screen, shouldRenavigate=false) => {
 		// <TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
 		this.props.navigation.navigate({
 			routeName: screen,
 			params: {
-				data: this.props.data, 
+				data: this.props.data,
+				from: 'Home'
 			},
 			key: screen + TimeUtil.getDateTime()
 		});
-	}
 
+		/*
+		 * The purpose of this is to trigger a re-navigate because for some reason, the Map tab does not receive the parameters
+		 * set in the first navigate. It only works on subsequent navigations so we just have a small delay and trigger the navigate
+		 * again. This is a hacky way to do it. A better solution would be to use Redux to save the state.
+		 * React Navigation has a terrible architecture which really doesn't allow for different things like this to happen.
+		 */
+		if (shouldRenavigate) {
+			setTimeout(() => {this.navigate(screen, false)}, 50);
+		}
+	}
+ 
 	render() {
 		return(
-			<TouchableOpacity onPress={() => this.navigate('BikeDetails')}>
+			<TouchableOpacity onPress={() => this.navigate('BikeDetails', false)}>
 				<View style={styles.rowContainer}>
 				  	{/* Everything is put as columns from the top row */}
 					<View style={styles.topRow}>
@@ -93,27 +105,33 @@ class NotificationBikeItemHelper extends Component {
 								</View>
 
 								{/* Bottom icons only show if stolen bikes are shown */}
-								{ this.state.type === TYPE_STOLEN &&
 									
 									<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
-										{/* Toggle for the bookmark button*/}
-										<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
-											{ this.props.bookmarked ? 
-												(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
-												:
-												(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
-											}
-										</TouchableOpacity>
+										{/* Bookmark button */}
+										{ 
+											this.state.type === TYPE_STOLEN &&
+											
+											<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
+												{ this.props.bookmarked ? 
+													(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
+													:
+													(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
+												}
+											</TouchableOpacity>
+										}
 										{/* Map pin */}
-										<TouchableOpacity style={styles.icon} accessibilityLabel="Pin" onPress={() => this.navigate('Map')}>
+										<TouchableOpacity style={styles.icon} accessibilityLabel="Pin" onPress={() => this.navigate('Map', true)}>
 											<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
 										</TouchableOpacity>
+
 										{/* Comment button */}
-										<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
-											<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
-										</TouchableOpacity>
+										{
+											this.state.type === TYPE_STOLEN &&
+											<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
+												<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
+											</TouchableOpacity>
+										}
 									</View>
-								}
 
 							</View>
 						</View>

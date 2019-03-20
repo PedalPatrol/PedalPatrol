@@ -3,8 +3,10 @@ import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimen
 import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
 import { Marker,Callout,Polygon,Circle } from 'react-native-maps';
+
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
+import TimeUtil from '../../util/timeutility';
 
 const {StatusBarManager} = NativeModules;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
@@ -40,11 +42,10 @@ class MapView extends BaseView {
 	};
 
 	componentWillReceiveProps = () => {
-		console.log(this.props)
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
+		// console.log(data);
 		if (data !== 'NO-DATA') {
-			console.log('test');
 			this._setLocationToMarkerItem(data);
 		}
 	}
@@ -98,7 +99,7 @@ class MapView extends BaseView {
 				longitudeDelta: 0.0421,
 			};
 			this.onRegionChange(location);
-			console.log(this.state.markerRefs);
+			// console.log(this.state.markerRefs);
 			this.state.markerRefs[item.id].showCallout();
 		}
 	}
@@ -291,7 +292,7 @@ class MapView extends BaseView {
 	};
 
 	_renderCallout = (item) => (
-		<Callout>
+		<Callout onPress={() => {this.navigate('BikeDetails', item.data)}}>
 			<ScrollView>
 				<ScrollView horizontal>
 					<View style={styles.calloutColumn}>
@@ -313,6 +314,25 @@ class MapView extends BaseView {
 		</Callout>
 	);
 
+	/**
+	 * Navigate to a page with a title.
+	 * This method is used over the commented out line below because successive touches of a bike item
+	 * would not add the data because data is only received in process in the componentWillMount function.
+	 * So adding the 'key' property to navigate makes it see that the new page is unique.
+	 *
+	 * @param {string} screen - The route to navigate to. See navigation.js stacks and screens
+	 */
+	navigate = (screen, data) => {
+		// <TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
+		this.props.navigation.navigate({
+			routeName: screen,
+			params: {
+				data: data,
+				from: 'Map'
+			},
+			key: screen + TimeUtil.getDateTime()
+		});
+	}
 
 	/**
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model

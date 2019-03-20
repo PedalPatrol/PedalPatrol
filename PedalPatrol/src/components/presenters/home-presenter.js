@@ -1,5 +1,5 @@
 import BasePresenter from './presenter';
-import { HomeM, AlertM } from '../models/export-models';
+import { HomeM, AlertM, ProfileM } from '../models/export-models';
 
 /**
  * Class for the Home presenter and view
@@ -17,6 +17,7 @@ class HomePresenter extends BasePresenter {
 		this.view = view;
 		HomeM.subscribe(this);
 		AlertM.subscribe(this);
+		ProfileM.subscribe(this);
 	}
 
 	/**
@@ -49,6 +50,10 @@ class HomePresenter extends BasePresenter {
 	getData = () => {
 		return HomeM.get().data;
 	};
+
+	getProfileImage = (callback) => {
+		ProfileM.getProfilePicture(callback);
+	}
 
 	/**
 	 * Get the number of notifications from the Alerts model.

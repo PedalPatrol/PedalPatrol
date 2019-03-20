@@ -63,7 +63,11 @@ class ProfileModel extends Model {
 	 */
 	_readDBUserOnce(userID) {
 		Database.readProfileDataOnce(userID, (snapshot) => {
-			this._insertDataOnRead(userID, snapshot.val());
+			const retrievedData = snapshot.val();
+			this._insertDataOnRead(userID, retrievedData);
+			if (retrievedData != null && retrieveData != undefined) {
+				this._addProfileImageLocally(userID, retrievedData.thumbnail[0]);
+			}
 			this._notifyAll(null); // Don't supply data to force a refresh by the presenter
 		});
 	}
@@ -99,6 +103,17 @@ class ProfileModel extends Model {
 		return {...this._data} // Immutable
 	}
 
+	async getProfilePicture(callback) {
+		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
+		const userID = AuthState.getCurrentUserID();
+		return await PersistStorage.retrieveData(userID, (retrievedImage) => {
+			callback(retrievedImage)
+			return retrievedImage;
+		}, (error) => {
+			console.log(error);
+		});
+	}
+
 	/**
 	 * Update method for presenters to update the model's data. Datetime and Owner are handled in database class.
 	 *
@@ -127,7 +142,7 @@ class ProfileModel extends Model {
 				const { ProfileImages } = Database.getImageFolders();
 
 				// Write to database
-				this._writeImageToStorage(newData.data.id, newData.data.thumbnail, ProfileImages, (uploaded_images) => {
+				this._writeImageToDBStorage(newData.data.id, newData.data.thumbnail, ProfileImages, (uploaded_images) => {
 					newData.data.thumbnail = uploaded_images;
 
 					// Check if there's actually images 
@@ -144,6 +159,8 @@ class ProfileModel extends Model {
 						this._callback(result); 
 						this._notifyAll(this._data);
 					});
+					
+					this._writeImageToAsyncStorage(newData.data.id, uploaded_images[0]);
 
 				}, this._callback);
 			}
@@ -151,6 +168,10 @@ class ProfileModel extends Model {
 			console.log(error);
 			this._callback(false);
 		}
+	}
+
+	_writeImageToAsyncStorage(key, image) {
+		PersistStorage.storeData(key, image, (error) => {console.log(error)});
 	}
 
 	/**
@@ -192,7 +213,7 @@ class ProfileModel extends Model {
 	 * @param {Function} onSuccess - A callback to call when an image has been successfully uploaded
 	 * @param {Function} onError - A callback to call when an image has failed to upload
 	 */
-	_writeImageToStorage(id, images, imagesFolder, onSuccess, onError) {
+	_writeImageToDBStorage(id, images, imagesFolder, onSuccess, onError) {
 		const FILE_EXTENSION = '.jpg';
 		const DEFAULT_INDEX = 0;
 		let uploaded_pictures = [];
@@ -341,6 +362,17 @@ class ProfileModel extends Model {
 			this._data = tempData;
 		}
 		// console.log(this._data);
+	}
+
+	async _addProfileImageLocally(userID, image) {
+		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
+		await PersistStorage.retrieveData(userID, (retrievedImage) => {
+			if (retrievedImage === DEFAULT_PROFILE_IMAGE && image !== retrievedImage && image !== DEFAULT_PROFILE_IMAGE) {
+				PersistStorage.storeData(userID, ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE), (error) => {console.log(error)});
+			}
+		}, (error) => {
+			console.log(error);
+		});
 	}
 }
 

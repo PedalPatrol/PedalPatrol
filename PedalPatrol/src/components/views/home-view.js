@@ -48,6 +48,10 @@ class HomeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	_setProfileImage = () => {
+		this.HomeP.getProfileImage((result) => this.setState({profilePicture: result}));
+	}
+
 	// Temporary alert until filter feature is implemented
 	temporaryFilter = () => {
 		Alert.alert(
@@ -70,7 +74,7 @@ class HomeView extends BaseView {
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}
+			profilePicture={this.state.profilePicture}
 			numNotifications={this.HomeP.getNotificationCount()}/>
 	);
 
@@ -91,6 +95,7 @@ class HomeView extends BaseView {
 		this.setState({
 			data: this.HomeP.getData()
 		});
+		this._setProfileImage();
 	};
 
 

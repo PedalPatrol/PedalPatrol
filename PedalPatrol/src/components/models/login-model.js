@@ -7,6 +7,8 @@
 import Model from './model';
 import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
+import AuthState from '../../util/authenticationstate';
+import ImageUtil from '../../util/imageutil';
 
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
@@ -63,7 +65,7 @@ class LoginModel extends Model {
 		});
 
 		if (errorMessage) {
-			this.authenticationSuccess();
+			this._authenticationSuccess();
 		}
 
 		//var message = errorMessage;
@@ -77,15 +79,23 @@ class LoginModel extends Model {
 	/**
 	 * Function to call on a successful authentication of the user signing in to the database.
 	 */
-	authenticationSuccess() {
+	_authenticationSuccess() {
 		Database.getCurrentUser((userID) => {
-			AuthState.setCurrentUser(userID);
+			AuthState.setCurrentUserID(userID);
 			PersistStorage.storeData('userToken', userID, (error) => {console.log(error)});
+			this._checkProfileImageExists(userID);
 		});
 	}
 
-	 //onError() => {}
-	 //onComplete () => {}
+	_checkProfileImageExists(userID) {
+		PersistStorage.retrieveData(userID, (image) => {
+			if (image == null || image == undefined) {
+				PersistStorage.storeData(userID, ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE), (error) => {console.log(error)});
+			}
+		}, (error) => {
+			console.log(error);
+		});
+	}
 }
 
 export default LoginModel;

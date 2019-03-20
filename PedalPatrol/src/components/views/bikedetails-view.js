@@ -51,24 +51,15 @@ class BikeDetailsView extends BaseView {
 
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
+		const fromTab = navigation.getParam('from', 'Home');
 
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
 
 		this.setState({
+			from: fromTab,
 			data: formedData,
 			photoEntries: thumbnail
 		});
-	}
-
-	/**
-	 * Component mounted
-	 */
-	componentDidMount = () => {
-		const { navigation } = this.props;
-		// const data = navigation.getParam('data', 'NO-DATA');
-
-		// item = this.sectionedMultiSelect._findItem(data.colour);
-		// this.sectionedMultiSelect._toggleItem(item, false);
 	}
 
 	/**
@@ -87,7 +78,7 @@ class BikeDetailsView extends BaseView {
 			data: [],
 			photoEntries: []
 		});
-		this.props.navigation.navigate('Home');
+		this.props.navigation.navigate(this.state.from);
 	}
 
 	/**

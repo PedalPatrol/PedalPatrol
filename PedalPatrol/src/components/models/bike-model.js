@@ -1,6 +1,7 @@
 import Model from './model';
 import Database from '../../util/database';
 import ImageUtil from '../../util/imageutil';
+import TimeUtil from '../../util/timeutility';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
 
@@ -92,6 +93,8 @@ class BikeModel extends Model {
 			newData.data.id = Database.getNewBikeID();
 		}
 
+		newData.data.milliseconds = TimeUtil.getDateTime();
+
 		try {
 			const {exists, index} = this._bikeDataExists(newData);
 			if (exists && this._checkImages(index, newData.data.thumbnail)) {
@@ -103,7 +106,7 @@ class BikeModel extends Model {
 				const { BikeImages } = Database.getImageFolders();
 
 				// Write to database
-				this._writeImageToStorage(newData.data.id, newData.data.thumbnail, BikeImages, (uploaded_images, num_defaults) => {
+				this._writeImageToDBStorage(newData.data.id, newData.data.thumbnail, BikeImages, (uploaded_images, num_defaults) => {
 					newData.data.thumbnail = uploaded_images;
 
 					// Check if there's actually images 
@@ -166,7 +169,11 @@ class BikeModel extends Model {
 	_removeIllustrationKey(thumbnails) {
 		let new_thumbnails = [];
 		for (let i=0; i < thumbnails.length; i++) {
-			new_thumbnails.push(thumbnails[i].illustration);
+			if (thumbnails[i].hasOwnProperty('illustration')) {
+				new_thumbnails.push(thumbnails[i].illustration);
+			} else {
+				new_thumbnails.push(thumbnails[i]);
+			}
 		}
 		return new_thumbnails;
 	}
@@ -180,7 +187,7 @@ class BikeModel extends Model {
 	 * @param {Function} onSuccess - A callback to call when an image has been successfully uploaded
 	 * @param {Function} onError - A callback to call when an image has failed to upload
 	 */
-	_writeImageToStorage(id, images, imagesFolder, onSuccess, onError) {
+	_writeImageToDBStorage(id, images, imagesFolder, onSuccess, onError) {
 		const FILE_EXTENSION = '.jpg';
 		let uploaded_pictures = [];
 		let count_default = 0;

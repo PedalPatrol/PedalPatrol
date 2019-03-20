@@ -10,6 +10,14 @@ const TYPE_NAMES = {
 	BIKE: 'BIKE',
 	PROFILE: 'PROFILE'
 }
+/*
+ * The purpose of this data structure is to keep track of all the constants for different image types.
+ * Different MVP components need different default images and number of images so this way we can keep track
+ * of them all and keep our functions generalized.
+ * To add another image type, add the name to the TYPE_NAMES object, add the corresponding string as a property
+ * value in the TYPE_CONSTANTS structure and a list of the constants. Keep the list of the constants in the same
+ * order as the indices indicate in the 'indices' property below.
+ */
 const TYPE_CONSTANTS = {
 	BIKE: [
 		BIKE_PHOTO_ENTRIES,
@@ -140,7 +148,7 @@ class ImageUtility {
 			all_defaults &= (images[i].illustration === this.getTypeConstant(type, TYPE_CONSTANTS.indices.DEFAULT_IMAGE) || images[i].illustration == undefined);
 		}
 		
-		return !!all_defaults; // !! converts to boolean
+		return !!all_defaults; // !! converts to boolean, needed to convert number to actual boolean value because errors occurred
 	}
 
 
@@ -169,6 +177,7 @@ class ImageUtility {
 	 * @return {List} A list of thumbnails of length NUMBER_OF_BIKE_IMAGES with defaults
 	 */
 	addRemainingDefaults(type, thumbnails) {
+		// Number of defaults remaining is the number of images the type allows minus the number of provided images
 		const defaults_remaining = this.getTypeConstant(type, TYPE_CONSTANTS.indices.NUMBER_OF_IMAGES) - thumbnails.length;
 		const default_thumbnail = {illustration: this.getTypeConstant(type, TYPE_CONSTANTS.indices.DEFAULT_IMAGE)};
 		for (let i=0; i < defaults_remaining; i++) {

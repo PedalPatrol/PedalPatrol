@@ -1,5 +1,5 @@
 import BasePresenter from './presenter';
-import { BikeM, AlertM } from '../models/export-models';
+import { BikeM, AlertM, ProfileM } from '../models/export-models';
 
 /**
  * Class for the Bike presenter and view
@@ -63,6 +63,10 @@ class BikePresenter extends BasePresenter {
 	 */
 	getNotificationCount = () => {
 		return AlertM.getNotificationsCount();
+	}
+
+	getProfileImage = (callback) => {
+		ProfileM.getProfilePicture(callback);
 	}
 
 	/**

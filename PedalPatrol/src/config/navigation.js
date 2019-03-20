@@ -72,6 +72,14 @@ const BikeDetailsStack = createStackNavigator({
 			header: null
 		}),
 	},
+	MapStack: {
+		screen: MapView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			header: null
+		}),
+	},
 	BikeDetails: {
 		screen: BikeDetailsView,
 		navigationOptions: ({navigation}) => ({
@@ -224,7 +232,7 @@ export const createRootNavigator = () => {
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})
-			}
+			},
 		},
 		{
 			headerMode: "none",

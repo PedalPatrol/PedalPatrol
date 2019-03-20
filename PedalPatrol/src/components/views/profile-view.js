@@ -70,7 +70,6 @@ class ProfileView extends BaseView {
 			inputData: this.ProfileP.getTextInputData(this.ProfileP.getData()),
 			photoEntries: this.ProfileP.getCurrentPhotos()
 		});
-		console.log(this.ProfileP.getData())
 	}
 
 	/**

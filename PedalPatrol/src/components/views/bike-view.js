@@ -46,6 +46,9 @@ class BikeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	_setProfileImage = () => {
+		this.BikeP.getProfileImage((result) => this.setState({profilePicture: result}));
+	}
 	
 	temporaryFilter = () => {
 		Alert.alert(
@@ -68,7 +71,7 @@ class BikeView extends BaseView {
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}
+			profilePicture={this.state.profilePicture}
 			numNotifications={this.BikeP.getNotificationCount()}/>
 	);
 
@@ -89,6 +92,7 @@ class BikeView extends BaseView {
 		this.setState({
 			data: this.BikeP.getData()
 		});
+		this._setProfileImage();
 	};
 
 
