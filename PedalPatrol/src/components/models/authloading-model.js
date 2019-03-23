@@ -52,8 +52,9 @@ class AuthLoadingModel extends Model {
 	 */
 	logout(onSuccess, onFailure) {		
 		Database.signOut(() => {
-			PersistStorage.removeAllData(() => {
-				console.log('All data removed');
+			const userID = AuthState.getCurrentUserID();
+			PersistStorage.removeAllData([userID], (message) => {
+				console.log('All data removed - ', message);
 			}, (error) => {
 				console.log('Error removing data:', error);
 			});

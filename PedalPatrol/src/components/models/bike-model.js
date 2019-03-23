@@ -67,7 +67,7 @@ class BikeModel extends Model {
 		Database.readBikeDataOn((snapshot) => {
 			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
-			this._notifyAll(null); // Don't supply data to force a refresh by the presenter
+			this._notifyAll(this._data); // Don't supply data to force a refresh by the presenter
 		});
 	}
 
@@ -336,7 +336,7 @@ class BikeModel extends Model {
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
-		const currentUser = AuthState.getCurrentUserID();	
+		const currentUser = AuthState.getCurrentUserID();
 
 		if (databaseData != null) { // Check if there are objects in the database
 			for (let val in databaseData) {
@@ -369,7 +369,6 @@ class BikeModel extends Model {
 			this._data = tempData;
 			this._saveDataToLocalStorage('data', this._data);
 		}
-		// console.log(this._data);
 	}
 
 	/**
@@ -399,7 +398,6 @@ class BikeModel extends Model {
 	 */
 	_checkForLocalData(key) {
 		PersistStorage.retrieveData(key, (data) => {
-			console.log(data)
 			if (data != null) {
 				this._data = JSON.parse(data);
 				this._notifyAll(null);

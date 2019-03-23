@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableHighlight, Alert } from 'react-native';
+import { StyleSheet, FlatList, View, TouchableHighlight, Alert, RefreshControl } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import SafeArea from './helpers/safearea';
@@ -32,7 +32,7 @@ class BikeView extends BaseView {
 	 * Resets the state
 	 */
 	resetState = () => {
-		this.state = { refresh: true, data: [] };
+		this.state = { refresh: true, data: [], refreshing: false };
 	}
 
 	/**
@@ -46,6 +46,9 @@ class BikeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	/**
+	 * Sets the profile image for the view
+	 */
 	_setProfileImage = () => {
 		this.BikeP.getProfileImage((result) => this.setState({profilePicture: result}));
 	}
@@ -85,6 +88,10 @@ class BikeView extends BaseView {
 		});
 	};
 
+	componentWillMount = () => {
+		this._setProfileImage();
+	}
+
 	/**
 	 * Triggers when the component is mounted.
 	 */
@@ -102,6 +109,13 @@ class BikeView extends BaseView {
 	 */
 	componentWillUnmount = () => {
 		this.viewUnmounting(this.BikeP);
+	}
+
+	/**
+	 * Triggers a force refresh of the view
+	 */
+	_onRefresh = () => {
+		this.BikeP.forceRefresh();
 	}
 
 	/**

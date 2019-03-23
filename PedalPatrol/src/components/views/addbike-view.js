@@ -247,7 +247,7 @@ class AddBikeView extends BaseView {
 			style={styles.textInput}
 			label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
 			multiline={item.multiline}
-			disabled={item.disabled}
+			disabled={item.disabled || this.state.loaderVisible}
 			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
 					let { inputData } = this.state; // inputData is a keyword in state
@@ -404,7 +404,8 @@ class AddBikeView extends BaseView {
 							keyboardDismissMode='interactive'>
 
 							<ImageCarousel 
-								photos={this.state.photoEntries} 
+								loading={this.state.loaderVisible}
+								photos={this.state.photoEntries}
 								selected={(id) => {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} />
 							
 							{/* List of text inputs */}
@@ -437,6 +438,7 @@ class AddBikeView extends BaseView {
 							<TouchableOpacity style={styles.submitTouchable}>
 								<Button
 									title='Submit'
+									disabled={this.state.loaderVisible}
 									onPress={() => this._getDataToUpdate()}/>
 							</TouchableOpacity>
 
@@ -453,6 +455,7 @@ class AddBikeView extends BaseView {
 									<TouchableOpacity style={styles.deleteTouchable} onPress={() => 'default'}>
 										<Button
 										title='Delete'
+										disabled={this.state.loaderVisible}
 										onPress={() => this.deletePrompt()}/>
 									</TouchableOpacity>
 								</View>
@@ -540,6 +543,7 @@ const styles = StyleSheet.create({
 		right: 0,
 		top: 0,
 		bottom: 0,
+		zIndex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: '#F5FCFF88',

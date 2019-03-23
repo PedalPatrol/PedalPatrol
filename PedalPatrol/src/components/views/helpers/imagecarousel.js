@@ -27,6 +27,7 @@ class ImageCarousel extends Component {
 			  data={item}
 			  id={index}
 			  parallax={false}
+			  loading={this.props.loading ? this.props.loading : false}
 			  selectPhoto={this.props.selected}
 			/>
 		);
@@ -49,6 +50,7 @@ class ImageCarousel extends Component {
 				  inactiveSlideScale={0.94}
 				  inactiveSlideOpacity={0.7}
 				  // inactiveSlideShift={20}
+				  removeClippedSubviews={false} 
 				  containerCustomStyle={stylesC.slider}
 				  contentContainerCustomStyle={stylesC.sliderContentContainer}
 				  loop={false}

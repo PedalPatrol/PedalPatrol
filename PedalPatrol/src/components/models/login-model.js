@@ -61,7 +61,6 @@ class LoginModel extends Model {
 		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
 			errorMessage = false;
-			console.log('erroraftercheck: '+errorMessage);
 			console.log(error);
 		});
 
@@ -85,15 +84,31 @@ class LoginModel extends Model {
 			AuthState.setCurrentUserID(userID);
 			PersistStorage.storeData('userToken', userID, (error) => {console.log(error)});
 			this._checkProfileImageExists(userID);
+			this.triggerOnReads();
 		});
 	}
 
+	/**
+	 * Check if a profile image exists.
+	 *
+	 * @param {string} userID - The current user's id
+	 */
 	_checkProfileImageExists(userID) {
 		PersistStorage.retrieveData(userID, (image) => {
 			if (image == null || image == undefined) {
 				PersistStorage.storeData(userID, ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE), (error) => {console.log(error)});
 			}
 		}, (error) => {
+			console.log(error);
+		});
+	}
+
+	/**
+	 * Trigger the on reads for models by adding a new item to the Bike list
+	 */
+	triggerOnReads() {
+		const newData = {tempID: 0}
+		Database.triggerTemporaryItem(newData, (error) => {
 			console.log(error);
 		});
 	}

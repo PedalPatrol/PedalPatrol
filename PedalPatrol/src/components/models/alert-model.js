@@ -70,7 +70,7 @@ class AlertModel extends Model {
 				}
 
 				if (currentUser == null || databaseData[val].owner !== currentUser) {
-					console.log(currentUser)
+					// console.log(currentUser)
 					continue;
 				}
 

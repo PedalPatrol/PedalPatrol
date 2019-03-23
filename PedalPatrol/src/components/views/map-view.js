@@ -293,13 +293,21 @@ class MapView extends BaseView {
 							<Text style={styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
 								{item.data.model}
 							</Text>
-						
+							<Text numberOfLines={1} ellipsizeMode ={'tail'}>
+							{'   '}
+							</Text>
 							<Text style={styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
 								{item.data.timeago}
 							</Text>
 						</View>
 						<Text>
-							{item.data.description}
+							{"Model: " + item.data.model}
+						</Text>
+						<Text>
+							{"Brand: " + item.data.brand}
+						</Text>
+						<Text>
+							{"Colour" + (item.data.colour.length > 1 ? "s: " : ": ") + item.data.colour.join(', ')}
 						</Text>
 					</View>
 				</ScrollView>

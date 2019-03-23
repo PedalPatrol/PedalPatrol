@@ -97,11 +97,13 @@ class PersistentStorage extends Component {
 	 * @param {Function} onSuccess - A callback function to call if all keys were successfully removed.
 	 * @param {Function} onError - A callback function to call if one or more keys threw an error when being removed.
 	 */
-	async removeAllData(onSuccess, onError) {
+	async removeAllData(keepKeys, onSuccess, onError) {
 		this.getAllStoredKeys(async (error, keys) => {
+			keys = keys.filter( ( el ) => !keepKeys.includes( el ) );
 			await AsyncStorage.multiRemove(keys, (err) => {
 				if (err == null) {
-					onSuccess();
+					const message = "Except: " + (keepKeys.length === 1 ? keepKeys : keepKeys.join(', '));
+					onSuccess(message);
 				} else {
 					console.log(err);
 					onError(err);

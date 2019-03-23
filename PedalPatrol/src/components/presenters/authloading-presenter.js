@@ -1,7 +1,7 @@
 import AsyncLock from 'async-lock';
 
 import BasePresenter from './presenter';
-import { AlertM, AuthLoadingM, HomeM } from '../models/export-models';
+import { AuthLoadingM, HomeM } from '../models/export-models';
 
 const lock = new AsyncLock({timeout: 10000});
 
@@ -24,8 +24,8 @@ class AuthLoadingPresenter extends BasePresenter {
 		// This is just used to see how many models we have
 		// We could declare the import using 'as Models' but doing Object.keys(Models).length is O(n) so this is faster
 		// Only add models that we expect data from
-		this._numModels = [AlertM, HomeM].length;
-		AlertM.subscribe(this);
+		this._numModels = [HomeM].length;
+		// AlertM.subscribe(this);
 		HomeM.subscribe(this);
 
 		// This model is really only used to logout, so we don't expect an onUpdated call from it
@@ -104,7 +104,7 @@ class AuthLoadingPresenter extends BasePresenter {
 	 * Unsubscribe from models
 	 */
 	onDestroy = () => {
-		AlertM.unsubscribe(this);
+		// AlertM.unsubscribe(this);
 		AuthLoadingM.unsubscribe(this);
 		HomeM.unsubscribe(this);
 	}

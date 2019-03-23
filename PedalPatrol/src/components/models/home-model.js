@@ -51,6 +51,7 @@ class HomeModel extends Model {
 	_insertDataOnRead(databaseData) {
 		let tempData = {data:[]};
 		let dataID = 0;
+		
 		if (databaseData != null) { // Check if there are objects in the database
 			for (let val in databaseData) {
 				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
@@ -69,6 +70,7 @@ class HomeModel extends Model {
 				}
 			}
 			this._data = tempData;
+			// console.log(this._data)
 		}
 	}
 
