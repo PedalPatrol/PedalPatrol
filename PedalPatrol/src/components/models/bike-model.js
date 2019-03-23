@@ -36,10 +36,12 @@ class BikeModel extends Model {
 	 */
 	deleteBikeByID(id, callback) {
 		const { index } = this._bikeIDExists(id);
-		const bike = this._data.data[index];
+		const bike = JSON.parse(JSON.stringify(this._data.data[index]));
+		this._data.data = this._data.data.filter((el) => el.id !== id);
 		Database.removeBikeItem(id, (resultItem) => {
 			Database.removeImages(bike.thumbnail, (resultImage) => {
 				callback(resultItem && resultImage);
+				this._notifyAll(null);
 			});
 		});
 	}
@@ -105,6 +107,9 @@ class BikeModel extends Model {
 			} else { 
 				const { BikeImages } = Database.getImageFolders();
 
+				newData.data.stolen = false // true: if bike is stolen; false: if the bike is not stolen or the owner has marked it as found
+				newData.data.found = false // true: if stolen=true && bike was found; false: if stolen=false || (stolen=true && bike is not found)
+
 				// Write to database
 				this._writeImageToDBStorage(newData.data.id, newData.data.thumbnail, BikeImages, (uploaded_images, num_defaults) => {
 					newData.data.thumbnail = uploaded_images;
@@ -153,8 +158,13 @@ class BikeModel extends Model {
 	 */
 	_checkImages(index, thumbnails) {
 		if (index >= 0) {
-			const bike = this._data.data[index];
-			return JSON.stringify(bike.thumbnail) == JSON.stringify(thumbnails);
+			const bike = JSON.parse(JSON.stringify(this._data.data[index]));
+			const bikeThumbnails = ImageUtil.addRemainingDefaults(ImageUtil.getTypes().BIKE, bike.thumbnail);
+			const bikeThumbnailsNoIllustration = this._removeIllustrationKey(bikeThumbnails);
+			const thumbnailsNoIllustration = this._removeIllustrationKey(thumbnails);
+			console.log(bikeThumbnailsNoIllustration, thumbnailsNoIllustration);
+
+			return JSON.stringify(bikeThumbnailsNoIllustration) === JSON.stringify(thumbnailsNoIllustration);
 		} else {
 			return false; // Bike does not exist
 		}
@@ -168,7 +178,11 @@ class BikeModel extends Model {
 	 */
 	_removeIllustrationKey(thumbnails) {
 		let new_thumbnails = [];
+		const DEFAULT_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().BIKE);
 		for (let i=0; i < thumbnails.length; i++) {
+			if (thumbnails[i] === DEFAULT_IMAGE || (thumbnails[i].hasOwnProperty('illustration') && thumbnails[i].illustration === DEFAULT_IMAGE)) {
+				continue;
+			}
 			if (thumbnails[i].hasOwnProperty('illustration')) {
 				new_thumbnails.push(thumbnails[i].illustration);
 			} else {
@@ -219,7 +233,6 @@ class BikeModel extends Model {
 				console.log(error);
 				onError(false);
 			});
-
 		}
 	}
 
@@ -346,11 +359,6 @@ class BikeModel extends Model {
 
 				// Bike page only displays current user
 				if (currentUser == null || currentUser != databaseData[val].owner) {
-					continue;
-				}
-
-				const {exists} = this._bikeIDExists(databaseData[val].id);
-				if (exists) {
 					continue;
 				}
 

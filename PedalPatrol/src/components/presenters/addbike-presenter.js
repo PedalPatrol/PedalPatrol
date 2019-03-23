@@ -82,8 +82,6 @@ class AddBikePresenter extends BasePresenter {
 				frame_size: inputTextData[inputDataList.index.frame_size].text,
 				notable_features: inputTextData[inputDataList.index.notable_features].text,
 				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage(BIKE_TYPE)}],
-				stolen: false, // true: if bike is stolen; false: if the bike is not stolen or the owner has marked it as found
-				found: false, // true: if stolen=true && bike was found; false: if stolen=false || (stolen=true && bike is not found)
 			}
 		}
 
@@ -110,7 +108,7 @@ class AddBikePresenter extends BasePresenter {
 	 * @return {Object} Data from the model.
 	 */
 	getData = () => {
-		return BikeM.get().data;
+		return JSON.parse(JSON.stringify(BikeM.get().data));
 	};
 
 	/**

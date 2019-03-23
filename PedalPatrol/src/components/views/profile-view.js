@@ -38,9 +38,12 @@ class ProfileView extends BaseView {
 	  * @return {Object} Navigation option
 	  */
 	static navigationOptions = ({navigation, transitioning}) => {
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () => 'default';
+		const clear = params._clearData ? params._clearData : () => 'default';
 		return {
-			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
-			headerRight: (<Button disabled={transitioning} onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>),
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{back()}}/>),
+			headerRight: (<Button disabled={transitioning} onPress={()=>{clear()}} title='Clear'/>),
 			title: navigation.getParam('title', 'Profile')
 		}
 	}

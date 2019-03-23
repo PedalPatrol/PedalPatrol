@@ -38,14 +38,12 @@ test('should return default data', () => {
 // 	// Mock function for notifyAll
 // 	const _notifyAll = BikeM._notifyAll = jest.fn();
 // 	const _insertDataOnUpdate = BikeM._insertDataOnUpdate = jest.fn((newData) => {BikeM._data.data = [newData.data]}).mockName('insertData');
-// 	const writeBikeData = Database.writeBikeData = jest.fn();
 
-// 	let data = { data: { model: 'Test', id: 0 } };
-// 	let result_data = { data: [{ model: 'Test', id: 0 }] }; // To Change when actual UID is obtained
+// 	let data = { data: { model: 'Test', id: 0, thumbnail: [''] } };
+// 	let result_data = { data: [{ model: 'Test', id: 0, thumbnail: [''] }] }; // To Change when actual UID is obtained
 // 	BikeM.update(data); // Call the actual function
 
 // 	// Check expectations
-// 	expect(writeBikeData).toHaveBeenCalled();
 // 	expect(_insertDataOnUpdate).toHaveBeenCalled();
 // 	expect(_insertDataOnUpdate).toHaveBeenCalledWith(data);
 // 	expect(_notifyAll).toHaveBeenCalled();

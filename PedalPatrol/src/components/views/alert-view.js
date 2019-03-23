@@ -34,8 +34,10 @@ class HomeView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) => {
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () => 'default';
 		return {
-			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{back()}}/>),
 			title: navigation.getParam('title', 'Alerts') // Default title is Alerts
 		};
 	}

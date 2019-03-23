@@ -45,13 +45,15 @@ class AddBikeView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) => {
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () => 'default';
+		const clear = params._clearData ? params._clearData : () => 'default';
 		return {
-			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
-			headerRight: (<Button disabled={transitioning} onPress={()=>{navigation.state.params._clearData()}} title='Clear'/>),
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{back()}}/>),
+			headerRight: (<Button disabled={transitioning} onPress={()=>{clear()}} title='Clear'/>),
 			title: navigation.getParam('title', 'Add Bike') // Default title is Add Bike
 		};
 	}
-
 
 	/**
 	 * Creates an instance of the add bike view
@@ -147,7 +149,9 @@ class AddBikeView extends BaseView {
 	 * When the back button is clicked, check if the user was editing.
 	 */
 	_onBack = () => {
-		this.AddBikeP.checkEditingState(this.state.editing, this.editingSuccess, this.editingFailure);
+		if (!this.state.loaderVisible) {
+			this.AddBikeP.checkEditingState(this.state.editing, this.editingSuccess, this.editingFailure);
+		}
 	}
 
 	/**
@@ -185,12 +189,14 @@ class AddBikeView extends BaseView {
 	 * Clears all the data
 	 */
 	_clearData = () => {
-		this.AddBikeP.clearPhotos();
-		this.sectionedMultiSelect._removeAllItems();
-		let inputData = this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage); // inputData is a property in state
-		let photoEntries = ImageUtil.getDefaultPhotos(ImageUtil.getTypes().BIKE);
-		this.setState({ inputData, photoEntries });
-		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
+		if (!this.state.loaderVisible) {
+			this.AddBikeP.clearPhotos();
+			this.sectionedMultiSelect._removeAllItems();
+			let inputData = this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage); // inputData is a property in state
+			let photoEntries = ImageUtil.getDefaultPhotos(ImageUtil.getTypes().BIKE);
+			this.setState({ inputData, photoEntries });
+			this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
+		}
 	}
 
 	/**
@@ -435,7 +441,7 @@ class AddBikeView extends BaseView {
 								/>
 
 							{/* Submit button */}
-							<TouchableOpacity style={styles.submitTouchable}>
+							<TouchableOpacity style={[styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}>
 								<Button
 									title='Submit'
 									disabled={this.state.loaderVisible}
@@ -454,9 +460,9 @@ class AddBikeView extends BaseView {
 									
 									<TouchableOpacity style={styles.deleteTouchable} onPress={() => 'default'}>
 										<Button
-										title='Delete'
-										disabled={this.state.loaderVisible}
-										onPress={() => this.deletePrompt()}/>
+											title='Delete'
+											disabled={this.state.loaderVisible}
+											onPress={() => this.deletePrompt()}/>
 									</TouchableOpacity>
 								</View>
 							}
