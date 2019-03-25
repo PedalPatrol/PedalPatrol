@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, ActivityIndicator, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, ActivityIndicator, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
 import { TextInput } from 'react-native-paper';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
+import { styles, text, edit_styles } from './stylesheets/edit-styles';
 
 import BaseView from './view';
 import SafeArea from './helpers/safearea';
@@ -250,7 +252,7 @@ class AddBikeView extends BaseView {
 	 */
 	_renderItem = ({item, index}) => (
 		<TextInput
-			style={styles.textInput}
+			style={text.textInput}
 			label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
 			multiline={item.multiline}
 			disabled={item.disabled || this.state.loaderVisible}
@@ -299,7 +301,7 @@ class AddBikeView extends BaseView {
 	 * @param {string} name - The name of the item 
 	 */
 	_renderText = (colour, name) => (
-		<Text style={[{color: colour}, styles.colourText]}>{name}</Text>
+		<Text style={[{color: colour}, text.colourText]}>{name}</Text>
 	);
 
 
@@ -396,16 +398,15 @@ class AddBikeView extends BaseView {
 	render() {
 		return (
 			
-			 <KeyboardAvoidingView
-			 	style={styles.container}
+			<KeyboardAvoidingView
+				style={styles.container}
 				behavior="padding"
-				enabled
-			    >
+				enabled>
 				<HandleBack onBack={this._onBack}>
 					<SafeArea/>
 					<View style={styles.container}>
 						<ScrollView 
-							contentContainerStyle={styles.contentContainer}
+							contentContainerStyle={edit_styles.contentContainer}
 							keyboardShouldPersistTaps='always'
 							keyboardDismissMode='interactive'>
 
@@ -416,7 +417,7 @@ class AddBikeView extends BaseView {
 							
 							{/* List of text inputs */}
 							<FlatList
-								style={styles.flatList}
+								style={edit_styles.flatList}
 								data={this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage)}
 								extraData={this.state}
 								keyExtractor={this._keyExtractor}
@@ -425,7 +426,7 @@ class AddBikeView extends BaseView {
 							{/* List of colours */}
 							{/* colors attribute makes the 'Confirm' button flip from red to green if a colour is selected */}
 							<SectionedMultiSelect
-								style={styles.textInput}
+								style={text.textInput}
 								items={this.state.colours}
 								displayKey='text_component'
 								uniqueKey={UNIQUE_COLOUR_KEY}
@@ -441,7 +442,7 @@ class AddBikeView extends BaseView {
 								/>
 
 							{/* Submit button */}
-							<TouchableOpacity style={[styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}>
+							<TouchableOpacity style={[edit_styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}>
 								<Button
 									title='Submit'
 									disabled={this.state.loaderVisible}
@@ -453,12 +454,12 @@ class AddBikeView extends BaseView {
 								this.state.isEditPage &&
 								<View> 
 									<View style={{flexDirection: 'row', marginTop: 20}}> 
-										<View style={styles.deleteInline} /> 
-											<Text style={styles.delete}>Delete Bike</Text> 
-										<View style={styles.deleteInline} /> 
+										<View style={edit_styles.deleteInline} /> 
+											<Text style={edit_styles.delete}>Delete Bike</Text> 
+										<View style={edit_styles.deleteInline} /> 
 									</View>
 									
-									<TouchableOpacity style={styles.deleteTouchable} onPress={() => 'default'}>
+									<TouchableOpacity style={edit_styles.deleteTouchable} onPress={() => 'default'}>
 										<Button
 											title='Delete'
 											disabled={this.state.loaderVisible}
@@ -485,108 +486,3 @@ class AddBikeView extends BaseView {
 }
 
 export default AddBikeView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	},
-	avatarContainer: {
-		borderColor: '#9B9B9B',
-		borderWidth: 1 / PixelRatio.get(),
-		justifyContent: 'center',
-		alignItems: 'center',
-		flexDirection: 'row',
-		height: 200,
-		padding: 10,
-		marginRight: 10,
-		marginLeft: 10,
-		marginTop: 10,
-		borderRadius: 4,
-		shadowOffset:{  width: 1,  height: 1,  },
-		shadowColor: '#CCC',
-		shadowOpacity: 1.0,
-		shadowRadius: 1,
-	},
-	avatar: {
-		position: 'absolute',
-		top: 0,
-		left: 0,
-		bottom: 0,
-		right: 0,
-		height: 200
-	},
-	scrollContainer: {
-		paddingVertical: 20,
-	},
-	textInput: {
-		marginRight: 10,
-		marginLeft: 10,
-		marginBottom: 10,
-		backgroundColor: '#F5FCFF',
-	},
-	flatList: {
-		// marginTop: 220
-	},
-	colourText: {
-		textShadowColor: 'rgba(0, 0, 0, 1)', 
-		textShadowOffset: {width: -1, height: 1}, 
-		textShadowRadius: 1,
-	},
-	submitTouchable: {
-		borderWidth: 1, 
-		textAlign: 'center', 
-		borderColor: 'black',
-		borderRadius: 5,
-		marginLeft: 10,
-		marginRight: 10,
-		marginTop: 10,
-		backgroundColor: '#FFF'
-	},
-	loading: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		top: 0,
-		bottom: 0,
-		zIndex: 1,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#F5FCFF88',
-	},
-	deleteView: {
-		borderWidth: 2,
-		borderColor: 'red',
-		marginLeft: 5,
-		marginRight: 5,
-		marginTop: 20,
-		marginBottom: 5
-	},
-	deleteTouchable: {
-		borderWidth: 1, 
-		textAlign: 'center', 
-		borderColor: 'red',
-		borderRadius: 5,
-		marginLeft: 10,
-		marginRight: 10,
-		marginTop: 10,
-		marginBottom: 10,
-		backgroundColor: '#FFF'
-	},
-	delete: {
-		alignSelf: 'center', 
-		paddingHorizontal: 5, 
-		fontSize: 20,
-		color: 'red'
-	},
-	deleteInline: {
-		borderColor: 'red',
-		backgroundColor: 'red', 
-		height: 2, 
-		flex: 1, 
-		alignSelf: 'center'
-	},
-	contentContainer: {
-		flexGrow: 1
-	}
-});

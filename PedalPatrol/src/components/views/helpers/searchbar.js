@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Platform, Image, StyleSheet, View, TouchableHighlight, TouchableOpacity, ViewStyle, NativeModules } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Searchbar } from 'react-native-paper';
+import PropTypes from 'prop-types';
 
 import SafeArea from './safearea';
 import ProfileButton from './profilebutton';
@@ -13,9 +14,16 @@ const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 /**
  * Class to add a search bar header to a page
  */
-class SearchBarHelper extends Component {
+class SearchBar extends Component {
 	state = {
 		value: '',
+	}
+
+	static propTypes = {
+		profilePicture: PropTypes.string,
+		numNotifications: PropTypes.number.isRequired,
+		handleSearchFilter: PropTypes.func.isRequired,
+		openFilter: PropTypes.func.isRequired
 	}
 
 	render() {
@@ -56,7 +64,7 @@ class SearchBarHelper extends Component {
 	};
 };
 
-export default SearchBarHelper;
+export default SearchBar;
 
 const styles = StyleSheet.create({
 	searchContainer: { // View that contains search bar

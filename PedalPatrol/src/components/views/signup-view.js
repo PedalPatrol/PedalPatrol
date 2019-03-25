@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, StyleSheet, Image, PixelRatio, Alert,} from 'react-native';
+import { View, Text, StyleSheet, Image, PixelRatio, Alert,} from 'react-native';
 import { HeaderBackButton } from 'react-navigation';
+import { TextInput } from 'react-native-paper';
+
+import { styles, text, signup_styles } from './stylesheets/signup-styles';
 
 import BaseView from './view';
 import LoginButton from './helpers/loginbutton';
@@ -69,45 +72,33 @@ class SignUpView extends BaseView {
 	 */
 	render() {
 		return (
-			<View style={styles.view}>
-				 
-				<View style={styles.editGroup}>
-					<View style={styles.username}>
-
-
+			<View style={styles.container}>
+				<View style={signup_styles.editGroup}>
+					<View style={signup_styles.username}>
 						<TextInput
-							style={styles.edit}
-							placeholder="Username"
-							placeholderTextColor="#c4c4c4"
-							onChangeText={(username) => this.setState({username})}
-							/>
+							style={text.textInput}
+							label="Username"
+							onChangeText={(username) => this.setState({username})}/>
 					</View>
-					<View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
-						<View style={styles.password}>
-							<TextInput
-							style={styles.edit}
-							placeholder="Password"
-							placeholderTextColor="#c4c4c4"
+
+					<View style={signup_styles.password}>
+						<TextInput
+							style={text.textInput}
+							label="Password"
 							secureTextEntry={true}
-							onChangeText={(password) => this.setState({password})}
-							/>
-						</View>
-						 <View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
-							<View style={styles.password}>
-													 <TextInput
-													 style={styles.edit}
-													 placeholder="Reentry your password"
-													 placeholderTextColor="#c4c4c4"
-													 secureTextEntry={true}
-													 onChangeText={(RPassword) => this.setState({RPassword})}
-													 />
-												 </View>
-													<View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
-						<View style={{marginTop: 30}}>
+							onChangeText={(password) => this.setState({password})}/>
+					</View>
+					<View style={signup_styles.password}>
+						<TextInput
+							style={text.textInput}
+							label="Re-enter your password"
+							secureTextEntry={true}
+							onChangeText={(RPassword) => this.setState({RPassword})}/>
+					</View>
+					
+					<View style={{marginTop: 30}}>
 						<LoginButton text="SIGN UP" onPress={this._handleClick.bind(this)}/>
-						</View>
-
-
+					</View>
 				</View>
 			</View>
 		);
@@ -167,49 +158,3 @@ class SignUpView extends BaseView {
 }
 
 export default SignUpView;
-
-const styles = StyleSheet.create({
-	title:{
-		color: 'black',
-		fontWeight: 'bold',
-		fontSize: 50,
-	},
-	centered:{
-		alignItems:'center',
-		marginTop:30,
-	},
-	centerText: {
-		textAlign: 'center',
-		marginTop:20,
-	},
-	view: {
-		flex: 1,
-		backgroundColor: 'grey',
-	},
-	editGroup: {
-		margin: 20,
-	},
-	username: {
-		marginTop: 30,
-		height: 48,
-		backgroundColor: 'grey',
-		justifyContent: 'center',
-		borderTopLeftRadius: 3,
-		borderTopRightRadius: 3,
-	},
-	password: {
-		marginTop: 5,
-		height: 48,
-		backgroundColor: 'grey',
-		justifyContent: 'center',
-		borderBottomLeftRadius: 3,
-		borderBottomRightRadius: 3,
-	},
-	edit:{
-		height: 40,
-		fontSize: 13,
-		backgroundColor: 'grey',
-		paddingLeft: 15,
-		paddingRight: 15,
-	},
-});

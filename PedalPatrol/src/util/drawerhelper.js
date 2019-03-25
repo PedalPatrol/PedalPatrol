@@ -13,7 +13,11 @@ class DrawerHelper {
 	 */
 	constructor() {
 		this.drawer = null;
-		this.profilePicture = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
+		this.defaultProfilePicture = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
+	}
+
+	getDefaultProfile() {
+		return this.defaultProfilePicture;
 	}
 
 	/**
@@ -74,7 +78,13 @@ class DrawerHelper {
 	}
 
 	fetchProfileImageFromStorage() {
-		ProfileM.getProfilePicture((result) => {this.drawer.setState({profilePicture: result});});
+		ProfileM.getProfilePicture((result) => {
+			let default_data = result;
+			if (!result) {
+				default_data = { profilePicture: this.defaultProfilePicture, full_name: '' };
+			}
+			this.drawer.setState({profileData: default_data});
+		});
 	}
 }
 

@@ -1,5 +1,5 @@
 import BasePresenter from './presenter';
-import { AlertM } from '../models/export-models';
+import { AlertM, ProfileM } from '../models/export-models';
 
 /**
  * Class for the Home presenter and view
@@ -14,9 +14,10 @@ class AlertPresenter extends BasePresenter {
 	 */
 	constructor(view) {
 		super()
-		this.stores = [AlertM];
+		
 		this.view = view;
 		AlertM.subscribe(this);
+		ProfileM.subscribe(this);
 	}
 
 	/**
@@ -50,11 +51,16 @@ class AlertPresenter extends BasePresenter {
 		return AlertM.get().data;
 	};
 
+	getProfileImage = (callback) => {
+		ProfileM.getProfilePicture(callback);
+	}
+
 	/**
 	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
 	 */
 	onDestroy = () => {
 		AlertM.unsubscribe(this);
+		ProfileM.unsubscribe(this);
 	};
 
 	// Maybe differentiate between cancel and clear	

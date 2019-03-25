@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-
-const LOGO_URL = 'https://i.imgur.com/uWzNO72.jpg'; // TODO: Fetch from profile
+import PropTypes from 'prop-types';
 
 /**
  * Class to display the drawer header.
@@ -11,13 +10,17 @@ class DrawerHeader extends Component {
 		super(props);
 	}
 
+	static propTypes = {
+		image: PropTypes.string
+	}
+
 	render() {
 		return (
 			<TouchableOpacity>
 				<View style={styles.container} >
 					<Image style={styles.image} source={{uri: this.props.image, flex:1, width: 80, height: 80, left: 40}}/>
 					<Text style={styles.text}>
-						Sean Remedios
+						{this.props.name}
 					</Text>
 				</View>
 			</TouchableOpacity>

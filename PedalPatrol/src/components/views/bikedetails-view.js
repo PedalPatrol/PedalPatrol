@@ -5,6 +5,8 @@ import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
 import { TextInput } from 'react-native-paper';
 
+import { styles, text, bikedetails_styles } from './stylesheets/bikedetails-styles';
+
 import BaseView from './view';
 import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
@@ -96,7 +98,7 @@ class BikeDetailsView extends BaseView {
 	 */
 	_renderItem = ({item}) => (
 		<TextInput
-			style={styles.textInput}
+			style={text.textInput}
 			label={this._renderText(item.title)}
 			value={item.text}
 			multiline
@@ -133,7 +135,7 @@ class BikeDetailsView extends BaseView {
 				<HandleBack onBack={this._onBack}>
 					<SafeArea/>
 						<View style={styles.container}>
-							<ScrollView contentContainerStyle={styles.contentContainer}>
+							<ScrollView contentContainerStyle={bikedetails_styles.contentContainer}>
 
 							<ImageCarousel 
 								photos={this.state.photoEntries} 
@@ -142,14 +144,14 @@ class BikeDetailsView extends BaseView {
 
 							{/* List of text inputs */}
 							<FlatList
-								style={styles.flatList}
+								style={bikedetails_styles.flatList}
 								data={this.state.data}
 								extraData={this.state}
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>
 
 							<Button 
-								style={styles.direction}
+								style={bikedetails_styles.direction}
 								title='Get Directions'
 								onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
 
@@ -163,36 +165,3 @@ class BikeDetailsView extends BaseView {
 }
 
 export default BikeDetailsView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	},
-	flatList: {
-		// marginTop: 220
-	},
-	textrow: {
-		flexDirection: 'row'
-	},
-	titleText: {
-		fontWeight: 'bold'
-	},
-	dataText: {
-
-	},
-	textInput: {
-		marginRight: 10,
-		marginLeft: 10,
-		marginBottom: 10,
-		backgroundColor: '#F5FCFF',
-	},
-	direction: {
-		borderWidth: 1,
-		borderColor: 'black',
-		marginRight: 10,
-		marginLeft: 10,
-		marginBottom: 10,
-		backgroundColor: '#F5FCFF'
-	}
-});

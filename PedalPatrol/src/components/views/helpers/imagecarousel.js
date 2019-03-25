@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import PropTypes from 'prop-types';
 
 import { sliderWidth, itemWidth } from './imagehelpers/styles/SliderEntry.style';
 import SliderEntry from './imagehelpers/components/SliderEntry';
@@ -14,6 +15,12 @@ const SLIDER_1_FIRST_ITEM = 0;
 class ImageCarousel extends Component {
 	state = {
 		slider1ActiveSlide: SLIDER_1_FIRST_ITEM,
+	}
+
+	static propTypes = {
+		loading: PropTypes.bool,
+		selected: PropTypes.func.isRequired,
+		photos: PropTypes.array.isRequired	
 	}
 
 	/**

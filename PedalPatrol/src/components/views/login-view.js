@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import { View, Text, TextInput, StyleSheet, Image, PixelRatio, Alert,} from 'react-native';
+import { View, Text, StyleSheet, Image, PixelRatio, Alert,} from 'react-native';
+import { TextInput } from 'react-native-paper';
+
+import { styles, text, login_styles } from './stylesheets/login-styles';
 
 import BaseView from './view';
 import LoginButton from './helpers/loginbutton';
@@ -41,36 +44,34 @@ class LoginView extends BaseView {
 	 */
 	render() {
 		return (
-			<View style={styles.view}>
-				<View style={styles.centered}>
-					<Text style={styles.title}>Pedal Patrol</Text>
+			<View style={styles.container}>
+				<View style={login_styles.centered}>
+					<Text style={login_styles.title}>Pedal Patrol</Text>
 				</View>
-				<View style={styles.editGroup}>
-					<View style={styles.username}>
+				<View style={login_styles.editGroup}>
+					<View style={login_styles.username}>
 						<TextInput
-							style={styles.edit}
-							placeholder="Username"
-							placeholderTextColor="#c4c4c4"
+							style={text.textInput}
+							label="Username"
 							onChangeText={(username) => this.setState({username})}/>
 					</View>
-					<View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
-					<View style={styles.password}>
+					
+					<View style={login_styles.password}>
 						<TextInput
-						style={styles.edit}
-						placeholder="Password"
-						placeholderTextColor="#c4c4c4"
+						style={text.textInput}
+						label="Password"
 						secureTextEntry={true}
 						onChangeText={(password) => this.setState({password})}/>
 					</View>
 					
-					<View style={{height: 1/PixelRatio.get(), backgroundColor:'#c4c4c4'}}/>
+					
 					
 					<View style={{marginTop: 30}}>
 						<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
 					</View>
 					
 					<View>
-						<Text style={styles.centerText}> Login With Social Account: </Text>
+						<Text style={login_styles.centerText}> Login With Social Account: </Text>
 					</View>
 					
 					<View style={{marginTop: 30}}>
@@ -153,49 +154,3 @@ class LoginView extends BaseView {
 }
 
 export default LoginView;
-
-const styles = StyleSheet.create({
-	title:{
-		color: 'black',
-		fontWeight: 'bold',
-		fontSize: 50,
-	},
-	centered:{
-		alignItems:'center',
-		marginTop:30,
-	},
-	centerText: {
-		textAlign: 'center',
-		marginTop:20,
-		},
-	view: {
-		flex: 1,
-		backgroundColor: 'grey',
-	},
-	editGroup: {
-		margin: 20,
-	},
-	username: {
-		marginTop: 30,
-		height: 48,
-		backgroundColor: 'grey',
-		justifyContent: 'center',
-		borderTopLeftRadius: 3,
-		borderTopRightRadius: 3,
-	},
-	password: {
-		marginTop: 5,
-		height: 48,
-		backgroundColor: 'grey',
-		justifyContent: 'center',
-		borderBottomLeftRadius: 3,
-		borderBottomRightRadius: 3,
-	},
-	edit:{
-		height: 40,
-		fontSize: 13,
-		backgroundColor: 'grey',
-		paddingLeft: 15,
-		paddingRight: 15,
-	},
-});

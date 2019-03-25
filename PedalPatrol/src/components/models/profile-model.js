@@ -65,8 +65,14 @@ class ProfileModel extends Model {
 		Database.readProfileDataOnce(userID, (snapshot) => {
 			const retrievedData = snapshot.val();
 			if (retrievedData != null && retrievedData != undefined) {
+				const toStore = {
+					profilePicture: retrievedData.thumbnail[0],
+					full_name: retrievedData.full_name,
+					email: retrievedData.email,
+					phone_num: retrievedData.phone_num
+				}
 				this._insertDataOnRead(userID, retrievedData);
-				this._addProfileImageLocally(userID, retrievedData.thumbnail[0]);
+				this._addProfileDataLocally(userID, toStore);
 				this._notifyAll(null); // Don't supply data to force a refresh by the presenter
 			}
 		});
@@ -103,14 +109,40 @@ class ProfileModel extends Model {
 		return {...this._data} // Immutable
 	}
 
-	async getProfilePicture(callback) {
+	/**
+	 * Gets the profile data from Asyncstorage.
+	 * @deprecated Use getProfileData instead
+	 */
+	getProfilePicture(callback) {
+		this.getProfileData(callback);
+	}
+
+	/**
+	 * Gets the profile data from Asyncstorage.
+	 * @param {Function} callback - A callback to call with the retrieved data
+	 */
+	async getProfileData(callback) {
 		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
 		const userID = AuthState.getCurrentUserID();
-		await PersistStorage.retrieveData(userID, (retrievedImage) => {
-			callback(retrievedImage)
+		await PersistStorage.retrieveData(userID, (data) => {
+			if (data != null) {
+				callback(JSON.parse(data));
+			}
 		}, (error) => {
 			console.log(error);
 		});
+	}
+
+	/**
+	 * Writes the profile data to Asyncstorage so it can be used later.
+	 *
+	 * @param {string} userID - The current user's id
+	 * @param {Object} data - The data to be stored
+	 */
+	async _addProfileDataLocally(userID, data) {
+		if (data != null && data != undefined && data != {}) {
+			PersistStorage.storeData(userID, JSON.stringify(data), (error) => {console.log(error)});
+		}
 	}
 
 	/**
@@ -159,7 +191,14 @@ class ProfileModel extends Model {
 						this._notifyAll(this._data);
 					});
 					
-					this._writeImageToAsyncStorage(newData.data.id, uploaded_images[0]);
+					const toStore = {
+						email: newData.data.email,
+						full_name: newData.data.full_name,
+						id: newData.data.id,
+						phoneNum: newData.data.phoneNum,
+						profilePicture: newData.data.thumbnail[0]
+					}
+					this._addProfileDataLocally(newData.data.id, toStore);
 
 				}, this._callback);
 			}
@@ -167,10 +206,6 @@ class ProfileModel extends Model {
 			console.log(error);
 			this._callback(false);
 		}
-	}
-
-	_writeImageToAsyncStorage(key, image) {
-		PersistStorage.storeData(key, image, (error) => {console.log(error)});
 	}
 
 	/**
@@ -361,17 +396,6 @@ class ProfileModel extends Model {
 			this._data = tempData;
 		}
 		// console.log(this._data);
-	}
-
-	async _addProfileImageLocally(userID, image) {
-		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
-		await PersistStorage.retrieveData(userID, (retrievedImage) => {
-			if ((retrievedImage === DEFAULT_PROFILE_IMAGE || image !== retrievedImage) && image !== DEFAULT_PROFILE_IMAGE) {
-				PersistStorage.storeData(userID, image, (error) => {console.log(error)});
-			}
-		}, (error) => {
-			console.log(error);
-		});
 	}
 }
 

@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
 import { Icon } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 import TimeUtil from '../../../util/timeutility';
 
 /**
  * Class to help the displaying of bike items on the bike view page
  */
-class BikeItemHelper extends Component {
+class BikeItem extends Component {
+
+	static propTypes = {
+		data: PropTypes.shape({
+			model: PropTypes.string,
+			serial_number: PropTypes.string.isRequired,
+			name: PropTypes.string.isRequired,
+			thumbnail: PropTypes.array.isRequired,
+			notable_features: PropTypes.string,
+			description: PropTypes.string,
+			id: PropTypes.string.isRequired,
+		}).isRequired
+	}
 
 	/**
 	 * Navigate to the Add bike page with the edit bike title.
@@ -66,7 +79,7 @@ class BikeItemHelper extends Component {
 	}
 }
 
-export default BikeItemHelper;
+export default BikeItem;
 
 const styles = StyleSheet.create({
 	rowContainer: {

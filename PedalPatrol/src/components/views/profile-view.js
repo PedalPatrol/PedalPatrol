@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, SafeAreaView, Alert, ScrollView, FlatList, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
 import { TextInput } from 'react-native-paper';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+
+import { styles, text, edit_styles } from './stylesheets/edit-styles';
 
 import BaseView from './view';
 import HandleBack from './helpers/handleback';
@@ -112,7 +114,9 @@ class ProfileView extends BaseView {
 	 * When the back button is clicked, check if the user was editing.
 	 */
 	_onBack = () => {
-		this.ProfileP.checkEditingState(this.state.editing, this.editingSuccess, this.editingFailure);
+		if (!this.state.loaderVisible) {
+			this.ProfileP.checkEditingState(this.state.editing, this.editingSuccess, this.editingFailure);
+		}
 	}
 
 	/**
@@ -150,11 +154,13 @@ class ProfileView extends BaseView {
 	 * Clears all the data
 	 */
 	_clearData = () => {
-		this.ProfileP.clearPhotos();
-		let inputData = this.ProfileP.getTextInputData(NO_DATA); // inputData is a property in state
-		let photoEntries = ImageUtil.getDefaultPhotos(PROFILE_TYPE);
-		this.setState({ inputData, photoEntries });
-		this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
+		if (!this.state.loaderVisible) {
+			this.ProfileP.clearPhotos();
+			let inputData = this.ProfileP.getTextInputData(NO_DATA); // inputData is a property in state
+			let photoEntries = ImageUtil.getDefaultPhotos(PROFILE_TYPE);
+			this.setState({ inputData, photoEntries });
+			this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
+		}
 	}
 
 	/**
@@ -164,7 +170,7 @@ class ProfileView extends BaseView {
 	 */
 	_renderItem = ({item, index}) => (
 		<TextInput
-			style={styles.textInput}
+			style={text.textInput}
 			label={item.disabled ? this._renderName(item.name) : item.name}
 			multiline={item.multiline}
 			disabled={item.disabled}
@@ -291,10 +297,17 @@ class ProfileView extends BaseView {
 	 */
 	render() {
 		return (
+			<KeyboardAvoidingView
+				style={styles.container}
+				behavior="padding"
+				enabled>
 			<HandleBack onBack={this._onBack}>
 				<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
 				<View style={styles.container}>
-					<ScrollView contentContainerStyle={styles.contentContainer}>
+					<ScrollView 
+						contentContainerStyle={edit_styles.contentContainer}
+						keyboardShouldPersistTaps='always'
+						keyboardDismissMode='interactive'>
 
 						<ImageCarousel
 							photos={this.state.photoEntries}
@@ -302,13 +315,13 @@ class ProfileView extends BaseView {
 
 						{/* List of text inputs */}
 						<FlatList
-							style={styles.flatList}
+							style={edit_styles.flatList}
 							data={this.ProfileP.getTextInputData(NO_DATA)}
 							extraData={this.state}
 							keyExtractor={this._keyExtractor}
 							renderItem={this._renderItem}/>
 
-						<TouchableOpacity style={styles.submitTouchable}>
+						<TouchableOpacity style={edit_styles.submitTouchable}>
 							<Button
 								title='Save'
 								onPress={() => this._getDataToUpdate()}/>
@@ -324,69 +337,9 @@ class ProfileView extends BaseView {
 				</View>
 				<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
 			</HandleBack>
+			</KeyboardAvoidingView>
 		);
 	}
 }
 
 export default ProfileView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	},
-	avatarContainer: {
-		borderColor: '#9B9B9B',
-		borderWidth: 1 / PixelRatio.get(),
-		justifyContent: 'center',
-		alignItems: 'center',
-		flexDirection: 'row',
-		height: 200,
-		padding: 10,
-		marginRight: 10,
-		marginLeft: 10,
-		marginTop: 10,
-		borderRadius: 4,
-		shadowOffset:{  width: 1,  height: 1,  },
-		shadowColor: '#CCC',
-		shadowOpacity: 1.0,
-		shadowRadius: 1,
-	},
-	avatar: {
-		height: 200,
-		width: 200, height: 200, 
-		borderRadius: 200/ 2
-	},
-	scrollContainer: {
-		paddingVertical: 20,
-	},
-	textInput: {
-		marginRight: 10,
-		marginLeft: 10,
-		marginBottom: 10,
-		backgroundColor: '#F5FCFF',
-	},
-	flatList: {
-	// marginTop: 220
-	},
-	submitTouchable: {
-		borderWidth: 1, 
-		textAlign: 'center', 
-		borderColor: 'black',
-		borderRadius: 5,
-		marginLeft: 10,
-		marginRight: 10,
-		marginTop: 10,
-		backgroundColor: '#FFF'
-	},
-	loading: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		top: 0,
-		bottom: 0,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#F5FCFF88',
-	}
-});

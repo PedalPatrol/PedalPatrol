@@ -74,7 +74,7 @@ class AddBikePresenter extends BasePresenter {
 			data: {
 				id: currentID,
 				name: inputTextData[inputDataList.index.name].text,
-				model: inputTextData[inputDataList.index.model].text === '' ? 'Model Unknown' : inputTextData[inputDataList.index.model].text,
+				model: inputTextData[inputDataList.index.model].text,
 				brand: inputTextData[inputDataList.index.brand].text,
 				colour: selectedColours,
 				serial_number: inputTextData[inputDataList.index.serial_number].text,

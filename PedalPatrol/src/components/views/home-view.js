@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+import { styles } from './stylesheets/base-styles';
+
 import SafeArea from './helpers/safearea';
-import NotificationBikeItemHelper from './helpers/notificationbikeitem';
-import SearchBarHelper from './helpers/searchbar';
+import NotificationBikeItem from './helpers/notificationbikeitem';
+import SearchBar from './helpers/searchbar';
 import BaseView from './view';
 import HomePresenter from '../presenters/home-presenter';
 
@@ -31,7 +33,7 @@ class HomeView extends BaseView {
 	 * Resets the state 
 	 */
 	resetState = () => {
-		this.state = { refresh: true, data: [], refreshing: false };
+		this.state = { refresh: true, data: [], refreshing: false, profileData: {} };
 	}
 
 	/**
@@ -40,16 +42,16 @@ class HomeView extends BaseView {
 	 * @param {Object} item - An item to be rendered
 	 */
 	_renderItem = ({item}) => (
-		<NotificationBikeItemHelper
+		<NotificationBikeItem
 			data={item}
-			type={'stolen'}
+			from={'Home'}
 			setBookmark={this.HomeP.setBookmark}
 			bookmarked={this.HomeP.getBookmarked(item.id)}
 			navigation={this.props.navigation}/>
 	);
 
 	_setProfileImage = () => {
-		this.HomeP.getProfileImage((result) => this.setState({profilePicture: result}));
+		this.HomeP.getProfileImage((result) => this.setState({profileData: result}));
 	}
 
 	// Temporary alert until filter feature is implemented
@@ -69,12 +71,13 @@ class HomeView extends BaseView {
 	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
-		<SearchBarHelper 
+		<SearchBar 
 			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={this.state.profilePicture}
+			profilePicture={this.state.profileData.profilePicture}
+			name={this.state.profileData.full_name}
 			numNotifications={this.HomeP.getNotificationCount()}/>
 	);
 
@@ -152,10 +155,3 @@ class HomeView extends BaseView {
 };
 
 export default HomeView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	}
-});

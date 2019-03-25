@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { StyleSheet, FlatList, View, TouchableHighlight, Alert, RefreshControl } from 'react-native';
 import { Icon } from 'react-native-elements';
 
+import { styles, bike_styles } from './stylesheets/bike-styles';
+
 import SafeArea from './helpers/safearea';
-import BikeItemHelper from './helpers/bikeitem';
-import SearchBarHelper from './helpers/searchbar';
+import BikeItem from './helpers/bikeitem';
+import SearchBar from './helpers/searchbar';
 import BaseView from './view';
 import BikePresenter from '../presenters/bike-presenter';
 
@@ -32,7 +34,7 @@ class BikeView extends BaseView {
 	 * Resets the state
 	 */
 	resetState = () => {
-		this.state = { refresh: true, data: [], refreshing: false };
+		this.state = { refresh: true, data: [], refreshing: false, profileData: {} };
 	}
 
 	/**
@@ -41,7 +43,7 @@ class BikeView extends BaseView {
 	 * @param {Object} item - An item to be rendered
 	 */
 	_renderItem = ({item}) => (
-		<BikeItemHelper
+		<BikeItem
 			data={item}
 			navigation={this.props.navigation}/>
 	);
@@ -50,7 +52,7 @@ class BikeView extends BaseView {
 	 * Sets the profile image for the view
 	 */
 	_setProfileImage = () => {
-		this.BikeP.getProfileImage((result) => this.setState({profilePicture: result}));
+		this.BikeP.getProfileImage((result) => this.setState({profileData: result}));
 	}
 	
 	temporaryFilter = () => {
@@ -69,12 +71,13 @@ class BikeView extends BaseView {
 	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
-		<SearchBarHelper 
+		<SearchBar 
 			handleSearchFilter={(text) => this.BikeP.handleSearchFilter(text)}
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={this.state.profilePicture}
+			profilePicture={this.state.profileData.profilePicture}
+			name={this.state.profileData.full_name}
 			numNotifications={this.BikeP.getNotificationCount()}/>
 	);
 
@@ -144,34 +147,13 @@ class BikeView extends BaseView {
 					</FlatList>
 
 					{/* Add button */}
-					<TouchableHighlight style={styles.add} onPress={() => this.props.navigation.navigate('AddBike', {title: 'Add Bike'})} accessibilityLabel="New">
+					<TouchableHighlight style={bike_styles.add} onPress={() => this.props.navigation.navigate('AddBike', {title: 'Add Bike'})} accessibilityLabel="New">
 						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
 					</TouchableHighlight>
 				</View>
-				);
+		);
 	};
 
 };
 
 export default BikeView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	},
-	add: {
-		borderWidth:1,
-		borderColor:'rgba(0,0,0,0.2)',
-		alignItems:'center',
-		justifyContent:'center',
-		width:60,
-		height:60,
-		backgroundColor:'#fff',
-		borderRadius:60,
-		position:'absolute',
-		bottom:15,
-		right:15,
-		alignSelf:'flex-end',
-	}
-});

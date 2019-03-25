@@ -4,6 +4,8 @@ import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
 import { Marker, Callout, Polygon, Circle } from 'react-native-maps';
 
+import { styles, map_styles } from './stylesheets/map-styles';
+
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
 import TimeUtil from '../../util/timeutility';
@@ -128,12 +130,12 @@ class MapView extends BaseView {
 	renderSDButton(){
 		if (this.state.showButton){
 			return(
-			<View style={styles.saveDeleteButton}>
-				<View style={styles.Buttons}>
+			<View style={map_styles.saveDeleteButton}>
+				<View style={map_styles.Buttons}>
 				<Button
 					onPress={()=>{this.sendNewMarker()}}
 					title="save"/></View>
-				   <View style={styles.Buttons}>
+				   <View style={map_styles.Buttons}>
 				<Button
 					onPress={()=>{
 						this.deleteItem()
@@ -178,12 +180,12 @@ class MapView extends BaseView {
 	renderForCircle(){
 		if (this.state.showCircle){
 			return(
-			<View style={styles.circleRadiusButton}>
-				<View style={styles.Buttons}>
+			<View style={map_styles.circleRadiusButton}>
+				<View style={map_styles.Buttons}>
 				<Button
 					onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200})}}
 					title="more"/></View>
-				   <View style={styles.Buttons}>
+				   <View style={map_styles.Buttons}>
 				<Button
 					onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
 					title="less"/></View>
@@ -288,20 +290,20 @@ class MapView extends BaseView {
 		<Callout onPress={() => {this.navigate('BikeDetails', item.data)}}>
 			<ScrollView>
 				<ScrollView horizontal>
-					<View style={styles.calloutColumn}>
-						<View style={styles.calloutRow}>
-							<Text style={styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
+					<View style={map_styles.calloutColumn}>
+						<View style={map_styles.calloutRow}>
+							<Text style={map_styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
 								{item.data.model}
 							</Text>
 							<Text numberOfLines={1} ellipsizeMode ={'tail'}>
 							{'   '}
 							</Text>
-							<Text style={styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
+							<Text style={map_styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
 								{item.data.timeago}
 							</Text>
 						</View>
 						<Text>
-							{"Model: " + item.data.model}
+							{"Model: " + (item.data.model === '' ? 'Model Unknown' : item.data.model)}
 						</Text>
 						<Text>
 							{"Brand: " + item.data.brand}
@@ -324,7 +326,6 @@ class MapView extends BaseView {
 	 * @param {string} screen - The route to navigate to. See navigation.js stacks and screens
 	 */
 	navigate = (screen, data) => {
-		// <TouchableOpacity onPress={() => this.props.navigation.navigate('BikeDetails', {data: this.props.data})}>
 		this.props.navigation.navigate({
 			routeName: screen,
 			params: {
@@ -365,7 +366,7 @@ class MapView extends BaseView {
 					<View style={bbStyle(varTop)}>
 						<TouchableOpacity
 							hitSlop = {hitSlop}
-							style={styles.mapButton}
+							style={map_styles.mapButton}
 							onPress={ () => this._setUserLocation() }>
 					 		<Icon name="location-arrow" type="font-awesome" size={20} color={"#4285F4"} />
 						</TouchableOpacity>
@@ -373,7 +374,7 @@ class MapView extends BaseView {
 
 		 			<RNMapView style ={{flex:1}}
 						region={this.state.region}
-						style={styles.map}
+						style={map_styles.map}
 						showsUserLocation={true}
 						showsMyLocationButton={true}
 						onRegionChangeComplete={this.onRegionChange.bind(this)}
@@ -391,7 +392,7 @@ class MapView extends BaseView {
 						{this.renderCircle(this)}
 					</RNMapView>
 					
-					<View style={styles.reportButton}>
+					<View style={map_styles.reportButton}>
 						<Button onPress={this._onPressButton}
 							title="create lost report"/>
 						<Button onPress={()=>{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}
@@ -406,55 +407,3 @@ class MapView extends BaseView {
 }
 
 export default MapView;
-
-const styles = StyleSheet.create({
-	reportButton:{
-		position: 'absolute',
-		top: '70%',
-		alignSelf: 'flex-end',
-	},
-	saveDeleteButton:{
-		position: 'absolute',
-		top: '70%',
-		left:'30%',
-	},
-	circleRadiusButton: {
-		position: 'absolute',
-		top: '20%',
-		alignSelf:'flex-end',
-   	},
-	map: {
-		flex: 1,
-		zIndex: -1,
-   	},
-	Buttons:{
-		marginTop:10,
-		borderWidth:2,
-		borderColor: 'grey',
-	},
-	mapButton: {
-		width: 46,
-		height: 46,
-		borderRadius: 23,
-		backgroundColor: '#FFF',
-		justifyContent: 'center',
-		alignItems: 'center',
-		shadowColor: 'black',
-		shadowRadius: 8,
-		shadowOpacity: 0.12,
-		zIndex: 10,
-	},
-	mapText: {
-		fontSize: 14,
-		color: '#777'
-	},
-	calloutColumn: {
-		flexDirection: 'column', 
-		width: 150,
-	},
-	calloutRow: {
-		flexDirection: 'row', 
-		flex: 1, 
-		justifyContent: 'space-between'
-	}
-});

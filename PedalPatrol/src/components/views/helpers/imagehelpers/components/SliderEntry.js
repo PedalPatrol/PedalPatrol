@@ -9,6 +9,7 @@ export default class SliderEntry extends Component {
 	static propTypes = {
 		data: PropTypes.object.isRequired,
 		even: PropTypes.bool,
+		loading: PropTypes.bool,
 		parallax: PropTypes.bool,
 		parallaxProps: PropTypes.object
 	};
@@ -35,11 +36,11 @@ export default class SliderEntry extends Component {
 	}
 
 	render () {
-		const { data: data, id, selectPhoto } = this.props;
+		const { data: data, id, selectPhoto, loading } = this.props;
 
 		return (
 			<TouchableOpacity
-				disabled={this.props.loading}
+				disabled={loading}
 				activeOpacity={1}
 				style={styles.slideInnerContainer}
 				onPress={() => { selectPhoto(id) }}>

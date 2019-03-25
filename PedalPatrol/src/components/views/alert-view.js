@@ -3,19 +3,21 @@ import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert }
 import { Icon } from 'react-native-elements';
 import { HeaderBackButton } from 'react-navigation';
 
+import { styles } from './stylesheets/base-styles';
+
 import SafeArea from './helpers/safearea';
-import NotificationBikeItemHelper from './helpers/notificationbikeitem';
-import SearchBarHelper from './helpers/searchbar';
+import NotificationBikeItem from './helpers/notificationbikeitem';
+import SearchBar from './helpers/searchbar';
 import BaseView from './view';
 import AlertPresenter from '../presenters/alert-presenter';
 
 /**
- * Class for the Home view
+ * Class for the Alert view
  * @extends BaseView
  */
-class HomeView extends BaseView {
+class AlertView extends BaseView {
 	/**
-	 * Creates an instance of BikeView
+	 * Creates an instance of AlertView
 	 *
 	 * @constructor
 	 * @param {Object} props - Component properties
@@ -46,7 +48,7 @@ class HomeView extends BaseView {
 	 * Resets the state 
 	 */
 	resetState = () => {
-		this.state = { refresh: true, data: [], refreshing: false };
+		this.state = { refresh: true, data: [], refreshing: false, profileData: {} };
 	}
 
 	/**
@@ -55,9 +57,9 @@ class HomeView extends BaseView {
 	 * @param {Object} item - An item to be rendered
 	 */
 	_renderItem = ({item}) => (
-		<NotificationBikeItemHelper
+		<NotificationBikeItem
 			data={item}
-			type={'found'}
+			from={'Alerts'}
 			navigation={this.props.navigation}/>
 	);
 
@@ -73,17 +75,22 @@ class HomeView extends BaseView {
 		);
 	}
 
+	_setProfileImage = () => {
+		this.AlertP.getProfileImage((result) => this.setState({profileData: result}));
+	}
+
 	/**
 	 * Renders a search bar as the header including the profile icon and the filter button.
 	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
-		<SearchBarHelper 
+		<SearchBar 
 			handleSearchFilter={(text) => this.AlertP.handleSearchFilter(text)}
 			handleSearchCancel={this.AlertP.handleSearchCancel}
 			handleSearchClear={this.AlertP.handleSearchClear}
 			openFilter={this.temporaryFilter}
-			profilePicture={'https://i.imgur.com/uWzNO72.jpg'}/>
+			profilePicture={this.state.profileData.profilePicture}
+			name={this.state.profileData.full_name}/>
 	);
 
 
@@ -108,6 +115,8 @@ class HomeView extends BaseView {
 		this.setState({
 			data: this.AlertP.getData()
 		});
+
+		this._setProfileImage();
 	};
 
 
@@ -168,11 +177,4 @@ class HomeView extends BaseView {
 
 };
 
-export default HomeView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#F5FCFF',
-	}
-});
+export default AlertView;

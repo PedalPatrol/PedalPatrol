@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, StyleSheet, View, Alert } from 'react-native';
 
+import { styles, authloading_styles } from './stylesheets/authloading-styles';
+
 import BaseView from './view';
 import AuthLoadingPresenter from '../presenters/authloading-presenter';
 
@@ -102,7 +104,7 @@ class AuthLoadingView extends BaseView {
 
 	render() {
 		return (
-			<View style={this.state.shouldLogout ? styles.logoutLoading : styles.loading} pointerEvents="none">
+			<View style={this.state.shouldLogout ? authloading_styles.logoutLoading : styles.loading} pointerEvents="none">
 				<ActivityIndicator size='large' color="#0000ff" />
 			</View>
 		);
@@ -110,26 +112,3 @@ class AuthLoadingView extends BaseView {
 }
 
 export default AuthLoadingView;
-
-const styles = StyleSheet.create({
-	loading: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		top: 0,
-		bottom: 0,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: '#F5FCFF88',
-	}, 
-	logoutLoading: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		top: 0,
-		bottom: 0,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'transparent',
-	}
-});

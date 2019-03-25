@@ -1,20 +1,36 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View, TouchableHighlight } from 'react-native';
 import { Icon } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 import TimeUtil from '../../../util/timeutility';
 
-const TYPE_STOLEN = 'stolen';
-const TYPE_FOUND = 'found';
+const TYPE_STOLEN_HOME = 'Home';
+const TYPE_FOUND_ALERTS = 'Alerts';
 
 /**
  * Class to help the displaying of notification items on the home view page
  */
-class NotificationBikeItemHelper extends Component {
+class NotificationBikeItem extends Component {
+
+	static propTypes = {
+		from: PropTypes.oneOf([TYPE_STOLEN_HOME, TYPE_FOUND_ALERTS]).isRequired,
+		data: PropTypes.shape({
+			model: PropTypes.string,
+			thumbnail: PropTypes.array.isRequired,
+			datetime: PropTypes.string.isRequired,
+			address: PropTypes.string,
+			timeago: PropTypes.string.isRequired,
+			notable_features: PropTypes.string,
+			description: PropTypes.string,
+			id: PropTypes.string.isRequired,
+			bookmarked: PropTypes.string.bool,
+		}).isRequired
+	}
 
 	componentWillMount = () => {
 		this.setState({
-			type: this.props.type,
+			from: this.props.from,
 		});
 	}
 
@@ -33,7 +49,7 @@ class NotificationBikeItemHelper extends Component {
 			routeName: screen,
 			params: {
 				data: this.props.data,
-				from: 'Home'
+				from: this.props.from
 			},
 			key: screen + TimeUtil.getDateTime()
 		});
@@ -62,7 +78,7 @@ class NotificationBikeItemHelper extends Component {
 								
 								{/* Model */}
 								<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
-									{this.props.data.model}
+									{this.props.data.model === '' ? 'Model Unknown' : this.props.data.model}
 								</Text>
 								
 								<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
@@ -109,7 +125,7 @@ class NotificationBikeItemHelper extends Component {
 									<View style={{flex: 1, flexDirection:'row', alignItems:'center', justiftContent:'space-between'}}>
 										{/* Bookmark button */}
 										{ 
-											this.state.type === TYPE_STOLEN &&
+											this.state.from === TYPE_STOLEN_HOME &&
 											
 											<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
 												{ this.props.bookmarked ? 
@@ -126,7 +142,7 @@ class NotificationBikeItemHelper extends Component {
 
 										{/* Comment button */}
 										{
-											this.state.type === TYPE_STOLEN &&
+											this.state.from === TYPE_STOLEN_HOME &&
 											<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
 												<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
 											</TouchableOpacity>
@@ -143,7 +159,7 @@ class NotificationBikeItemHelper extends Component {
 	}
 }
 
-export default NotificationBikeItemHelper;
+export default NotificationBikeItem;
 
 const styles = StyleSheet.create({
 	rowContainer: {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Platform, TouchableHighlight, Text, View, StyleSheet, FlatList } from 'react-native';
 import Drawer from 'react-native-drawer';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Database from '../../../util/database';
+import PropTypes from 'prop-types';
 
 import DrawerHelp from '../../../util/drawerhelper';
 import SafeArea from './safearea';
@@ -13,6 +13,10 @@ import NavigatorService from '../../../config/navigationservice';
  * Class for the side drawer component.
  */
 class SideDrawer extends Component {
+	static propTypes = {
+		renderMainContent: PropTypes.func.isRequired
+	}
+
 	/**
 	 * Creates an instance of the SideDrawer component.
 	 *
@@ -21,10 +25,16 @@ class SideDrawer extends Component {
 	 */
 	constructor (props) {
 		super(props);
-		this.state = {drawerOpen: false, numNotifications: 0};
+		this.state = { drawerOpen: false, numNotifications: 0, profileData: {} };
 		// console.log(this.state.drawerOpen);
 		DrawerHelp.setDrawer(this);
 	};
+
+	componentDidMount = () => {
+		this.setState({
+			profileData: {profilePicture: DrawerHelp.getDefaultProfile()}
+		})
+	}
 
 	/**
 	 * Toggles the side drawer open and closed.
@@ -55,7 +65,7 @@ class SideDrawer extends Component {
 					this.state.numNotifications > 0 &&
 					item.text === 'Alerts' &&
 					<View style={styles.notifications}>
-					<Text style={styles.notificationsText}>{this.state.numNotifications}</Text>
+						<Text style={styles.notificationsText}>{this.state.numNotifications}</Text>
 					</View>
 				}
 			</Icon.Button>
@@ -136,7 +146,9 @@ class SideDrawer extends Component {
 		return (
 			<View style={{height: '100%'}}>
 				<SafeArea/>
-				<DrawerHeader image={this.state.profilePicture}/>
+				<DrawerHeader 
+					image={this.state.profileData.profilePicture}
+					name={this.state.profileData.full_name ? this.state.profileData.full_name : ''}/>
 		
 				<FlatList
 					style={styles.flatList}
