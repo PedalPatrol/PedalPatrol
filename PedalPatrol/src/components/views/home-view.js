@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert } from 'react-native';
+import { StyleSheet, FlatList, View, TouchableHighlight, RefreshControl, Alert, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import { styles } from './stylesheets/base-styles';
@@ -75,6 +75,7 @@ class HomeView extends BaseView {
 			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
+			searchBy='model'
 			openFilter={this.temporaryFilter}
 			profilePicture={this.state.profileData.profilePicture}
 			name={this.state.profileData.full_name}
@@ -133,23 +134,30 @@ class HomeView extends BaseView {
 		return (	
 				<View style={styles.container}>
 					<SafeArea/>
-					<FlatList
-						data={this.state.data}
-						extraData={this.state.refresh}
-						keyExtractor={this._keyExtractor}
-						renderItem={this._renderItem}
-						ListHeaderComponent={this._renderSearchBar}
-						stickyHeaderIndices={[0]}
+					<View>
+						<FlatList
+							scrollEnabled={false}
+							ListHeaderComponent={this._renderSearchBar}
+							stickyHeaderIndices={[0]}/>
+					</View>
+					{/* Refresh control must be added to ScrollView otherwise it won't show up */}
+					<ScrollView
+						style={{marginBottom: 5}}
 						refreshControl={
-						    <RefreshControl
-						        colors={["#9Bd35A", "#689F38"]}
-						        refreshing={this.state.refreshing}
-						        onRefresh={() => this._onRefresh()}
-						    />
+							<RefreshControl
+								colors={["#9Bd35A", "#689F38"]}
+								refreshing={this.state.refreshing}
+								onRefresh={() => this._onRefresh()}/>
 						}>
-					</FlatList>
+						<FlatList
+							data={this.state.data}
+							extraData={this.state.refresh}
+							keyExtractor={this._keyExtractor}
+							renderItem={this._renderItem}>
+						</FlatList>
+					</ScrollView>
 				</View>
-				);
+		);
 	};
 
 };

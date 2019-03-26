@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { styles, text } from './base-styles';
+import { styles, text, colours } from './base-styles';
 
 const login_styles = StyleSheet.create({
 	title:{
@@ -21,7 +21,7 @@ const login_styles = StyleSheet.create({
 	username: {
 		marginTop: 30,
 		height: 48,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 		justifyContent: 'center',
 		borderTopLeftRadius: 3,
 		borderTopRightRadius: 3,
@@ -29,18 +29,42 @@ const login_styles = StyleSheet.create({
 	password: {
 		marginTop: 10,
 		height: 48,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 		justifyContent: 'center',
 		borderBottomLeftRadius: 3,
 		borderBottomRightRadius: 3,
 	},
-	edit:{
+	edit: {
 		height: 40,
 		fontSize: 13,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 		paddingLeft: 15,
 		paddingRight: 15,
 	},
+	bottom: {
+		flex: 1,
+		justifyContent: 'flex-end',
+		marginBottom: 45,
+	},
+	signupButton: {
+		position: 'absolute',
+		bottom: 0,
+		left: 0,
+		right: 0,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	signupText: {
+		color: 'black',
+		fontSize: 14,
+		fontWeight:'bold',
+	},
+	socialIcons: {
+		flexDirection: 'row', 
+		alignItems: 'center', 
+		justifyContent: 'center', 
+		marginTop: 10
+	}
 });
 
-export { styles, text, login_styles }
+export { styles, text, colours, login_styles }

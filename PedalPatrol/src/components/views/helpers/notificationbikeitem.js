@@ -3,6 +3,8 @@ import { StyleSheet, TouchableOpacity, Text, Image, View, TouchableHighlight } f
 import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
+import { colours } from '../stylesheets/base-styles';
+
 import TimeUtil from '../../../util/timeutility';
 
 const TYPE_STOLEN_HOME = 'Home';
@@ -77,7 +79,7 @@ class NotificationBikeItem extends Component {
 							<View style={styles.nameImageCol}>
 								
 								{/* Model */}
-								<Text style={styles.model} numberOfLines={1} ellipsizeMode ={'tail'}>
+								<Text style={styles.model} numberOfLines={1} ellipsizeMode={'tail'}>
 									{this.props.data.model === '' ? 'Model Unknown' : this.props.data.model}
 								</Text>
 								
@@ -91,10 +93,10 @@ class NotificationBikeItem extends Component {
 								</View>
 								
 								{/* Datetime & Address (bottom left) */}
-								<Text style={styles.datetime} numberOfLines={1} ellipsizeMode ={'tail'}>
+								<Text style={styles.datetime} numberOfLines={1} ellipsizeMode={'tail'}>
 									{this.props.data.datetime}
 								</Text>
-								<Text style={styles.address} numberOfLines={1} ellipsizeMode ={'tail'}>
+								<Text style={styles.address} numberOfLines={1} ellipsizeMode={'tail'}>
 									{this.props.data.address}
 								</Text>
 
@@ -106,16 +108,16 @@ class NotificationBikeItem extends Component {
 							<View style={{flex: 1, flexDirection:'column', alignItems:'flex-end'}}>
 								
 								{/* Time ago */}
-								<Text style={styles.time} numberOfLines={1} ellipsizeMode ={'tail'}>
+								<Text style={styles.time} numberOfLines={1} ellipsizeMode={'tail'}>
 									{this.props.data.timeago}
 								</Text>
 
 								{/* Notable features and description */}
 								<View style={{flex: 5, flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start'}}>
-									<Text style={styles.other} numberOfLines={2} ellipsizeMode ={'tail'}>
+									<Text style={styles.other} numberOfLines={2} ellipsizeMode={'tail'}>
 										Notable Features: {this.props.data.notable_features}
 									</Text>	
-									<Text style={styles.other} numberOfLines={5} ellipsizeMode ={'tail'}>
+									<Text style={styles.other} numberOfLines={5} ellipsizeMode={'tail'}>
 										Description: {this.props.data.description}
 									</Text>
 								</View>
@@ -129,22 +131,22 @@ class NotificationBikeItem extends Component {
 											
 											<TouchableOpacity style={styles.icon} onPress={() => {this.props.setBookmark(this.props.data.id)}} accessibilityLabel="Bookmark">
 												{ this.props.bookmarked ? 
-													(<Icon name="bookmark" type="MaterialIcons" size={24} color="#01a699" />)
+													(<Icon name="bookmark" type="MaterialIcons" size={24} color={colours.ppGreen} />)
 													:
-													(<Icon name="bookmark-border" type="MaterialIcons" size={24} color="#01a699" />)
+													(<Icon name="bookmark-border" type="MaterialIcons" size={24} color={colours.ppGreen} />)
 												}
 											</TouchableOpacity>
 										}
 										{/* Map pin */}
 										<TouchableOpacity style={styles.icon} accessibilityLabel="Pin" onPress={() => this.navigate('Map', true)}>
-											<Icon name="pin-drop" type="MaterialIcons" size={24} color="#01a699" />
+											<Icon name="pin-drop" type="MaterialIcons" size={24} color={colours.ppGreen} />
 										</TouchableOpacity>
 
 										{/* Comment button */}
 										{
 											this.state.from === TYPE_STOLEN_HOME &&
 											<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
-												<Icon name="comment" type="MaterialIcons" size={24} color="#01a699" />
+												<Icon name="comment" type="MaterialIcons" size={24} color={colours.ppGreen} />
 											</TouchableOpacity>
 										}
 									</View>

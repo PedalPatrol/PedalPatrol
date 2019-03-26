@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { sliderWidth, itemWidth } from './imagehelpers/styles/SliderEntry.style';
 import SliderEntry from './imagehelpers/components/SliderEntry';
 import stylesC, { colors } from './imagehelpers/styles/index.style';
+import { colours } from '../stylesheets/base-styles';
 
 const SLIDER_1_FIRST_ITEM = 0;
 
@@ -69,7 +70,7 @@ class ImageCarousel extends Component {
 				  dotsLength={this.props.photos.length}
 				  activeDotIndex={slider1ActiveSlide}
 				  containerStyle={stylesC.paginationContainer}
-				  dotColor={colors.green}
+				  dotColor={colours.ppGreen}
 				  dotStyle={stylesC.paginationDot}
 				  inactiveDotColor={colors.black}
 				  inactiveDotOpacity={0.4}

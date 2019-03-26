@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, View, TouchableHighlight, Alert, RefreshControl } from 'react-native';
+import { StyleSheet, FlatList, View, TouchableHighlight, Alert, RefreshControl, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import { styles, bike_styles } from './stylesheets/bike-styles';
+import { styles, colours, bike_styles } from './stylesheets/bike-styles';
 
 import SafeArea from './helpers/safearea';
 import BikeItem from './helpers/bikeitem';
@@ -75,6 +75,7 @@ class BikeView extends BaseView {
 			handleSearchFilter={(text) => this.BikeP.handleSearchFilter(text)}
 			handleSearchCancel={this.BikeP.handleSearchCancel}
 			handleSearchClear={this.BikeP.handleSearchClear}
+			searchBy='name'
 			openFilter={this.temporaryFilter}
 			profilePicture={this.state.profileData.profilePicture}
 			name={this.state.profileData.full_name}
@@ -133,22 +134,29 @@ class BikeView extends BaseView {
 	 * Renders the screen
 	 */
 	render() {
-		return (	
+		return (
 				<View style={styles.container}>
 					<SafeArea/>
+					<View>
+						<FlatList
+							scrollEnabled={false}
+							ListHeaderComponent={this._renderSearchBar}
+							stickyHeaderIndices={[0]}/>
+					</View>
 					{/* List of bikes */}
-					<FlatList
-						data={this.state.data}
-						extraData={this.state.refresh}
-						keyExtractor={this._keyExtractor}
-						renderItem={this._renderItem}
-						ListHeaderComponent={this._renderSearchBar}
-						stickyHeaderIndices={[0]}>
-					</FlatList>
+					<ScrollView
+						style={{marginBottom: 5}}>
+						<FlatList
+							data={this.state.data}
+							extraData={this.state.refresh}
+							keyExtractor={this._keyExtractor}
+							renderItem={this._renderItem}>
+						</FlatList>
+					</ScrollView>
 
 					{/* Add button */}
 					<TouchableHighlight style={bike_styles.add} onPress={() => this.props.navigation.navigate('AddBike', {title: 'Add Bike'})} accessibilityLabel="New">
-						<Icon name="md-add" type="ionicon" size={30} color="#01a699" />
+						<Icon name="md-add" type="ionicon" size={30} color={colours.ppGreen} />
 					</TouchableHighlight>
 				</View>
 		);

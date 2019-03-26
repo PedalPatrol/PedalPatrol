@@ -286,31 +286,45 @@ class MapView extends BaseView {
 	  this.setState({region: region });
 	};
 
+	_getColourString = (colours) => {
+		let colourString = '';
+		if (colours != null && colours != undefined) {
+			colourString = 'Colour';
+			colourString = colourString + ((colours.length > 1) ? "s: " : ": ") + colours.join(', ');
+		}
+		return colourString
+	}
+
 	_renderCallout = (item) => (
 		<Callout onPress={() => {this.navigate('BikeDetails', item.data)}}>
 			<ScrollView>
 				<ScrollView horizontal>
 					<View style={map_styles.calloutColumn}>
 						<View style={map_styles.calloutRow}>
-							<Text style={map_styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
-								{item.data.model}
+							<Text style={map_styles.modelText} numberOfLines={1} ellipsizeMode ={'tail'}>
+								{item.data.model == undefined || item.data.model === '' ? 'Model Unknown' : item.data.model}
 							</Text>
 							<Text numberOfLines={1} ellipsizeMode ={'tail'}>
 							{'   '}
 							</Text>
-							<Text style={map_styles.mapText} numberOfLines={1} ellipsizeMode ={'tail'}>
-								{item.data.timeago}
-							</Text>
+							<View style={map_styles.timeago}>
+								<Text style={[map_styles.mapText, map_styles.timeagoText]} numberOfLines={1} ellipsizeMode ={'tail'}>
+									{item.data.timeago}
+								</Text>
+							</View>
 						</View>
-						<Text>
-							{"Model: " + (item.data.model === '' ? 'Model Unknown' : item.data.model)}
-						</Text>
-						<Text>
-							{"Brand: " + item.data.brand}
-						</Text>
-						<Text>
-							{"Colour" + (item.data.colour.length > 1 ? "s: " : ": ") + item.data.colour.join(', ')}
-						</Text>
+						{
+							item.data.brand != undefined && 
+							<Text style={map_styles.mapText}>
+								{item.data.brand != '' ? "Brand: " + item.data.brand : ''}
+							</Text>
+						}
+						{
+							item.data.colour != undefined && item.data.colour.length !== 0 &&
+							<Text style={map_styles.mapText}>
+								{this._getColourString(item.data.colour)}
+							</Text>
+						}
 					</View>
 				</ScrollView>
 			</ScrollView>
@@ -377,6 +391,7 @@ class MapView extends BaseView {
 						style={map_styles.map}
 						showsUserLocation={true}
 						showsMyLocationButton={true}
+						rotateEnabled={true}
 						onRegionChangeComplete={this.onRegionChange.bind(this)}
 						onLongPress = {e => this.setCircleLat(e)}>
 					  	{this.state.markers.map(marker => (

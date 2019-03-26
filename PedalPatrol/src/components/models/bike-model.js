@@ -85,6 +85,7 @@ class BikeModel extends Model {
 
 	/**
 	 * Update method for presenters to update the model's data. Datetime and Owner are handled in database class.
+	 * Callback needs to be set with BikeM.setCallback(callback); callback takes in 1 parameter.
 	 *
 	 * @param {Object} newData - New data to add
 	 */
@@ -141,12 +142,6 @@ class BikeModel extends Model {
 			console.log(error);
 			this._callback(false);
 		}
-
-		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
-		// this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
-		// console.log(this._data);
-		// this._notifyAll(null) // Send with no message?
-		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
 	}
 
 	/**
@@ -160,8 +155,9 @@ class BikeModel extends Model {
 		if (index >= 0) {
 			const bike = JSON.parse(JSON.stringify(this._data.data[index]));
 			const bikeThumbnails = ImageUtil.addRemainingDefaults(ImageUtil.getTypes().BIKE, bike.thumbnail);
+			const paramThumbnailsDefaults = ImageUtil.addRemainingDefaults(ImageUtil.getTypes().BIKE, thumbnails);
 			const bikeThumbnailsNoIllustration = this._removeIllustrationKey(bikeThumbnails);
-			const thumbnailsNoIllustration = this._removeIllustrationKey(thumbnails);
+			const thumbnailsNoIllustration = this._removeIllustrationKey(paramThumbnailsDefaults);
 			console.log(bikeThumbnailsNoIllustration, thumbnailsNoIllustration);
 
 			return JSON.stringify(bikeThumbnailsNoIllustration) === JSON.stringify(thumbnailsNoIllustration);

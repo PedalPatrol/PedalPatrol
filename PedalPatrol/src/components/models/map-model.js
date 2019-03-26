@@ -32,7 +32,7 @@ export default class MapModel extends Model {
 		// console.log(Object.values(newdata));
 		let newdatalist = Object.values(newdata.data);
 		for (let i = 0; i < newdatalist.length; i ++ ){
-			if ( newdatalist[i].hasOwnProperty("longitude") && newdatalist[i].hasOwnProperty("latitude") && newdatalist[i].hasOwnProperty("stolen") && newdatalist[i].stolen) {
+			if (newdatalist[i].hasOwnProperty("longitude") && (typeof newdatalist[i].longitude === "number") && (typeof newdatalist[i].latitude === "number")  && newdatalist[i].hasOwnProperty("latitude") && newdatalist[i].hasOwnProperty("stolen") && newdatalist[i].stolen) {
 				temp.push(this.createMarker(newdatalist[i]));
 			}
 		}

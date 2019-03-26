@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { styles } from './base-styles';
+import { styles, colours } from './base-styles';
 
 const map_styles = StyleSheet.create({
 	reportButton:{
@@ -38,19 +38,36 @@ const map_styles = StyleSheet.create({
 		shadowOpacity: 0.12,
 		zIndex: 10,
 	},
-	mapText: {
-		fontSize: 14,
+	modelText: {
+		fontWeight: 'bold',
+		fontSize: 12,
 		color: '#777'
+	},
+	mapText: {
+		fontSize: 11,
+		color: '#777'
+	},
+	timeagoText: {
+		marginTop: 2,
+		marginBottom: 2,
+		marginRight: 5,
+		marginLeft: 5,
+		color: 'white'
 	},
 	calloutColumn: {
 		flexDirection: 'column', 
-		width: 150,
+		width: 200,
 	},
 	calloutRow: {
 		flexDirection: 'row', 
 		flex: 1, 
 		justifyContent: 'space-between'
+	},
+	timeago: {
+		borderRadius: 8,
+		backgroundColor: '#01AA64',
+		overflow: 'hidden',
 	}
 });
 
-export { styles, map_styles };
+export { styles, colours, map_styles };

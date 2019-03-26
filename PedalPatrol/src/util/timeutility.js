@@ -40,27 +40,27 @@ class TimeUtility {
 		// Probably could make more concise
 		if (hours >= 24) {
 			outtime = Math.floor(hours/24); // Round to days
-			suffix = outtime === 1 ? ' day ago' : ' days ago';
+			suffix = 'd';
 
 			if (outtime >= 30 && outtime < 365) { // 30 days - 365 days
 				outtime = Math.floor(outtime/30); // Round to months
-				suffix = outtime === 1 ? ' month ago' : ' months ago';
+				suffix = 'mo';
 			} else if (outtime >= 365) { // > 365 days
 				outtime = Math.floor(outtime/365); // Round to years
-				suffix = outtime === 1 ? ' year ago' : ' years ago';
+				suffix = 'yr';
 			}
 
 		} else if (hours > 0) {
 			outtime = hours;
-			suffix = outtime === 1 ? ' hour ago' : ' hrs ago';
+			suffix = 'hr';
 
 		} else {
 			if (minutes > 0) {
 				outtime = minutes;
-				suffix = outtime === 1 ? ' min ago' : ' mins ago';
+				suffix = outtime === 1 ? ' min' : ' mins';
 			} else {
 				outtime = seconds;
-				suffix = outtime === 1 ? ' sec ago' : ' secs ago';
+				suffix = 's';
 			}
 		}
 

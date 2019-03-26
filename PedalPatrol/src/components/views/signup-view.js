@@ -6,6 +6,7 @@ import { TextInput } from 'react-native-paper';
 import { styles, text, signup_styles } from './stylesheets/signup-styles';
 
 import BaseView from './view';
+import SafeArea from './helpers/safearea';
 import LoginButton from './helpers/loginbutton';
 import SignUpPresenter from '../presenters/signup-presenter';
 
@@ -73,11 +74,13 @@ class SignUpView extends BaseView {
 	render() {
 		return (
 			<View style={styles.container}>
+				<SafeArea/>
 				<View style={signup_styles.editGroup}>
 					<View style={signup_styles.username}>
 						<TextInput
 							style={text.textInput}
 							label="Username"
+							textContentType="username"
 							onChangeText={(username) => this.setState({username})}/>
 					</View>
 
@@ -85,14 +88,16 @@ class SignUpView extends BaseView {
 						<TextInput
 							style={text.textInput}
 							label="Password"
-							secureTextEntry={true}
+							secureTextEntry
+							textContentType="newPassword"
 							onChangeText={(password) => this.setState({password})}/>
 					</View>
 					<View style={signup_styles.password}>
 						<TextInput
 							style={text.textInput}
 							label="Re-enter your password"
-							secureTextEntry={true}
+							secureTextEntry
+							textContentType="newPassword"
 							onChangeText={(RPassword) => this.setState({RPassword})}/>
 					</View>
 					

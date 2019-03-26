@@ -1,7 +1,7 @@
 import TimeUtil from '@/src/util/timeutility';
 
 test('should get timeago from milliseconds', () => {
-	expect(TimeUtil.getTimeAgoFromMilliseconds((new Date()).getTime())).toBe('0 secs ago');
+	expect(TimeUtil.getTimeAgoFromMilliseconds((new Date()).getTime())).toBe('0s');
 });
 
 test('should parse milliseconds into readable time', () => {
