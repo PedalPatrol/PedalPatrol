@@ -314,7 +314,7 @@ class MapView extends BaseView {
 							</View>
 						</View>
 						{
-							item.data.brand != undefined && 
+							item.data.brand != undefined && item.data.brand !== '' && 
 							<Text style={map_styles.mapText}>
 								{item.data.brand != '' ? "Brand: " + item.data.brand : ''}
 							</Text>

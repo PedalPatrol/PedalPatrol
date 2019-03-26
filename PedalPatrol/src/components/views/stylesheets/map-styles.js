@@ -41,7 +41,8 @@ const map_styles = StyleSheet.create({
 	modelText: {
 		fontWeight: 'bold',
 		fontSize: 12,
-		color: '#777'
+		color: '#777',
+		width: 130
 	},
 	mapText: {
 		fontSize: 11,
@@ -65,7 +66,7 @@ const map_styles = StyleSheet.create({
 	},
 	timeago: {
 		borderRadius: 8,
-		backgroundColor: '#01AA64',
+		backgroundColor: colours.ppGreen,
 		overflow: 'hidden',
 	}
 });

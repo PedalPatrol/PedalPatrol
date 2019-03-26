@@ -154,6 +154,7 @@ class LoginView extends BaseView {
 									type="FontAwesome"
 									color="#000000"
 									backgroundColor={colours.ppGrey}
+									onPress={() => 'default'}
 									size={30}>
 								</Icon.Button>
 								<Icon.Button
@@ -161,6 +162,7 @@ class LoginView extends BaseView {
 									type="FontAwesome"
 									color="#000000"
 									backgroundColor={colours.ppGrey}
+									onPress={() => 'default'}
 									size={30}>
 								</Icon.Button>
 							</View>

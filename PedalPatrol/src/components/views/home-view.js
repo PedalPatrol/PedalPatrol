@@ -142,7 +142,6 @@ class HomeView extends BaseView {
 					</View>
 					{/* Refresh control must be added to ScrollView otherwise it won't show up */}
 					<ScrollView
-						style={{marginBottom: 5}}
 						refreshControl={
 							<RefreshControl
 								colors={["#9Bd35A", "#689F38"]}
@@ -153,7 +152,8 @@ class HomeView extends BaseView {
 							data={this.state.data}
 							extraData={this.state.refresh}
 							keyExtractor={this._keyExtractor}
-							renderItem={this._renderItem}>
+							renderItem={this._renderItem}
+							contentContainerStyle={{paddingBottom: 5}}>
 						</FlatList>
 					</ScrollView>
 				</View>

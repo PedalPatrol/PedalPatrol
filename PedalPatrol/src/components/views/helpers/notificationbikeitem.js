@@ -191,12 +191,17 @@ const styles = StyleSheet.create({
 		color: '#777'
 	},
 	time: {
-		paddingRight: 5,
-		marginTop: 5,
+		paddingTop: 7,
+		paddingLeft: 10,
+		paddingRight: 10,
+		marginRight: 15,
 		fontSize: 16,
 		fontWeight: 'bold',
-		color: '#777',
-		flex:1,
+		color: '#FFF',
+		flex: 1,
+		borderRadius: 15, 
+		backgroundColor: colours.ppGreen, 
+		overflow: 'hidden'
 	},
 	other: {
 		paddingLeft: 10,
@@ -240,13 +245,13 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 	},
 	nameImageCol: {
-		flex:1, 
-		flexDirection:'column', 
-		width:undefined,
+		flex: 1, 
+		flexDirection: 'column', 
+		width: undefined,
 	},
 	timeOtherCol: {
-		flex:1, 
-		flexDirection:'column', 
+		flex: 1, 
+		flexDirection: 'column', 
 	},
 	icon: {
 		marginLeft: 20,

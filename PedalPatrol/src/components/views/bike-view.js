@@ -144,13 +144,13 @@ class BikeView extends BaseView {
 							stickyHeaderIndices={[0]}/>
 					</View>
 					{/* List of bikes */}
-					<ScrollView
-						style={{marginBottom: 5}}>
+					<ScrollView>
 						<FlatList
 							data={this.state.data}
 							extraData={this.state.refresh}
 							keyExtractor={this._keyExtractor}
-							renderItem={this._renderItem}>
+							renderItem={this._renderItem}
+							contentContainerStyle={{paddingBottom: 5}}>
 						</FlatList>
 					</ScrollView>
 
