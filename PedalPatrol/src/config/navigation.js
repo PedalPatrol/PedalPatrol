@@ -13,6 +13,7 @@ import LoginView from '../components/views/login-view';
 import AuthLoadingView from '../components/views/authloading-view';
 import ProfileView from '../components/views/profile-view';
 import AlertView from '../components/views/alert-view';
+import HelpView from '../components/views/helppage-view';
 
 let screen = Dimensions.get('window');
 
@@ -143,6 +144,21 @@ const AlertStack = createStackNavigator({
 			tabBarVisible: false,
 			gesturesEnabled: false,
 			headerTitle: 'Alerts',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+});
+
+/**
+ * Stack navigator for alerts page. We need to define a stack navigator for views in the drawer if we want a header.
+ */
+const HelpStack = createStackNavigator({
+	Help: {
+		screen: HelpView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitle: 'Help Center',
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	}

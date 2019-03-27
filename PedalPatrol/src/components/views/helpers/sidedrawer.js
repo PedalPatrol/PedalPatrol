@@ -218,6 +218,12 @@ const drawerData = [
 		screen: 'SettingStack'
 	},
 	{
+		text: 'Help Center',
+		icon_name: 'cog',
+		icon_type: 'FontAwesome',
+		screen: 'HelpStack'
+	},
+	{
 		text: 'Logout',
 		icon_name: 'sign-out',
 		icon_type: 'FontAwesome',

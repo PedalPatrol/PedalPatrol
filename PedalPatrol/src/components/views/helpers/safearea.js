@@ -7,7 +7,7 @@ import {SafeAreaView} from 'react-native';
 class SafeArea extends Component {
 	render() {
 		return (
-			<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+			<SafeAreaView style={{ flex:0, backgroundColor: this.props.overrideColour ? this.props.overrideColour : '#F5FCFF' }} />
 		);
 	};
 }

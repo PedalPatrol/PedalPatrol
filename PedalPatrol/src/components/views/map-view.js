@@ -309,7 +309,7 @@ class MapView extends BaseView {
 							{"Brand: " + item.data.brand}
 						</Text>
 						<Text>
-							{"Colour" + (item.data.colour.length > 1 ? "s: " : ": ") + item.data.colour.join(', ')}
+							{"Colour" + (item.data.colour && item.data.colour.length > 1 ? "s: " : ": ") + item.data.colour.join(', ')}
 						</Text>
 					</View>
 				</ScrollView>
