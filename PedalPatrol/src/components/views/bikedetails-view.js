@@ -150,10 +150,12 @@ class BikeDetailsView extends BaseView {
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>
 
-							<Button 
-								style={bikedetails_styles.direction}
-								title='Get Directions'
-								onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
+							<TouchableOpacity
+								style={bikedetails_styles.getDirectionsTouchable}>
+								<Button 
+									title='Get Directions'
+									onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
+							</TouchableOpacity>
 
 							</ScrollView>
 						</View>
