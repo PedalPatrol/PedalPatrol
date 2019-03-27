@@ -471,7 +471,7 @@ class AddBikeView extends BaseView {
 							{/* Spinning loading circle */}
 							{
 								this.state.loaderVisible &&
-								<View style={styles.loading} pointerEvents="none">
+								<View style={edit_styles.loading} pointerEvents="none">
 									<ActivityIndicator size='large' color="#0000ff" />
 								</View>
 							}

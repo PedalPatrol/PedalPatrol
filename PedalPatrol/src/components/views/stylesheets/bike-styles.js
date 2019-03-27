@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { styles } from './base-styles';
+import { styles, colours } from './base-styles';
 
 const bike_styles = StyleSheet.create({
 	add: {
@@ -18,4 +18,4 @@ const bike_styles = StyleSheet.create({
 	}
 });
 
-export { styles, bike_styles };
+export { styles, colours, bike_styles };

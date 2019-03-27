@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { styles, text } from './base-styles';
+import { styles, text, colours } from './base-styles';
 
 const signup_styles = StyleSheet.create({
 	title:{
@@ -17,7 +17,7 @@ const signup_styles = StyleSheet.create({
 	},
 	view: {
 		flex: 1,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 	},
 	editGroup: {
 		margin: 20,
@@ -25,7 +25,7 @@ const signup_styles = StyleSheet.create({
 	username: {
 		marginTop: 30,
 		height: 48,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 		justifyContent: 'center',
 		borderTopLeftRadius: 3,
 		borderTopRightRadius: 3,
@@ -33,7 +33,7 @@ const signup_styles = StyleSheet.create({
 	password: {
 		marginTop: 10,
 		height: 48,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 		justifyContent: 'center',
 		borderBottomLeftRadius: 3,
 		borderBottomRightRadius: 3,
@@ -41,7 +41,7 @@ const signup_styles = StyleSheet.create({
 	edit:{
 		height: 40,
 		fontSize: 13,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 		paddingLeft: 15,
 		paddingRight: 15,
 	},

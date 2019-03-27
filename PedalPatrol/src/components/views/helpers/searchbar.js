@@ -4,6 +4,8 @@ import { Icon } from 'react-native-elements';
 import { Searchbar } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
+import { colours } from '../stylesheets/base-styles';
+
 import SafeArea from './safearea';
 import ProfileButton from './profilebutton';
 import FilterHelper from './filter';
@@ -21,9 +23,13 @@ class SearchBar extends Component {
 
 	static propTypes = {
 		profilePicture: PropTypes.string,
+		name: PropTypes.string,
+		searchBy: PropTypes.string,
 		numNotifications: PropTypes.number.isRequired,
 		handleSearchFilter: PropTypes.func.isRequired,
-		openFilter: PropTypes.func.isRequired
+		handleSearchCancel: PropTypes.func.isRequired,
+		handleSearchClear: PropTypes.func.isRequired,
+		openFilter: PropTypes.func.isRequired,
 	}
 
 	render() {
@@ -39,7 +45,7 @@ class SearchBar extends Component {
 					{/* Search Bar */}
 					<View style={{flex:6}}>
 						<Searchbar        
-							placeholder="Search"        
+							placeholder={"Search" + (this.props.searchBy && this.props.searchBy !== '' ? ' by ' + this.props.searchBy : '')}
 							style={styles.searchBar}
 							value={this.state.value}
 							onChangeText={(text) => { this.props.handleSearchFilter(text); this.setState({ value: text })}}
@@ -54,7 +60,7 @@ class SearchBar extends Component {
 						{/* Filter button - Using button - Needs dropdown */}
 						<View style={{flex:1, top:5}}>
 							<TouchableOpacity onPress={() => this.props.openFilter()} accessibilityLabel="New">
-								<Icon name="filter-list" type="MaterialIcons" size={30} color="#01a699" />
+								<Icon name="filter-list" type="MaterialIcons" size={30} color={colours.ppGreen} />
 							</TouchableOpacity>
 						</View>
 					
@@ -68,19 +74,18 @@ export default SearchBar;
 
 const styles = StyleSheet.create({
 	searchContainer: { // View that contains search bar
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppWhite,
 		flexDirection:'row',
-		paddingTop: 5,
-		paddingBottom: 5,
+		paddingBottom: STATUSBAR_HEIGHT,
 		paddingTop: STATUSBAR_HEIGHT
 	},
 	searchBar: {
-		backgroundColor:'transparent', 
+		backgroundColor: colours.ppGrey,
 		borderWidth: 1,
 		borderRadius: 50,
 		height: 35,
 		left: 20,
 		top: 5,
 		marginRight: 20
-	}
+	},
 });

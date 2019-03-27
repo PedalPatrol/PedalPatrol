@@ -1,9 +1,17 @@
 import { StyleSheet } from 'react-native';
 
+const colours = {
+	// ppGreen: '#34BB83',
+	ppGreen: '#67CCA2',
+	ppGrey: '#E6ECF0',
+	ppDarkGrey: '#7F7F7F',
+	ppWhite: '#FFFFFF'
+};
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#F5FCFF'
+		backgroundColor: colours.ppGrey
 	},
 	rowContainer: {
 		flexDirection: 'row',
@@ -28,16 +36,13 @@ const styles = StyleSheet.create({
 		zIndex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#F5FCFF88',
+		backgroundColor: colours.ppGrey,
 	}
 });
 
 const text = StyleSheet.create({
 	textInput: {
-		marginRight: 10,
-		marginLeft: 10,
-		marginBottom: 10,
-		backgroundColor: '#F5FCFF',
+		backgroundColor: colours.ppGrey,
 	},
 	colourText: {
 		textShadowColor: 'rgba(0, 0, 0, 1)', 
@@ -49,4 +54,4 @@ const text = StyleSheet.create({
 	},
 });
 
-export { styles, text };
+export { styles, text, colours };

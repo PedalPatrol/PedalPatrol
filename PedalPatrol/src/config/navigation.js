@@ -3,6 +3,8 @@ import { Dimensions, Platform } from 'react-native';
 import { StackNavigator, createStackNavigator, createBottomTabNavigator, createSwitchNavigator, withNavigation } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
+import { colours } from '../components/views/stylesheets/base-styles';
+
 import HomeView from '../components/views/home-view';
 import MapView from '../components/views/map-view';
 import BikeView from '../components/views/bike-view';
@@ -24,7 +26,7 @@ const Tabs = createBottomTabNavigator({
   	Home: {
 		screen: HomeView,
 		navigationOptions: {
-	  		tabBarLabel: 'Home',
+	  		tabBarLabel: 'Lost Bikes',
 	  		tabBarIcon: ({ tintColor }) => <Icon name="home" type="entypo" size={28} color={tintColor} />
 		},
   	},
@@ -38,7 +40,7 @@ const Tabs = createBottomTabNavigator({
   	Bike: {
 		screen: BikeView,
 		navigationOptions: {
-	  		tabBarLabel: 'Bike',
+	  		tabBarLabel: 'My Bikes',
 	  		tabBarIcon: ({ tintColor }) => <Icon name="md-bicycle" type="ionicon" size={28} color={tintColor} />
 		},
   	},
@@ -58,7 +60,10 @@ const Tabs = createBottomTabNavigator({
   		height: screen.height,
   		width: screen.width
   	},
-  	backBehavior: 'none'
+  	backBehavior: 'none',
+  	tabBarOptions: {
+  		activeTintColor: colours.ppGreen
+  	}
 });
 
 /**
@@ -245,6 +250,12 @@ export const createRootNavigator = () => {
 			},
 			AlertStack: {
 				screen: AlertStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
+			HelpStack: {
+				screen: HelpStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

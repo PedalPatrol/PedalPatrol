@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { styles } from './base-styles';
+import { styles, colours } from './base-styles';
 
 const authloading_styles = StyleSheet.create({
 	logoutLoading: {
@@ -14,4 +14,4 @@ const authloading_styles = StyleSheet.create({
 	}
 });
 
-export { styles, authloading_styles };
+export { styles, colours, authloading_styles };

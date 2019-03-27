@@ -1,5 +1,5 @@
 import { StyleSheet, PixelRatio } from 'react-native';
-import { styles, text } from './base-styles';
+import { styles, text, colours } from './base-styles';
 
 const edit_styles = StyleSheet.create({
 	avatarContainer: {
@@ -36,7 +36,8 @@ const edit_styles = StyleSheet.create({
 		paddingVertical: 20,
 	},
 	flatList: {
-		// marginTop: 220
+		marginRight: 10,
+		marginLeft: 10
 	},
 	submitTouchable: {
 		borderWidth: 1, 
@@ -58,7 +59,7 @@ const edit_styles = StyleSheet.create({
 		zIndex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		backgroundColor: '#F5FCFF88',
+		backgroundColor: 'transparent',
 	},
 	deleteView: {
 		borderWidth: 2,
@@ -97,4 +98,4 @@ const edit_styles = StyleSheet.create({
 	}
 });
 
-export { styles, text, edit_styles };
+export { styles, text, colours, edit_styles };

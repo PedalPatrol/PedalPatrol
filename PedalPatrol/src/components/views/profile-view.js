@@ -9,6 +9,7 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { styles, text, edit_styles } from './stylesheets/edit-styles';
 
 import BaseView from './view';
+import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import ProfilePresenter from '../presenters/profile-presenter';
@@ -302,7 +303,7 @@ class ProfileView extends BaseView {
 				behavior="padding"
 				enabled>
 			<HandleBack onBack={this._onBack}>
-				<SafeAreaView style={{ flex:0, backgroundColor: '#F5FCFF' }} />
+				<SafeArea/>
 				<View style={styles.container}>
 					<ScrollView 
 						contentContainerStyle={edit_styles.contentContainer}
