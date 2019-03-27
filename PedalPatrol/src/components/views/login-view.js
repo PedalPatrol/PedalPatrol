@@ -126,6 +126,7 @@ class LoginView extends BaseView {
 								style={text.textInput}
 								label="Username"
 								textContentType='username'
+								value={this.state.username}
 								onChangeText={(username) => this.setState({username})}/>
 						</View>
 						
@@ -135,6 +136,7 @@ class LoginView extends BaseView {
 								label="Password"
 								textContentType='password'
 								secureTextEntry
+								value={this.state.password}
 								onChangeText={(password) => this.setState({password})}/>
 						</View>
 						
