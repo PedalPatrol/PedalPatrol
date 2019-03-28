@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://pedalpatrol.github.io/PedalPatrol/docs/">
+  <a href="https://pedalpatrol.github.io/PedalPatrol">
     Pedal Patrol
   </a>
 </h1>
