@@ -11,14 +11,18 @@ import firebase from 'react-native-firebase';
 import config from './config/config.json';
 import MapView from './components/views/home-view';
 import AuthState from './util/authenticationstate';
+import Database from './util/database';
 
 export default class App extends Component {
 
 
 
 async componentDidMount() {
-        //const hasPermission = NotificationMethod.checkPermission();
+
     //getInitialNotification get the notification that triggers app open
+        Database.getCurrentUser((userID) => {
+        const hasPermission = NotificationMethod.checkPermission();
+        });
         const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
             const action = notificationOpen.action;

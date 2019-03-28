@@ -35,9 +35,6 @@ async checkPermission() {
 */
 async getToken(){
     const fcmToken = await firebase.messaging().getToken();
-    //if (oldToken == newToken) {
-        //console.error('Token has not been refreshed');
-    //}
         if (fcmToken) {
             console.log(`token is:${fcmToken}`)
             return fcmToken;
