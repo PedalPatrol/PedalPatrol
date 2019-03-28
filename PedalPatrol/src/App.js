@@ -21,12 +21,27 @@ async componentDidMount() {
 
     //getInitialNotification get the notification that triggers app open
         Database.getCurrentUser((userID) => {
+        if (userID != null){
         const hasPermission = NotificationMethod.checkPermission();
+        //console.log('im in');
+        }
         });
         const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
             const action = notificationOpen.action;
             const notification: Notification = notificationOpen.notification;
+            if (notification._body == undefined){
+                console.log('no noti');
+            }
+            else{
+                console.log('has noti');
+                 const bikeID = "-LaaRyLnovrtxlh5WUu-";
+                            const params ={
+                                id: bikeID,
+                                from: 'Map'
+                            }
+                            NavigatorService.navigate('BikeDetails',params);
+            }
         }
     // Create the channel
         const channel = NotificationMethod.createChannel();
@@ -54,6 +69,15 @@ async componentDidMount() {
             const action = notificationOpen.action;
             console.log('noOpend');
             const notification: Notification = notificationOpen.notification;
+     /*
+     notification:{
+        title :
+        body :
+        data : bikeID
+     }
+
+     */
+
             firebase.notifications().removeAllDeliveredNotifications();
 
             // code for getting data from notification

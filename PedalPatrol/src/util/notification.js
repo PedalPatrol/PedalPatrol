@@ -53,7 +53,12 @@ createChannel(){
                     .setDescription('My apps test channel');
     return (channel);
 }
-
+/**
+ *  Delete device token
+ */
+async removeToken(){
+    await firebase.messaging().deleteToken();
+}
 
 }
 
