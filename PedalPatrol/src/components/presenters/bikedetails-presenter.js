@@ -183,6 +183,18 @@ class BikeDetailsPresenter extends BasePresenter {
   		MapM.showMaps(location);
   	}
 
+  	getDataFromID(id){
+  	    let dataList = HomeM.get().data;
+  	    console.log(dataList);
+  	    for (let i = 0; i < dataList.length; i ++ ){
+  	        if(dataList[i].id == id){
+  	            console.log('i found id');
+  	            return dataList[i];
+  	        }
+  	    }
+  	    return 'NO-DATA';
+  	}
+
 }
 
 export default BikeDetailsPresenter

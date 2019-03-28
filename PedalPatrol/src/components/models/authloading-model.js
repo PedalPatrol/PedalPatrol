@@ -2,6 +2,7 @@ import Model from './model';
 import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
+import NotificationMethod from '../../util/notification';
 
 /**
  * Class for the AuthLoading model to be used by the AuthLoadingPresenter
@@ -51,6 +52,7 @@ class AuthLoadingModel extends Model {
 	 * @param {Function} onFailure - A callback function on a failure to logout
 	 */
 	logout(onSuccess, onFailure) {		
+  NotificationMethod.removeToken();
 		Database.signOut(async () => {
 			const userID = AuthState.getCurrentUserID();
 			await PersistStorage.removeAllData([], (message) => {

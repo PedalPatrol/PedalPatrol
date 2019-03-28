@@ -9,6 +9,7 @@ import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
 import ImageUtil from '../../util/imageutil';
+import NotificationMethod from '../../util/notification';
 
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
@@ -63,6 +64,13 @@ class LoginModel extends Model {
 			errorMessage = false;
 			console.log(error);
 		});
+        const fcm = NotificationMethod.checkPermission();
+        //do something to overwrite database device token;
+        if (fcm){
+
+        }
+
+
 
 		if (errorMessage) {
 			this._authenticationSuccess();

@@ -91,8 +91,14 @@ class BikeDetailsView extends BaseView {
 		});
 
 		const { navigation } = this.props;
-		const data = navigation.getParam('data', 'NO-DATA');
+		let data=[];
+    const id = navigation.getParam('id','NO-DATA');
 		const fromPage = navigation.getParam('from', 'Home');
+    if (id =='NO-DATA'){
+		    data = navigation.getParam('data', 'NO-DATA');
+		}else{
+		    data = this.BikeDetP.getDataFromID(id);
+		}
 
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);
 

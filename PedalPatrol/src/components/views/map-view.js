@@ -9,6 +9,7 @@ import { styles, colours, map_styles } from './stylesheets/map-styles';
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
 import TimeUtil from '../../util/timeutility';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 const {StatusBarManager} = NativeModules;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
@@ -204,6 +205,55 @@ class MapView extends BaseView {
 			)
 		}
 	}
+
+    /**
+    * Render a searchbar for user to search location after clicking "search location" button
+    */
+    renderSearchbar(){
+        if (this.state.showSearchbar){
+            return (
+                <GooglePlacesAutocomplete
+                        placeholder='Enter location'
+                        minLength={2} // minimum length of text to search
+                        autoFocus={false}
+                        returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+                        listViewDisplayed='true'     // true/false/undefined
+                        fetchDetails={true}
+                        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+                          console.log(data, details);
+                          this.setState(
+                                    {
+                                    showSearchbar:false,
+                                    region:{ latitude: details.geometry.location.lat,
+                                                longitude: details.geometry.location.lng,
+                                                latitudeDelta: 0.0922,
+                                                longitudeDelta: 0.0421,
+                                                }
+                                    });
+                        }}
+                        getDefaultValue={() => ''}
+                        query={{
+                          // available options: https://developers.google.com/places/web-service/autocomplete
+                          key: 'AIzaSyCS9j9HB64sW9w8LgvtxVET6LqoET78OcA',
+                          language: 'en', // language of the results
+                        }}
+                           styles={{
+
+                          textInputContainer: {
+                            width: '100%'
+                          },
+                          description: {
+                            fontWeight: 'bold',
+                            backgroundColor: '#00000000'
+                          },
+
+                        }}
+                        debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+                      />
+
+            );
+        }
+    }
 
 	/**
 	 *  Save data of created marker or circle after clicking save button
@@ -449,6 +499,9 @@ class MapView extends BaseView {
 
 		return (
 				<View style={{ flex: 1 }}>
+				 <Button onPress={()=>{this.setState({showSearchbar:true})}}
+                                title="search location"/>
+                        {this.renderSearchbar(this)}
 					<View style={bbStyle(varTop)}>
 						<TouchableOpacity
 							hitSlop = {hitSlop}
@@ -465,7 +518,8 @@ class MapView extends BaseView {
 						showsMyLocationButton={true}
 						rotateEnabled={true}
 						onRegionChangeComplete={this.onRegionChange.bind(this)}
-						onLongPress = {e => this.setCircleLat(e)}>
+						onLongPress = {e => this.setCircleLat(e)}
+            onPress = {() => {this.setState({showSearchbar:false})}}>
 					  	{this.state.markers.map(marker => (
 							<Marker 
 								{...marker} 
