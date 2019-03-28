@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import DrawerHelp from '../../../util/drawerhelper';
 
 /**
- * Class to add a profile button to the search bar header
+ * Class to add a profile button to the search bar header.
+ * @extends Component
  */
 class ProfileButton extends Component {
 	static propTypes = {

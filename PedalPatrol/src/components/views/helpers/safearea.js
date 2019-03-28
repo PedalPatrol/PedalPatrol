@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { colours } from '../stylesheets/base-styles';
 
 /**
- * Class to render a safe area on the scren
+ * Class to render a safe area on the screen. Also colours the status colour
+ * @extends Component
  */
 class SafeArea extends Component {
 

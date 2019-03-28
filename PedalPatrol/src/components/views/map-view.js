@@ -347,6 +347,12 @@ class MapView extends BaseView {
 	  this.setState({region: region });
 	};
 
+	/**
+	 * Get the string to display from the colours list.
+	 *
+	 * @param {List} colours - A list of colours
+	 * @return {string} A string obtained from the colours in the list
+	 */
 	_getColourString = (colours) => {
 		let colourString = '';
 		if (colours != null && colours != undefined) {
@@ -356,6 +362,11 @@ class MapView extends BaseView {
 		return colourString
 	}
 
+	/**
+	 * Renders the callout for a marker.
+	 *
+	 * @param {Object} item - The data to display for a marker
+	 */
 	_renderCallout = (item) => (
 		<Callout onPress={() => {this.navigate('BikeDetails', item.data)}}>
 			<ScrollView>

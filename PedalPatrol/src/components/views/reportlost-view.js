@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, ScrollView, Alert } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, ScrollView, Alert, Button } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import { TextInput } from 'react-native-paper';
 import { HeaderBackButton } from 'react-navigation';
 
-import LoginButton from './helpers/loginbutton';
+import { styles, colours, reportlost_styles } from './stylesheets/reportlost-styles';
+
 import ReportLostPresenter from '../presenters/reportlost-presenter';
 import BaseView from './view';
 
@@ -66,12 +67,18 @@ class ReportLostView extends BaseView {
 		}
 	};
 
+	/**
+	 * Component is aobut to unmount
+	 */
 	componentWillUnmount = () => {
 		this.viewUnmounting(this.reportlostP);
 	}
 
+	/**
+	 * Back function to go back to the previous page.
+	 */
 	_onBack = () => {
-		this.props.navigation.navigate('Bike');
+		this.props.navigation.navigate('Tabs');
 	}
 	
 
@@ -145,7 +152,7 @@ class ReportLostView extends BaseView {
 
 	/**
 	 * Render the text of button.
-	 * @param{Object} rowData - the row data of the bike menu
+	 * @param {Object} rowData - the row data of the bike menu
 	 */
 	_dropdown_2_renderButtonText(rowData) {
 		const {name} = rowData;
@@ -154,8 +161,8 @@ class ReportLostView extends BaseView {
 
 	/**
 	 * Events after selecting the item from the dropdown menu
-	 * @param {int}idx - the id of the selected item in menu.
-	 * @param {Object}value - the value of the selected item.
+	 * @param {Number} idx - the id of the selected item in menu.
+	 * @param {Object} value - the value of the selected item.
 	 */
 	_dropdown_2_onSelect = (idx,value) => {
 		this.setState({bikeid: `${value.id}`});
@@ -163,16 +170,16 @@ class ReportLostView extends BaseView {
 
 	/**
 	 * Render each row in the menu
-	 * @param {Object}rowData - each data in bikemenu
-	 * @param {int}rowID - the id of item in the menu
-	 * Highlight the selected item.
+	 * @param {Object} rowData - each data in bikemenu
+	 * @param {Number} rowID - the id of item in the menu
+	 * @param {Boolean} highlighted - Highlight the selected item.
 	 */
 	_dropdown_2_renderRow(rowData, rowID, highlighted) {
 		let evenRow = rowID % 2;
 		return (
 			<TouchableHighlight underlayColor='cornflowerblue'>
-				<View style={[styles.dropdown_2_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
-					<Text style={[styles.dropdown_2_row_text, highlighted && {color: 'mediumaquamarine'}]}>
+				<View style={[reportlost_styles.dropdown_2_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
+					<Text style={[reportlost_styles.dropdown_2_row_text, highlighted && {color: colours.ppGreen}]}>
 						{`${rowData.name} `}
 					</Text>
 				</View>
@@ -183,12 +190,13 @@ class ReportLostView extends BaseView {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.row1}>
-					<View style={styles.cell}>
+				<View style={reportlost_styles.row1}>
+					<View style={reportlost_styles.cell}>
+						{/* ListView is deprecated in the ModalDropdown component. If it gets removed from ReactNative, switch libraries. */}
 						<ModalDropdown ref="dropdown_2"
-							style={styles.dropdown_2}
-							textStyle={styles.dropdown_2_text}
-							dropdownStyle={styles.dropdown_2_dropdown}
+							style={reportlost_styles.dropdown_2}
+							textStyle={reportlost_styles.dropdown_2_text}
+							dropdownStyle={reportlost_styles.dropdown_2_dropdown}
 							options={this.state.bikeMenu}
 							defaultValue = "Please select your bike"
 							renderButtonText={(rowData) => this._dropdown_2_renderButtonText(rowData)}
@@ -196,15 +204,16 @@ class ReportLostView extends BaseView {
 							onSelect={(idx,value) => this._dropdown_2_onSelect(idx,value)}/>
 					</View>
 				</View>
-				<TextInput style = {styles.row2}
-					label = "Describe the Condition"
-					placeholder = "Add Descriptions"
+				<TextInput style = {reportlost_styles.row2}
+					label="Describe the Condition"
 					multiline={true}
 					blurOnSubmit
 					onChangeText={(text) => this.setState({text})}>
 				</TextInput>
 				<View>
-					<LoginButton text="SUBMIT" onPress={this._handleClick.bind(this)}/>
+					<TouchableHighlight style={reportlost_styles.submitButton} onPress={this._handleClick.bind(this)}>
+						<Button color={'#000'} title="SUBMIT"/>
+					</TouchableHighlight>
 				</View>
 			</View>
 		);
@@ -213,59 +222,3 @@ class ReportLostView extends BaseView {
 }
 
 export default ReportLostView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-	row1: {
-		flex: 2,
-	},
-	row2: {
-		flex: 5,
-	},
-	cell: {
-		flex: 1,
-		borderWidth: StyleSheet.hairlineWidth,
-	},
-	textButton: {
-		color: 'deepskyblue',
-		borderWidth: StyleSheet.hairlineWidth,
-		borderColor: 'deepskyblue',
-		margin: 2,
-	},
-	dropdown_2: {
-		alignSelf: 'center',
-		width: 300,
-		marginTop: 32,
-		borderWidth: 0,
-		borderRadius: 3,
-		backgroundColor: 'cornflowerblue',
-	},
-	dropdown_2_text: {
-		marginVertical: 10,
-		marginHorizontal: 6,
-		fontSize: 18,
-		color: 'white',
-		textAlign: 'center',
-		textAlignVertical: 'center',
-	},
-	dropdown_2_dropdown: {
-		width: 300,
-		height: 300,
-		borderColor: 'cornflowerblue',
-		borderWidth: 2,
-		borderRadius: 3,
-	},
-	dropdown_2_row: {
-		flexDirection: 'row',
-		height: 40,
-		alignItems: 'center',
-	},
-	dropdown_2_row_text: {
-		marginHorizontal: 4,
-		fontSize: 16,
-		color: 'navy',
-		textAlignVertical: 'center',
-	},
-});

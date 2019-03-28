@@ -11,7 +11,8 @@ const TYPE_STOLEN_HOME = 'Home';
 const TYPE_FOUND_ALERTS = 'Alerts';
 
 /**
- * Class to help the displaying of notification items on the home view page
+ * Class to help the displaying of notification items on the home view page.
+ * @extends Component
  */
 class NotificationBikeItem extends Component {
 
@@ -30,6 +31,9 @@ class NotificationBikeItem extends Component {
 		}).isRequired
 	}
 
+	/**
+	 * Component is about to mount. Has not mounted yet
+	 */
 	componentWillMount = () => {
 		this.setState({
 			from: this.props.from,

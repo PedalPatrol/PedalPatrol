@@ -57,5 +57,6 @@ const styles = StyleSheet.create({
 		backgroundColor: colours.ppGreen,
 		alignItems:'center',
 		justifyContent:'center',
+		overflow: 'hidden'
 	},
 });

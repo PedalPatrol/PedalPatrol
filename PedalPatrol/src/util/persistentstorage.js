@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 
 /**
  * Class for the persistent storage of data on a device using ASyncStorage.
+ * @extends Component
  */
 class PersistentStorage extends Component {
 	/**

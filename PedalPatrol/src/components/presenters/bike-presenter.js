@@ -65,8 +65,13 @@ class BikePresenter extends BasePresenter {
 		return AlertM.getNotificationsCount();
 	}
 
+	/**
+	 * Gets the profile image from the ProfileModel.
+	 * 
+	 * @param {Function} callback - A function to be called with the profileData
+	 */
 	getProfileImage = (callback) => {
-		ProfileM.getProfilePicture(callback);
+		ProfileM.getProfileData(callback);
 	}
 
 	/**

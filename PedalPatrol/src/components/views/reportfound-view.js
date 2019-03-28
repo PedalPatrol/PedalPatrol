@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {AppRegistry,StyleSheet,Text,View,TouchableOpacity,TouchableHighlight,ScrollView,Alert,} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, ScrollView, Alert, Button} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import { TextInput } from 'react-native-paper';
 import { HeaderBackButton } from 'react-navigation';
 
-import LoginButton from './helpers/loginbutton';
+import { styles, colours, reportfound_styles } from './stylesheets/reportfound-styles';
+
 import ReportFoundPresenter from '../presenters/reportfound-presenter';
 import BaseView from './view';
 
@@ -50,10 +51,18 @@ class ReportFoundView extends BaseView {
 		};
 	}
 
+	/**
+	 * The back function to go to the previous page.
+	 */
 	_onBack = () => {
 		this.props.navigation.navigate(this.state.from);
 	}
 	
+	/**
+	 * Sets a marker in the state. Only one marker is stored at a time.
+	 *
+	 * @param {Object} e - A place marker event
+	 */
 	setMarker(e){
 		let coor = e.nativeEvent.coordinate;
 		this.setState({
@@ -86,10 +95,18 @@ class ReportFoundView extends BaseView {
 		this._setUserLocation();
 	};
 
+	/**
+	 * Component is about to unmount.
+	 */
 	componentWillUnmount = () => {
 		this.viewUnmounting(this.reportfoundP);
 	}
 	
+	/**
+	 * Region has changed so set the state to the new region.
+	 *
+	 * @param {Object} region - A new region. Properties: latitude, longitude, latitudeDelta, longitudeDelta
+	 */
 	onRegionChange = (region) =>{
 		this.setState({region:region});
 	}
@@ -216,8 +233,8 @@ class ReportFoundView extends BaseView {
 
 		return (
 			<TouchableHighlight underlayColor='cornflowerblue'>
-				<View style={[styles.dropdown_2_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
-					<Text style={[styles.dropdown_2_row_text, highlighted && {color: 'mediumaquamarine'}]}>
+				<View style={[reportfound_styles.dropdown_2_row, {backgroundColor: evenRow ? 'lemonchiffon' : 'white'}]}>
+					<Text style={[reportfound_styles.dropdown_2_row_text, highlighted && {color: 'mediumaquamarine'}]}>
 						{`${rowData.name} `}
 					</Text>
 				</View>
@@ -229,20 +246,18 @@ class ReportFoundView extends BaseView {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View>
-					<Text style={{fontSize: 18, margin: 10}}>
-						{"Serial Number: " + this.state.editeddata.serial_number}
-					</Text>
-				</View>
-				<TextInput style={styles.row1}
-					placeholder = "Add Descriptions"
+				<Text style={reportfound_styles.serial_number}>
+					{"Serial Number: " + this.state.editeddata.serial_number}
+				</Text>
+				<TextInput style={reportfound_styles.row1}
+					label="Add a Description"
 					multiline={true}
 					blurOnSubmit
 					onChangeText={(text) => this.setState({text})}>
 			   	</TextInput>
 
-				<View style = {styles.cell}>
-					<MapView style = {styles.cell}
+				<View style = {reportfound_styles.cell}>
+					<MapView style = {reportfound_styles.cell}
 						region= {this.state.region}
 						onPress = {e => this.setMarker(e)}
 						onRegionChangeComplete={this.onRegionChange.bind(this)}>
@@ -250,7 +265,9 @@ class ReportFoundView extends BaseView {
 					</MapView>
 				</View>
 				<View>
-					<LoginButton text="SUBMIT" onPress={this._handleClick.bind(this)}/>
+					<TouchableHighlight style={reportfound_styles.submitButton} onPress={this._handleClick.bind(this)}>
+						<Button color={'#000'} title="SUBMIT"/>
+					</TouchableHighlight>
 				</View>
 		  </View>
 		);
@@ -258,64 +275,3 @@ class ReportFoundView extends BaseView {
 }
 
 export default ReportFoundView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-	row1: {
-		flex: 0.2,
-	},
-	row2: {
-		flex: 3,
-	},
-	cell: {
-		flex: 1,
-		borderWidth: StyleSheet.hairlineWidth,
-	},
-	contentContainer: {
-		height: 400,
-		paddingVertical: 100,
-		paddingLeft: 20,
-	},
-	textButton: {
-		color: 'deepskyblue',
-		borderWidth: StyleSheet.hairlineWidth,
-		borderColor: 'deepskyblue',
-		margin: 2,
-	},
-	dropdown_2: {
-		alignSelf: 'center',
-		width: 300,
-		marginTop: 32,
-		borderWidth: 0,
-		borderRadius: 3,
-		backgroundColor: 'cornflowerblue',
-	},
-	dropdown_2_text: {
-		marginVertical: 10,
-		marginHorizontal: 6,
-		fontSize: 18,
-		color: 'white',
-		textAlign: 'center',
-		textAlignVertical: 'center',
-	},
-	dropdown_2_dropdown: {
-		width: 300,
-		height: 300,
-		borderColor: 'cornflowerblue',
-		borderWidth: 2,
-		borderRadius: 3,
-	},
-	dropdown_2_row: {
-		flexDirection: 'row',
-		height: 40,
-		alignItems: 'center',
-	},
-	dropdown_2_row_text: {
-		marginHorizontal: 4,
-		fontSize: 16,
-		color: 'navy',
-		textAlignVertical: 'center',
-	},
-});

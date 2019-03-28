@@ -110,6 +110,10 @@ class LoginView extends BaseView {
 		this.viewUnmounting(this.LoginP);
 	}
 
+	/**
+	 * Renders the main content on the screen.
+	 * Defined in a function because on Android we don't render the KeyboardAvoidingView
+	 */
 	renderContent = () => (
 		<View>
 			<View style={login_styles.centered}>

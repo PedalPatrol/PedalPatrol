@@ -44,6 +44,11 @@ class BikeDetailsView extends BaseView {
 		this.BikeDetP = new BikeDetailsPresenter(this);
 	}
 
+	/**
+	 * Navigates to a certain screen with parameters.
+	 * 
+	 * @param {string} screen - The screen name to navigate to. Name must be in navigation.js
+	 */
 	navigate = (screen) => {
 		this.props.navigation.navigate({
 			routeName: screen,
@@ -56,6 +61,9 @@ class BikeDetailsView extends BaseView {
 
 	};
 
+	/**
+	 * Handles the report found button clicked.
+	 */
 	_handleClick() {
 		this.navigate("ReportFound");
 	}
@@ -84,13 +92,13 @@ class BikeDetailsView extends BaseView {
 
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
-		const fromTab = navigation.getParam('from', 'Home');
+		const fromPage = navigation.getParam('from', 'Home');
 
-		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
+		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);
 
 		this.setState({
 			rawData: data,
-			from: fromTab,
+			from: fromPage,
 			data: formedData,
 			photoEntries: thumbnail
 		});
@@ -136,6 +144,11 @@ class BikeDetailsView extends BaseView {
 			disabled/>
 	);
 
+	/**
+	 * Renders the text of the label.
+	 *
+	 * @param {string} text - The text to render
+	 */
 	_renderText = (text) => (
 		<Text style={[{color: 'black'}]}>{text}</Text>
 	);
@@ -145,6 +158,9 @@ class BikeDetailsView extends BaseView {
 	 */
 	_keyExtractor = (item, index) => item.id;
 
+	/**
+	 * A callback function if there is a map open error.
+	 */
 	onMapOpenError = () => {
 		Alert.alert(
 			"Unable to Open Directions",
@@ -190,13 +206,16 @@ class BikeDetailsView extends BaseView {
 							</TouchableOpacity>
 							</View>
 
-							<View>
-								<TouchableOpacity style={bikedetails_styles.touchableButtons}>
-									<Button
-										onPress={()=>this._handleClick()}
-										title="Report Found"/>
-								</TouchableOpacity>
-							</View>
+							{
+								this.state.from === 'Home' &&
+								<View>
+									<TouchableOpacity style={bikedetails_styles.touchableButtons}>
+										<Button
+											onPress={()=>this._handleClick()}
+											title="Report Found"/>
+									</TouchableOpacity>
+								</View>
+							}
 
 							</ScrollView>
 						</View>

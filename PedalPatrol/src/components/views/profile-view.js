@@ -36,10 +36,10 @@ class ProfileView extends BaseView {
 	};
 
 	/**
-	  * Set the navigation options, change the header to handle a back button.
+	 * Set the navigation options, change the header to handle a back button.
 	 *
-	  * @return {Object} Navigation option
-	  */
+	 * @return {Object} Navigation option
+	 */
 	static navigationOptions = ({navigation, transitioning}) => {
 		const { params = {} } = navigation.state;
 		const back = params._onBack ? params._onBack : () => 'default';
@@ -52,20 +52,20 @@ class ProfileView extends BaseView {
 	}
 
 	/**
-	  * Creates an instance of the profile view
+	 * Creates an instance of the profile view
 	 *
-	  * @constructor
-	  * @param {Object} props - Component properties
-	  */
+	 * @constructor
+	 * @param {Object} props - Component properties
+	 */
 	constructor(props) {
 		super(props);
 		this.ProfileP = new ProfilePresenter(this);
 	}
 
 	/**
-	  * Component is about to mount, initialize the data.
-	  * This function is called before componentDidMount
-	  */
+	 * Component is about to mount, initialize the data.
+	 * This function is called before componentDidMount
+	 */
 	componentWillMount = () => {
 		this.props.navigation.setParams({
 			_onBack: this._onBack,
@@ -200,7 +200,7 @@ class ProfileView extends BaseView {
 
 	/**
 	 * Add the new selected items to the state and update
-	*
+	 *
 	 * @param {List} selectedItems - List of selected items
 	 */
 	_onSelectedItemsChange = (selectedItems) => {
@@ -256,7 +256,7 @@ class ProfileView extends BaseView {
 
 	/**
 	 * Sets a callback on what to do if there is a success or error when a bike is uploaded.
-	*
+	 *
 	 * @param {Boolean} success - true: Uploading successful; false: Uploading failed
 	 */
 	alertCallback = (success) => {
@@ -293,7 +293,7 @@ class ProfileView extends BaseView {
 
 	/**
 	 * Renders items to the screen
-	*
+	 *
 	 * @return {Component} 
 	 */
 	render() {

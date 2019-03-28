@@ -92,6 +92,9 @@ class BikeView extends BaseView {
 		});
 	};
 
+	/**
+	 * Component is about to mount
+	 */
 	componentWillMount = () => {
 		this._setProfileImage();
 	}

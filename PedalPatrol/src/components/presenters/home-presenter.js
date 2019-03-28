@@ -69,7 +69,7 @@ class HomePresenter extends BasePresenter {
 	 * @param {Function} callback - A callback function that will be called with the resulting data
 	 */
 	getProfileImage = (callback) => {
-		ProfileM.getProfilePicture(callback);
+		ProfileM.getProfileData(callback);
 	}
 
 	/**

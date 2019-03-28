@@ -77,8 +77,11 @@ class DrawerHelper {
 		}
 	}
 
+	/**
+	 * Gets the profile image from the ProfileModel
+	 */
 	fetchProfileImageFromStorage() {
-		ProfileM.getProfilePicture((result) => {
+		ProfileM.getProfileData((result) => {
 			let default_data = result;
 			if (!result) {
 				default_data = { profilePicture: this.defaultProfilePicture, full_name: '' };

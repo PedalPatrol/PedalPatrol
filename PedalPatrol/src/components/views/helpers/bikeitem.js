@@ -9,7 +9,7 @@ import TimeUtil from '../../../util/timeutility';
  * Class to help the displaying of bike items on the bike view page
  */
 class BikeItem extends Component {
-
+	// Proptypes
 	static propTypes = {
 		data: PropTypes.shape({
 			model: PropTypes.string,

@@ -75,13 +75,15 @@ class AlertView extends BaseView {
 		);
 	}
 
+	/**
+	 * Sets the state with the profile data retreived from the model.
+	 */
 	_setProfileImage = () => {
 		this.AlertP.getProfileImage((result) => this.setState({profileData: result}));
 	}
 
 	/**
 	 * Renders a search bar as the header including the profile icon and the filter button.
-	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
 		<SearchBar 

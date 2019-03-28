@@ -3,7 +3,15 @@ import Database from '../../util/database';
 
 import { showLocation } from 'react-native-map-link';
 
-export default class MapModel extends Model {
+/**
+ * Class for the Map model which controls the map view and the markers.
+ * @extends Model
+ */
+class MapModel extends Model {
+	/**
+	 * Creates an instance of the MapModel
+	 * @constructor
+	 */
 	constructor() {
 		super();
 		
@@ -15,6 +23,11 @@ export default class MapModel extends Model {
 		 */
 	}
 
+	/**
+	 * Returns the data from the model.
+	 *
+	 * @return {Object} The data stored in the model. Has property 'data' which is a list of objects
+	 */
 	get = () => {
 		return (this._data);
 	}
@@ -26,6 +39,11 @@ export default class MapModel extends Model {
 		this._insertDataOnRead(newData);
 	}
 
+	/**
+	 * Inserts an object with a list of objects into the map model as new data.
+	 *
+	 * @param {Object} newData - An object with the property 'data' which contains a list of objects
+	 */
 	_insertDataOnRead = (newdata) => {
 		//let temp = [{coordinate:{latitude:44.237424,longitude:-76.5131},title:"bike1",description:"help"}];
 		let temp = [];
@@ -46,6 +64,12 @@ export default class MapModel extends Model {
 		this._data = temp;
 	}
 	
+	/**
+	 * Creates a marker from provided data.
+	 *
+	 * @param {Object} markerElement - An object element
+	 * @return {Object} A formed marker
+	 */
 	createMarker(markerElement){
 		let singleMarker={
 			coordinate:{
@@ -58,12 +82,23 @@ export default class MapModel extends Model {
 		return singleMarker;
 	}
 
+	/**
+	 * Returns the user's current location.
+	 *
+	 * @return {Object} The current user's location, with longitude and latitude
+	 */
 	getCurrentLocation = () => {
 		return new Promise((resolve, reject) => {
 			navigator.geolocation.getCurrentPosition(position => resolve(position), e => reject(e));
 		});
 	};
 
+	/**
+	 * Opens the prompt to get the user to pick a third-party app to get directions from.
+	 * Default source location is the user's current location.
+	 *
+	 * @param {Object} destination - The destination longitude and latitude for directions.
+	 */
 	showMaps = (destination) => {
 		this.getCurrentLocation().then(source => {
 			if (source) {
@@ -84,5 +119,6 @@ export default class MapModel extends Model {
 			}
 		});
 	}
-
 }
+
+export default MapModel;

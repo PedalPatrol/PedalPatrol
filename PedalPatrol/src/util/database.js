@@ -10,6 +10,11 @@ const ProfileImages = 'ProfileImages/';
  * Class for the firebase database connection and operations
  */
 class FirebaseDatabase {
+	/**
+	 * Creates an instance of the FirebaseDatabase class.
+	 * Initializes the app as a firebase app and sets up the storage references.
+	 * @constructor
+	 */
 	constructor() {
 		this.currentUser = null;
 
@@ -288,6 +293,11 @@ class FirebaseDatabase {
 		});
 	}
 
+	/**
+	 * Listens for authentication changes and only calls the onSuccess function if a user is defined.
+	 *
+	 * @param {Function} onSuccess - A callback function when the state has changed and a user is defined
+	 */
 	listenForAuthChange(onSuccess) {
 		firebase.auth().onAuthStateChanged((user) => {
 			if (user) {

@@ -46,6 +46,12 @@ class BikeModel extends Model {
 		});
 	}
 
+	/**
+	 * Returns the bike data by providing the bike ID.
+	 *
+	 * @param {string} id - A bike ID
+	 * @return {Object} The data coresponding to the bike id
+	 */
 	_getBikeByID = (id) => {
 		return this._data.data.filter((el) => {
 			return el.id === id;

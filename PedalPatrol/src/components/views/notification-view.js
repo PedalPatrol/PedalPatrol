@@ -1,19 +1,25 @@
 import SettingsList from 'react-native-settings-list';
 import React, {Component} from 'react';
-import { View, Text, TextInput, StyleSheet, PixelRatio, Alert, Picker } from 'react-native';
+import { View, Text, TextInput, PixelRatio, Alert, Picker } from 'react-native';
 
+import { styles, text, colours, notifications_styles } from './stylesheets/notifications-styles';
 
 /**
  * Class for the Notification view
  * @extends BasePresenter
  */
 class NotificationView extends Component {
-	constructor(){
+	constructor() {
 		super();
 		this.onValueChange = this.onValueChange.bind(this);
-		this.state = {switchValue: true, num:0 };
+		this.state = { switchValue: true, num:0 };
 	}
 
+	/**
+	 * Updates the num in the state.
+	 *
+	 * @param {Number} num - A number
+	 */
 	updateNum = (num) => {
 		this.setState({ num: num })
 	}
@@ -24,11 +30,7 @@ class NotificationView extends Component {
 	 * @param {Boolean} element - element will be rendered.
 	 */
 	renderIf(condition,element){
-		if(condition) {
-			return element;
-		} else {
-			return null;
-		}
+		return condition ? element : null;
 	}
 
 	/**
@@ -37,19 +39,17 @@ class NotificationView extends Component {
 	 */
 	onValueChange(value) {
 		this.setState({switchValue: value});
-		console.log('frequency is ' + this.state.value1 + 'index is' + this .state.index1)
+		console.log('frequency is ' + this.state.value1 + 'index is' + this.state.index1)
 	}
 
 	render() {
-		var bgColor = '#DCE3F4';
-
 		return (
-			<View>
+			<View style={styles.container}>
 				<SettingsList borderColor='#c8c7cc' defaultItemSize={50}>
 					<SettingsList.Item
 						hasNavArrow={false}
 						title='Status'
-						titleStyle={{color:'#009688', marginBottom:10, fontWeight:'500'}}
+						titleStyle={notifications_styles.status}
 						itemWidth={50}
 						borderHide={'Both'}/>
 					<SettingsList.Item
@@ -59,7 +59,7 @@ class NotificationView extends Component {
 						hasNavArrow={false}
 						title='Notifications On'/>
 
-				{this.renderIf ((this.state.switchValue),
+				{this.renderIf(this.state.switchValue,
 					(
 						<SettingsList.Item
 							hasNavArrow={false}
@@ -75,9 +75,3 @@ class NotificationView extends Component {
 }
 
 export default NotificationView;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-	},
-});
