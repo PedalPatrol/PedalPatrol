@@ -14,6 +14,7 @@ import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import AddBikePresenter from '../presenters/addbike-presenter';
 import ImageUtil from '../../util/imageutil';
+import TimeUtil from '../../util/timeutility';
 
 const colours = require('../../assets/colours/colours.json');
 
@@ -73,7 +74,6 @@ class AddBikeView extends BaseView {
 	 * This function is called before componentDidMount
 	 */
 	componentWillMount = () => {
-		// There's a problem with clicking the back button too quickly so need to find a better place to put this
 		this.props.navigation.setParams({
 			_onBack: this._onBack,
 			_clearData: this._clearData
@@ -85,6 +85,7 @@ class AddBikeView extends BaseView {
 
 		// This can be done before the component has mounted so we do it before so data appears immediately
 		this.setState({
+			rawData: data,
 			inputData: this.AddBikeP.getTextInputData(data, this.state.isEditPage),
 			photoEntries: this.AddBikeP.getCurrentPhotos(),
 			isEditPage: this.isEditBikePage(viewTitle)
@@ -380,7 +381,7 @@ class AddBikeView extends BaseView {
 				{ cancelable: false },
 			);
 		}
-	}	
+	}
 
 	/**
 	 * DON'T USE THIS METHOD UNLESS ABSOLUTELY NECESSARY.

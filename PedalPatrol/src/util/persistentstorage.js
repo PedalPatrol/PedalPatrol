@@ -102,7 +102,7 @@ class PersistentStorage extends Component {
 			keys = keys.filter( ( el ) => !keepKeys.includes( el ) );
 			await AsyncStorage.multiRemove(keys, (err) => {
 				if (err == null) {
-					const message = "Except: " + (keepKeys.length === 1 ? keepKeys : keepKeys.join(', '));
+					const message = keepKeys.length === 0 ? '' : "- Except: " + (keepKeys.length === 1 ? keepKeys : keepKeys.join(', '));
 					onSuccess(message);
 				} else {
 					console.log(err);

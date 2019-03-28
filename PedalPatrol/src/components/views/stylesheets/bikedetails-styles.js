@@ -9,15 +9,8 @@ const bikedetails_styles = StyleSheet.create({
 	contentContainer: {
 		flexGrow: 1
 	},
-	direction: {
-		borderWidth: 1,
-		borderColor: 'black',
-		marginRight: 10,
-		marginLeft: 10,
-		marginBottom: 10,
-		backgroundColor: colours.ppGrey
-	},
-	getDirectionsTouchable: 1, 
+	touchableButtons: {
+		borderWidth: 1, 
 		textAlign: 'center', 
 		borderColor: 'black',
 		borderRadius: 5,
@@ -25,7 +18,8 @@ const bikedetails_styles = StyleSheet.create({
 		marginRight: 10,
 		marginTop: 10,
 		marginBottom: 10,
-		backgroundColor: '#FFF'
+		backgroundColor: colours.ppWhite
+	}
 });
 
 export { styles, text, colours, bikedetails_styles };

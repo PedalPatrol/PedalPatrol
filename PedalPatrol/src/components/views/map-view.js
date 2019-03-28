@@ -4,7 +4,7 @@ import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
 import { Marker, Callout, Polygon, Circle } from 'react-native-maps';
 
-import { styles, map_styles } from './stylesheets/map-styles';
+import { styles, colours, map_styles } from './stylesheets/map-styles';
 
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
@@ -32,43 +32,8 @@ class MapView extends BaseView {
 	}
 
 	/**
-	 * Triggers when the component is mounted.
+	 * Resets the state with default variables
 	 */
-	componentDidMount = () => {
-		this._setUserLocation();
-		this.MapP.forceRequestData();
-		
-		this.setState({
-			markers : this.MapP.getData()
-		});		
-	};
-
-	componentWillReceiveProps = () => {
-		const { navigation } = this.props;
-		const data = navigation.getParam('data', 'NO-DATA');
-		// console.log(data);
-		if (data !== 'NO-DATA') {
-			this._setLocationToMarkerItem(data);
-		}
-	}
-
-	/**
-	 * Component is about to unmount, do any cleanup here.
-	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
-	 */ 
-	componentWillUnmount = () => {
-		this.viewUnmounting(this.MapP);
-	}
-
-	/**
-	 * Refreshes the state of the component so new data is fetched.
-	 */
-	refreshState = () => {
-		this.setState({ 
-			refresh: !this.state.refresh
-		});
-	}
-
 	resetState = () => {
 		this.state = {
 			refresh: true,
@@ -88,11 +53,98 @@ class MapView extends BaseView {
 			showButton: false,
 			markerCreated:[],
 			markers: [],
-			markerRefs: {}
+			markerRefs: {},
+			tempMarkers: [],
+			tempMarkerRefs: [],
+			foundMarker: null,
+			foundCalloutOpened: false
 		};
 	}
 
-	_setLocationToMarkerItem = (item) => {
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () => {
+		this.setState({ 
+			refresh: !this.state.refresh
+		});
+	}
+
+	/**
+	 * Triggers when the component is mounted.
+	 */
+	componentDidMount = () => {
+		this._setUserLocation();
+		this.MapP.forceRequestData();
+		
+		this.setState({
+			markers : this.MapP.getData()
+		});		
+	};
+
+	/**
+	 * Component will receive new properties via the props attribute
+	 */
+	componentWillReceiveProps = () => {
+		const { navigation } = this.props;
+		const data = navigation.getParam('data', 'NO-DATA');
+		const found = navigation.getParam('found', false);
+		
+		if (found) {
+			const foundMarker = this._createNewMarker(data);
+			this.setState({foundCalloutOpened: true});
+			this.state.tempMarkers = [foundMarker]; // We just overwrite because best to only keep track of one
+		} else if (data !== 'NO-DATA') {
+			// Only set the location if the marker wasn't clicked from the Alerts page
+			this._setLocationToMarkerItem(this.state.markerRefs, data, true);
+		}
+	}
+
+	/**
+	 * Component is about to unmount, do any cleanup here.
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
+	 */ 
+	componentWillUnmount = () => {
+		this.viewUnmounting(this.MapP);
+	}
+
+	/**
+	 * Component's state has updated
+	 */
+	componentDidUpdate = () => {
+		if (this.state.tempMarkers.length !== 0 && this.state.foundCalloutOpened) {
+			this.setState({foundCalloutOpened: false})
+			this._setLocationToMarkerItem(this.state.tempMarkerRefs, this.state.tempMarkers[0].data, true);
+		}
+	}
+
+	/**
+	 * Creates a new marker from the data.
+	 *
+	 * @param {Object} data - The data from the marker to be created
+	 * @return {Object} A new marker object with data, key and coordinate properties
+	 */
+	_createNewMarker = (data) => {
+		const newMarker = {
+				data: data,
+				key: data.id,
+				coordinate: {
+					latitude: data.latitude,
+					longitude: data.longitude,
+				}
+		}
+
+		return newMarker;
+	}
+
+	/**
+	 * Sets the location of the map to the marker's position and open its callout.
+	 *
+	 * @param {List} refs - A list of marker references
+	 * @param {Object} item - The marker's data
+	 * @param {Boolean} shouldReshowCallout - If the callout should be triggered twice on a delay. default=false
+	 */
+	_setLocationToMarkerItem = (refs, item, shouldReshowCallout=false) => {
 		if (item.hasOwnProperty('longitude') && item.hasOwnProperty('latitude')) {
 			const location = {
 				latitude: item.latitude,
@@ -101,11 +153,18 @@ class MapView extends BaseView {
 				longitudeDelta: 0.0421,
 			};
 			this.onRegionChange(location);
-			// console.log(this.state.markerRefs);
-			this.state.markerRefs[item.id].showCallout();
+			refs[item.id].showCallout();
+
+			// Sometimes the callouts don't popup immediately so we have to call it again after 50 milliseconds
+			if (shouldReshowCallout) {
+				setTimeout(() => {refs[item.id].showCallout();}, 50);
+			}
 		}
 	}
 
+	/**
+	 * Sets the user's location to their current location.
+	 */
 	_setUserLocation = () => {
 		this.MapP.getUserLocation().then(position => {
 			if (position) {
@@ -204,9 +263,8 @@ class MapView extends BaseView {
 					center = {{latitude:this.state.x.latitude,longitude:this.state.x.longitude}}
 					radius = {this.state.circleRadius}
 					strokeColor = "#4F6D7A"
-								strokeWidth = { 2 }
-					fillColor = 'rgba(200,0,0,0.5)'
-				/>
+					strokeWidth = { 2 }
+					fillColor = 'rgba(200,0,0,0.5)'/>
 			)
 		}
 	}
@@ -216,7 +274,7 @@ class MapView extends BaseView {
 	 */
 	saveCircle(){
 		//nothing
-		newData ={
+		newData = {
 			data: {
 				circleLatitude: this.state.x.latitude,
 				circleLongitude: this.state.x.longitude,
@@ -229,13 +287,15 @@ class MapView extends BaseView {
 	/**
 	 * Save data of created marker to report lost page
 	 */
-	sendNewMarker(){
+	sendNewMarker() {
 		newData={
 			data:
-				{latitude: this.state.markerCreated[0].coordinate.latitude,
-				longitude: this.state.markerCreated[0].coordinate.longitude,}
+				{
+					latitude: this.state.markerCreated[0].coordinate.latitude,
+					longitude: this.state.markerCreated[0].coordinate.longitude,
+				}
 		}
-		// console.log(newData);
+		this.navigate('ReportLost', newData);
 	}
 
 	/**
@@ -244,7 +304,7 @@ class MapView extends BaseView {
 	 * @param {Event} The event of long press on the map
 	 */
 	setCircleLat(e) {
-	cor = e.nativeEvent.coordinate;
+		let cor = e.nativeEvent.coordinate;
 		if (this.state.showCircle){
 			this.setState({
 				x: {
@@ -261,11 +321,11 @@ class MapView extends BaseView {
 	 */
 	_onPressButton=()=> {
 		this.setState({
-					showButton: true,
-					showMarker: true,
-					showCircle: false,
-					markerCreated:  [this.newMarker(this.state.region.latitude,this.state.region.longitude)],
-				});
+			showButton: true,
+			showMarker: true,
+			showCircle: false,
+			markerCreated:  [this.newMarker(this.state.region.latitude,this.state.region.longitude)],
+		});
 	  }
 
 	/**
@@ -274,7 +334,8 @@ class MapView extends BaseView {
 	 * @param {Integer} latitude and longitude of a marker
 	 */
 	newMarker = (lat,long) => {
-		return({coordinate: {latitude: lat,longitude: long}});
+		const key = this.state.markers.length-1
+		return({key, coordinate: {latitude: lat,longitude: long}});
 	};
 
 	/**
@@ -397,12 +458,19 @@ class MapView extends BaseView {
 					  	{this.state.markers.map(marker => (
 							<Marker 
 								{...marker} 
-								ref={(ref) => this.state.markerRefs[marker.key] = ref}>
+								ref={(ref) => this.state.markerRefs[marker.key] = ref}
+								pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}>
 								{this._renderCallout(marker)}
-								
 							</Marker>
 						))}
-						{/*console.log(this.state.markers)*/}
+						{this.state.tempMarkers.map(marker => (
+							<Marker 
+								{...marker} 
+								ref={(ref) => this.state.tempMarkerRefs[marker.key] = ref}
+								pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}>
+								{this._renderCallout(marker)}
+							</Marker>
+						))}
 						{this.state.markerCreated.map(marker => (<Marker draggable{...marker} />))}
 						{this.renderCircle(this)}
 					</RNMapView>

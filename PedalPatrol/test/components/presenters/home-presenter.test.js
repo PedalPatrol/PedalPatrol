@@ -47,7 +47,7 @@ test('should filter searched items correctly', () => {
 	let dataToPass = { data: { model: 'Test', id: 0 } };
 	let result_data = { data: [{ model: 'Test', id: 0 }] }; // To Change when actual UID is obtained
 	
-	homepresenter.update(dataToPass);
+	homepresenter.testUpdateInjection(dataToPass);
 	homepresenter.handleSearchFilter('Te');
 
 	expect(setState).toHaveBeenCalled();

@@ -104,7 +104,7 @@ class BikePresenter extends BasePresenter {
 	 * @param {string} text - A word(s) to filter on
 	 */
 	handleSearchFilter = (text) => {
-		console.log(this.getData());
+		// console.log(this.getData());
 		const newData = this.getData().filter(item => {
 			const itemData = `${item.name.toUpperCase()}}`;
 			const textData = text.toUpperCase();

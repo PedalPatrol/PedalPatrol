@@ -111,50 +111,54 @@ class LoginView extends BaseView {
 	}
 
 	renderContent = () => (
-		<View style={login_styles.centered}>
-			<Text style={login_styles.title}>Pedal Patrol</Text>
-		</View>
-		<View style={login_styles.editGroup}>
-			<View style={login_styles.username}>
-				<TextInput
-					style={text.textInput}
-					label="Username"
-					textContentType='username'
-					onChangeText={(username) => this.setState({username})}/>
+		<View>
+			<View style={login_styles.centered}>
+				<Text style={login_styles.title}>Pedal Patrol</Text>
 			</View>
-			
-			<View style={login_styles.password}>
-				<TextInput
-					style={text.textInput}
-					label="Password"
-					textContentType='password'
-					secureTextEntry
-					onChangeText={(password) => this.setState({password})}/>
-			</View>
-			
-			<View style={{marginTop: 30}}>
-				<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
-			</View>
-			
-			<View>
-				<Text style={login_styles.centerText}> Login With Social Account: </Text>
-				<View style={login_styles.socialIcons}>
-					<Icon.Button
-						name="facebook"
-						type="FontAwesome"
-						color="#000000"
-						backgroundColor={colours.ppGrey}
-						onPress={() => 'default'}
-						size={30}>
-					</Icon.Button>
-					<Icon.Button
-						name="twitter"
-						type="FontAwesome"
-						color="#000000"
-						backgroundColor={colours.ppGrey}
-						onPress={() => 'default'}
-						size={30}>
-					</Icon.Button>
+			<View style={login_styles.editGroup}>
+				<View style={login_styles.username}>
+					<TextInput
+						style={text.textInput}
+						label="Username"
+						textContentType='username'
+						value={this.state.username}
+						onChangeText={(username) => this.setState({username})}/>
+				</View>
+				
+				<View style={login_styles.password}>
+					<TextInput
+						style={text.textInput}
+						label="Password"
+						textContentType='password'
+						secureTextEntry
+						value={this.state.password}
+						onChangeText={(password) => this.setState({password})}/>
+				</View>
+				
+				<View style={{marginTop: 30}}>
+					<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
+				</View>
+				
+				<View>
+					<Text style={login_styles.centerText}> Login With Social Account: </Text>
+					<View style={login_styles.socialIcons}>
+						<Icon.Button
+							name="facebook"
+							type="FontAwesome"
+							color="#000000"
+							backgroundColor={colours.ppGrey}
+							onPress={() => 'default'}
+							size={30}>
+						</Icon.Button>
+						<Icon.Button
+							name="twitter"
+							type="FontAwesome"
+							color="#000000"
+							backgroundColor={colours.ppGrey}
+							onPress={() => 'default'}
+							size={30}>
+						</Icon.Button>
+					</View>
 				</View>
 			</View>
 		</View>
@@ -167,7 +171,6 @@ class LoginView extends BaseView {
 		return (
 			<View style={[styles.container]}>
 				<SafeArea overrideColour={colours.ppGrey} />
-
 				{
 					Platform.OS === 'ios' &&
 					<KeyboardAvoidingView
@@ -177,9 +180,10 @@ class LoginView extends BaseView {
 						{this.renderContent()}
 					</KeyboardAvoidingView>
 				}
+
 				{
 					Platform.OS !== 'ios' &&
-					{this.renderContent()}
+					this.renderContent()
 				}
 
 				<View style={login_styles.bottom}>

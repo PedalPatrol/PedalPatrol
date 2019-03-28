@@ -51,10 +51,10 @@ class AuthLoadingModel extends Model {
 	 * @param {Function} onFailure - A callback function on a failure to logout
 	 */
 	logout(onSuccess, onFailure) {		
-		Database.signOut(() => {
+		Database.signOut(async () => {
 			const userID = AuthState.getCurrentUserID();
-			PersistStorage.removeAllData([userID], (message) => {
-				console.log('All data removed - ', message);
+			await PersistStorage.removeAllData([], (message) => {
+				console.log('All data removed', message);
 			}, (error) => {
 				console.log('Error removing data:', error);
 			});

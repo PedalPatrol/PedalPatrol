@@ -29,6 +29,14 @@ class HomePresenter extends BasePresenter {
 		HomeM.update(newData); 
 	};
 
+	/**
+	 * @private
+	 * TEST CASE USE ONLY
+	 * Function for tests only to inject data.
+	 */
+	testUpdateInjection(data) {
+		HomeM.testUpdateInjection(data);
+	}
 
 	/**
 	 * Called when the model is updated with new data. Refreshes the state of the view.
@@ -55,6 +63,11 @@ class HomePresenter extends BasePresenter {
 		return HomeM.get().data;
 	};
 
+	/**
+	 * Get the profile picture from the profile model
+	 *
+	 * @param {Function} callback - A callback function that will be called with the resulting data
+	 */
 	getProfileImage = (callback) => {
 		ProfileM.getProfilePicture(callback);
 	}

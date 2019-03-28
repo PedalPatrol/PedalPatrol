@@ -19,6 +19,7 @@ class HomeModel extends Model {
 		this._data = {data: []};
 		this._activeBookmarks = [];
 
+		this._callback = this._defaultCallback;
 		this._createObserverList();
 		this._registerDBReadListener();
 	}
@@ -30,6 +31,22 @@ class HomeModel extends Model {
 	 */
 	get() {
 		return {...this._data} // immutable
+	}
+
+	/**
+	 * Default callback
+	 */
+	_defaultCallback(message) {
+		console.log(message);
+	}
+
+	/**
+	 * Set the model's callback to a new callback. This callback can be used anywhere and is usually passed in from a presenter.
+	 *
+	 * @param {Function} callback - A callback to run when certain code is executed
+	 */
+	setCallback(callback) {
+		this._callback = callback;
 	}
 
 	/**
@@ -129,12 +146,34 @@ class HomeModel extends Model {
 	 * @param {Object} newData - New data to add
 	 */
 	update(newData) {
-		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
-		this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
-		// console.log(this._data);
-		// this.notifyAll(null) // Send with no message?
-		this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
-		// this._eventEmitter.emit('change')
+		newData.data.found_milliseconds = TimeUtil.getDateTime();
+
+		if (newData.hasOwnProperty('foundTriggered') && newData.foundTriggered && newData.data.found) {
+			this._editExistingInDatabase(newData.data, (result) => {
+				this._callback(true); 
+				this._removeFromData(newData.data); 
+				this._notifyAll(this._data.data);
+			});
+		}
+	}
+
+	/**
+	 * @private
+	 * TEST CASE USE ONLY
+	 * Function for tests only to inject data.
+	 */
+	testUpdateInjection(newData) {
+		this._data.data.push(newData.data);
+		this._notifyAll(this._data);
+	}
+
+	/**
+	 * Remove data from the home model's data.
+	 * 
+	 * @param {Object} data - Data to remove
+	 */
+	_removeFromData(data) {
+		this._data.data = this._data.data.filter((el) => el != data);
 	}
 
 	/**
@@ -174,6 +213,25 @@ class HomeModel extends Model {
 	 */
 	forceNotifyAll() {
 		this._notifyAll(this._data);
+	}
+
+	/**
+	 * Overwrite existing data in database and call the function callback depending on if it was successful or not.
+	 *
+	 * @param {Object} newData - Data to be written to the database
+	 * @param {Function} callback - A function to call on the success or failure of the call
+	 */
+	_editExistingInDatabase(newData, callback) {
+		return Database.editBikeData(newData, (data) => {
+			// console.log(data);
+			callback(typeof data !== 'undefined' && data !== undefined);
+			// return typeof data !== 'undefined' && data !== undefined;
+			// this._callback(typeof data !== 'undefined' && data !== undefined);
+		},(error) => {
+			console.log(error);
+			callbacK(false);
+			// this._callback(false);
+		});
 	}
 }
 

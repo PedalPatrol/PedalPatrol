@@ -215,7 +215,7 @@ const drawerData = [
 		text: 'Settings',
 		icon_name: 'cog',
 		icon_type: 'FontAwesome',
-		screen: 'SettingStack'
+		screen: 'SettingsStack'
 	},
 	{
 		text: 'Logout',

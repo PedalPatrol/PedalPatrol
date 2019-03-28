@@ -50,8 +50,10 @@ class NotificationBikeItem extends Component {
 		this.props.navigation.navigate({
 			routeName: screen,
 			params: {
+				rawData: this.props.data, // Report found takes in rawData but other pages in
 				data: this.props.data,
-				from: this.props.from
+				from: this.props.from,
+				found: this.props.from === 'Alerts'
 			},
 			key: screen + TimeUtil.getDateTime()
 		});
@@ -142,10 +144,10 @@ class NotificationBikeItem extends Component {
 											<Icon name="pin-drop" type="MaterialIcons" size={24} color={colours.ppGreen} />
 										</TouchableOpacity>
 
-										{/* Comment button */}
+										{/* Report Found */}
 										{
 											this.state.from === TYPE_STOLEN_HOME &&
-											<TouchableOpacity style={styles.icon} accessibilityLabel="Comment">
+											<TouchableOpacity style={styles.icon} accessibilityLabel="Report Found" onPress={() => this.navigate('ReportFound')}>
 												<Icon name="comment" type="MaterialIcons" size={24} color={colours.ppGreen} />
 											</TouchableOpacity>
 										}

@@ -122,13 +122,18 @@ class ProfileModel extends Model {
 	 * @param {Function} callback - A callback to call with the retrieved data
 	 */
 	async getProfileData(callback) {
-		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(ImageUtil.getTypes().PROFILE);
+		const DEFAULT_PROFILE_IMAGE = ImageUtil.getDefaultImage(PROFILE_TYPE);
 		const userID = AuthState.getCurrentUserID();
+		const default_data = {id: userID, full_name: 'Not Found', thumbnail: [DEFAULT_PROFILE_IMAGE]};
 		await PersistStorage.retrieveData(userID, (data) => {
-			if (data != null) {
+			// console.log(data);
+			if (data != null && data.startsWith('{') && data.endsWith('}')) {
 				callback(JSON.parse(data));
+				this._notifyAll(data); // Must supply data otherwise recursive call will start
 			}
 		}, (error) => {
+			callback(default_data);
+			this._notifyAll(default_data); // Must supply data otherwise recursive call will start
 			console.log(error);
 		});
 	}
@@ -141,7 +146,7 @@ class ProfileModel extends Model {
 	 */
 	async _addProfileDataLocally(userID, data) {
 		if (data != null && data != undefined && data != {}) {
-			PersistStorage.storeData(userID, JSON.stringify(data), (error) => {console.log(error)});
+			await PersistStorage.storeData(userID, JSON.stringify(data), (error) => {console.log(error)});
 		}
 	}
 

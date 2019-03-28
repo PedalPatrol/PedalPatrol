@@ -12,11 +12,13 @@ import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import BikeDetailsPresenter from '../presenters/bikedetails-presenter';
+import TimeUtil from '../../util/timeutility';
 
 class BikeDetailsView extends BaseView {
 	state = {
 		data: [],
-		photoEntries: []
+		photoEntries: [],
+		rawData: []
 	}
 
 	/**
@@ -41,6 +43,35 @@ class BikeDetailsView extends BaseView {
 		super(props);
 		this.BikeDetP = new BikeDetailsPresenter(this);
 	}
+
+	navigate = (screen) => {
+		this.props.navigation.navigate({
+			routeName: screen,
+			params: {
+				rawData: this.state.rawData,
+				from: 'BikeDetails'
+			},
+			key: screen + TimeUtil.getDateTime()
+		});
+
+	};
+
+	_handleClick() {
+		this.navigate("ReportFound");
+	}
+
+
+	/**
+	 * Component mounted
+	 */
+	componentDidMount = () => {
+		const { navigation } = this.props;
+		// const data = navigation.getParam('data', 'NO-DATA');
+
+		// item = this.sectionedMultiSelect._findItem(data.colour);
+		// this.sectionedMultiSelect._toggleItem(item, false);
+	}
+
 
 	/**
 	 * Component is about to mount, initialize the data.
@@ -150,12 +181,22 @@ class BikeDetailsView extends BaseView {
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>
 
+							<View>
 							<TouchableOpacity
-								style={bikedetails_styles.getDirectionsTouchable}>
+								style={bikedetails_styles.touchableButtons}>
 								<Button 
 									title='Get Directions'
 									onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
 							</TouchableOpacity>
+							</View>
+
+							<View>
+								<TouchableOpacity style={bikedetails_styles.touchableButtons}>
+									<Button
+										onPress={()=>this._handleClick()}
+										title="Report Found"/>
+								</TouchableOpacity>
+							</View>
 
 							</ScrollView>
 						</View>
