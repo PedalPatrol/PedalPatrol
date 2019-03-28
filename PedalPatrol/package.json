@@ -10,7 +10,7 @@
     "coverage": "jest --silent --coverage && cat ./coverage/lcov.info | coveralls",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
-    "docs": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow",
+    "docs": "rm -rf ../docs/ && documentation build src/** -f html -o ../docs --shallow",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/PedalPatrol/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
