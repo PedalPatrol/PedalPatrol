@@ -128,7 +128,11 @@ class FirebaseDatabase {
 
 
     setAccount(userId){
-        this.refDB.child('Users/').child(userId).set({id:userId,});
+        let user = firebase.auth().currentUser;
+        this.refDB.child('Users/').child(userId).set({
+        id:userId,
+        email:user.email,
+        });
     }
 	/**
 	 * Sign out of the database.
