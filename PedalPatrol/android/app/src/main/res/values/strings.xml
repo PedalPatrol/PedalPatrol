@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PedalPatrol</string>
+    <string name="facebook_app_id">648079342289963</string> <string name="fb_login_protocol_scheme">fb648079342289963</string>
 </resources>

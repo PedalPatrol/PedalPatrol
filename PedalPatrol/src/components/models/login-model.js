@@ -46,6 +46,14 @@ class LoginModel extends Model {
 	 * async method for presenters to know if the username and password is existed in the database
 	 * @param {Object} newData - data including username and password.
 	 */
+
+	updateT(){
+    Database.signInwithTwitter();
+	 }
+    updateF = () => {
+    Database.signinwithFB();
+    	}
+
 	async update(newData) {
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		this._data.data.splice(0,1,newData.data); // Appends to the list - Use this if only a single piece of data is passed in
@@ -61,12 +69,16 @@ class LoginModel extends Model {
 		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
 			errorMessage = false;
-			console.log(error);
-		});
-
-		if (errorMessage) {
-			this._authenticationSuccess();
-		}
+			console.log('erroraftercheck: '+errorMessage);
+			setTimeout(()=>{
+			console.log('errormessage in timeout'+errorMessage)
+			if (errorMessage) {
+            console.log("authentification error message"+ errorMessage)
+            this.authenticationSuccess();
+            }
+            this._notifyAll(errorMessage);
+            },600);
+            });
 
 		//var message = errorMessage;
 		// console.log('ddd:'+errorMessage)

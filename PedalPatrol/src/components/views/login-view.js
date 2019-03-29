@@ -48,6 +48,14 @@ class LoginView extends BaseView {
 			this.sendUpdate();
 		}
 	}
+	_handleClickT() {
+	    console.log('clicked twitter')
+        this.LoginP.updateT();
+    	}
+    _handleClickF() {
+    console.log('clicked facebook')
+               this.LoginP.updateF();
+            	}
 
 	/**
 	 * Called if the user input username or password is invalid.
@@ -151,7 +159,7 @@ class LoginView extends BaseView {
 							type="FontAwesome"
 							color="#000000"
 							backgroundColor={colours.ppGrey}
-							onPress={() => 'default'}
+							onPress={this._handleClickF.bind(this)}
 							size={30}>
 						</Icon.Button>
 						<Icon.Button
@@ -159,7 +167,7 @@ class LoginView extends BaseView {
 							type="FontAwesome"
 							color="#000000"
 							backgroundColor={colours.ppGrey}
-							onPress={() => 'default'}
+							onPress={this._handleClickT.bind(this)}
 							size={30}>
 						</Icon.Button>
 					</View>
