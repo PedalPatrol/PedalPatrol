@@ -69,7 +69,50 @@ class FirebaseDatabase {
 
 	 signUp(email,password,onError) {
 	    firebase.auth().createUserWithEmailAndPassword(email,password).catch(onError);
+	    this.getCurrentUser((userID) => {
+               this.setAccount(userID);
+            });
 	 }
+    	checkVerify(user,errorMessage) {
+    		firebase.auth().onAuthStateChanged(function(user) {
+    			if (user) {
+    			if (user.emailVerified === false) {
+    				errorMessage = 'email not verified';
+    			} else {
+    				// successful login
+    			}
+    			} else {
+    				errorMessage = 'no user signin';
+    			}
+    		});
+    	}
+
+    	sendEmail() {
+    		 firebase.auth().currentUser.sendEmailVerification().then(function() {
+            // Email Verification sent!
+            // [START_EXCLUDE]
+            alert('Email Verification Sent!');
+            // [END_EXCLUDE]
+          }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+    		var errorMessage = error.message;
+    		alert(errorMessage);
+    		});
+    	}
+
+    	sendresetEmail() {
+    		let email = getCurrentUserEmail();
+    		firebase.auth().sendPasswordResetEmail(email).then(function() {
+    		// Email sent.
+    		}).catch(function(error) {
+    		// An error happened.
+    		var errorCode = error.code;
+    		var errorMessage = error.message;
+    		alert(errorMessage);
+    		});
+
+    	}
 
 	signIn(email, password, onError) {
 		firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);

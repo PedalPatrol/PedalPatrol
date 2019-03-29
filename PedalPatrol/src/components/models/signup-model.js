@@ -36,21 +36,18 @@ class SignupModel extends Model {
 	async update(newData) {
 		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
 		this._data.data.splice(0,1,newData.data); // Appends to the list - Use this if only a single piece of data is passed in
-		
 
-		
 		//var errorMessage = 'successfully';
 		await Database.signUp(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
 			errorMessage = error.message;
 			console.log('erroraftercheck: '+errorMessage);
-		});
+		}).then();
 		
 		// create account in database
 		//acount detail page???
 		
-		//let userId = Database.getCurrentUser();
-		//await Database.setAccount(userId);
+
 		
 		//var user = Database.currentUser();
 		
