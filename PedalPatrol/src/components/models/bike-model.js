@@ -47,6 +47,18 @@ class BikeModel extends Model {
 	}
 
 	/**
+	 * Returns the bike data by providing the bike ID.
+	 *
+	 * @param {string} id - A bike ID
+	 * @return {Object} The data coresponding to the bike id
+	 */
+	_getBikeByID = (id) => {
+		return this._data.data.filter((el) => {
+			return el.id === id;
+		})[0];
+	}
+
+	/**
 	 * Default callback
 	 */
 	_defaultCallback(message) {
@@ -268,7 +280,7 @@ class BikeModel extends Model {
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			callbacK(false);
+			callback(false);
 			// this._callback(false);
 		});
 	}
@@ -323,7 +335,7 @@ class BikeModel extends Model {
 		}
 		const exists = i !== this._data.data.length;
 		const index = exists ? i : -1;
-		return { exists, index};
+		return { exists, index };
 	}
 
 	/**
@@ -381,8 +393,8 @@ class BikeModel extends Model {
 	 * @param {string} key - A key to store the data under
 	 * @param {Object} data - The data to store 
 	 */
-	_saveDataToLocalStorage(key, data) {
-		PersistStorage.retrieveData(key, (retrievedData) => {
+	async _saveDataToLocalStorage(key, data) {
+		await PersistStorage.retrieveData(key, (retrievedData) => {
 			if (retrievedData != [] && retrievedData != null && retrievedData != undefined) {
 				// We only want to store data if there isn't already data.
 				PersistStorage.storeData(key, JSON.stringify(data), (error) => {
@@ -400,8 +412,8 @@ class BikeModel extends Model {
 	 *
 	 * @param {string} key - Key to get data for 
 	 */
-	_checkForLocalData(key) {
-		PersistStorage.retrieveData(key, (data) => {
+	async _checkForLocalData(key) {
+		await PersistStorage.retrieveData(key, (data) => {
 			if (data != null) {
 				this._data = JSON.parse(data);
 				this._notifyAll(null);

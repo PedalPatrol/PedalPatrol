@@ -51,8 +51,13 @@ class AlertPresenter extends BasePresenter {
 		return AlertM.get().data;
 	};
 
+	/**
+	 * Gets the profile image from the ProfileModel.
+	 * 
+	 * @param {Function} callback - A function to be called with the profileData
+	 */
 	getProfileImage = (callback) => {
-		ProfileM.getProfilePicture(callback);
+		ProfileM.getProfileData(callback);
 	}
 
 	/**

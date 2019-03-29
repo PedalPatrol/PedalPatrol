@@ -11,6 +11,7 @@ import NavigatorService from '../../../config/navigationservice';
 
 /**
  * Class for the side drawer component.
+ * @extends Component
  */
 class SideDrawer extends Component {
 	static propTypes = {
@@ -30,6 +31,9 @@ class SideDrawer extends Component {
 		DrawerHelp.setDrawer(this);
 	};
 
+	/**
+	 * Component has mounted.
+	 */
 	componentDidMount = () => {
 		this.setState({
 			profileData: {profilePicture: DrawerHelp.getDefaultProfile()}
@@ -107,6 +111,7 @@ class SideDrawer extends Component {
 	 * Navigate to a specified screen. Screen must be a possible navigation
 	 *
 	 * @param {string} screen - The name of the screen to navigate to.
+	 * @param {Object} params - The params to add to the navigation call. Key, value pairs
 	 */
 	navigateToScreen = (screen, params) => {
 		// console.log(screen);
@@ -215,7 +220,7 @@ const drawerData = [
 		text: 'Settings',
 		icon_name: 'cog',
 		icon_type: 'FontAwesome',
-		screen: 'SettingStack'
+		screen: 'SettingsStack'
 	},
 	{
 		text: 'Help Center',

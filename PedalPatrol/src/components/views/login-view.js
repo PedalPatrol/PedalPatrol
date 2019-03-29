@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, Image, PixelRatio, Alert, TouchableOpacity, Button, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, Image, PixelRatio, Alert, TouchableOpacity, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -111,61 +111,84 @@ class LoginView extends BaseView {
 	}
 
 	/**
+	 * Renders the main content on the screen.
+	 * Defined in a function because on Android we don't render the KeyboardAvoidingView
+	 */
+	renderContent = () => (
+		<View>
+			<View style={login_styles.centered}>
+				<Text style={login_styles.title}>Pedal Patrol</Text>
+			</View>
+			<View style={login_styles.editGroup}>
+				<View style={login_styles.username}>
+					<TextInput
+						style={text.textInput}
+						label="Username"
+						textContentType='username'
+						value={this.state.username}
+						onChangeText={(username) => this.setState({username})}/>
+				</View>
+				
+				<View style={login_styles.password}>
+					<TextInput
+						style={text.textInput}
+						label="Password"
+						textContentType='password'
+						secureTextEntry
+						value={this.state.password}
+						onChangeText={(password) => this.setState({password})}/>
+				</View>
+				
+				<View style={{marginTop: 30}}>
+					<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
+				</View>
+				
+				<View>
+					<Text style={login_styles.centerText}> Login With Social Account: </Text>
+					<View style={login_styles.socialIcons}>
+						<Icon.Button
+							name="facebook"
+							type="FontAwesome"
+							color="#000000"
+							backgroundColor={colours.ppGrey}
+							onPress={() => 'default'}
+							size={30}>
+						</Icon.Button>
+						<Icon.Button
+							name="twitter"
+							type="FontAwesome"
+							color="#000000"
+							backgroundColor={colours.ppGrey}
+							onPress={() => 'default'}
+							size={30}>
+						</Icon.Button>
+					</View>
+				</View>
+			</View>
+		</View>
+	);
+
+	/**
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
 	 */
 	render() {
 		return (
 			<View style={[styles.container]}>
 				<SafeArea overrideColour={colours.ppGrey} />
-					<View style={login_styles.centered}>
-						<Text style={login_styles.title}>Pedal Patrol</Text>
-					</View>
-					<View style={login_styles.editGroup}>
-						<View style={login_styles.username}>
-							<TextInput
-								style={text.textInput}
-								label="Username"
-								textContentType='username'
-								value={this.state.username}
-								onChangeText={(username) => this.setState({username})}/>
-						</View>
-						
-						<View style={login_styles.password}>
-							<TextInput
-								style={text.textInput}
-								label="Password"
-								textContentType='password'
-								secureTextEntry
-								value={this.state.password}
-								onChangeText={(password) => this.setState({password})}/>
-						</View>
-						
-						<View style={{marginTop: 30}}>
-							<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
-						</View>
-						
-						<View>
-							<Text style={login_styles.centerText}> Login With Social Account: </Text>
-							<View style={login_styles.socialIcons}>
-								<Icon.Button
-									name="facebook"
-									type="FontAwesome"
-									color="#000000"
-									backgroundColor={colours.ppGrey}
-									onPress={() => 'default'}
-									size={30}>
-								</Icon.Button>
-								<Icon.Button
-									name="twitter"
-									type="FontAwesome"
-									color="#000000"
-									backgroundColor={colours.ppGrey}
-									onPress={() => 'default'}
-									size={30}>
-								</Icon.Button>
-							</View>
-						</View>
-					</View>
+				{
+					Platform.OS === 'ios' &&
+					<KeyboardAvoidingView
+						style={styles.container}
+						behavior="padding"
+						enabled>
+						{this.renderContent()}
+					</KeyboardAvoidingView>
+				}
+
+				{
+					Platform.OS !== 'ios' &&
+					this.renderContent()
+				}
 
 				<View style={login_styles.bottom}>
 					<TouchableOpacity style={login_styles.signupButton} onPress={() => this.props.navigation.navigate('Signup')}>

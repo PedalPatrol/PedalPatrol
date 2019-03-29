@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 
 /**
  * Class for the persistent storage of data on a device using ASyncStorage.
+ * @extends Component
  */
 class PersistentStorage extends Component {
 	/**
@@ -102,7 +103,7 @@ class PersistentStorage extends Component {
 			keys = keys.filter( ( el ) => !keepKeys.includes( el ) );
 			await AsyncStorage.multiRemove(keys, (err) => {
 				if (err == null) {
-					const message = "Except: " + (keepKeys.length === 1 ? keepKeys : keepKeys.join(', '));
+					const message = keepKeys.length === 0 ? '' : "- Except: " + (keepKeys.length === 1 ? keepKeys : keepKeys.join(', '));
 					onSuccess(message);
 				} else {
 					console.log(err);

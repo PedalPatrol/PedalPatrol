@@ -12,11 +12,13 @@ import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import BikeDetailsPresenter from '../presenters/bikedetails-presenter';
+import TimeUtil from '../../util/timeutility';
 
 class BikeDetailsView extends BaseView {
 	state = {
 		data: [],
-		photoEntries: []
+		photoEntries: [],
+		rawData: []
 	}
 
 	/**
@@ -43,6 +45,43 @@ class BikeDetailsView extends BaseView {
 	}
 
 	/**
+	 * Navigates to a certain screen with parameters.
+	 * 
+	 * @param {string} screen - The screen name to navigate to. Name must be in navigation.js
+	 */
+	navigate = (screen) => {
+		this.props.navigation.navigate({
+			routeName: screen,
+			params: {
+				rawData: this.state.rawData,
+				from: 'BikeDetails'
+			},
+			key: screen + TimeUtil.getDateTime()
+		});
+
+	};
+
+	/**
+	 * Handles the report found button clicked.
+	 */
+	_handleClick() {
+		this.navigate("ReportFound");
+	}
+
+
+	/**
+	 * Component mounted
+	 */
+	componentDidMount = () => {
+		const { navigation } = this.props;
+		// const data = navigation.getParam('data', 'NO-DATA');
+
+		// item = this.sectionedMultiSelect._findItem(data.colour);
+		// this.sectionedMultiSelect._toggleItem(item, false);
+	}
+
+
+	/**
 	 * Component is about to mount, initialize the data.
 	 * This function is called before componentDidMount
 	 */
@@ -53,13 +92,13 @@ class BikeDetailsView extends BaseView {
 
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
-		const fromTab = navigation.getParam('from', 'Home');
+		const fromPage = navigation.getParam('from', 'Home');
 
-		const { formedData, thumbnail } = this.BikeDetP.translateData(data);
+		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);
 
 		this.setState({
 			rawData: data,
-			from: fromTab,
+			from: fromPage,
 			data: formedData,
 			photoEntries: thumbnail
 		});
@@ -105,6 +144,11 @@ class BikeDetailsView extends BaseView {
 			disabled/>
 	);
 
+	/**
+	 * Renders the text of the label.
+	 *
+	 * @param {string} text - The text to render
+	 */
 	_renderText = (text) => (
 		<Text style={[{color: 'black'}]}>{text}</Text>
 	);
@@ -114,6 +158,9 @@ class BikeDetailsView extends BaseView {
 	 */
 	_keyExtractor = (item, index) => item.id;
 
+	/**
+	 * A callback function if there is a map open error.
+	 */
 	onMapOpenError = () => {
 		Alert.alert(
 			"Unable to Open Directions",
@@ -150,10 +197,25 @@ class BikeDetailsView extends BaseView {
 								keyExtractor={this._keyExtractor}
 								renderItem={this._renderItem}/>
 
-							<Button 
-								style={bikedetails_styles.direction}
-								title='Get Directions'
-								onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
+							<View>
+							<TouchableOpacity
+								style={bikedetails_styles.touchableButtons}>
+								<Button 
+									title='Get Directions'
+									onPress={() => {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/>
+							</TouchableOpacity>
+							</View>
+
+							{
+								this.state.from === 'Home' &&
+								<View>
+									<TouchableOpacity style={bikedetails_styles.touchableButtons}>
+										<Button
+											onPress={()=>this._handleClick()}
+											title="Report Found"/>
+									</TouchableOpacity>
+								</View>
+							}
 
 							</ScrollView>
 						</View>

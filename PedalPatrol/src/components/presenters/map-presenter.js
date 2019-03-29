@@ -1,8 +1,15 @@
 import BasePresenter from './presenter';
 import { HomeM, MapM } from '../models/export-models';
 
-
+/**
+ * Class for the Map Presenter.
+ * @extends BasePresenter
+ */
 class MapPresenter extends BasePresenter {
+	/**
+	 * Creates an instance of the MapPresenter.
+	 * @constructor
+	 */
 	constructor(view){
 		super();
 
@@ -20,6 +27,11 @@ class MapPresenter extends BasePresenter {
 		HomeM.forceNotifyAll();
 	}
 
+	/**
+	 * Returns the data from the MapModel.
+	 *
+	 * @return {Object} The data from the map model.
+	 */
 	getData = () => {
 		return MapM.get();
 	}
@@ -51,6 +63,11 @@ class MapPresenter extends BasePresenter {
 		});
 	};
 
+	/**
+	 * Gets the user's current location from the model.
+	 *
+	 * @return {Object} The longitude and latitude of the user's current location
+	 */
 	getUserLocation = () => {
 		return MapM.getCurrentLocation();
 	}

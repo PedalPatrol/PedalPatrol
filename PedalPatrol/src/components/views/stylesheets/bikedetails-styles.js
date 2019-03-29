@@ -9,13 +9,16 @@ const bikedetails_styles = StyleSheet.create({
 	contentContainer: {
 		flexGrow: 1
 	},
-	direction: {
-		borderWidth: 1,
+	touchableButtons: {
+		borderWidth: 1, 
+		textAlign: 'center', 
 		borderColor: 'black',
-		marginRight: 10,
+		borderRadius: 5,
 		marginLeft: 10,
+		marginRight: 10,
+		marginTop: 10,
 		marginBottom: 10,
-		backgroundColor: colours.ppGrey
+		backgroundColor: colours.ppWhite
 	}
 });
 

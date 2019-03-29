@@ -15,7 +15,12 @@ import LoginView from '../components/views/login-view';
 import AuthLoadingView from '../components/views/authloading-view';
 import ProfileView from '../components/views/profile-view';
 import AlertView from '../components/views/alert-view';
+import NotificationView from '../components/views/notification-view';
+import SettingsView from '../components/views/settings-view';
+import ReportLostView from '../components/views/reportlost-view';
+import ReportFoundView from '../components/views/reportfound-view';
 import HelpView from '../components/views/helppage-view';
+
 
 let screen = Dimensions.get('window');
 
@@ -23,47 +28,47 @@ let screen = Dimensions.get('window');
  * Bottom tab navigator, home, map and bike
  */
 const Tabs = createBottomTabNavigator({
-  	Home: {
+	Home: {
 		screen: HomeView,
 		navigationOptions: {
-	  		tabBarLabel: 'Lost Bikes',
-	  		tabBarIcon: ({ tintColor }) => <Icon name="home" type="entypo" size={28} color={tintColor} />
+			tabBarLabel: 'Lost Bikes',
+			tabBarIcon: ({ tintColor }) => <Icon name="home" type="entypo" size={28} color={tintColor} />
 		},
-  	},
-  	Map: {
+	},
+	Map: {
 		screen: MapView,
 		navigationOptions: {
-	  		tabBarLabel: 'Map',
-	  		tabBarIcon: ({ tintColor }) => <Icon name="md-map" type="ionicon" size={28} color={tintColor} />
+			tabBarLabel: 'Map',
+			tabBarIcon: ({ tintColor }) => <Icon name="md-map" type="ionicon" size={28} color={tintColor} />
 		},
-  	},
-  	Bike: {
+	},
+	Bike: {
 		screen: BikeView,
 		navigationOptions: {
-	  		tabBarLabel: 'My Bikes',
-	  		tabBarIcon: ({ tintColor }) => <Icon name="md-bicycle" type="ionicon" size={28} color={tintColor} />
+			tabBarLabel: 'My Bikes',
+			tabBarIcon: ({ tintColor }) => <Icon name="md-bicycle" type="ionicon" size={28} color={tintColor} />
 		},
-  	},
+	},
 },
 {
 	navigationOptions: {
 		// generic handler for all tabs
-	  	// can be overriden by individual screens
-	  	tabBarOnPress: ({ navigation, defaultHandler }) => {
+		// can be overriden by individual screens
+		tabBarOnPress: ({ navigation, defaultHandler }) => {
 			defaultHandler();
-	  	},
-	  	tabBarVisible: true
-  	},
-  	lazy: false,
-  	initialRouteName: 'Map',
-  	initialLayout: {
-  		height: screen.height,
-  		width: screen.width
-  	},
-  	backBehavior: 'none',
-  	tabBarOptions: {
-  		activeTintColor: colours.ppGreen
-  	}
+		},
+		tabBarVisible: true
+	},
+	lazy: false,
+	initialRouteName: 'Map',
+	initialLayout: {
+		height: screen.height,
+		width: screen.width
+	},
+	backBehavior: 'none',
+	tabBarOptions: {
+		activeTintColor: colours.ppGreen
+	}
 });
 
 /**
@@ -78,12 +83,13 @@ const BikeDetailsStack = createStackNavigator({
 			header: null
 		}),
 	},
-	MapStack: {
-		screen: MapView,
+	ReportFound: {
+		screen: ReportFoundView,
 		navigationOptions: ({navigation}) => ({
 			tabBarVisible: false,
 			gesturesEnabled: false,
-			header: null
+			title: 'ReportFound',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	},
 	BikeDetails: {
@@ -97,6 +103,32 @@ const BikeDetailsStack = createStackNavigator({
 },
 {
 	initialRouteName: 'HomeStack'
+});
+
+/**
+*  Stack navigator for map tab, allows moving between map and report lost page
+*/
+const MapReportLostStack = createStackNavigator({
+	MapStack: {
+		screen: Tabs,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			header: null
+		}),
+	},
+	ReportLost: {
+		screen: ReportLostView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			title: 'ReportLost',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	},
+},
+{
+	initialRouteName: 'MapStack'
 });
 
 /**
@@ -152,6 +184,29 @@ const AlertStack = createStackNavigator({
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	}
+});
+
+const SettingsStack = createStackNavigator({
+	Settings: {
+		screen: SettingsView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			title:'Settings',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	},
+	Notifications: {
+		screen: NotificationView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			title: 'Notification',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+},
+{
+	initialRouteName: 'Settings'
 });
 
 /**
@@ -254,12 +309,25 @@ export const createRootNavigator = () => {
 					gesturesEnabled: false,
 				})
 			},
+			SettingsStack:{
+				screen: SettingsStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
+			MapReportLostStack: {
+				screen: MapReportLostStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
 			HelpStack: {
 				screen: HelpStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})
 			},
+
 		},
 		{
 			headerMode: "none",

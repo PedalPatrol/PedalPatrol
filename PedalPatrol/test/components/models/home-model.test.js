@@ -34,9 +34,9 @@ test('should notify all subscribers', () => {
 	// Mock function for notifyAll
 	const _notifyAll = HomeM._notifyAll = jest.fn();
 
-	let data = { data: { model: 'Test', id: 0 } };
-	let result_data = { data: [{model: 'Test', id: 0 }] }
-	HomeM.update(data); // Call the actual function
+	let data = { data: { model: 'Test', id: 0, found: true }, foundTriggered: true };
+	let result_data = { data: [{model: 'Test', id: 0, found: true }] }
+	HomeM.testUpdateInjection(data); // Call the actual update function with edit test cases in database
 
 	// Check expectations
 	expect(_notifyAll).toHaveBeenCalled();

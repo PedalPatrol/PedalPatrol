@@ -18,9 +18,7 @@ class AuthenticationState {
 	 * @param {string} id - The current user's id
 	 */
 	setCurrentUserID(id) {
-		if (id != null) {
-			this.currentUserID = id;
-		}
+		this.currentUserID = id;
 	}
 
 	/**

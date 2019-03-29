@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { List, Checkbox, Linking } from 'react-native-paper';
+import { List, Checkbox} from 'react-native-paper';
+import {Linking} from 'react-native';
 import BaseView from './view';
 
 class HelpView extends BaseView {
@@ -62,8 +63,9 @@ class HelpView extends BaseView {
         <List.Item
           title="Send us an email">
           onPress={() => {
-            //stub
-          }}
+             Linking.openURL('http://aboutreact.com');
+          }}>
+          
         </List.Item>
         </List.Accordion>
 

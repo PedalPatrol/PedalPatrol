@@ -65,8 +65,13 @@ class BikePresenter extends BasePresenter {
 		return AlertM.getNotificationsCount();
 	}
 
+	/**
+	 * Gets the profile image from the ProfileModel.
+	 * 
+	 * @param {Function} callback - A function to be called with the profileData
+	 */
 	getProfileImage = (callback) => {
-		ProfileM.getProfilePicture(callback);
+		ProfileM.getProfileData(callback);
 	}
 
 	/**
@@ -104,7 +109,7 @@ class BikePresenter extends BasePresenter {
 	 * @param {string} text - A word(s) to filter on
 	 */
 	handleSearchFilter = (text) => {
-		console.log(this.getData());
+		// console.log(this.getData());
 		const newData = this.getData().filter(item => {
 			const itemData = `${item.name.toUpperCase()}}`;
 			const textData = text.toUpperCase();

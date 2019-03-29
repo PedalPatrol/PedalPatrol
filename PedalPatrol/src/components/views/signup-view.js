@@ -69,47 +69,6 @@ class SignUpView extends BaseView {
 	}
 
 	/**
-	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
-	 */
-	render() {
-		return (
-			<View style={styles.container}>
-				<SafeArea/>
-				<View style={signup_styles.editGroup}>
-					<View style={signup_styles.username}>
-						<TextInput
-							style={text.textInput}
-							label="Username"
-							textContentType="username"
-							onChangeText={(username) => this.setState({username})}/>
-					</View>
-
-					<View style={signup_styles.password}>
-						<TextInput
-							style={text.textInput}
-							label="Password"
-							secureTextEntry
-							textContentType="newPassword"
-							onChangeText={(password) => this.setState({password})}/>
-					</View>
-					<View style={signup_styles.password}>
-						<TextInput
-							style={text.textInput}
-							label="Re-enter your password"
-							secureTextEntry
-							textContentType="newPassword"
-							onChangeText={(RPassword) => this.setState({RPassword})}/>
-					</View>
-					
-					<View style={{marginTop: 30}}>
-						<LoginButton text="SIGN UP" onPress={this._handleClick.bind(this)}/>
-					</View>
-				</View>
-			</View>
-		);
-	}
-
-	/**
 	 * Handle the click of the button
 	 */
 	_handleClick() {
@@ -159,6 +118,50 @@ class SignUpView extends BaseView {
 				],
 				{cancelable: false},
 			);
+	}
+
+	/**
+	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
+	 */
+	render() {
+		return (
+			<View style={styles.container}>
+				<SafeArea/>
+				<View style={signup_styles.editGroup}>
+					<View style={signup_styles.username}>
+						<TextInput
+							style={text.textInput}
+							label="Username"
+							textContentType="username"
+							value={this.state.username}
+							onChangeText={(username) => this.setState({username})}/>
+					</View>
+
+					<View style={signup_styles.password}>
+						<TextInput
+							style={text.textInput}
+							label="Password"
+							secureTextEntry
+							textContentType="newPassword"
+							value={this.state.password}
+							onChangeText={(password) => this.setState({password})}/>
+					</View>
+					<View style={signup_styles.password}>
+						<TextInput
+							style={text.textInput}
+							label="Re-enter your password"
+							secureTextEntry
+							textContentType="newPassword"
+							value={this.state.RPassword}
+							onChangeText={(RPassword) => this.setState({RPassword})}/>
+					</View>
+					
+					<View style={{marginTop: 30}}>
+						<LoginButton text="SIGN UP" onPress={this._handleClick.bind(this)}/>
+					</View>
+				</View>
+			</View>
+		);
 	}
 }
 

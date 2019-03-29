@@ -1,5 +1,5 @@
 /**
- * @deprecated 
+ * @deprecated Use Model.js instead as it uses RxJs now.
  * Class for observer list to facilitate observing
  */
 class ObserverList {

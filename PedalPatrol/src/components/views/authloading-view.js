@@ -11,6 +11,7 @@ import AuthLoadingPresenter from '../presenters/authloading-presenter';
 
 /**
  * Class for the auth loading view to process the state before continuing.
+ * @extends BaseView
  */
 class AuthLoadingView extends BaseView {
 	state = {

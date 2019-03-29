@@ -6,8 +6,13 @@ import { colours } from '../stylesheets/base-styles';
 
 /**
  * Class to display the drawer header.
+ * @extends Component
  */
 class DrawerHeader extends Component {
+	/**
+	 * Creates an instance of the DrawerHeader.
+	 * @constructor
+	 */
 	constructor (props) {
 		super(props);
 	}

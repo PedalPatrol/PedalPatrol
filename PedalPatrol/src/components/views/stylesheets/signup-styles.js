@@ -47,4 +47,4 @@ const signup_styles = StyleSheet.create({
 	},
 });
 
-export { styles, text, signup_styles };
+export { styles, text, colours, signup_styles };

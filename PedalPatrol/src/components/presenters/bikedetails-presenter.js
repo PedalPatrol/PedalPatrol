@@ -46,7 +46,7 @@ class BikeDetailsPresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		console.log(newData)
+		// console.log(newData)
 		this.view.refreshState();
 	};
 
@@ -65,13 +65,17 @@ class BikeDetailsPresenter extends BasePresenter {
 	 * @param {Object} data - The data to be translated
 	 * @return {List, List} An object with two lists. 1. The formed data; 2. The list of thumbnails
 	 */
-	translateData = (data) => {
+	translateData = (data, fromPage) => {
 		let formedData = [];
 		// console.log(data);
 
 		Object.keys(data).forEach((key,index) => {
 			if (this.getIgnoredDetails().includes(key.toString())) { // Ignore any keys defined in getIgnoredDetails
 				return; // Acts as continue in 'forEach'
+
+			// Don't show lost description on alerts page and found_description on home page
+			} else if ((key === 'description' && fromPage === 'Alerts') || (key === 'found_description' && fromPage === 'Home')) {
+				return;
 			}
 
 			let keyStr = (key.toString()).replace('_', ' ');
@@ -149,7 +153,7 @@ class BikeDetailsPresenter extends BasePresenter {
   	 * @return {List} A list of title case key names in the order that is needed
   	 */
   	getDetailsOrder = () => {
-  		return ["Name", "Serial Number", "Timeago", "Datetime", "Model", "Brand", "Colour", "Frame Size", "Wheel Size", "Notable Features"];
+  		return ["Name", "Serial Number", "Timeago", "Datetime", "Model", "Brand", "Colour", "Frame Size", "Wheel Size", "Notable Features", "Description", "Found Description"];
   	}
 
   	/**
@@ -161,6 +165,12 @@ class BikeDetailsPresenter extends BasePresenter {
   		return ['id', 'owner', 'thumbnail', 'dataID', 'milliseconds'];
   	}
 
+  	/**
+  	 * Asks the model to open the prompt to open directions.
+  	 *
+  	 * @param {Object} data - The data of where to go to. Must include longitude and latitude
+  	 * @param {Function} onError - A function callback if there is an error with the data
+  	 */
   	goToDirectionsOnMap = (data, onError) => {
   		if (!data.hasOwnProperty('longitude') && !data.hasOwnProperty('latitude')) {
   			onError();

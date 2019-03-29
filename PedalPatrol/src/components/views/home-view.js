@@ -50,6 +50,9 @@ class HomeView extends BaseView {
 			navigation={this.props.navigation}/>
 	);
 
+	/**
+	 * Sets the state to the profile data retrieved from the model.
+	 */
 	_setProfileImage = () => {
 		this.HomeP.getProfileImage((result) => this.setState({profileData: result}));
 	}
@@ -68,7 +71,6 @@ class HomeView extends BaseView {
 
 	/**
 	 * Renders a search bar as the header including the profile icon and the filter button.
-	 * TODO : Get profile picture from profile page
 	 */
 	_renderSearchBar = () => (
 		<SearchBar 

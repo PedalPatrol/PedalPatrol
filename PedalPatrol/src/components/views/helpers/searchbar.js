@@ -14,7 +14,8 @@ const {StatusBarManager} = NativeModules;
 const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
 /**
- * Class to add a search bar header to a page
+ * Class to add a search bar header to a page.
+ * @extends Component
  */
 class SearchBar extends Component {
 	state = {
