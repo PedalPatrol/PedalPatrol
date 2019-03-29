@@ -109,6 +109,16 @@ class BikeView extends BaseView {
 		this._setProfileImage();
 	};
 
+	/**
+	 * Component has updated with set state.
+	 */
+	componentDidUpdate = () => {
+		const data = this.BikeP.getData();
+		// DANGEROUS - Only set the state again if the data is different
+		if (JSON.stringify(data) !== JSON.stringify(this.state.data)) {
+			this.setState({data}); // This is very dangerous to do in componentDidUpdate
+		}
+	}
 
 	/**
 	 * Component is about to unmount, do any cleanup here.

@@ -26,7 +26,7 @@ class AuthLoadingPresenter extends BasePresenter {
 		// Only add models that we expect data from
 		this._numModels = [HomeM].length;
 		// AlertM.subscribe(this);
-		HomeM.subscribe(this);
+		HomeM.subscribe(this, true);
 
 		// This model is really only used to logout, so we don't expect an onUpdated call from it
 		// We use callbacks since logout is an async call

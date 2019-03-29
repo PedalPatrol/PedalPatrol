@@ -196,7 +196,7 @@ class SideDrawer extends Component {
 
 export default SideDrawer;
 
-/**
+/*
  * 'text' property is the drawer name
  * 'icon_name' property is the icon name from the icon type
  * 'icon_type' property is the type of icon (see react-native-vector-icons)

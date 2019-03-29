@@ -19,7 +19,8 @@ class NotificationBikeItem extends Component {
 	static propTypes = {
 		from: PropTypes.oneOf([TYPE_STOLEN_HOME, TYPE_FOUND_ALERTS]).isRequired,
 		data: PropTypes.shape({
-			model: PropTypes.string,
+			brand: PropTypes.string.isRequired,
+			model: PropTypes.string.isRequired,
 			thumbnail: PropTypes.array.isRequired,
 			datetime: PropTypes.string.isRequired,
 			address: PropTypes.string,
@@ -86,7 +87,7 @@ class NotificationBikeItem extends Component {
 								
 								{/* Model */}
 								<Text style={styles.model} numberOfLines={1} ellipsizeMode={'tail'}>
-									{this.props.data.model === '' ? 'Model Unknown' : this.props.data.model}
+									{this.props.data.brand + " " + this.props.data.model}
 								</Text>
 								
 								<View style={{flex:1, flexDirection:'row', justifyContent:'space-between'}}>
@@ -120,11 +121,11 @@ class NotificationBikeItem extends Component {
 
 								{/* Notable features and description */}
 								<View style={{flex: 5, flexDirection:'column', alignItems:'flex-start', justifyContent:'flex-start'}}>
+									<Text style={styles.other} numberOfLines={5} ellipsizeMode={'tail'}>
+										{this.props.data.description}
+									</Text>
 									<Text style={styles.other} numberOfLines={2} ellipsizeMode={'tail'}>
 										Notable Features: {this.props.data.notable_features}
-									</Text>	
-									<Text style={styles.other} numberOfLines={5} ellipsizeMode={'tail'}>
-										Description: {this.props.data.description}
 									</Text>
 								</View>
 

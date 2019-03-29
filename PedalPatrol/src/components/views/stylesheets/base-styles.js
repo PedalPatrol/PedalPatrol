@@ -7,7 +7,8 @@ const colours = {
 	ppPinGreen: '#008000',
 	ppGrey: '#E6ECF0',
 	ppDarkGrey: '#7F7F7F',
-	ppWhite: '#FFFFFF'
+	ppWhite: '#FFFFFF',
+	ppBlue: '#4285F4'
 };
 
 const styles = StyleSheet.create({

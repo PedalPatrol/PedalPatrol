@@ -1,0 +1,32 @@
+# Uncomment the next line to define a global platform for your project
+platform :ios, '9.0'
+
+target 'PedalPatrol' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for PedalPatrol
+  # Required by RNFirebase
+  pod 'Firebase/Core', '~> 5.15.0'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Messaging'
+
+  target 'PedalPatrol-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'PedalPatrolTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'PedalPatrol-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+end
