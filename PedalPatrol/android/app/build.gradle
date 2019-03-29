@@ -134,6 +134,8 @@ android {
 }
 
 dependencies {
+
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
     implementation project(':react-native-firebase')
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'

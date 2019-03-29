@@ -233,6 +233,7 @@ class ProfilePresenter extends BasePresenter {
 	 * @return {List} A list of data objects (name, multiline, text)
 	 */
 	getTextInputData = (data) => {
+	    console.log('gettextinputdata '+ data)
 		return data === NO_DATA ? this._deepCopy(inputDataList.data) : this._translateDataToInput(data);
 	}
 
@@ -244,9 +245,10 @@ class ProfilePresenter extends BasePresenter {
 	 * @return {List} A copy of the data that is now in the form of the text input
 	 */
 	_translateDataToInput = (data) => {
+	    console.log(data)
 		let dataCopy = this._deepCopy(inputDataList.data);
 
-		// We take data[0] because the data is a list
+		// We  take data[0] because the data is a list
 		dataCopy[inputDataList.index.email].text 	= this._getString(data[0].email);
 		dataCopy[inputDataList.index.full_name].text 	= this._getString(data[0].full_name);
 		dataCopy[inputDataList.index.phoneNum].text 	= this._getString(data[0].phoneNum);

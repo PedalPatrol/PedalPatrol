@@ -66,23 +66,32 @@ class FirebaseDatabase {
 	 * @param {string} password - A user's password
 	 * @param {Function} onError - A function callback to execute on error
 	 */
+
+	 signUp(email,password,onError) {
+	    firebase.auth().createUserWithEmailAndPassword(email,password).catch(onError);
+	 }
+
 	signIn(email, password, onError) {
 		firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
 	}
 
-    signinwithFB() {
-    ('into facebook signin')
-    		//console.log('begin signinwithFB');
-    		LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
-              console.log('walk into else'),
-    		  AccessToken.getCurrentAccessToken().then(function(data) {
-    				var accessToken = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-    				console.log('accessToken'+accessToken)
-    				this.handleFirebaseLogin(accessToken);
-                }.bind(this))
-          );
 
-    	}
+	signinwithFB() {
+		//console.log('begin signinwithFB');
+		LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+          console.log('walk into else'),
+		  AccessToken.getCurrentAccessToken().then(function(data) {
+				var accessToken = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+				console.log('accessToken'+accessToken)
+				this.handleFirebaseLogin(accessToken);
+            }.bind(this))
+
+      );
+
+    this.getCurrentUser((userID) => {
+           this.setAccount(userID);
+                   		});
+	}
 
     signInwithTwitter(){
     console.log('into twitter signin')
@@ -132,6 +141,8 @@ class FirebaseDatabase {
         this.refDB.child('Users/').child(userId).set({
         id:userId,
         email:user.email,
+        thumbnail:[]
+
         });
     }
 	/**

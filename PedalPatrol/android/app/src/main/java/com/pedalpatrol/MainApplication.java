@@ -64,6 +64,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

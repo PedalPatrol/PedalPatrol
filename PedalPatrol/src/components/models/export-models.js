@@ -5,6 +5,7 @@ import HomeModel from './home-model';
 import LoginModel from './login-model';
 import MapModel from './map-model';
 import ProfileModel from './profile-model';
+import SignUpModel from './signup-model';
 
 /**
  * This file allows for singleton instances of a class to be created.
@@ -19,6 +20,7 @@ const AuthLoadingM = new AuthLoadingModel();
 const BikeM = new BikeModel();
 const HomeM = new HomeModel();
 const LoginM = new LoginModel();
+const SignUpM = new SignUpModel();
 const MapM = new MapModel();
 const ProfileM = new ProfileModel();
 
@@ -29,5 +31,6 @@ export {
 	HomeM,
 	LoginM,
 	MapM,
-	ProfileM
+	ProfileM,
+	SignUpM
 };
