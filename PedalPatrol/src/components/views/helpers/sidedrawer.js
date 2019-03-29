@@ -224,7 +224,7 @@ const drawerData = [
 	},
 	{
 		text: 'Help Center',
-		icon_name: 'cog',
+		icon_name: 'info-circle',
 		icon_type: 'FontAwesome',
 		screen: 'HelpStack'
 	},

@@ -186,6 +186,18 @@ const AlertStack = createStackNavigator({
 	}
 });
 
+const HelpStack = createStackNavigator({
+	Help: {
+		screen: HelpView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitle: 'Help Center',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+});
+
 const SettingsStack = createStackNavigator({
 	Settings: {
 		screen: SettingsView,
@@ -203,7 +215,7 @@ const SettingsStack = createStackNavigator({
 			title: 'Notification',
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
-	}
+	},
 },
 {
 	initialRouteName: 'Settings'
