@@ -25,7 +25,7 @@ class Model {
 	 *
 	 * @param {Class} observer - A class that will observe the event stream. Must implement onUpdated
 	 */
-	subscribe(observer) {
+	subscribe(observer, force=false) {
 		if (this.eventStream != null && this.eventStream != undefined) {
 			const subscription = this.eventStream.subscribe(
 				observer.onUpdated,
@@ -35,6 +35,10 @@ class Model {
 
 			const newObserver = {observer, subscription};
 			this.observers.push(newObserver);
+		}
+
+		if (force) {
+			this.force();
 		}
 	}
 
@@ -73,6 +77,18 @@ class Model {
 	_deepCopy = (array) => {
 		return array.map(a => Object.assign({}, a));
 	}
+
+	/**
+	 * Force a toggle of the database listeners by the children.
+	 */
+	force() {
+		this.toggleListeners();
+	}
+
+	/**
+	 * Toggle the database listeners from on to off. Must be defined by children to take effect.
+	 */
+	toggleListeners() {/* Method stub - Must be defined by children */}
 
 }
 

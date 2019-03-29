@@ -1,4 +1,5 @@
 /**
+ * @ignore
  * AntDesign icon set component.
  * Usage: <AntDesign name="icon-name" size={20} color="#4F8EF7" />
  */

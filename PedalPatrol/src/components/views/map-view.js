@@ -3,15 +3,16 @@ import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimen
 import {Icon} from 'react-native-elements';
 import {default as RNMapView} from 'react-native-maps';
 import { Marker, Callout, Polygon, Circle } from 'react-native-maps';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-import { styles, colours, map_styles } from './stylesheets/map-styles';
+import { styles, colours, map_styles, autocomplete_styles, STATUSBAR_HEIGHT } from './stylesheets/map-styles';
 
 import MapPresenter from '../presenters/map-presenter';
 import BaseView from './view';
+import SafeArea from './helpers/safearea';
+import ProfileButton from './helpers/profilebutton';
 import TimeUtil from '../../util/timeutility';
-
-const {StatusBarManager} = NativeModules;
-const STATUSBAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBarManager.HEIGHT;
 
 /**
  * Class for the Map view
@@ -57,7 +58,9 @@ class MapView extends BaseView {
 			tempMarkers: [],
 			tempMarkerRefs: [],
 			foundMarker: null,
-			foundCalloutOpened: false
+			foundCalloutOpened: false,
+			selectedFilters: [0],
+			profileData: {}
 		};
 	}
 
@@ -70,6 +73,10 @@ class MapView extends BaseView {
 		});
 	}
 
+	componentWillMount = () => {
+		this._setProfileImage();
+	}
+
 	/**
 	 * Triggers when the component is mounted.
 	 */
@@ -77,9 +84,7 @@ class MapView extends BaseView {
 		this._setUserLocation();
 		this.MapP.forceRequestData();
 		
-		this.setState({
-			markers : this.MapP.getData()
-		});		
+		this._setMarkers(this.state.selectedFilters);
 	};
 
 	/**
@@ -117,6 +122,28 @@ class MapView extends BaseView {
 			this._setLocationToMarkerItem(this.state.tempMarkerRefs, this.state.tempMarkers[0].data, true);
 		}
 	}
+
+	/**
+	 * Sets markers according to the filter, if any, that is set.
+	 *
+	 * @param {List} selectedFilters - A list of selected filters. Indices correspond to places in the list in the 'filters' constant
+	 */
+	_setMarkers = (selectedFilters) => {
+		this.setState({
+			markers : this.MapP.filterMarkers(this.MapP.getData(), selectedFilters.length > 0 ? filters[selectedFilters[0]] : null)
+		});		
+	}
+
+
+	/**
+	 * Add the new selected items to the state and update
+	 *
+	 * @param {List} selectedFilters - List of selected items
+	 */
+	_onSelectedItemsChange = (selectedFilters) => {
+		this.setState({ selectedFilters });
+		this._setMarkers(selectedFilters);
+	} 
 
 	/**
 	 * Creates a new marker from the data.
@@ -202,6 +229,45 @@ class MapView extends BaseView {
 					title="delete"/></View>
 			</View>
 			)
+		}
+	}
+
+/**
+	* Render a searchbar for user to search location after clicking "search location" button
+	*/
+	renderSearchbar = () => {
+		if (this.state.showSearchbar){
+			return (
+				<GooglePlacesAutocomplete
+						placeholder='Enter location'
+						minLength={2} // minimum length of text to search
+						autoFocus={false}
+						returnKeyType={'search'} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+						listViewDisplayed='true'     // true/false/undefined
+						fetchDetails={true}
+						onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
+							console.log(data, details);
+							this.setState({
+								showSearchbar:false,
+								region: { 
+									latitude: details.geometry.location.lat,
+									longitude: details.geometry.location.lng,
+									latitudeDelta: 0.0922,
+									longitudeDelta: 0.0421,
+								}
+							});
+						}}
+						getDefaultValue={() => ''}
+						query={{
+							// available options: https://developers.google.com/places/web-service/autocomplete
+							key: 'AIzaSyCS9j9HB64sW9w8LgvtxVET6LqoET78OcA',
+							language: 'en', // language of the results
+						}}
+						styles={autocomplete_styles}
+						debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+					  />
+
+			);
 		}
 	}
 
@@ -348,6 +414,13 @@ class MapView extends BaseView {
 	};
 
 	/**
+	 * Sets the state to the profile data retrieved from the model.
+	 */
+	_setProfileImage = () => {
+		this.MapP.getProfileImage((result) => this.setState({profileData: result}));
+	}
+
+	/**
 	 * Get the string to display from the colours list.
 	 *
 	 * @param {List} colours - A list of colours
@@ -427,21 +500,22 @@ class MapView extends BaseView {
 	 */
 	render() {
 		const { height: windowHeight } = Dimensions.get('window');
-		const varTop = windowHeight - 125;
+		const varTop = windowHeight - 100;
+		const highestIcon = 50;
 		const hitSlop = {
 			top: 15,
 			bottom: 15,
 			left: 15,
 			right: 15,
 		}
-		let bbStyle = (vheight) => {
+		let bbStyle = (vheight, start=false) => {
 			let style = {
 				position: 'absolute',
 				top: vheight-20,
-				left: 10,
-				right: 10,
+				left: start ? 5 : 10,
+				right: start ? 5 : 10,
 				backgroundColor: 'transparent',
-				alignItems: 'flex-end',
+				alignItems: start ? 'flex-start' : 'flex-end',
 			};
 			return style;
 		}
@@ -449,24 +523,104 @@ class MapView extends BaseView {
 
 		return (
 				<View style={{ flex: 1 }}>
-					<View style={bbStyle(varTop)}>
-						<TouchableOpacity
-							hitSlop = {hitSlop}
-							style={map_styles.mapButton}
-							onPress={ () => this._setUserLocation() }>
-					 		<Icon name="location-arrow" type="font-awesome" size={20} color={"#4285F4"} />
+					{
+						this.state.showSearchbar && 
+						<SafeArea overrideColour={colours.ppGrey}/>
+					}
+
+					{this.renderSearchbar()}
+
+					{/* Height of search bar container covers the profile button and the search button so we don't */}
+					{/* need to use this.state.showSearchbar to block rendering. If we block rendering with that, then */}
+					{/* profile button will re-render and there will be a visible flicker of the profile picture. */}
+
+					<View style={[bbStyle(highestIcon, true), {zIndex: 11, width: '50%'}]}>
+						<ProfileButton
+							hitSlop={hitSlop}
+							profilePicture={this.state.profileData.profilePicture}
+							numNotifications={this.MapP.getNotificationCount()}/>
+					</View>
+
+					<View style={bbStyle(highestIcon)}>
+						<TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel="Search"
+							hitSlop={hitSlop}
+							onPress={() => {this.setState({showSearchbar:true})}}>
+							<Icon name="search" type="MaterialIcons" size={35} color={colours.ppBlue} />
 						</TouchableOpacity>
 					</View>
 
-		 			<RNMapView style ={{flex:1}}
+					<View style={bbStyle(125)}>
+						<TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel="Filter"
+							hitSlop={hitSlop}
+							onPress={() => this.sectionedMultiSelect._toggleSelector()}>
+							<Icon name="filter-list" type="MaterialIcons" size={35} color={colours.ppBlue} />
+						</TouchableOpacity>
+						
+						{/* This is hidden */}
+						<SectionedMultiSelect
+							style={{zIndex: -5}}
+							items={filters}
+							displayKey='name'
+							confirmText='Cancel'
+							uniqueKey={'id'}
+							colors={{ primary: this.state.selectedFilters.length ? 'forestgreen' : 'crimson' }}
+							selectText=''
+							hideSelect
+							showDropDowns
+							single
+							showChips={false}
+							alwaysShowSelectText={false}
+							showCancelButton={false}
+							onSelectedItemsChange={this._onSelectedItemsChange}
+							selectedItems={this.state.selectedFilters}
+							ref={(SectionedMultiSelect) => this.sectionedMultiSelect = SectionedMultiSelect}/>
+					</View>
+
+					<View style={bbStyle(varTop-map_styles.iconButton.height-29)}>
+						<TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel="Lost Report"
+							hitSlop={hitSlop}
+							onPress={this._onPressButton}>
+							<Icon name="pin-drop" type="MaterialIcons" size={35} color={colours.ppBlue} />
+						</TouchableOpacity>
+					</View>
+
+					<View style={bbStyle(varTop-map_styles.iconButton.height*2-29*2)}>
+						<TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel="Receiving Area"
+							hitSlop={hitSlop}
+							onPress={()=>{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}>
+							<Icon name="add-circle" type="MaterialIcons" size={35} color={colours.ppBlue} />
+						</TouchableOpacity>
+					</View>
+
+					<View style={bbStyle(varTop)}>
+						<TouchableOpacity
+							hitSlop={hitSlop}
+							accessibilityLabel="Current Location"
+							style={map_styles.iconButton}
+							onPress={ () => this._setUserLocation() }>
+							<Icon name="location-arrow" type="font-awesome" size={20} color={colours.ppBlue} />
+						</TouchableOpacity>
+					</View>
+
+					<RNMapView 
+						style={{flex:1}}
 						region={this.state.region}
 						style={map_styles.map}
 						showsUserLocation={true}
 						showsMyLocationButton={true}
 						rotateEnabled={true}
 						onRegionChangeComplete={this.onRegionChange.bind(this)}
-						onLongPress = {e => this.setCircleLat(e)}>
-					  	{this.state.markers.map(marker => (
+						onLongPress = {e => this.setCircleLat(e)}
+ onPress = {() => {this.setState({showSearchbar:false})}}>
+						{this.state.markers.map(marker => (
 							<Marker 
 								{...marker} 
 								ref={(ref) => this.state.markerRefs[marker.key] = ref}
@@ -485,13 +639,6 @@ class MapView extends BaseView {
 						{this.state.markerCreated.map(marker => (<Marker draggable{...marker} />))}
 						{this.renderCircle(this)}
 					</RNMapView>
-					
-					<View style={map_styles.reportButton}>
-						<Button onPress={this._onPressButton}
-							title="create lost report"/>
-						<Button onPress={()=>{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}
-							title="create receiving area"/>
-					</View>
 
 					{this.renderSDButton(this)}
 					{this.renderForCircle(this)}
@@ -501,3 +648,38 @@ class MapView extends BaseView {
 }
 
 export default MapView;
+
+const filters = [
+	{
+		id: 0,
+		name: 'None'
+	},
+	{
+		id: 1,
+		name: '< 1 min ago',
+	},
+	{
+		id: 2,
+		name: '< 1 hour ago',
+	},
+	{
+		id: 3,
+		name: '< 12 hours ago',
+	},
+	{
+		id: 4,
+		name: '< 1 day ago',
+	},
+	{
+		id: 5,
+		name: '< 7 days ago',
+	},
+	{
+		id: 6,
+		name: '< 1 month ago',
+	},
+	{
+		id: 7,
+		name: '< 1 year ago',
+	}
+]

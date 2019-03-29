@@ -26,6 +26,17 @@ const UNIQUE_COLOUR_KEY = 'name'; // A unique key for the colours for the sectio
  * @extends BaseView
  */
 class AddBikeView extends BaseView {
+	/**
+	 * Creates an instance of the add bike view
+	 *
+	 * @constructor
+	 * @param {Object} props - Component properties
+	 */
+	constructor(props) {
+		super(props);
+		this.AddBikeP = new AddBikePresenter(this);
+	}
+
 	state = { // Initializing the state
 		editing: false, // Checks if user is editing
 		refresh: true, // Triggers a view refresh
@@ -56,17 +67,6 @@ class AddBikeView extends BaseView {
 			headerRight: (<Button disabled={transitioning} onPress={()=>{clear()}} title='Clear'/>),
 			title: navigation.getParam('title', 'Add Bike') // Default title is Add Bike
 		};
-	}
-
-	/**
-	 * Creates an instance of the add bike view
-	 *
-	 * @constructor
-	 * @param {Object} props - Component properties
-	 */
-	constructor(props) {
-		super(props);
-		this.AddBikeP = new AddBikePresenter(this);
 	}
 
 	/**

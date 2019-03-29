@@ -1,4 +1,5 @@
-import firebase from 'firebase';
+// import firebase from 'react-native-firebase';
+import firebase from 'firebase'; // Using regular firebase here because there are some problems when trying to move to react-native-firebase 
 import 'firebase/storage'; // Necessary for jest tests
 import config from '../config/config.json';
 import TimeUtil from './timeutility';
@@ -158,6 +159,16 @@ class FirebaseDatabase {
 	}
 
 	/**
+	 * Read data from the user table once, only looking for a specific user id.
+	 *
+	 * @param {string} id - The current user's id
+	 * @param {Function} callback - A function callback that is with the value(s) read
+	 */
+	readProfileDataOnce(id, callback) {
+		this.refDB.child('Users/' + id).once('value', callback);
+	}
+
+	/**
 	 * Read data from the bike table only once.
 	 *
 	 * @param {Function} callback - A function callback that is with the value(s) read
@@ -170,20 +181,15 @@ class FirebaseDatabase {
 	 * Read data from the bike table every time there is a change in the database.
 	 *
 	 * @param {Function} callback - A function callback that is with the value(s) read
+	 * @return {Object} A listener from the 'on' function
 	 */
 	readBikeDataOn(callback) {
-		this.listenOn('Bike/', 'value', callback);
+		return this.listenOn('Bike/', 'value', callback);
 		// this.refDB.child('Bike/').on('value', callback);
 	}
 
-	/**
-	 * Read data from the user table once, only looking for a specific user id.
-	 *
-	 * @param {string} id - The current user's id
-	 * @param {Function} callback - A function callback that is with the value(s) read
-	 */
-	readProfileDataOnce(id, callback) {
-		this.refDB.child('Users/' + id).once('value', callback);
+	readBikeDataOff(listener) {
+		this.listenOff('Bike/', 'value', listener);
 	}
 
 	/**
@@ -195,9 +201,14 @@ class FirebaseDatabase {
 	 * @param {string} child - A child to listen on
 	 * @param {string} event - An event to listen for
 	 * @param {Function} callback - A function callback to trigger when data is recieved
+	 * @return {Object} A listener from the 'on' function
 	 */
 	listenOn(child, event, callback) {
-		this.refDB.child(child).on(event, callback);
+		return this.refDB.child(child).on(event, callback);
+	}
+
+	listenOff(child, event, listener) {
+		this.refDB.child(child).off(event, listener);
 	}
 
 	/**
@@ -392,6 +403,34 @@ class FirebaseDatabase {
 			});
 		});
 	}
+
+	/*
+	 * Use this function when moving to react-native-firebase. The above function works with regular firebase.
+	 */
+	// async writeImage(id, file, filename, baseFolder, onSuccess, onError) {
+	// 	const task = this.refStorage.child(baseFolder + id + '/' + filename).putFile(file.uri);
+	// 	task.on('state_changed', (snapshot) => {
+	// 		// Observe state change events such as progress, pause, and resume
+	// 		// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+	// 		let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	// 		console.log('Upload is ' + progress + '% done');
+	// 		switch (snapshot.state) {
+	// 			case firebase.storage.TaskState.PAUSED: // or 'paused'
+	// 				// console.log('Upload is paused');
+	// 				break;
+	// 			case firebase.storage.TaskState.RUNNING: // or 'running'
+	// 				// console.log('Upload is running');
+	// 				break;
+	// 		}
+	// 	}, onError, () => {
+	// 		task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+	// 			// console.log('File available at', downloadURL);
+	// 			blob.close(); // Make sure to close the blob
+	// 			onSuccess(downloadURL);
+	// 			return null;
+	// 		});
+	// 	});
+	// }
 }
 
 const Database = new FirebaseDatabase();

@@ -1,41 +1,5 @@
 import { BIKE_PHOTO_ENTRIES, PROFILE_PHOTO_ENTRIES, BIKE_DEFAULT_IMAGE, PROFILE_DEFAULT_IMAGE } from '../assets/static/entries';
 
-const FILE_EXTENSION = '.jpg';
-const FIREBASE_URL = 'https://firebasestorage.googleapis.com';
-const NUMBER_OF_BIKE_IMAGES = BIKE_PHOTO_ENTRIES.length;
-const NUMBER_OF_PROFILE_IMAGES = PROFILE_PHOTO_ENTRIES.length;
-
-// Constant corresponding to property names in the TYPE_CONSTANTS object
-const TYPE_NAMES = {
-	BIKE: 'BIKE',
-	PROFILE: 'PROFILE'
-}
-/*
- * The purpose of this data structure is to keep track of all the constants for different image types.
- * Different MVP components need different default images and number of images so this way we can keep track
- * of them all and keep our functions generalized.
- * To add another image type, add the name to the TYPE_NAMES object, add the corresponding string as a property
- * value in the TYPE_CONSTANTS structure and a list of the constants. Keep the list of the constants in the same
- * order as the indices indicate in the 'indices' property below.
- */
-const TYPE_CONSTANTS = {
-	BIKE: [
-		BIKE_PHOTO_ENTRIES,
-		BIKE_DEFAULT_IMAGE,
-		NUMBER_OF_BIKE_IMAGES
-	],
-	PROFILE: [
-		PROFILE_PHOTO_ENTRIES,
-		PROFILE_DEFAULT_IMAGE,
-		NUMBER_OF_PROFILE_IMAGES
-	],
-	indices: {
-		PHOTO_ENTRIES: 0,
-		DEFAULT_IMAGE: 1,
-		NUMBER_OF_IMAGES: 2
-	}
-}
-
 /**
  * Image utility class for helping with image handling. 
  */
@@ -194,6 +158,42 @@ class ImageUtility {
 	 */
 	getDefaultPhotos(type) {
 		return JSON.parse(JSON.stringify(this.getPhotoEntries(type)));
+	}
+}
+
+const FILE_EXTENSION = '.jpg';
+const FIREBASE_URL = 'https://firebasestorage.googleapis.com';
+const NUMBER_OF_BIKE_IMAGES = BIKE_PHOTO_ENTRIES.length;
+const NUMBER_OF_PROFILE_IMAGES = PROFILE_PHOTO_ENTRIES.length;
+
+// Constant corresponding to property names in the TYPE_CONSTANTS object
+const TYPE_NAMES = {
+	BIKE: 'BIKE',
+	PROFILE: 'PROFILE'
+}
+/*
+ * The purpose of this data structure is to keep track of all the constants for different image types.
+ * Different MVP components need different default images and number of images so this way we can keep track
+ * of them all and keep our functions generalized.
+ * To add another image type, add the name to the TYPE_NAMES object, add the corresponding string as a property
+ * value in the TYPE_CONSTANTS structure and a list of the constants. Keep the list of the constants in the same
+ * order as the indices indicate in the 'indices' property below.
+ */
+const TYPE_CONSTANTS = {
+	BIKE: [
+		BIKE_PHOTO_ENTRIES,
+		BIKE_DEFAULT_IMAGE,
+		NUMBER_OF_BIKE_IMAGES
+	],
+	PROFILE: [
+		PROFILE_PHOTO_ENTRIES,
+		PROFILE_DEFAULT_IMAGE,
+		NUMBER_OF_PROFILE_IMAGES
+	],
+	indices: {
+		PHOTO_ENTRIES: 0,
+		DEFAULT_IMAGE: 1,
+		NUMBER_OF_IMAGES: 2
 	}
 }
 

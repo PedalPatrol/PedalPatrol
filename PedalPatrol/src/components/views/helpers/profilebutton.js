@@ -13,16 +13,26 @@ import DrawerHelp from '../../../util/drawerhelper';
 class ProfileButton extends Component {
 	static propTypes = {
 		numNotifications: PropTypes.number.isRequired,
-		profilePicture: PropTypes.string
+		profilePicture: PropTypes.string,
+		hitSlop: PropTypes.object
 	}
 
 	//<Image style={styles.profile} resizeMode="cover" source={{uri: this.props.profilePicture}} />
 	render() {
+		const hitSlop = {
+			top: 1,
+			bottom: 1,
+			left: 1,
+			right: 1,
+		}
+
 		return (
 			<View>
 				{/* Profile */}
 				<View style={{flex:1}}>
-					<TouchableOpacity onPress={() => {DrawerHelp.openDrawer(this.props.numNotifications)}}>
+					<TouchableOpacity 
+						hitSlop={this.props.hitSlop ? this.props.hitSlop : hitSlop} 
+						onPress={() => {DrawerHelp.openDrawer(this.props.numNotifications)}}>
 						<Avatar
 							style={styles.profile}
 							size={40}

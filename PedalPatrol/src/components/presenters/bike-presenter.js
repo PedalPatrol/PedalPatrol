@@ -39,7 +39,6 @@ class BikePresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		// console.log(newData)
 		if (newData == null) {
 			this.forceRefresh(); // Force a refresh here because we got the data from the database
 		} else {
