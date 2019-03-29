@@ -251,6 +251,7 @@ class ReportFoundView extends BaseView {
 				</Text>
 				<TextInput style={reportfound_styles.row1}
 					label="Add a Description"
+					value={this.state.text}
 					multiline={true}
 					blurOnSubmit
 					onChangeText={(text) => this.setState({text})}>

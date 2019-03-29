@@ -68,6 +68,35 @@ class BikeDetailsView extends BaseView {
 		this.navigate("ReportFound");
 	}
 
+    /**
+    * Handles the confirm found button clicked
+    */
+    _handleClickToConfirm(){
+        this.BikeDetP.confirmFound(this.state.rawData,this.alertCallback);
+    }
+
+    alertCallback = (success) => {
+    		this.refreshState();
+    		if (success) {
+    			Alert.alert(
+    				"Congratulations, you have found your bike!",
+    				"",
+    				[
+    					{ text: "Ok", onPress: () => this.props.navigation.navigate('Home'), style: "ok" },
+    				],
+    				{ cancelable: false },
+    			);
+    		} else {
+    			Alert.alert(
+    				"Fail to confirm.",
+    				"Please try again.",
+    				[
+    					{ text: "Ok", onPress: () => {}, style: "ok" },
+    				],
+    				{ cancelable: false },
+    			);
+    		}
+    	}
 
 	/**
 	 * Component mounted
@@ -92,12 +121,15 @@ class BikeDetailsView extends BaseView {
 
 		const { navigation } = this.props;
 		let data=[];
-    const id = navigation.getParam('id','NO-DATA');
+        const id = navigation.getParam('id','NO-DATA');
 		const fromPage = navigation.getParam('from', 'Home');
-    if (id =='NO-DATA'){
+        if (id =='NO-DATA'){
+
 		    data = navigation.getParam('data', 'NO-DATA');
 		}else{
+
 		    data = this.BikeDetP.getDataFromID(id);
+
 		}
 
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);
@@ -222,7 +254,16 @@ class BikeDetailsView extends BaseView {
 									</TouchableOpacity>
 								</View>
 							}
-
+							{
+                                this.state.from === 'Alerts' &&
+                            	<View>
+                            	<TouchableOpacity style={bikedetails_styles.touchableButtons}>
+                            	<Button
+                            	    onPress={()=>this._handleClickToConfirm()}
+                            		title="Confirm Found"/>
+                            		</TouchableOpacity>
+                            	</View>
+                            	}
 							</ScrollView>
 						</View>
 					<SafeArea/>

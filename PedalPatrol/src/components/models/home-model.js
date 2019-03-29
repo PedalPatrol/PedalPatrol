@@ -54,7 +54,6 @@ class HomeModel extends Model {
 	 */
 	_registerDBReadListener() {
 		Database.readBikeDataOn((snapshot) => {
-			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
 			this.moveBookmarkedDataToFront();
 		});
@@ -229,7 +228,7 @@ class HomeModel extends Model {
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			callbacK(false);
+			callback(false);
 			// this._callback(false);
 		});
 	}

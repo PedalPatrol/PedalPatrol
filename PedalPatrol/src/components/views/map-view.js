@@ -345,6 +345,7 @@ class MapView extends BaseView {
 					longitude: this.state.markerCreated[0].coordinate.longitude,
 				}
 		}
+		this.setState({showButton:false,});
 		this.navigate('ReportLost', newData);
 	}
 

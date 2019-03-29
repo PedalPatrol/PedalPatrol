@@ -19,10 +19,28 @@ class AlertModel extends Model {
 		
 		this._data = {data: []};
 		this._activeBookmarks = [];
-
+        this._callback = this._defaultCallback;
 		this._createObserverList();
 		this._registerDBReadListener();
 	}
+
+	/**
+	 * Default callback
+	 */
+	_defaultCallback(message) {
+		console.log(message);
+	}
+
+	/**
+	 * Set the model's callback to a new callback. This callback can be used anywhere and is usually passed in from a presenter.
+	 *
+	 * @param {Function} callback - A callback to run when certain code is executed
+	 */
+	setCallback(callback) {
+		this._callback = callback;
+	}
+
+
 
 	/**
 	 * Get method for presenters to get data.
@@ -68,12 +86,10 @@ class AlertModel extends Model {
 				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
 					continue;
 				}
-
 				if (currentUser == null || databaseData[val].owner !== currentUser) {
 					// console.log(currentUser)
 					continue;
 				}
-
 				if (databaseData[val].hasOwnProperty('found') && databaseData[val].found) {
 					databaseData[val].dataID = dataID++;
 					// Add timeago and datetime formatted info
@@ -123,12 +139,14 @@ class AlertModel extends Model {
 	 * @param {Object} newData - New data to add
 	 */
 	update(newData) {
-		// this._data = {...this._data, ...newData} // Overwrite - Use this if the data is appended to previous data in the presenter
-		// this._data.data.push(newData.data); // Appends to the list - Use this if only a single piece of data is passed in 
-		// console.log(this._data);
-		// this.notifyAll(null) // Send with no message?
-		// this._notifyAll(this._data); // Consider not having a message and forcing the presenter to 'get' the message itself
-		// this._eventEmitter.emit('change')
+        Database.editBikeData(newData, (data) => {
+        // console.log(data);
+        this._callback(typeof data !== 'undefined' && data !== undefined);
+        },(error) => {
+        console.log(error);
+        this._callback(false);
+        // this._callback(false);
+        });
 	}
 }
 

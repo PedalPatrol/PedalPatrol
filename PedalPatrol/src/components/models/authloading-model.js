@@ -37,7 +37,9 @@ class AuthLoadingModel extends Model {
 			} else {
 				console.log('User token found');
 				AuthState.setCurrentUserID(userToken);
+				//console.log('oncomplete', onComplete);
 				onComplete(userToken);
+
 			}
 		}, (error) => {
 			console.log(error);

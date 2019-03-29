@@ -107,10 +107,12 @@ class FirebaseDatabase {
 	 */
 	editBikeData(newBikeData, onSuccess, onError) {
 		const bikeID = newBikeData.id;
-
+		console.log(bikeID);
 		this.refDB.child('Bike/').once('value', (snapshot) => {
 			let bikeData = snapshot.val();
 			let originalBikeData = bikeData[bikeID];
+			console.log(originalBikeData);
+			console.log(newBikeData);
 			let updatedObj = this.merge(originalBikeData, newBikeData);
 			this.refDB.child('Bike/').child(bikeID).set(updatedObj, onSuccess).catch(onError);
 		}).catch((error) => {
@@ -306,6 +308,10 @@ class FirebaseDatabase {
 			}
 		});
 	}
+
+
+
+
 
 	/**
 	 * Remove a images by their url from storage.

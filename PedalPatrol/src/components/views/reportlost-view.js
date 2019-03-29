@@ -206,6 +206,7 @@ class ReportLostView extends BaseView {
 				</View>
 				<TextInput style = {reportlost_styles.row2}
 					label="Describe the Condition"
+					value={this.state.text}
 					multiline={true}
 					blurOnSubmit
 					onChangeText={(text) => this.setState({text})}>

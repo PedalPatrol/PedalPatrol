@@ -18,14 +18,24 @@ export default class App extends Component {
 
 
 async componentDidMount() {
-
+    console.log('im in app.js');
     //getInitialNotification get the notification that triggers app open
         Database.getCurrentUser((userID) => {
         if (userID != null){
         const hasPermission = NotificationMethod.checkPermission();
-        //console.log('im in');
+        console.log('im in');
         }
         });
+//        firebase.notifications().getInitialNotification()
+//              .then((notificationOpen: NotificationOpen) => {
+//                if (notificationOpen) {
+//                  // App was opened by a notification
+//                  // Get the action triggered by the notification being opened
+//                  const action = notificationOpen.action;
+//                  // Get information about the notification that was opened
+//                  const notification: Notification = notificationOpen.notification;
+//                }
+//              });
         const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
         if (notificationOpen) {
             const action = notificationOpen.action;
@@ -35,6 +45,7 @@ async componentDidMount() {
             }
             else{
                 console.log('has noti');
+                console.log(notification);
                  const bikeID = "-LaaRyLnovrtxlh5WUu-";
                             const params ={
                                 id: bikeID,
@@ -83,7 +94,7 @@ async componentDidMount() {
             // code for getting data from notification
 
             //test bike id
-            const bikeID = "-LaaRyLnovrtxlh5WUu-";
+            const bikeID = "-Laaaeq_NqQEOq7QzIVY";
             const params ={
                 id: bikeID,
                 from: 'Map'
