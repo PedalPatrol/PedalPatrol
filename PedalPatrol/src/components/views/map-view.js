@@ -43,12 +43,7 @@ class MapView extends BaseView {
 				latitude: 44.257424,
 				longitude: -76.5231,
 			},
-			region: {
-				latitude: 44.237424,
-				longitude: -76.5131,
-				latitudeDelta: 0.0922,
-				longitudeDelta: 0.0421,
-			},
+
 			showCircle: false,
 			showMarker: false,
 			showButton: false,
@@ -193,7 +188,7 @@ class MapView extends BaseView {
 			<View style={map_styles.saveDeleteButton}>
 				<View style={map_styles.Buttons}>
 				<Button
-					onPress={()=>{this.sendNewMarker()}}
+					onPress={()=>{this.saveItem()}}
 					title="save"/></View>
 				   <View style={map_styles.Buttons}>
 				<Button
@@ -260,7 +255,7 @@ class MapView extends BaseView {
 	 */
 	saveItem(){
 		if (this.state.showCircle){
-			this.saveCircle();
+			this.sendCircle();
 		}
 		if (this.state.showMarker){
 			this.sendNewMarker();
@@ -273,9 +268,7 @@ class MapView extends BaseView {
 	deleteItem(){
 		this.setState()
 		if (this.state.showCircle){
-			this.setState({x:{latitude: 44.257424,longitude: -76.5231, },
-							circleRadius: 500, showCircle:false,showButton:false,
-												   })
+			this.setState({circleRadius: 500, showCircle:false,showButton:false,})
 		}
 		if (this.state.showMarker){
 			this.setState({showButton:false,showMarker:false,markerCreated:[]})
@@ -322,7 +315,7 @@ class MapView extends BaseView {
 	/**
 	 * Save data of circle to notification settings
 	 */
-	saveCircle(){
+	sendCircle(){
 		//nothing
 		newData = {
 			data: {
@@ -331,7 +324,8 @@ class MapView extends BaseView {
 				radius: this.state.circleRadius,
 			}
 		}
-		// console.log(newData);
+		this.MapP.updateCircle(newData);
+		//console.log(newData);
 	}
 
 	/**

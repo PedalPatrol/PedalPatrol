@@ -32,7 +32,24 @@ class LoginModel extends Model {
 				]
 		}
 		this._createObserverList();
+		this._callback = this._setDefaultCallback;
 	}
+
+    	/**
+    	 * Default callback
+    	 */
+    	_defaultCallback(message) {
+    		//console.log(message);
+    	}
+
+    	/**
+    	 * Set the model's callback to a new callback. This callback can be used anywhere and is usually passed in from a presenter.
+    	 *
+    	 * @param {Function} callback - A callback to run when certain code is executed
+    	 */
+    	setCallback(callback) {
+    		this._callback = callback;
+    	}
 
 	/**
 	 * Returns the data from the model.
@@ -68,7 +85,17 @@ class LoginModel extends Model {
         //do something to overwrite database device token;
         console.log(fcm);
         if (fcm){
-
+            const newData = {data:{}};
+            const uid = AuthState.getCurrentUserID();
+            newData.data.id = uid;
+            newData.data.deviceToken = fcm ;
+            const prepareUpdate = newData.data;
+            Database.editProfileData(prepareUpdate, (data) => {
+                this._callback(typeof data !== 'undefined' && data !== undefined);
+                },(error) => {
+                    this._callback(false);
+                    });
+	}
         }
 
 

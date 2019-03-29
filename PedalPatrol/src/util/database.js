@@ -130,12 +130,14 @@ class FirebaseDatabase {
 	 */
 	editProfileData(newProfileData, onSuccess, onError) {
 		const userID = newProfileData.id;
-
+		console.log(userID + 'user id');
 		this.refDB.child('Users/' + userID).once('value', (snapshot) => {
 			let originalUserData = snapshot.val();
+			console.log(originalUserData+'user data');
 			let updatedObj = this.merge(originalUserData, newProfileData);
 			this.refDB.child('Users/').child(userID).set(updatedObj, onSuccess).catch(onError);
 		}).catch((error) => {
+		    console.log(newProfileData+'new data');
 			onError(error);
 			console.log(error);
 		});

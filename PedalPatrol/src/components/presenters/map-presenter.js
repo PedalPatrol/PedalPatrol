@@ -54,6 +54,10 @@ class MapPresenter extends BasePresenter {
 		this.forceRefresh(); // We always want to force a refresh for the model because data only comes from the HomeModel
 	}
 
+    updateCircle(newdata){
+        MapM.sendCircle(newdata);
+    }
+
 	/**
 	 * Force the view/presenter to refresh the view's data
 	 */

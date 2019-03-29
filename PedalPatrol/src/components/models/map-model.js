@@ -1,6 +1,6 @@
 import Model from './model';
 import Database from '../../util/database';
-
+import AuthState from '../../util/authenticationstate';
 import { showLocation } from 'react-native-map-link';
 
 /**
@@ -17,11 +17,28 @@ class MapModel extends Model {
 		
 		this._data = [];
 		this._createObserverList();
+		this._callback = this._defaultCallback;
 		/*
 		 * Since data in MapModel should be the same as the from the HomeModel, we don't have to read from the database in the MapModel
 		 * and we can just wait for data to be received.
 		 */
 	}
+
+    	/**
+    	 * Default callback
+    	 */
+    	_defaultCallback(message) {
+    		//console.log(message);
+    	}
+
+    	/**
+    	 * Set the model's callback to a new callback. This callback can be used anywhere and is usually passed in from a presenter.
+    	 *
+    	 * @param {Function} callback - A callback to run when certain code is executed
+    	 */
+    	setCallback(callback) {
+    		this._callback = callback;
+    	}
 
 	/**
 	 * Returns the data from the model.
@@ -37,6 +54,22 @@ class MapModel extends Model {
 	 */
 	update = (newData) => {
 		this._insertDataOnRead(newData);
+	}
+
+	sendCircle(circleData){
+	    const newData = {data:{}};
+	    const uid = AuthState.getCurrentUserID();
+	    newData.data.id = uid;
+	    newData.data.circle_lat = circleData.data.circleLatitude;
+	    newData.data.circle_long = circleData.data.circleLongitude;
+	    newData.data.circle_r = circleData.data.radius;
+	    console.log(newData.data);
+	    const prepareUpdate = newData.data;
+	    Database.editProfileData(prepareUpdate, (data) => {
+            this._callback(typeof data !== 'undefined' && data !== undefined);
+            },(error) => {
+            this._callback(false);
+            });
 	}
 
 	/**
