@@ -58,7 +58,8 @@ class MapModel extends Model {
 
 	sendCircle(circleData){
 	    const newData = {data:{}};
-	    const uid = AuthState.getCurrentUserID();
+	    //const uid = AuthState.getCurrentUserID();
+	    const uid = 'txcMzIEfFZX06iSNIAnIEI1Fcls1';
 	    newData.data.id = uid;
 	    newData.data.circle_lat = circleData.data.circleLatitude;
 	    newData.data.circle_long = circleData.data.circleLongitude;

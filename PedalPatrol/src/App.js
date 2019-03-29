@@ -16,16 +16,19 @@ import Database from './util/database';
 export default class App extends Component {
 
 
-
 async componentDidMount() {
     console.log('im in app.js');
     //getInitialNotification get the notification that triggers app open
         Database.getCurrentUser((userID) => {
         if (userID != null){
-        const hasPermission = NotificationMethod.checkPermission();
+        NotificationMethod.checkPermission();
         console.log('im in');
         }
+        else{
+            console.log('cannot find use token, cannot generate device token');
+        }
         });
+
 //        firebase.notifications().getInitialNotification()
 //              .then((notificationOpen: NotificationOpen) => {
 //                if (notificationOpen) {

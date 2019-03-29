@@ -85,17 +85,7 @@ class LoginModel extends Model {
         //do something to overwrite database device token;
         console.log(fcm);
         if (fcm){
-            const newData = {data:{}};
-            const uid = AuthState.getCurrentUserID();
-            newData.data.id = uid;
-            newData.data.deviceToken = fcm ;
-            const prepareUpdate = newData.data;
-            Database.editProfileData(prepareUpdate, (data) => {
-                this._callback(typeof data !== 'undefined' && data !== undefined);
-                },(error) => {
-                    this._callback(false);
-                    });
-	}
+
         }
 
 

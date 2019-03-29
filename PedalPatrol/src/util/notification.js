@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import firebase from 'react-native-firebase';
 import config from '../config/config.json';
-
+import Database from './database';
 
 
 
@@ -10,8 +10,11 @@ constructor(props){
         super(props);
         //firebase.initializeApp(config);
         this.notification =null;
+        this._callback = this._setDefaultCallback;
 }
-
+    _setDefaultCallback(msg){
+        console.log(msg);
+    }
 
 /**
 *  Check if user has permission to receive notification
@@ -22,12 +25,11 @@ async checkPermission() {
     const enabled = await firebase.messaging().hasPermission();
     //enabled: ask firebase if user has permission to request firebase messaging
             if (enabled){
-                return this.getToken();
+                this.getToken();
             }
             else{
-                return false;
+                console.log('user does not have permission')
             }
-
 }
 
 /**
@@ -37,7 +39,19 @@ async getToken(){
     const fcmToken = await firebase.messaging().getToken();
         if (fcmToken) {
             console.log(`token is:${fcmToken}`)
-            return fcmToken;
+            const fcm = fcmToken;
+            const newData = {data:{}};
+            //const uid = AuthState.getCurrentUserID();
+            const uid = 'txcMzIEfFZX06iSNIAnIEI1Fcls1';
+            newData.data.id = uid;
+            newData.data.deviceToken = fcm ;
+            console.log(fcm);
+            const prepareUpdate = newData.data;
+            Database.editProfileData(prepareUpdate, (data) => {
+            this._callback(true);
+            },(error) => {
+            this._callback(false);
+            });
         } else {
             // user doesn't have a device token yet
             console.log('user doesnt have a device token yet');
