@@ -28,6 +28,14 @@ class LoginPresenter extends BasePresenter {
 		LoginM.update(newData);
 	};
 
+	updateT = () => {
+		LoginM.updateT();
+	}
+
+	updateF = () => {
+		LoginM.updateF();
+	}
+
 	/**
 	 * Called when the model finished checking with username and password. Refreshes the state of the view.
 	 *

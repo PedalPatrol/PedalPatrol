@@ -13,7 +13,7 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* PedalPatrolTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* PedalPatrolTests.m */; };
-		0529B904224DAD1D00C86F3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0529B903224DAD1D00C86F3C /* GoogleService-Info.plist */; };
+		05B223D1224EDB8700DE36D6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 05B223D0224EDB8700DE36D6 /* GoogleService-Info.plist */; };
 		11A4E8BEB8894337BBCB1896 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D506CD1FBCA04315AB7CACAE /* FontAwesome.ttf */; };
 		11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -385,7 +385,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* PedalPatrolTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PedalPatrolTests.m; sourceTree = "<group>"; };
 		02D0C22382D1A03C61DE80FF /* Pods-PedalPatrol-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PedalPatrol-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-PedalPatrol-tvOSTests/Pods-PedalPatrol-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		0529B903224DAD1D00C86F3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		05B223D0224EDB8700DE36D6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06474E3F88E911FAAC04812B /* Pods-PedalPatrol-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PedalPatrol-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-PedalPatrol-tvOSTests/Pods-PedalPatrol-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		09174D5DDD914904BE16978F /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		0FC676ADB7934D02BDC3867F /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
@@ -656,7 +656,7 @@
 		13B07FAE1A68108700A75B9A /* PedalPatrol */ = {
 			isa = PBXGroup;
 			children = (
-				0529B903224DAD1D00C86F3C /* GoogleService-Info.plist */,
+				05B223D0224EDB8700DE36D6 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -1329,7 +1329,7 @@
 				A39DA66CCA584F2BB3C467FB /* Octicons.ttf in Resources */,
 				AE43F1EA1D9843179390AFEF /* SimpleLineIcons.ttf in Resources */,
 				F6B87E03520F40548F29AC53 /* Zocial.ttf in Resources */,
-				0529B904224DAD1D00C86F3C /* GoogleService-Info.plist in Resources */,
+				05B223D1224EDB8700DE36D6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1626,7 +1626,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.PedalPatrol;
 				PRODUCT_NAME = PedalPatrol;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1657,7 +1657,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.PedalPatrol;
 				PRODUCT_NAME = PedalPatrol;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";

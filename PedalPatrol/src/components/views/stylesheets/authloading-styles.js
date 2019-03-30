@@ -11,6 +11,23 @@ const authloading_styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor: 'transparent',
+	},
+	image: {
+		width: 200,
+		height: 200,
+		zIndex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	load: {
+		zIndex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	container: {
+		backgroundColor: colours.ppGreen, 
+		justifyContent: 'flex-start', 
+		paddingTop:200
 	}
 });
 
