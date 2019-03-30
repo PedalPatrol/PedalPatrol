@@ -86,6 +86,16 @@ class ReportLostPresenter extends BasePresenter {
 		BikeM.unsubscribe(this);
 	};
 
+	/**
+	 * Returns the list of bikes that have not already been stolen.
+	 *
+	 * @param {List} data - A list of bikes 
+	 * @return {List} A list of bikes that have not been stolen.
+	 */
+	getNotStolen = (data) => {
+		return data.filter((el) => !el.stolen);
+	}
+
 }
 
 export default ReportLostPresenter;

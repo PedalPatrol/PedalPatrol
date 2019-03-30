@@ -52,7 +52,7 @@ class ReportLostView extends BaseView {
 		});
 
 		this.setState({
-			bikeMenu: this.reportlostP.getData()
+			bikeMenu: this.reportlostP.getNotStolen(this.reportlostP.getData())
 		});
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');

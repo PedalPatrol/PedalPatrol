@@ -6,5 +6,6 @@ cache:
     - node_modules
 before_script:
   - npm install --prefix PedalPatrol
+  - npm run setup --prefix PedalPatrol
 script:
   - npm test --prefix PedalPatrol && npm run coverage --prefix PedalPatrol
