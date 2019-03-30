@@ -55,6 +55,55 @@ class FirebaseDatabase {
 	}
 
 
+ signUp(email,password,onError) {
+	    firebase.auth().createUserWithEmailAndPassword(email,password).catch(onError);
+	    this.getCurrentUser((userID) => {
+		       this.sendEmail();
+               this.setAccount(userID);
+
+            });
+	 }
+    	checkVerify(user,errorMessage) {
+    		firebase.auth().onAuthStateChanged(function(user) {
+    			if (user) {
+    			if (user.emailVerified === false) {
+    				errorMessage = 'email not verified';
+    			} else {
+    				// successful login
+    			}
+    			} else {
+    				errorMessage = 'no user signin';
+    			}
+    		});
+    	}
+
+    	sendEmail() {
+    		 firebase.auth().currentUser.sendEmailVerification().then(function() {
+            // Email Verification sent!
+            // [START_EXCLUDE]
+            alert('Email Verification Sent!');
+            // [END_EXCLUDE]
+          }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+    		var errorMessage = error.message;
+    		alert(errorMessage);
+    		});
+    	}
+
+    	sendresetEmail() {
+    		let email = getCurrentUserEmail();
+    		firebase.auth().sendPasswordResetEmail(email).then(function() {
+    		// Email sent.
+    		}).catch(function(error) {
+    		// An error happened.
+    		var errorCode = error.code;
+    		var errorMessage = error.message;
+    		alert(errorMessage);
+    		});
+
+    	}
+
 	/**
 	 * Accesses Firebase data to sign in with email and password.
 	 * This function is called asynchronously. Use 'async' and 'await'.
@@ -116,9 +165,22 @@ class FirebaseDatabase {
 	}
 
 
-	setAccount(userId){
-		this.refDB.child('Users/').child(userId).set({id:userId,});
-	}
+	 setAccount(userId){
+            let user = firebase.auth().currentUser;
+            this.refDB.child('Users/').child(userId).set({
+            id:userId,
+            circle_lat:"",
+            circle_long:"",
+            circle_r:"",
+            deviceToken:"",
+            full_name:'',
+            phoneNum:"",
+            email:user.email,
+            thumbnail:["https://firebasestorage.googleapis.com/v0/b/test-f4788.appspot.com/o/ProfileImages%2FKXx6FLsyOOVyCy1ik4bJK4Y17UV2%2F0.jpg?alt=media&token=526759aa-0a3d-4b0c-9cfe-33952fefc692"]
+
+
+            });
+        }
 
 	/**
 	 * Sign out of the database.
