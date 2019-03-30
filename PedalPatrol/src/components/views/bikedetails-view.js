@@ -74,6 +74,13 @@ class BikeDetailsView extends BaseView {
     _handleClickToConfirm(){
         this.BikeDetP.confirmFound(this.state.rawData,this.alertCallback);
     }
+    _handleClickToReject(){
+        this.BikeDetP.rejectFound(this.state.rawData,this._defaultCallback);
+    }
+
+    _defaultCallback = (msg) =>{
+        console.log(msg);
+    }
 
     alertCallback = (success) => {
     		this.refreshState();
@@ -261,6 +268,16 @@ class BikeDetailsView extends BaseView {
                             	<Button
                             	    onPress={()=>this._handleClickToConfirm()}
                             		title="Confirm Found"/>
+                            		</TouchableOpacity>
+                            	</View>
+                            	}
+                                {
+                                this.state.from === 'Alerts' &&
+                            	<View>
+                            	<TouchableOpacity style={bikedetails_styles.touchableButtons}>
+                            	<Button
+                            	    onPress={()=>this._handleClickToReject()}
+                            		title="Reject found"/>
                             		</TouchableOpacity>
                             	</View>
                             	}

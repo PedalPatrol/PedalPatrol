@@ -203,6 +203,18 @@ class BikeDetailsPresenter extends BasePresenter {
         AlertM.setCallback(callback);
         AlertM.update(newBike.data);
     }
+    confirmFound(rawData,callback){
+        const newBike = {data:{}};
+        Object.keys(rawData).forEach((key) => {
+        console.log(key)
+        newBike.data[key] = rawData[key];
+        });
+        console.log(newBike.data.id);
+        newBike.data.found = false;
+        newBike.data.stolen = true;
+        AlertM.setCallback(callback);
+        AlertM.update(newBike.data);
+    }
 
   	getDataFromID(id){
   	    let dataList = HomeM.get().data;
