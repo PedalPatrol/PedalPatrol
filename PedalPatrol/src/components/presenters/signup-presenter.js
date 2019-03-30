@@ -35,8 +35,14 @@ class SignUpPresenter extends BasePresenter {
 	 */
 	onUpdated = (newData) => {
 		// Do something with the new data or let the view auto update?
-		console.log(newData)
-		this.view.refreshState();
+		if (newData){
+		    		    alert('please verify your email')
+                this.view.props.navigation.navigate('Login');
+		}
+		if(!newData){
+        alert('email exists')
+		}
+
 	};
 
 

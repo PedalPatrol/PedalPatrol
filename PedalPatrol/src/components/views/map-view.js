@@ -62,7 +62,7 @@ class MapView extends BaseView {
 
 	   this.MapP = new MapPresenter(this);
 
-	   this.resetState();
+ this.resetState();
 
 	}
 
@@ -141,6 +141,7 @@ class MapView extends BaseView {
 	componentWillMount = () => {
 
 		this._setProfileImage();
+
 		this._setUserLocation();
 
 

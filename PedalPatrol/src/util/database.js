@@ -55,29 +55,41 @@ class FirebaseDatabase {
 	}
 
 
- signUp(email,password,onError) {
-	    firebase.auth().createUserWithEmailAndPassword(email,password).catch(onError);
-	    this.getCurrentUser((userID) => {
-		       this.sendEmail();
-               this.setAccount(userID);
 
-            });
+ signUp(email,password,onSuccess, onError) {
+	    firebase.auth().createUserWithEmailAndPassword(email,password)
+	    .then(onSuccess).catch(onError);
+
+
+
+//	    ((user) => {
+//                  if (user) {
+//                      console.log("signup user id is: "+user.uid)
+//                      this.sendEmail(user.uid);
+//                      this.setAccount(user.uid);
+//                      this.signOut(user.uid);
+//                   }
+//                   }
+//                   )
+//                   .catch(onError);
+
 	 }
-    	checkVerify(user,errorMessage) {
-    		firebase.auth().onAuthStateChanged(function(user) {
-    			if (user) {
-    			if (user.emailVerified === false) {
+
+    	checkVerify() {
+    	let user = firebase.auth().currentUser;
+    	let errorMessage='';
+    			if (user.emailVerified == false) {
+    			    console.log("user email verified"+user.emailVerified);
     				errorMessage = 'email not verified';
+    				return errorMessage;
     			} else {
+    			    return true;
     				// successful login
     			}
-    			} else {
-    				errorMessage = 'no user signin';
-    			}
-    		});
-    	}
+    		}
 
-    	sendEmail() {
+  sendEmail() {
+  //console.log("user in send email is : "+ user);
     		 firebase.auth().currentUser.sendEmailVerification().then(function() {
             // Email Verification sent!
             // [START_EXCLUDE]
@@ -87,11 +99,12 @@ class FirebaseDatabase {
             // Handle Errors here.
             var errorCode = error.code;
     		var errorMessage = error.message;
+    		console.log('error for email:      '+ errorMessage);
     		alert(errorMessage);
     		});
     	}
 
-    	sendresetEmail() {
+  sendresetEmail() {
     		let email = getCurrentUserEmail();
     		firebase.auth().sendPasswordResetEmail(email).then(function() {
     		// Email sent.
@@ -142,9 +155,8 @@ class FirebaseDatabase {
 			console.log(error)
 			alert('Unable sign in with Twitter.')
 		});
-		this.getCurrentUser((userID) => {
-			this.setAccount(userID);
-		});
+		user = firebase.auth().currentUser;
+			this.setAccount(user.uid);
 		// console.log('did login')
 	}
 
@@ -165,10 +177,11 @@ class FirebaseDatabase {
 	}
 
 
-	 setAccount(userId){
-            let user = firebase.auth().currentUser;
-            this.refDB.child('Users/').child(userId).set({
-            id:userId,
+	 setAccount(user){
+            //let user = firebase.auth().currentUser;
+            console.log("user in set account is: "+user);
+            this.refDB.child('Users/').child(user).set({
+            id:user,
             circle_lat:"",
             circle_long:"",
             circle_r:"",
@@ -244,7 +257,7 @@ class FirebaseDatabase {
 	 * Overwrites data in the database by reading the data, merging it with the new values and writing back to the same ID.
 	 *
 	 * @param {Object} newProfileData - New data to write
-	 * @param {Function} onSuccess - A function callback to run when writing is successful
+	 * @param {Function}b onSuccess - A function callback to run when writing is successful
 	 * @param {Function} onErorr - A function callback to run when writing fails
 	 */
 	editProfileData(newProfileData, onSuccess, onError) {
