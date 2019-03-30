@@ -20,8 +20,8 @@ Development of the PedalPatrol iOS and Android application.
 1. [Installation](#installation)
 2. [Setup](#setup) </br>
 3. [Running](#running) </br>
-3.1 [Android](#android) </br>
-3.2 [iOS](#ios) </br>
+ 3.1 [Android](#android) </br>
+ 3.2 [iOS](#ios) </br>
 4. [Tests](#tests)
 
 ## Installation <a name="installation"></a>
