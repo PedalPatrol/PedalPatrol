@@ -82,12 +82,7 @@ class LoginModel extends Model {
 			console.log(error);
 		});
         const fcm = NotificationMethod.checkPermission();
-        //do something to overwrite database device token;
-        console.log(fcm);
-        if (fcm){
-
-        }
-
+        console.log('fcm'+fcm);
 
 
 		if (errorMessage) {

@@ -58,19 +58,20 @@ class MapModel extends Model {
 
 	sendCircle(circleData){
 	    const newData = {data:{}};
-	    //const uid = AuthState.getCurrentUserID();
-	    const uid = 'txcMzIEfFZX06iSNIAnIEI1Fcls1';
+	    const uid = AuthState.getCurrentUserID();
 	    newData.data.id = uid;
+	    newData.data.hasCircle = true;
 	    newData.data.circle_lat = circleData.data.circleLatitude;
 	    newData.data.circle_long = circleData.data.circleLongitude;
 	    newData.data.circle_r = circleData.data.radius;
 	    console.log(newData.data);
 	    const prepareUpdate = newData.data;
-	    Database.editProfileData(prepareUpdate, (data) => {
-            this._callback(typeof data !== 'undefined' && data !== undefined);
-            },(error) => {
-            this._callback(false);
-            });
+	    Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+//	    Database.editProfileData(prepareUpdate, (data) => {
+//            this._callback(typeof data !== 'undefined' && data !== undefined);
+//            },(error) => {
+//            this._callback(false);
+//            });
 	}
 
 	/**

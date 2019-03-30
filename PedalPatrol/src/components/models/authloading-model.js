@@ -54,7 +54,7 @@ class AuthLoadingModel extends Model {
 	 * @param {Function} onFailure - A callback function on a failure to logout
 	 */
 	logout(onSuccess, onFailure) {		
-    NotificationMethod.removeToken();
+    NotificationMethod.removeToken(AuthState.getCurrentUserID());
 		Database.signOut(async () => {
 			const userID = AuthState.getCurrentUserID();
 			await PersistStorage.removeAllData([], (message) => {

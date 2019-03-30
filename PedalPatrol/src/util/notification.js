@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import firebase from 'react-native-firebase';
 import config from '../config/config.json';
 import Database from './database';
+import AuthState from './authenticationstate';
 
-
+const uid = AuthState.getCurrentUserID();
 
 class Notification extends Component{
 constructor(props){
@@ -38,20 +39,19 @@ async checkPermission() {
 async getToken(){
     const fcmToken = await firebase.messaging().getToken();
         if (fcmToken) {
-            console.log(`token is:${fcmToken}`)
+            //console.log(`token is:${fcmToken}`)
             const fcm = fcmToken;
             const newData = {data:{}};
-            //const uid = AuthState.getCurrentUserID();
-            const uid = 'txcMzIEfFZX06iSNIAnIEI1Fcls1';
             newData.data.id = uid;
             newData.data.deviceToken = fcm ;
-            console.log(fcm);
+            //console.log(fcm);
             const prepareUpdate = newData.data;
-            Database.editProfileData(prepareUpdate, (data) => {
-            this._callback(true);
-            },(error) => {
-            this._callback(false);
-            });
+            Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+//            Database.editProfileData(prepareUpdate, (data) => {
+//            this._callback(true);
+//            },(error) => {
+//            this._callback(false);
+//            });
         } else {
             // user doesn't have a device token yet
             console.log('user doesnt have a device token yet');
@@ -72,7 +72,19 @@ createChannel(){
  */
 async removeToken(){
     await firebase.messaging().deleteToken();
+    const prepareUpdate = {};
+    prepareUpdate.id = uid;
+    prepareUpdate.deviceToken = "";
+    Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
 }
+
+deleteNotificationArea(){
+    const prepareUpdate = {};
+    prepareUpdate.id = uid;
+    prepareUpdate.hasCircle = false;
+    Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+}
+
 
 }
 
