@@ -8,7 +8,7 @@
     "test:coverage": "jest --silent --coverage",
     "test:watch": "npm test -- --watch",
     "coverage": "jest --silent --coverage && cat ./coverage/lcov.info | coveralls",
-    "setup": "npm run add-ant && npm run rmTwitterRN && cd ios && pod install",
+    "setup": "npm run add-ant && npm run rmTwitterRN && cd ios",
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "rmTwitterRN": "rm -rf node_modules/react-native-twitter-signin/node_modules/react-native/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
