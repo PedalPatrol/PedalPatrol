@@ -23,7 +23,6 @@ Development of the PedalPatrol iOS and Android application.
 3.1 [Android](#android) </br>
 3.2 [iOS](#ios) </br>
 4. [Tests](#tests)
-5. [License](#license)
 
 ## Installation <a name="installation"></a>
 1. Clone the github repository.
@@ -113,6 +112,3 @@ To run the tests run the following command from PedalPatrol/PedalPatrol:
 ```
 npm test
 ```
-
-## License
-No license
