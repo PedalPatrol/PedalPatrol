@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 const colours = {
-	ppGreen: '#34BB83',
-	// ppGreen: '#67CCA2',
+	// ppGreen: '#34BB83',
+	ppGreen: '#67CCA2',
 	ppPinRed: '#FF0000',
 	ppPinGreen: '#008000',
 	ppGrey: '#E6ECF0',

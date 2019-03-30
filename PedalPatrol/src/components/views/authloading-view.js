@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, View, Alert, Image } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Alert } from 'react-native';
 
-import { styles, colours, authloading_styles } from './stylesheets/authloading-styles';
-let logo = require('../../assets/images/pplogo.png');
-
-import Safearea from './helpers/safearea';
+import { styles, authloading_styles } from './stylesheets/authloading-styles';
 
 import BaseView from './view';
 import AuthLoadingPresenter from '../presenters/authloading-presenter';
@@ -106,20 +103,11 @@ class AuthLoadingView extends BaseView {
 		navigate(screen);
 	}
 
-
-				/*<View style={this.state.shouldLogout ? authloading_styles.logoutLoading : styles.loading} pointerEvents="none">
-				<ActivityIndicator size='large' color="#0000ff" />
-				<Image source={{uri: 'https://peopleysk2.s3-us-west-2.amazonaws.com/person-images%2FSean+Remedios_5acfda4d3e30dd0016efc576.jpg?versionid=hBsosp9Yj1NnJ0bb6raBlqGmJRlnbBp9'}} />
-			</View>*/
-
 	render() {
 		return (
-			<View style = {[styles.loading, authloading_styles.container]}>
-				<Safearea overrideColour={colours.ppGreen}/>
-				<Image source={logo} style={authloading_styles.image} resizeMode="contain" />
-				<ActivityIndicator style={authloading_styles.load} size='small' color="#FFFFFF"/>
+			<View style={this.state.shouldLogout ? authloading_styles.logoutLoading : styles.loading} pointerEvents="none">
+				<ActivityIndicator size='large' color="#0000ff" />
 			</View>
-
 		);
 	}
 }

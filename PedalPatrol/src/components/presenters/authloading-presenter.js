@@ -26,13 +26,7 @@ class AuthLoadingPresenter extends BasePresenter {
 		// Only add models that we expect data from
 		this._numModels = [HomeM].length;
 		// AlertM.subscribe(this);
-
-		/*
-		 * The true in the subscribe forces the model to toggle it's database listeners.
-		 * This is helpful when leaving the app and reentering on Android.
-		 * Has not been tested with more than one subscribed model that we expect data from.
-		 */
-		HomeM.subscribe(this, true); 
+		HomeM.subscribe(this, true);
 
 		// This model is really only used to logout, so we don't expect an onUpdated call from it
 		// We use callbacks since logout is an async call

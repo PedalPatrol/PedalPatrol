@@ -9,7 +9,7 @@ const login_styles = StyleSheet.create({
 	},
 	centered:{
 		alignItems:'center',
-		backgroundColor: colours.ppGrey
+		marginTop:30,
 	},
 	centerText: {
 		textAlign: 'center',
@@ -19,7 +19,7 @@ const login_styles = StyleSheet.create({
 		margin: 20,
 	},
 	username: {
-		// marginTop: 30,
+		marginTop: 30,
 		height: 48,
 		backgroundColor: colours.ppGrey,
 		justifyContent: 'center',
@@ -63,28 +63,8 @@ const login_styles = StyleSheet.create({
 		flexDirection: 'row', 
 		alignItems: 'center', 
 		justifyContent: 'center', 
-		marginTop: 10,
-	},
-	socialMedia: {
-		marginTop: 300 // was 160 with Text
-	},
-	loading: {
-		position: 'absolute',
-		left: 0,
-		right: 0,
-		top: 0,
-		bottom: 0,
-		zIndex: 1,
-		marginBottom: 200,
-		alignItems: 'center',
-		justifyContent: 'center',
-		backgroundColor: 'transparent',
-	},
-	image: {
-		width: 200,
-		height: 200,
-		zIndex: 1,
-	},
+		marginTop: 10
+	}
 });
 
 export { styles, text, colours, login_styles }

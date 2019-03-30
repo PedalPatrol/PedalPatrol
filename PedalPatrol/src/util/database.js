@@ -1,13 +1,8 @@
 // import firebase from 'react-native-firebase';
 import firebase from 'firebase'; // Using regular firebase here because there are some problems when trying to move to react-native-firebase 
 import 'firebase/storage'; // Necessary for jest tests
-import { NativeModules } from 'react-native';
-import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
-
 import config from '../config/config.json';
 import TimeUtil from './timeutility';
-
-const { RNTwitterSignIn } = NativeModules;
 
 const BikeImages = 'BikeImages/';
 const ProfileImages = 'ProfileImages/';
@@ -63,61 +58,8 @@ class FirebaseDatabase {
 	 * @param {string} password - A user's password
 	 * @param {Function} onError - A function callback to execute on error
 	 */
-	async signIn(email, password, onError) {
-		await firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
-	}
-
-	signinwithFB() {
-		//console.log('begin signinwithFB');
-		LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
-		// console.log('walk into else'),
-		AccessToken.getCurrentAccessToken().then(function(data) {
-			let accessToken = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-				console.log('accessToken'+accessToken)
-				this.handleFirebaseLogin(accessToken);
-			}.bind(this))
-		);
-	}
-
-	signInwithTwitter(){
-		RNTwitterSignIn.init('pdfOq2bGgmAD59pe3241W1hMg','xPRtJaBCqmZoFKPV7N8YcllUqOi4d0QWR521rebCQFcMUFGYE3');
-		RNTwitterSignIn.logIn().then((loginData)=>{
-			let accessToken = firebase.auth
-									.TwitterAuthProvider
-									.credential(
-										loginData.authToken,
-										loginData.authTokenSecret
-								  	);
-			this.handleFirebaseLogin(accessToken);
-		}).catch((error) => {
-			console.log(error)
-			alert('Unable sign in with Twitter.')
-		});
-		this.getCurrentUser((userID) => {
-			this.setAccount(userID);
-		});
-		// console.log('did login')
-	}
-
-	handleFirebaseLogin(accessToken) {
-		// console.log(accessToken)
-		firebase.auth().signInAndRetrieveDataWithCredential(accessToken).then((data)=> {
-			let user = firebase.auth().currentUser;
-		}).catch((error)=> {
-			let errorCode = error.code;
-			let errorMessage = error.message;
-			let email = error.email;
-			let credential = error.credential;
-			if (errorCode === 'auth/account-exists-with-different-credential') {
-				// Email already associated with another account.
-			}
-		})
-		console.log('did into handle firebase login')
-	}
-
-
-	setAccount(userId){
-		this.refDB.child('Users/').child(userId).set({id:userId,});
+	signIn(email, password, onError) {
+		firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet, Image, PixelRatio, Alert, TouchableOpacity, Button, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Image, PixelRatio, Alert, TouchableOpacity, Button, KeyboardAvoidingView, Platform } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -9,8 +9,6 @@ import BaseView from './view';
 import SafeArea from './helpers/safearea';
 import LoginButton from './helpers/loginbutton';
 import LoginPresenter from '../presenters/login-presenter';
-
-let logo = require('../../assets/images/ppInvertedLogo.png');
 
 /**
  * Class for the Login view
@@ -31,7 +29,6 @@ class LoginView extends BaseView {
 		this.state = {
 			username: '',
 			password: '',
-			loaderVisible: false,
 		};
 		this.LoginP = new LoginPresenter(this);
 	}
@@ -40,50 +37,15 @@ class LoginView extends BaseView {
 	 * Navigate to the tabs screen
 	 */
 	navigateToTabs = () => {
-		this.setState({loaderVisible: false});
 		this.props.navigation.navigate('Tabs');
 	}
 
 	/**
 	 * Handle the click of the signup button
 	 */
-	_handleClick = () => {
-		this.setState({loaderVisible: true});
+	_handleClick() {
 		if (this.LoginP.checkInput(this.state.username, this.state.password, this.reportError)) {
 			this.sendUpdate();
-		}
-	}
-
-	_handleClickT = () => {
-		if (Platform.OS !== 'ios' ) {
-			console.log('clicked twitter')
-			this.LoginP.updateT();
-		} else {
-			Alert.alert(
-				'Twitter login on iOS is currently disabled',
-				"",
-				[
-					{text: 'OK', onPress: () => {}},
-				],
-				{cancelable: false},
-			);
-			
-		}
-	}
-	
-	_handleClickF = () => {
-		if (Platform.OS !== 'ios' ) {
-			console.log('clicked facebook')
-			this.LoginP.updateF();
-		} else {
-			Alert.alert(
-				'Facebook login on iOS is currently disabled',
-				"",
-				[
-					{text: 'OK', onPress: () => {}},
-				],
-				{cancelable: false},
-			);
 		}
 	}
 
@@ -92,7 +54,6 @@ class LoginView extends BaseView {
 	 * @param {Object} errmsg - the error message that corresponding to the problem.
 	 */
 	reportError = (errmsg) => {
-		this.setState({loaderVisible: false});
 		Alert.alert(
 				'Error',
 				errmsg,
@@ -131,7 +92,6 @@ class LoginView extends BaseView {
 	 * Handle an incorrect login by displaying an alert
 	 */
 	handleLoginIncorrect = () => {
-		this.setState({loaderVisible: false});
 		Alert.alert(
 			'Error',
 			'Username or Password is incorrect',
@@ -157,7 +117,7 @@ class LoginView extends BaseView {
 	renderContent = () => (
 		<View>
 			<View style={login_styles.centered}>
-				<Image source={logo} style={login_styles.image} resizeMode="contain" />
+				<Text style={login_styles.title}>Pedal Patrol</Text>
 			</View>
 			<View style={login_styles.editGroup}>
 				<View style={login_styles.username}>
@@ -182,34 +142,30 @@ class LoginView extends BaseView {
 				<View style={{marginTop: 30}}>
 					<LoginButton text="SIGN IN" onPress={this._handleClick.bind(this)}/>
 				</View>
-			</View>
-		</View>
-	);
-
-	_renderSocialMedia = () => (
-			<View style={login_styles.socialMedia}>
-				<Text style={login_styles.centerText}> Login With Social Account: </Text>
-				<View style={login_styles.socialIcons}>
-					<Icon.Button
-						name="facebook"
-						type="FontAwesome"
-						color="#000000"
-						backgroundColor={'transparent'}
-						onPress={() => this._handleClickF()}
-						size={30}
-						style={{marginRight: 10}}>
-					</Icon.Button>
-					<Icon.Button
-						name="twitter"
-						type="FontAwesome"
-						color="#000000"
-						backgroundColor={'transparent'}
-						onPress={() => this._handleClickT()}
-						size={30}
-						style={{marginLeft: 10}}>
-					</Icon.Button>
+				
+				<View>
+					<Text style={login_styles.centerText}> Login With Social Account: </Text>
+					<View style={login_styles.socialIcons}>
+						<Icon.Button
+							name="facebook"
+							type="FontAwesome"
+							color="#000000"
+							backgroundColor={colours.ppGrey}
+							onPress={() => 'default'}
+							size={30}>
+						</Icon.Button>
+						<Icon.Button
+							name="twitter"
+							type="FontAwesome"
+							color="#000000"
+							backgroundColor={colours.ppGrey}
+							onPress={() => 'default'}
+							size={30}>
+						</Icon.Button>
+					</View>
 				</View>
 			</View>
+		</View>
 	);
 
 	/**
@@ -218,7 +174,7 @@ class LoginView extends BaseView {
 	render() {
 		return (
 			<View style={[styles.container]}>
-				<SafeArea overrideColour={colours.ppGreen} />
+				<SafeArea overrideColour={colours.ppGrey} />
 				{
 					Platform.OS === 'ios' &&
 					<KeyboardAvoidingView
@@ -234,8 +190,6 @@ class LoginView extends BaseView {
 					this.renderContent()
 				}
 
-				{this._renderSocialMedia()}
-
 				<View style={login_styles.bottom}>
 					<TouchableOpacity style={login_styles.signupButton} onPress={() => this.props.navigation.navigate('Signup')}>
 						<Text style={login_styles.signupText}>
@@ -243,13 +197,6 @@ class LoginView extends BaseView {
 						</Text>
 					</TouchableOpacity>
 				</View>
-
-				{
-					this.state.loaderVisible &&
-					<View style={login_styles.loading} pointerEvents="none">
-						<ActivityIndicator size='large' color="#0000ff" />
-					</View>
-				}
 			</View>
 		);
 	}

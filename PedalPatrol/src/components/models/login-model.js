@@ -42,14 +42,6 @@ class LoginModel extends Model {
 		return {...this._data}
 	}
 
-	updateT() {
-		Database.signInwithTwitter();
-	}
-	
-	updateF() {
-		Database.signinwithFB();
-	}
-
 	/**
 	 * async method for presenters to know if the username and password is existed in the database
 	 * @param {Object} newData - data including username and password.
@@ -69,23 +61,18 @@ class LoginModel extends Model {
 		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
 			errorMessage = false;
-
-			setTimeout(() => {
-				console.log('errormessage in timeout'+errorMessage)
-				console.log(error)
-			}, 600);
+			console.log(error);
 		});
 
-		if (errorMessage) {				
+		if (errorMessage) {
 			this._authenticationSuccess();
 		}
-		this._notifyAll(errorMessage);
 
 		//var message = errorMessage;
 		// console.log('ddd:'+errorMessage)
 		// this.notifyAll(null) // Send with no message?
 		//console.log('errorbeforenotify: '+ errorMessage)
-		// this._notifyAll(errorMessage); // Consider not having a message and forcing the presenter to 'get' the message itself
+		this._notifyAll(errorMessage); // Consider not having a message and forcing the presenter to 'get' the message itself
 		// this._eventEmitter.emit('change')
 	}
 
