@@ -16,7 +16,16 @@
 
 Development of the PedalPatrol iOS and Android application.
 
-## Installation
+## Table of Contents
+1. [Installation](#installation)
+2. [Setup](#setup) </br>
+3. [Running](#running) </br>
+3.1 [Android](#android) </br>
+3.2 [iOS](#ios) </br>
+4. [Tests](#tests)
+5. [License](#license)
+
+## Installation <a name="installation"></a>
 1. Clone the github repository.
 ```
 git clone https://github.com/PedalPatrol/PedalPatrol.git
@@ -34,7 +43,7 @@ npm install
 npm run setup
 ```
 
-## Setup
+## Setup <a name="setup"></a>
 1. Add your Google Maps API key to PedalPatrol/android/app/src/main/AndroidManifest.xml to the meta-data for key "com.google.android.geo.API_KEY"
 ```
 ...
@@ -50,8 +59,8 @@ npm run setup
 npm run setup:ios
 ```
 
-## Running
-### Android
+## Running <a name="running"></a>
+### Android <a name="android"></a>
 #### Emulator
 1. Start an emulator either from the command line or from Android Studio.
 MacOS
@@ -75,7 +84,7 @@ react-native run-android
 1. Follow the steps [here](https://facebook.github.io/react-native/docs/running-on-device) to setup running on a physical device.
 2. Run any of the above commands to run on android.
 
-### iOS
+### iOS <a name="ios"></a>
 #### Emulator
 1. Building and Running - Run the following command to debug on an emulator:
 ```
@@ -98,9 +107,12 @@ or
 react-native run-ios --device "NAME_OF_CONNECTED_DEVICE"
 ```
 
-## Tests
+## Tests <a name="tests"></a>
 Tests are facilitated by the Jest tool and can be found in PedalPatrol/test. The folder structure of the tests is the same as in PedalPatorl/src. Tests are automatically run with the --silent flag on.
 To run the tests run the following command from PedalPatrol/PedalPatrol:
 ```
 npm test
 ```
+
+## License
+No license
