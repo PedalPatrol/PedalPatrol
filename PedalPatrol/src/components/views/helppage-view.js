@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { List, Checkbox} from 'react-native-paper';
-import {Linking, StyleSheet, Image, ScrollView} from 'react-native';
+import { List, Checkbox, Text} from 'react-native-paper';
+import {View, Linking, StyleSheet, Image, ScrollView} from 'react-native';
+import {Icon} from 'react-native-elements';
 import BaseView from './view';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { HeaderBackButton } from 'react-navigation';
 
 
@@ -46,73 +46,74 @@ class HelpView extends BaseView {
     Linking.openURL(url);
   };
 
+  renderText(text){
+    return(<Text> 
+      {text} 
+    </Text>)
+  }
+
+  renderItemText(text){
+    return(<Text style={styles.itemStyle} numberOfLines={10}> 
+      {text} 
+    </Text>)
+  }
+
+  renderIcon(iconName,iconType){
+    return(
+      <View style={{width:50}}>
+        <Icon name={iconName} type={iconType} size={20} color={'#34bb83'}/>
+      </View>
+      )
+  }
+
   render() {
     return ( 
 
 
 <ScrollView>
 
-<PaperProvider theme={theme}>
-
-      <List.Section title="Pedal Patrol Help Center">
+      <List.Section>
 
         <List.Accordion
-          title="Using Pedal Patrol"
-          description="How to use Pedal Patrol features">
-
-          <List.Accordion title="Uploading your bike" left={props => <List.Icon {...props} icon=""/>} >
-
-          <List.Item title="stub" style={styles.ppGrey}>
-            <Image
-            style={{width: 50, height: 50}}
-            source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-          />
-          </List.Item>
-
-          </List.Accordion>
-
-          <List.Accordion title="Reporting your bike stolen"  left={props => <List.Icon {...props} icon="" />} >
-          <List.Item title="stub" style={styles.ppGrey}/>
-          </List.Accordion>
-
-          <List.Accordion title="Reporting a found bike" left={props => <List.Icon {...props} icon="" />} >
-          <List.Item title="stub" style={styles.ppGrey}/>
-          </List.Accordion>
-
-          
-          <List.Item
-          title="User manual" 
-          style={{backgroundColor:'E6ECF0'}} left={props => <List.Icon {...props} icon="" />} 
-          onPress={() => {
-            this._handleLinkClick('LINK TO USER MANUAL')
-         }}/>
-
-        </List.Accordion>
-
-
-        <List.Accordion
-          title="Managing your account"
+          title="Main Pages"
         >
-            <List.Accordion title="Login and Password" left={props => <List.Icon {...props} icon=""/>} >
-
-              <Image
-              style={{width: 50, height: 50}}
-              source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-              />
-
+            <List.Accordion  title={this.renderText("Lost Bikes")} left={props => this.renderIcon("home","entypo")} >
+              <List.Item titleStyle={{color:'red'}}  title="stub" style={styles.ppGrey}/>
             </List.Accordion>
 
-            <List.Accordion title="Username, email and phone" left={props => <List.Icon {...props} icon="" />} >
+            <List.Accordion  title={this.renderText("Map")} left={props => this.renderIcon("md-map","ionicon")} >
               <List.Item title="stub" style={styles.ppGrey}/>
             </List.Accordion>
 
-            <List.Accordion title="Notifications" left={props => <List.Icon {...props} icon="" />} >
-              <List.Item title="stub" style={styles.ppGrey}/> 
+            <List.Accordion  title={this.renderText("My Bikes")} left={props => this.renderIcon("md-bicycle","ionicon")} >
+              <List.Item title="stub" style={styles.ppGrey}/>
             </List.Accordion>
 
+        </List.Accordion>
 
+
+
+        <List.Accordion
+          title="Key Features"
+        >
+            <List.Accordion  title={this.renderText("Register a bike")} left={props => this.renderIcon("add","MaterialIcons")} >
+              {this.renderItemText("My Bikes page\nClick the plus button\nAdd Bike Photos and Details\nClick Save")}
+            </List.Accordion>
+
+            <List.Accordion  title={this.renderText("Create a lost bike report")} left={props => this.renderIcon("pin-drop","MaterialIcons")}>
+              {this.renderItemText("Map page\nClick the Pin button\nPlace pin on map\nClick check mark\nSelect a registered bike from the dropdown menu\nWrite a report description\nClick submit")}
+            </List.Accordion>
+
+            <List.Accordion  title={this.renderText("Message owners of found bikes")} left={props => this.renderIcon("comment","MaterialIcons")}>
+            {this.renderItemText("Lost Bikes\nClick the message button the bottom right of the appropriate bike card\nWrite a description about how the bike was found\nSelect the location on the map in which the bike was found\nClick Submit")}
+            </List.Accordion>
+
+            <List.Accordion  title={this.renderText("Set notification radius")} left={props => this.renderIcon("circle-o-notch","font-awesome")}>
+            {this.renderItemText("Map page\nClick the circle icon\nPress and hold to place radius circle in desired area\nResize radius with plus and minus buttons\nClick the checkmark to save")}
+            </List.Accordion>
 
         </List.Accordion>
+
 
         <List.Accordion
           title="Privacy Policy" 
@@ -127,45 +128,36 @@ class HelpView extends BaseView {
 
 
         <List.Accordion
-          title="Contact Us" 
-        >
-        <List.Item
-          title="Report a problem" style={styles.ppGrey}
-          onPress={() => {
-            this._handleLinkClick('mailto:pedalpatrolapp@gmail.com?subject=Problem with Pedal Patrol')
-         }}/>
+          title="Contact Us" >
+
+        <Text 
+        style={styles.itemStyle}
+        onPress={() => {this._handleLinkClick('mailto:pedalpatrolapp@gmail.com?subject=Problem with Pedal Patrol')}}> 
+
+        Report a problem
+            
+        </Text>
+
         </List.Accordion>
 
       </List.Section>
 
-      </PaperProvider>
-
       </ScrollView>
-
   );
   }
 }
-
-
-const theme = {
-  ...DefaultTheme,
-  roundness: 2,
-
-  colors: {
-    primary: '#34bb83',
-    accent: '#ff0000'
-  },
-
-  font:{
-    fontWeight: 'thin'
-  }
-};
 
 const styles = StyleSheet.create({
 
   ppGrey: {
     backgroundColor: '#F7F7F7',
   },
+  itemStyle:{
+    fontSize: 14,
+    flexWrap:"wrap",
+    backgroundColor: '#F7F7F7',
+    padding: 5
+  }
 
 });
 
