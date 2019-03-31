@@ -78,15 +78,15 @@ class HelpView extends BaseView {
           title="Main Pages"
         >
             <List.Accordion  title={this.renderText("Lost Bikes")} left={props => this.renderIcon("home","entypo")} >
-              <List.Item titleStyle={{color:'red'}}  title="stub" style={styles.ppGrey}/>
+              {this.renderItemText("A feed of bikes that have been reported as stolen with the most recent appearing at the top. Click the bike card for more details. Search bikes by model and pin bike reports you’re interested to the top of your feed.")}
             </List.Accordion>
 
             <List.Accordion  title={this.renderText("Map")} left={props => this.renderIcon("md-map","ionicon")} >
-              <List.Item title="stub" style={styles.ppGrey}/>
+              {this.renderItemText("A map to show the location of reported bike thefts marked as a pin. Click the pins to see quick summaries of the bikes, and click the summaries for more details. Change your notification radius, search by location, filter bikes based on time, report your own stolen bikes.")}ey}/>
             </List.Accordion>
 
             <List.Accordion  title={this.renderText("My Bikes")} left={props => this.renderIcon("md-bicycle","ionicon")} >
-              <List.Item title="stub" style={styles.ppGrey}/>
+              {this.renderItemText("A page to keep track of all of your registered bikes. This information will be available to users if it is reported stolen, and will be necessary for them to identify your unique bike. Click the plus button to add more bikes, or delete them at the bottom of its bike details page. ")}
             </List.Accordion>
 
         </List.Accordion>
@@ -125,8 +125,6 @@ class HelpView extends BaseView {
          }}/>
         </List.Accordion>
 
-
-
         <List.Accordion
           title="Contact Us" >
 
@@ -160,6 +158,5 @@ const styles = StyleSheet.create({
   }
 
 });
-
 
 export default HelpView;
