@@ -28,12 +28,12 @@ class LoginPresenter extends BasePresenter {
 		LoginM.update(newData);
 	};
 
-	updateT = () => {
-		LoginM.updateT();
+	updateT = (onError) => {
+		LoginM.updateT(onError);
 	}
 
-	updateF = () => {
-		LoginM.updateF();
+	updateF = (onError) => {
+		LoginM.updateF(onError);
 	}
 
 	/**

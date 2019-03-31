@@ -11,7 +11,7 @@ import AuthState from '../../util/authenticationstate';
 import ImageUtil from '../../util/imageutil';
 import NotificationMethod from '../../util/notification';
 
-import { Platform } from 'react-native';
+import { Platform } from 'react-native'; // Temporary
 
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
@@ -33,6 +33,7 @@ class LoginModel extends Model {
 					}
 				]
 		}
+	
 		this._createObserverList();
 	}
 
@@ -45,12 +46,12 @@ class LoginModel extends Model {
 		return {...this._data}
 	}
 
-	updateT() {
-		Database.signInwithTwitter();
+	updateT(onError) {
+		Database.signInwithTwitter(onError);
 	}
 	
-	updateF() {
-		Database.signinwithFB();
+	updateF(onError) {
+		Database.signinwithFB(onError);
 	}
 
 	/**
@@ -83,7 +84,6 @@ class LoginModel extends Model {
 		let verify = await Database.checkVerify();
 		if (verify === 'email not verified'){
 		    errorMessage = false;
-		    alert('email needs to be verified');
 		    await Database.signOut();
 		}
 

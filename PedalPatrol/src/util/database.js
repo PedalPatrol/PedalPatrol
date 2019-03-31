@@ -73,32 +73,32 @@ class FirebaseDatabase {
 				}
 			}
 
-  sendEmail() {
-  //console.log("user in send email is : "+ user);
-			 firebase.auth().currentUser.sendEmailVerification().then(function() {
+  	sendEmail() {
+  		//console.log("user in send email is : "+ user);
+		firebase.auth().currentUser.sendEmailVerification().then(function() {
 			// Email Verification sent!
 			// [START_EXCLUDE]
 			// [END_EXCLUDE]
-		  }).catch(function(error) {
+		}).catch(function(error) {
 			// Handle Errors here.
-			var errorCode = error.code;
-			var errorMessage = error.message;
+			let errorCode = error.code;
+			let errorMessage = error.message;
 			console.log('error for email:      '+ errorMessage);
 			});
 		}
 
-  sendresetEmail() {
+  	sendresetEmail(onError) {
 			let email = getCurrentUserEmail();
-			firebase.auth().sendPasswordResetEmail(email).then(function() {
+		firebase.auth().sendPasswordResetEmail(email).then(function() {
 			// Email sent.
-			}).catch(function(error) {
+		}).catch(function(error) {
 			// An error happened.
-			var errorCode = error.code;
-			var errorMessage = error.message;
-			alert(errorMessage);
-			});
+			let errorCode = error.code;
+			let errorMessage = error.message;
+			onError(errorMessage);
+		});
 
-		}
+	}
 
 	/**
 	 * Accesses Firebase data to sign in with email and password.
@@ -112,7 +112,7 @@ class FirebaseDatabase {
 		await firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
 	}
 
-	signinwithFB() {
+	signinwithFB(onError) {
 		//console.log('begin signinwithFB');
 		LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
 		// console.log('walk into else'),
@@ -124,7 +124,7 @@ class FirebaseDatabase {
 		);
 	}
 
-	signInwithTwitter(){
+	signInwithTwitter(onError){
 		RNTwitterSignIn.init('pdfOq2bGgmAD59pe3241W1hMg','xPRtJaBCqmZoFKPV7N8YcllUqOi4d0QWR521rebCQFcMUFGYE3');
 		RNTwitterSignIn.logIn().then((loginData)=>{
 			let accessToken = firebase.auth
@@ -136,7 +136,7 @@ class FirebaseDatabase {
 			this.handleFirebaseLogin(accessToken);
 		}).catch((error) => {
 			console.log(error)
-			alert('Unable sign in with Twitter.')
+			onError('Unable to sign-in with Twitter');
 		});
 		user = firebase.auth().currentUser;
 			this.setAccount(user.uid);

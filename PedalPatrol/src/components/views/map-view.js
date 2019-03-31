@@ -462,8 +462,8 @@ class MapView extends BaseView {
 				<ScrollView horizontal>
 					<View style={map_styles.calloutColumn}>
 						<View style={map_styles.calloutRow}>
-							<Text style={map_styles.modelText} numberOfLines={1} ellipsizeMode ={'tail'}>
-								{item.data.model == undefined || item.data.model === '' ? 'Model Unknown' : item.data.model}
+							<Text style={map_styles.brandText} numberOfLines={1} ellipsizeMode ={'tail'}>
+								{item.data.Brand == undefined || item.data.Brand === '' ? 'Brand Unknown' : item.data.Brand}
 							</Text>
 							<Text numberOfLines={1} ellipsizeMode={'tail'}>
 							{'   '}
@@ -475,9 +475,9 @@ class MapView extends BaseView {
 							</View>
 						</View>
 						{
-							item.data.brand != undefined && item.data.brand !== '' && 
+							item.data.model != undefined && item.data.model !== '' && 
 							<Text style={map_styles.mapText}>
-								{item.data.brand != '' ? "Brand: " + item.data.brand : ''}
+								{item.data.model != '' ? "Model: " + item.data.model : ''}
 							</Text>
 						}
 						{
@@ -530,6 +530,21 @@ class MapView extends BaseView {
 			this.setState({showCircle: true, showMarker:false, markerCreated:[]});
 			this.pinABRef.reset();
 		}
+	}
+
+	/**
+	 * Triggers after a marker being dragged has stopped being dragged.
+	 *
+	 * @param {Object} coord - The coordinate position of the marker
+	 */
+	onMarkerDragEnd = (coord) => {
+		const { latLng } = coord;
+	    const lat = latLng.lat();
+	    const lng = latLng.lng();
+		const marker = this.state.markerCreated;
+		marker[0].coordinate = { latitude: lat, longitude: lng };
+
+		this.setState({markerCreated: marker});
 	}
 
 	/**
@@ -612,7 +627,7 @@ class MapView extends BaseView {
 								{this._renderCallout(marker)}
 							</Marker>
 						))}
-						{this.state.markerCreated.map(marker => (<Marker draggable{...marker} />))}
+						{this.state.markerCreated.map(marker => (<Marker draggable{...marker} onDragend={(t, map, coord) => this.onMarkerDragEnd(coord)} />))}
 						{this.renderCircle(this)}
 					</RNMapView>
 

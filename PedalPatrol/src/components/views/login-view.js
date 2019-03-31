@@ -57,7 +57,7 @@ class LoginView extends BaseView {
 	_handleClickT = () => {
 		if (Platform.OS !== 'ios' ) {
 			console.log('clicked twitter')
-			this.LoginP.updateT();
+			this.LoginP.updateT(this.onError);
 		} else {
 			Alert.alert(
 				'Twitter login on iOS is currently disabled',
@@ -70,11 +70,22 @@ class LoginView extends BaseView {
 			
 		}
 	}
+
+	onError = (message) => {
+		Alert.alert(
+			message,
+			"",
+			[
+				{text: 'OK', onPress: () => {}},
+			],
+			{cancelable: false},
+		);
+	}
 	
 	_handleClickF = () => {
 		if (Platform.OS !== 'ios' ) {
 			console.log('clicked facebook')
-			this.LoginP.updateF();
+			this.LoginP.updateF(this.onError);
 		} else {
 			Alert.alert(
 				'Facebook login on iOS is currently disabled',
@@ -134,7 +145,7 @@ class LoginView extends BaseView {
 		this.setState({loaderVisible: false});
 		Alert.alert(
 			'Error',
-			'Username or Password is incorrect',
+			'Username or Password is incorrect or email needs to be verified.',
 			[
 				{ text: "Ok", onPress: () => {}, style: "ok" },
 			],
