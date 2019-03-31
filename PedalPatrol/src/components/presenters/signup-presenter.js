@@ -15,14 +15,25 @@ class SignUpPresenter extends BasePresenter {
 	constructor(view) {
 		super();
 		this.view = view;
+		this.callback = this.defaultCallback;
 		SignUpM.subscribe(this);
 	}
-		/**
-			 * Updates the bike model with new data.
-			 *
-			 * @param {Object} newData - New data to update the model's data with, including username and password for sign up.
-			 */
-	update = (newData) => {
+
+	defaultCallback = () => {
+		// Stub
+	}
+
+	setCallback = (callback) => {
+		this.callback = callback;
+	}
+	
+	/**
+	 * Updates the bike model with new data.
+	 *
+	 * @param {Object} newData - New data to update the model's data with, including username and password for sign up.
+	 */
+	update = (newData, onSuccess) => {
+		this.setCallback(onSuccess);
 		SignUpM.update(newData);
 	};
 
@@ -34,15 +45,7 @@ class SignUpPresenter extends BasePresenter {
 	 * @param {Object} newData - New data to add.
 	 */
 	onUpdated = (newData) => {
-		// Do something with the new data or let the view auto update?
-		if (newData){
-		 alert('please verify your email')
-                this.view._onBack();
-		}
-		if(!newData){
-         alert('email exists')
-		}
-
+		this.callback(newData);
 	};
 
 

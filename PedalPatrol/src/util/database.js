@@ -1,10 +1,10 @@
 // import firebase from 'react-native-firebase';
 import firebase from 'firebase'; // Using regular firebase here because there are some problems when trying to move to react-native-firebase 
 import 'firebase/storage'; // Necessary for jest tests
-import { NativeModules } from 'react-native';
+import { Platform, NativeModules } from 'react-native';
 import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
 
-import config from '../config/config.json';
+import {default as config} from '../config/config';
 import TimeUtil from './timeutility';
 
 const { RNTwitterSignIn } = NativeModules;
@@ -56,64 +56,47 @@ class FirebaseDatabase {
 
 
 
- signUp(email,password,onSuccess, onError) {
-	    firebase.auth().createUserWithEmailAndPassword(email,password)
-	    .then(onSuccess).catch(onError);
-
-
-
-//	    ((user) => {
-//                  if (user) {
-//                      console.log("signup user id is: "+user.uid)
-//                      this.sendEmail(user.uid);
-//                      this.setAccount(user.uid);
-//                      this.signOut(user.uid);
-//                   }
-//                   }
-//                   )
-//                   .catch(onError);
-
+	 signUp(email,password,onSuccess, onError) {
+		return firebase.auth().createUserWithEmailAndPassword(email,password)
 	 }
 
-    	checkVerify() {
-    	let user = firebase.auth().currentUser;
-    	let errorMessage='';
-    			if (user.emailVerified == false) {
-    			    console.log("user email verified"+user.emailVerified);
-    				errorMessage = 'email not verified';
-    				return errorMessage;
-    			} else {
-    			    return true;
-    				// successful login
-    			}
-    		}
+		checkVerify() {
+		let user = firebase.auth().currentUser;
+		let errorMessage='';
+				if (user.emailVerified == false) {
+					console.log("user email verified"+user.emailVerified);
+					errorMessage = 'email not verified';
+					return errorMessage;
+				} else {
+					return true;
+					// successful login
+				}
+			}
 
   sendEmail() {
   //console.log("user in send email is : "+ user);
-    		 firebase.auth().currentUser.sendEmailVerification().then(function() {
-            // Email Verification sent!
-            // [START_EXCLUDE]
-            alert('Email Verification Sent!');
-            // [END_EXCLUDE]
-          }).catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-    		var errorMessage = error.message;
-    		console.log('error for email:      '+ errorMessage);
-    		alert(errorMessage);
-    		});
-    	}
+			 firebase.auth().currentUser.sendEmailVerification().then(function() {
+			// Email Verification sent!
+			// [START_EXCLUDE]
+			// [END_EXCLUDE]
+		  }).catch(function(error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			console.log('error for email:      '+ errorMessage);
+			});
+		}
 
   sendresetEmail() {
-    		let email = getCurrentUserEmail();
-    		firebase.auth().sendPasswordResetEmail(email).then(function() {
-    		// Email sent.
-    		}).catch(function(error) {
-    		// An error happened.
-    		var errorCode = error.code;
-    		var errorMessage = error.message;
-    		alert(errorMessage);
-    		});
+			let email = getCurrentUserEmail();
+			firebase.auth().sendPasswordResetEmail(email).then(function() {
+			// Email sent.
+			}).catch(function(error) {
+			// An error happened.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			alert(errorMessage);
+			});
 
     	}
 
@@ -178,18 +161,18 @@ class FirebaseDatabase {
 
 
 	 setAccount(user){
-            //let user = firebase.auth().currentUser;
-            console.log("user in set account is: "+user);
-            this.refDB.child('Users/').child(user).set({
-            id:user,
-            circle_lat:"",
-            circle_long:"",
-            circle_r:"",
-            deviceToken:"",
-            full_name:'',
-            phoneNum:"",
-            email:user.email,
-            thumbnail:["https://firebasestorage.googleapis.com/v0/b/test-f4788.appspot.com/o/ProfileImages%2FKXx6FLsyOOVyCy1ik4bJK4Y17UV2%2F0.jpg?alt=media&token=526759aa-0a3d-4b0c-9cfe-33952fefc692"]
+			//let user = firebase.auth().currentUser;
+			console.log("user in set account is: "+user.uid);
+			this.refDB.child('Users/').child(user.uid).set({
+			id:user.uid,
+			circle_lat:"",
+			circle_long:"",
+			circle_r:"",
+			deviceToken:"",
+			full_name:'',
+			phoneNum:"",
+			email:user.email,
+			thumbnail:['http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg']
 
 
             });
@@ -423,10 +406,11 @@ class FirebaseDatabase {
 	/**
 	 * Returns the currently logged in user's id.
 	 *
-	 * @param {Function} onComplete - A callback function when the state has changed 
+	 * @param {Function} onComplete - A callback function when the state has changed
+	 * @return {Function} Function to unsubscribe from the authentication listener
 	 */
 	getCurrentUser(onComplete) {
-		firebase.auth().onAuthStateChanged((user) => {
+		return firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				console.log("user id: " + user.uid);
 				onComplete(user.uid);

@@ -9,6 +9,9 @@ import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
 import ImageUtil from '../../util/imageutil';
+import NotificationMethod from '../../util/notification';
+
+import { Platform } from 'react-native';
 
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
@@ -83,7 +86,14 @@ class LoginModel extends Model {
 		    await Database.signOut();
 		}
 
-		if (errorMessage) {				
+		if (errorMessage) {		
+			if (Platform.OS !== 'ios') {
+				const fcm = NotificationMethod.checkPermission();
+		        //do something to overwrite database device token;
+		        if (fcm) {
+
+		        }
+	    	}
 			this._authenticationSuccess();
 		}
 		this._notifyAll(errorMessage);

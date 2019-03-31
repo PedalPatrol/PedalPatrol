@@ -76,6 +76,7 @@ class AuthLoadingPresenter extends BasePresenter {
 	onRetrievalSuccess(userToken, onSuccess, onFailure) {
 		// console.log(userToken);
 		userToken ? onSuccess() : onFailure();
+		AuthLoadingM.unsubscribeAuthListener();
 	}
 
 	/**

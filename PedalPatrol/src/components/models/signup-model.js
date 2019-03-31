@@ -38,32 +38,35 @@ class SignupModel extends Model {
 		this._data.data.splice(0,1,newData.data); // Appends to the list - Use this if only a single piece of data is passed in
 
 		let errorMessage = true;
-		Database.signUp(this._data.data[0].username, this._data.data[0].password, (user) => {
-            if (user) {
-            console.log('-----------------------------------------------------------------------')
-            console.log(user);
-                console.log("signup user id is: "+user.uid)
-                Database.sendEmail(user.uid);
-                Database.setAccount(user.uid);
-                Database.signOut(() => {
-                console.log('Signed Out');
-                    const b = true;
-                    this._notifyAll(b);
-                }, this.onErrorCallback);
-            }
-		}, this.onErrorCallback)
+		Database.signUp(this._data.data[0].username, this._data.data[0].password).then(
+			(userData) => {
+			if (userData) {
+				console.log('-----------------------------------------------------------------------')
+				console.log(userData.user.uid);
+				console.log("signup user id is: "+userData.user.uid)
+				Database.sendEmail(userData.user);
+				Database.setAccount(userData.user);
+				Database.signOut(this.onSuccessSignOut, this.onErrorCallback);
+			}
+		}).catch(this.onErrorCallback);
 	}
 
-	onErrorCallback(error=null) {
-	    if (error) {
-	        console.log(error);
-	    } else {
-	        console.log(error);
-	    }
+	onSuccessSignOut = () => {
+		console.log('Signed Out');
+		const b = true;
+		this._notifyAll(b);
+	}
 
-        // Handle Errors here.
-        errorMessage = false;
-         this._notifyAll(errorMessage);
+	onErrorCallback = (error=null) => {
+		if (error) {
+			console.log(error);
+		} else {
+			console.log(error);
+		}
+
+		// Handle Errors here.
+		errorMessage = false;
+		this._notifyAll(errorMessage);
 	}
 
 

@@ -1039,9 +1039,7 @@ class MapView extends BaseView {
 
 
 	_renderActionButtonAddIcon = () => (
-
-		<Icon name="add-circle" type="MaterialIcons" size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/>
-
+		<Icon name="circle-o-notch" type="font-awesome" size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/>
 	);
 
 
