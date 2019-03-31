@@ -9,6 +9,9 @@ import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
 import ImageUtil from '../../util/imageutil';
+import NotificationMethod from '../../util/notification';
+
+import { Platform } from 'react-native';
 
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
@@ -76,17 +79,25 @@ class LoginModel extends Model {
 			}, 600);
 		});
 
-		if (errorMessage) {				
+	
+		let verify = await Database.checkVerify();
+		if (verify === 'email not verified'){
+		    errorMessage = false;
+		    alert('email needs to be verified');
+		    await Database.signOut();
+		}
+
+		if (errorMessage) {		
+			if (Platform.OS !== 'ios') {
+				const fcm = NotificationMethod.checkPermission();
+		        //do something to overwrite database device token;
+		        if (fcm) {
+
+		        }
+	    	}
 			this._authenticationSuccess();
 		}
 		this._notifyAll(errorMessage);
-
-		//var message = errorMessage;
-		// console.log('ddd:'+errorMessage)
-		// this.notifyAll(null) // Send with no message?
-		//console.log('errorbeforenotify: '+ errorMessage)
-		// this._notifyAll(errorMessage); // Consider not having a message and forcing the presenter to 'get' the message itself
-		// this._eventEmitter.emit('change')
 	}
 
 	/**

@@ -2,6 +2,7 @@ import Model from './model';
 import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
+import NotificationMethod from '../../util/notification';
 
 /**
  * Class for the AuthLoading model to be used by the AuthLoadingPresenter
@@ -16,7 +17,13 @@ class AuthLoadingModel extends Model {
 	constructor(){
 		super();
 		this._createObserverList();
+this.unsubscribeAuthListener = this.defaultUnsubscribe;
 	}
+
+defaultUnsubscribe() {
+		// Stub
+	}
+
 
 	/**
 	 * Check the authentication state of the user.
@@ -29,7 +36,7 @@ class AuthLoadingModel extends Model {
 			if (userToken == null || userToken == undefined) {
 				console.log('No user token, checking database authentication...');
 				// Only check database user if no user token stored
-				await Database.getCurrentUser((userID) => {
+				this.unsubscribeAuthListener = Database.getCurrentUser((userID) => {
 					AuthState.setCurrentUserID(userID);
 					onComplete(userID);
 				});	
@@ -50,7 +57,8 @@ class AuthLoadingModel extends Model {
 	 * @param {Function} onSuccess - A callback function on a successful logout
 	 * @param {Function} onFailure - A callback function on a failure to logout
 	 */
-	logout(onSuccess, onFailure) {		
+	logout(onSuccess, onFailure) {
+		NotificationMethod.removeToken();
 		Database.signOut(async () => {
 			const userID = AuthState.getCurrentUserID();
 			await PersistStorage.removeAllData([], (message) => {

@@ -218,7 +218,7 @@ class LoginView extends BaseView {
 	render() {
 		return (
 			<View style={[styles.container]}>
-				<SafeArea overrideColour={colours.ppGreen} />
+				<SafeArea overrideColour={colours.ppGrey} />
 				{
 					Platform.OS === 'ios' &&
 					<KeyboardAvoidingView
@@ -247,7 +247,7 @@ class LoginView extends BaseView {
 				{
 					this.state.loaderVisible &&
 					<View style={login_styles.loading} pointerEvents="none">
-						<ActivityIndicator size='large' color="#0000ff" />
+						<ActivityIndicator size='small' color="#0000ff" />
 					</View>
 				}
 			</View>

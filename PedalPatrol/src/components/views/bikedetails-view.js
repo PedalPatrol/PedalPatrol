@@ -93,10 +93,10 @@ class BikeDetailsView extends BaseView {
 		});
 
 		const { navigation } = this.props;
-			let data=[];
-    const id = navigation.getParam('id','NO-DATA');
+		let data=[];
+    	const id = navigation.getParam('id','NO-DATA');
 		const fromPage = navigation.getParam('from', 'Home');
-    if (id ==='NO-DATA'){
+	    if (id ==='NO-DATA'){
 		    data = navigation.getParam('data', 'NO-DATA');
 		}else{
 		    data = this.BikeDetP.getDataFromID(id);

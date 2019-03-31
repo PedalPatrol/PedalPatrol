@@ -1,10 +1,10 @@
 // import firebase from 'react-native-firebase';
 import firebase from 'firebase'; // Using regular firebase here because there are some problems when trying to move to react-native-firebase 
 import 'firebase/storage'; // Necessary for jest tests
-import { NativeModules } from 'react-native';
+import { Platform, NativeModules } from 'react-native';
 import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
 
-import config from '../config/config.json';
+import {default as config} from '../config/config';
 import TimeUtil from './timeutility';
 
 const { RNTwitterSignIn } = NativeModules;
@@ -55,6 +55,51 @@ class FirebaseDatabase {
 	}
 
 
+
+	 signUp(email,password,onSuccess, onError) {
+		return firebase.auth().createUserWithEmailAndPassword(email,password)
+	 }
+
+		checkVerify() {
+		let user = firebase.auth().currentUser;
+		let errorMessage='';
+				if (user.emailVerified == false) {
+					console.log("user email verified"+user.emailVerified);
+					errorMessage = 'email not verified';
+					return errorMessage;
+				} else {
+					return true;
+					// successful login
+				}
+			}
+
+  sendEmail() {
+  //console.log("user in send email is : "+ user);
+			 firebase.auth().currentUser.sendEmailVerification().then(function() {
+			// Email Verification sent!
+			// [START_EXCLUDE]
+			// [END_EXCLUDE]
+		  }).catch(function(error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			console.log('error for email:      '+ errorMessage);
+			});
+		}
+
+  sendresetEmail() {
+			let email = getCurrentUserEmail();
+			firebase.auth().sendPasswordResetEmail(email).then(function() {
+			// Email sent.
+			}).catch(function(error) {
+			// An error happened.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			alert(errorMessage);
+			});
+
+		}
+
 	/**
 	 * Accesses Firebase data to sign in with email and password.
 	 * This function is called asynchronously. Use 'async' and 'await'.
@@ -87,15 +132,14 @@ class FirebaseDatabase {
 									.credential(
 										loginData.authToken,
 										loginData.authTokenSecret
-								  	);
+									);
 			this.handleFirebaseLogin(accessToken);
 		}).catch((error) => {
 			console.log(error)
 			alert('Unable sign in with Twitter.')
 		});
-		this.getCurrentUser((userID) => {
-			this.setAccount(userID);
-		});
+		user = firebase.auth().currentUser;
+			this.setAccount(user.uid);
 		// console.log('did login')
 	}
 
@@ -116,9 +160,23 @@ class FirebaseDatabase {
 	}
 
 
-	setAccount(userId){
-		this.refDB.child('Users/').child(userId).set({id:userId,});
-	}
+	 setAccount(user){
+			//let user = firebase.auth().currentUser;
+			console.log("user in set account is: "+user.uid);
+			this.refDB.child('Users/').child(user.uid).set({
+			id:user.uid,
+			circle_lat:"",
+			circle_long:"",
+			circle_r:"",
+			deviceToken:"",
+			full_name:'',
+			phoneNum:"",
+			email:user.email,
+			thumbnail:['http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg']
+
+
+			});
+		}
 
 	/**
 	 * Sign out of the database.
@@ -182,7 +240,7 @@ class FirebaseDatabase {
 	 * Overwrites data in the database by reading the data, merging it with the new values and writing back to the same ID.
 	 *
 	 * @param {Object} newProfileData - New data to write
-	 * @param {Function} onSuccess - A function callback to run when writing is successful
+	 * @param {Function}b onSuccess - A function callback to run when writing is successful
 	 * @param {Function} onErorr - A function callback to run when writing fails
 	 */
 	editProfileData(newProfileData, onSuccess, onError) {
@@ -348,10 +406,11 @@ class FirebaseDatabase {
 	/**
 	 * Returns the currently logged in user's id.
 	 *
-	 * @param {Function} onComplete - A callback function when the state has changed 
+	 * @param {Function} onComplete - A callback function when the state has changed
+	 * @return {Function} Function to unsubscribe from the authentication listener
 	 */
 	getCurrentUser(onComplete) {
-		firebase.auth().onAuthStateChanged((user) => {
+		return firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				console.log("user id: " + user.uid);
 				onComplete(user.uid);

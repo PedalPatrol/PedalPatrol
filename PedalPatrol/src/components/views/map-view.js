@@ -44,12 +44,6 @@ class MapView extends BaseView {
 				latitude: 44.257424,
 				longitude: -76.5231,
 			},
-			region: {
-				latitude: 44.237424,
-				longitude: -76.5131,
-				latitudeDelta: 0.0922,
-				longitudeDelta: 0.0421,
-			},
 			showCircle: false,
 			showMarker: false,
 			markerCreated:[],
@@ -74,6 +68,7 @@ class MapView extends BaseView {
 	}
 
 	componentWillMount = () => {
+		this._setUserLocation();
 		this._setProfileImage();
 	}
 
@@ -81,7 +76,6 @@ class MapView extends BaseView {
 	 * Triggers when the component is mounted.
 	 */
 	componentDidMount = () => {
-		this._setUserLocation();
 		this.MapP.forceRequestData();
 		
 		this._setMarkers(this.state.selectedFilters);
@@ -523,7 +517,7 @@ class MapView extends BaseView {
 	);
 
 	_renderActionButtonAddIcon = () => (
-		<Icon name="add-circle" type="MaterialIcons" size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/>
+		<Icon name="circle-o-notch" type="font-awesome" size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/>
 	);
 
 	_toggleCircle = () => {

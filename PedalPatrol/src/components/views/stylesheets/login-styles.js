@@ -8,6 +8,7 @@ const login_styles = StyleSheet.create({
 		fontSize: 50,
 	},
 	centered:{
+		marginTop: 50,
 		alignItems:'center',
 		backgroundColor: colours.ppGrey
 	},
@@ -81,8 +82,8 @@ const login_styles = StyleSheet.create({
 		backgroundColor: 'transparent',
 	},
 	image: {
-		width: 200,
-		height: 200,
+		width: 150,
+		height: 150,
 		zIndex: 1,
 	},
 });

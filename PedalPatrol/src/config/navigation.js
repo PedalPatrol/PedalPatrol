@@ -19,6 +19,7 @@ import NotificationView from '../components/views/notification-view';
 import SettingsView from '../components/views/settings-view';
 import ReportLostView from '../components/views/reportlost-view';
 import ReportFoundView from '../components/views/reportfound-view';
+import HelpView from '../components/views/help-view';
 
 
 let screen = Dimensions.get('window');
@@ -185,6 +186,18 @@ const AlertStack = createStackNavigator({
 	}
 });
 
+const HelpStack = createStackNavigator({
+	Help: {
+		screen: HelpView,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitle: 'Help Center',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	}
+});
+
 const SettingsStack = createStackNavigator({
 	Settings: {
 		screen: SettingsView,
@@ -295,6 +308,12 @@ export const createRootNavigator = () => {
 			},
 			SettingsStack:{
 				screen: SettingsStack,
+				navigationOptions: ({navigation}) => ({
+					gesturesEnabled: false,
+				})
+			},
+			HelpStack: {
+				screen: HelpStack,
 				navigationOptions: ({navigation}) => ({
 					gesturesEnabled: false,
 				})

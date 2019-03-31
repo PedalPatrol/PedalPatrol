@@ -95,7 +95,7 @@ class SignUpView extends BaseView {
 			}
 		}
 		let data = new_data;
-		this.SignupP.update(data);
+		this.SignupP.update(data, this.signupCallback);
 	}
 
 	/**
@@ -121,6 +121,16 @@ class SignUpView extends BaseView {
 				{cancelable: false},
 			);
 	}
+
+signupCallback = (result) => {
+		if (result) {
+			Alert.alert("Please complete the email verification.");
+			this._onBack();
+		} else {
+			Alert.alert("The email entered already exists.");
+		}
+	}
+
 
 	/**
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model

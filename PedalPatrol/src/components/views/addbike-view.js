@@ -445,7 +445,7 @@ class AddBikeView extends BaseView {
 							{/* Submit button */}
 							<TouchableOpacity style={[edit_styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}>
 								<Button
-									title='Submit'
+									title={this.state.isEditPage ? 'Save' : 'Submit'}
 									disabled={this.state.loaderVisible}
 									onPress={() => this._getDataToUpdate()}/>
 							</TouchableOpacity>

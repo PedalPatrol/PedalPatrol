@@ -8,7 +8,8 @@ const colours = {
 	ppGrey: '#E6ECF0',
 	ppDarkGrey: '#7F7F7F',
 	ppWhite: '#FFFFFF',
-	ppBlue: '#4285F4'
+	ppBlue: '#4285F4',
+	ppLightGrey: '#F7F7F7'
 };
 
 const styles = StyleSheet.create({

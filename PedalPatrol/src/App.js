@@ -7,8 +7,7 @@ import NavigatorService from './config/navigationservice';
 import SideDrawer from './components/views/helpers/sidedrawer';
 
 import NotificationMethod from './util/notification';
-import firebase from 'react-native-firebase';
-import config from './config/config.json';
+// import firebase from 'react-native-firebase';
 import MapView from './components/views/home-view';
 import AuthState from './util/authenticationstate';
 import Database from './util/database';
@@ -16,6 +15,10 @@ import Database from './util/database';
 export default class App extends Component {
 
 	async componentDidMount() {
+		// TODO : Notifications don't work on ios unless you have a paid account. If on ios, just return
+		if (Platform.OS === 'ios') {
+			return;
+		}
 
 	//getInitialNotification get the notification that triggers app open
 		Database.getCurrentUser((userID) => {
@@ -88,7 +91,13 @@ export default class App extends Component {
 			NavigatorService.navigate('BikeDetails',params);
 		});
 	}
+
 	componentWillUnmount() {
+		// TODO : Notifications don't work on ios unless you have a paid account. If on ios, just return
+		if (Platform === 'ios') {
+			return;
+		}
+
 		this.notificationDisplayedListener();
 		this.notificationListener();
 		this.notificationOpenedListener();
