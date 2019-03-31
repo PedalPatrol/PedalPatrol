@@ -11,6 +11,8 @@ import AuthState from '../../util/authenticationstate';
 import ImageUtil from '../../util/imageutil';
 import NotificationMethod from '../../util/notification';
 
+import { Platform } from 'react-native';
+
 /**
  * Class for the login model to be used by the LoginPresenter and SignupPresenter
  * @extends Model
@@ -60,6 +62,14 @@ class LoginModel extends Model {
 		return {...this._data}
 	}
 
+	updateT() {
+		Database.signInwithTwitter();
+	}
+	
+	updateF() {
+		Database.signinwithFB();
+	}
+
 	/**
 	 * async method for presenters to know if the username and password is existed in the database
 	 * @param {Object} newData - data including username and password.
@@ -79,22 +89,33 @@ class LoginModel extends Model {
 		await Database.signIn(this._data.data[0].username, this._data.data[0].password, (error) => {
 			// Handle Errors here.
 			errorMessage = false;
-			console.log(error);
+
+			setTimeout(() => {
+				console.log('errormessage in timeout'+errorMessage)
+				console.log(error)
+			}, 600);
 		});
-        const fcm = NotificationMethod.checkPermission();
-        console.log('fcm'+fcm);
 
-
-		if (errorMessage) {
-			this._authenticationSuccess();
+		let verify = await Database.checkVerify();
+		if (verify === 'email not verified'){
+		    errorMessage = false;
+		    alert('email needs to be verified');
+		    await Database.signOut();
 		}
 
-		//var message = errorMessage;
-		// console.log('ddd:'+errorMessage)
-		// this.notifyAll(null) // Send with no message?
-		//console.log('errorbeforenotify: '+ errorMessage)
-		this._notifyAll(errorMessage); // Consider not having a message and forcing the presenter to 'get' the message itself
-		// this._eventEmitter.emit('change')
+		if (errorMessage) {		
+			if (Platform.OS !== 'ios') {
+				const fcm = NotificationMethod.checkPermission();
+		        //do something to overwrite database device token;
+		        if (fcm) {
+
+		        }
+	    	}
+			this._authenticationSuccess();
+		}
+    NotificationMethod.checkPermission();
+		this._notifyAll(errorMessage);
+
 	}
 
 	/**

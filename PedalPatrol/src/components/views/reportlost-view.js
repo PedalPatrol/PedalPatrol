@@ -52,7 +52,7 @@ class ReportLostView extends BaseView {
 		});
 
 		this.setState({
-			bikeMenu: this.reportlostP.getData()
+			bikeMenu: this.reportlostP.getNotStolen(this.reportlostP.getData())
 		});
 		const { navigation } = this.props;
 		const data = navigation.getParam('data', 'NO-DATA');
@@ -206,7 +206,6 @@ class ReportLostView extends BaseView {
 				</View>
 				<TextInput style = {reportlost_styles.row2}
 					label="Describe the Condition"
-					value={this.state.text}
 					multiline={true}
 					blurOnSubmit
 					onChangeText={(text) => this.setState({text})}>

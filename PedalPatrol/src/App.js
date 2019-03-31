@@ -15,101 +15,86 @@ import Database from './util/database';
 
 export default class App extends Component {
 
+	async componentDidMount() {
 
-async componentDidMount() {
-    console.log('im in app.js');
-    //getInitialNotification get the notification that triggers app open
-        Database.getCurrentUser((userID) => {
-        if (userID != null){
+	//getInitialNotification get the notification that triggers app open
+		Database.getCurrentUser((userID) => {
+			if (userID != null) {
         NotificationMethod.checkPermission();
-        console.log('im in');
-        }
-        else{
-            console.log('cannot find use token, cannot generate device token');
-        }
-        });
+        console.log("check permission");
+			}
+		});
 
-//        firebase.notifications().getInitialNotification()
-//              .then((notificationOpen: NotificationOpen) => {
-//                if (notificationOpen) {
-//                  // App was opened by a notification
-//                  // Get the action triggered by the notification being opened
-//                  const action = notificationOpen.action;
-//                  // Get information about the notification that was opened
-//                  const notification: Notification = notificationOpen.notification;
-//                }
-//              });
-        const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
-        if (notificationOpen) {
-            const action = notificationOpen.action;
-            const notification: Notification = notificationOpen.notification;
-            if (notification._body == undefined){
-                console.log('no noti');
-            }
-            else{
-                console.log('has noti');
-                console.log(notification);
-                 const bikeID = "-LaaRyLnovrtxlh5WUu-";
-                            const params ={
-                                id: bikeID,
-                                from: 'Map'
-                            }
-                            NavigatorService.navigate('BikeDetails',params);
-            }
-        }
-    // Create the channel
-        const channel = NotificationMethod.createChannel();
-        firebase.notifications().android.createChannel(channel);
+		// const notificationOpen: NotificationOpen = await firebase.notifications().getInitialNotification();
 
-    // This listener is called when the app displays a notification
-        this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
-            console.log('displayed');
-            console.log(AuthState.currentUserID);
-        });
+		firebase.notifications().getInitialNotification().then((notificationOpen: NotificationOpen) => {
 
-    // This listener is called when the app receives a notification
-        this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
+			if (notificationOpen) {
+				const action = notificationOpen.action;
+				const notification: Notification = notificationOpen.notification;
+				if (notification._body == undefined) {
+					console.log('no noti');
+				} else {
+					console.log('has noti');
+					const bikeID = "-LaaRyLnovrtxlh5WUu-";
+					const params = {
+						id: bikeID,
+						from: 'Map'
+					}
+					NavigatorService.navigate('BikeDetails',params);
+				}
+			}
 
-            // If the platform is Android, there must be a channel (Android feature)
-            notification
-                .android.setChannelId('test-channel');
-            firebase.notifications()
-                .displayNotification(notification);
+		});
 
-        });
+		if (Platform.OS !== 'ios') {
+			// Create the channel
+			const channel = NotificationMethod.createChannel();
+			firebase.notifications().android.createChannel(channel);
+		}
 
-    // This listener is called when the user opens a notification
-        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen: NotificationOpen) => {
-            const action = notificationOpen.action;
-            console.log('noOpend');
-            const notification: Notification = notificationOpen.notification;
-     /*
-     notification:{
-        title :
-        body :
-        data : bikeID
-     }
+		// This listener is called when the app displays a notification
+		this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification: Notification) => {
+			console.log('displayed');
+			console.log(AuthState.currentUserID);
+		});
 
-     */
+		// This listener is called when the app receives a notification
+		this.notificationListener = firebase.notifications().onNotification((notification: Notification) => {
 
-            firebase.notifications().removeAllDeliveredNotifications();
+			// If the platform is Android, there must be a channel (Android feature)
+			notification
+				.android.setChannelId('test-channel');
+			firebase.notifications()
+				.displayNotification(notification);
 
-            // code for getting data from notification
+		});
 
-            //test bike id
-            const bikeID = "-Laaaeq_NqQEOq7QzIVY";
-            const params ={
-                id: bikeID,
-                from: 'Map'
-            }
-            NavigatorService.navigate('BikeDetails',params);
-        });
-    }
-    componentWillUnmount() {
-        this.notificationDisplayedListener();
-        this.notificationListener();
-        this.notificationOpenedListener();
-    }
+		// This listener is called when the user opens a notification
+		this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen: NotificationOpen) => {
+			const action = notificationOpen.action;
+			console.log('noOpend');
+			const notification: Notification = notificationOpen.notification;
+
+			firebase.notifications().removeAllDeliveredNotifications();
+
+			// code for getting data from notification
+//            console.log(notification._data.bid);
+//            console.log(typeof notification._data);
+			//test bike id
+			const bikeID = notification._data.bid;
+			const params ={
+				id: bikeID,
+				from: 'Map'
+			}
+			NavigatorService.navigate('BikeDetails',params);
+		});
+	}
+	componentWillUnmount() {
+		this.notificationDisplayedListener();
+		this.notificationListener();
+		this.notificationOpenedListener();
+	}
 
 
 	render() {

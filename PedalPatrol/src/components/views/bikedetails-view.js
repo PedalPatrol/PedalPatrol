@@ -27,8 +27,10 @@ class BikeDetailsView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) => {
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () => 'default';
 		return {
-			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>),
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{back()}}/>),
 			title: navigation.getParam('title', 'Bike Details')
 		}
 	}
@@ -127,16 +129,13 @@ class BikeDetailsView extends BaseView {
 		});
 
 		const { navigation } = this.props;
-		let data=[];
-        const id = navigation.getParam('id','NO-DATA');
+			let data=[];
+    const id = navigation.getParam('id','NO-DATA');
 		const fromPage = navigation.getParam('from', 'Home');
-        if (id =='NO-DATA'){
-
+    if (id ==='NO-DATA'){
 		    data = navigation.getParam('data', 'NO-DATA');
 		}else{
-
 		    data = this.BikeDetP.getDataFromID(id);
-
 		}
 
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);

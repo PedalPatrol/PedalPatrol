@@ -1,17 +1,18 @@
 import React, {Component} from 'react';
 import firebase from 'react-native-firebase';
-import config from '../config/config.json';
+import {default as config} from '../config/config';
 import Database from './database';
 import AuthState from './authenticationstate';
 
-const uid = AuthState.getCurrentUserID();
 
 class Notification extends Component{
 constructor(props){
         super(props);
-        //firebase.initializeApp(config);
+        firebase.initializeApp(config.RNconfig);
         this.notification =null;
+        this.Database = Database;
         this._callback = this._setDefaultCallback;
+        console.log('im i good?');
 }
     _setDefaultCallback(msg){
         console.log(msg);
@@ -42,11 +43,11 @@ async getToken(){
             //console.log(`token is:${fcmToken}`)
             const fcm = fcmToken;
             const newData = {data:{}};
-            newData.data.id = uid;
+            newData.data.id = AuthState.getCurrentUserID();
             newData.data.deviceToken = fcm ;
             //console.log(fcm);
             const prepareUpdate = newData.data;
-            Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+            Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
 //            Database.editProfileData(prepareUpdate, (data) => {
 //            this._callback(true);
 //            },(error) => {
@@ -73,16 +74,19 @@ createChannel(){
 async removeToken(){
     await firebase.messaging().deleteToken();
     const prepareUpdate = {};
-    prepareUpdate.id = uid;
+    prepareUpdate.id = AuthState.getCurrentUserID();
     prepareUpdate.deviceToken = "";
-    Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+    Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
 }
 
 deleteNotificationArea(){
     const prepareUpdate = {};
-    prepareUpdate.id = uid;
-    prepareUpdate.hasCircle = false;
-    Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+    prepareUpdate.id = AuthState.getCurrentUserID();
+    prepareUpdate.circle_lat= false;
+    prepareUpdate.circle_lon = false;
+    prepareUpdate.circle_r = false;
+    //prepareUpdate.hasCircle = false;
+    Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
 }
 
 

@@ -23,7 +23,7 @@ import ReportFoundView from '../components/views/reportfound-view';
 
 let screen = Dimensions.get('window');
 
-/**
+/*
  * Bottom tab navigator, home, map and bike
  */
 const Tabs = createBottomTabNavigator({
@@ -70,7 +70,7 @@ const Tabs = createBottomTabNavigator({
 	}
 });
 
-/**
+/*
  * Bike details stack
  */
 const BikeDetailsStack = createStackNavigator({
@@ -104,9 +104,9 @@ const BikeDetailsStack = createStackNavigator({
 	initialRouteName: 'HomeStack'
 });
 
-/**
-*  Stack navigator for map tab, allows moving between map and report lost page
-*/
+/*
+ *  Stack navigator for map tab, allows moving between map and report lost page
+ */
 const MapReportLostStack = createStackNavigator({
 	MapStack: {
 		screen: Tabs,
@@ -130,7 +130,7 @@ const MapReportLostStack = createStackNavigator({
 	initialRouteName: 'MapStack'
 });
 
-/**
+/*
  * Stack navigator for bike tab, allows edit bike page to come on top when clicked
  */
 const AddBikeStack = createStackNavigator({
@@ -155,7 +155,7 @@ const AddBikeStack = createStackNavigator({
 	initialRouteName: 'BikeStack'
 });
 
-/**
+/*
  * Stack navigator for profile page. We need to define a stack navigator for views in the drawer if we want a header.
  */
 const ProfileStack = createStackNavigator({
@@ -170,7 +170,7 @@ const ProfileStack = createStackNavigator({
 	}
 });
 
-/**
+/*
  * Stack navigator for alerts page. We need to define a stack navigator for views in the drawer if we want a header.
  */
 const AlertStack = createStackNavigator({
@@ -208,7 +208,7 @@ const SettingsStack = createStackNavigator({
 	initialRouteName: 'Settings'
 });
 
-/**
+/*
  * Stack navigator for the login page to allow for the signup page to be opened from the login page
  */
 const LoginStack = createStackNavigator({
@@ -234,7 +234,7 @@ const LoginStack = createStackNavigator({
 	initialRouteName: 'Login'
 });
 
-/**
+/*
  * Authorization stack. Includes auth loading (splash screen), login stack and application stack.
  */
 const AuthInitialStack = createSwitchNavigator({
@@ -251,7 +251,7 @@ const AuthInitialStack = createSwitchNavigator({
 	initialRouteName: 'AuthLoading'
 });
 
-/**
+/*
  * All possible stack navigators
  */
 export const createRootNavigator = () => {

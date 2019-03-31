@@ -17,6 +17,7 @@ class AlertModel extends Model {
 	constructor() {
 		super();
 		
+		this.listener = null;
 		this._data = {data: []};
 		this._activeBookmarks = [];
         this._callback = this._defaultCallback;
@@ -64,11 +65,18 @@ class AlertModel extends Model {
 	 * Register an 'on' read from the database, supplying the callback when the database has changed.
 	 */
 	_registerDBReadListener() {
-		Database.readBikeDataOn((snapshot) => {
+		this.listener = Database.readBikeDataOn((snapshot) => {
 			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
 			this.moveTimeDataToFront();
 		});
+	}
+
+	toggleListeners() {
+		if (this.listener != null) {
+			Database.readBikeDataOff(this.listener);
+			this._registerDBReadListener();
+		}
 	}
 
 	/**
@@ -86,10 +94,12 @@ class AlertModel extends Model {
 				if (!databaseData[val].hasOwnProperty('id')) { // Make sure id exists, otherwise skip
 					continue;
 				}
+
 				if (currentUser == null || databaseData[val].owner !== currentUser) {
 					// console.log(currentUser)
 					continue;
 				}
+
 				if (databaseData[val].hasOwnProperty('found') && databaseData[val].found) {
 					databaseData[val].dataID = dataID++;
 					// Add timeago and datetime formatted info

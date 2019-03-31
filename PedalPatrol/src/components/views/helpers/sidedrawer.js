@@ -196,7 +196,7 @@ class SideDrawer extends Component {
 
 export default SideDrawer;
 
-/**
+/*
  * 'text' property is the drawer name
  * 'icon_name' property is the icon name from the icon type
  * 'icon_type' property is the type of icon (see react-native-vector-icons)
@@ -207,25 +207,31 @@ const drawerData = [
 	{
 		text: 'Profile',
 		icon_name: 'user',
-		icon_type: 'FontAwesome',
+		icon_type: 'font-awesome',
 		screen: 'ProfileStack',
 	},
 	{
 		text: 'Alerts',
-		icon_name: 'exclamation-circle',
-		icon_type: 'FontAwesome',
+		icon_name: 'bell',
+		icon_type: 'font-awesome',
 		screen: 'AlertStack'
 	},
 	{
 		text: 'Settings',
 		icon_name: 'cog',
-		icon_type: 'FontAwesome',
+		icon_type: 'font-awesome',
 		screen: 'SettingsStack'
+	},
+	{
+		text: 'Help Center',
+		icon_name: 'info-circle',
+		icon_type: 'font-awesome',
+		screen: 'HelpStack'
 	},
 	{
 		text: 'Logout',
 		icon_name: 'sign-out',
-		icon_type: 'FontAwesome',
+		icon_type: 'font-awesome',
 		screen: 'AuthLoading',
 		params: [{ key: 'logout', value: true }]
 	}

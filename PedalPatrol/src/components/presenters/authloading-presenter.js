@@ -26,7 +26,13 @@ class AuthLoadingPresenter extends BasePresenter {
 		// Only add models that we expect data from
 		this._numModels = [HomeM].length;
 		// AlertM.subscribe(this);
-		HomeM.subscribe(this);
+
+		/*
+		 * The true in the subscribe forces the model to toggle it's database listeners.
+		 * This is helpful when leaving the app and reentering on Android.
+		 * Has not been tested with more than one subscribed model that we expect data from.
+		 */
+		HomeM.subscribe(this, true); 
 
 		// This model is really only used to logout, so we don't expect an onUpdated call from it
 		// We use callbacks since logout is an async call
@@ -40,7 +46,6 @@ class AuthLoadingPresenter extends BasePresenter {
 	 * @param {Function} onFailure - A failure callback
 	 */
 	async checkAuthState(onSuccess, onFailure) {
-
 		await AuthLoadingM.checkAuthenticationState((userID) => {
 			if (this._dataLoaded) { // In-case this is reached after data is received
 				this.onRetrievalSuccess(userID, onSuccess, onFailure);
@@ -71,6 +76,7 @@ class AuthLoadingPresenter extends BasePresenter {
 	onRetrievalSuccess(userToken, onSuccess, onFailure) {
 		// console.log(userToken);
 		userToken ? onSuccess() : onFailure();
+		AuthLoadingM.unsubscribeAuthListener();
 	}
 
 	/**
@@ -84,6 +90,7 @@ class AuthLoadingPresenter extends BasePresenter {
 		lock.acquire('key', (done) => {
 			this._dataCount++; // Increment on the amount of data we receive (The reason for the lock)
 			// console.log(this._dataCount);
+
 			// Check if the amount of data received is the same as the number of models we expect data from
 			if (this._dataCount === this._numModels) {
 				this.onDestroy(); // Unsubscribe from the models

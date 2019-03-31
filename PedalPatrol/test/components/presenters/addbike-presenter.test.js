@@ -31,20 +31,16 @@ test('should update model with edited bike', () => {
 	const dataToPass = { 
 		inputTextData: [
 				{
-					name: 'Name',
-					text: 'name_test'
-				},
-				{
-					name: 'Serial Number',
-					text: 'serial_test'
-				},
-				{
 					name: 'Brand',
 					text: 'brand_test'
 				},
 				{
 					name: 'Model',
 					text: 'model_test'
+				},
+				{
+					name: 'Serial Number',
+					text: 'serial_test'
 				},
 				{
 					name: 'Notable Features',
@@ -57,7 +53,11 @@ test('should update model with edited bike', () => {
 				{
 					name: 'Frame Size',
 					text: 'frame_test'
-				}
+				},
+				{
+					name: 'Name',
+					text: 'name_test'
+				},
 			],
 		selectedColours: ['Red'],
 		picture: [
@@ -127,20 +127,16 @@ test('should build data from view data', () => {
 	const dataToPass = { 
 		inputTextData: [
 				{
-					name: 'Name',
-					text: 'name_test'
-				},
-				{
-					name: 'Serial Number',
-					text: 'serial_test'
-				},
-				{
 					name: 'Brand',
 					text: 'brand_test'
 				},
 				{
 					name: 'Model',
 					text: 'model_test'
+				},
+				{
+					name: 'Serial Number',
+					text: 'serial_test'
 				},
 				{
 					name: 'Notable Features',
@@ -153,7 +149,11 @@ test('should build data from view data', () => {
 				{
 					name: 'Frame Size',
 					text: 'frame_test'
-				}
+				},
+				{
+					name: 'Name',
+					text: 'name_test'
+				},
 			],
 		selectedColours: ['Red'],
 		picture: [
@@ -272,11 +272,18 @@ test('should translate item data to text input form', () => {
 
 	const result_data = [
 		{
-			name: 'Name',
+			name: 'Brand',
 			multiline: false,
 			disabled: false,
 			required: true,
-			text: 'BikeName1'
+			text: 'Schwin'
+		},
+		{
+			name: 'Model',
+			multiline: false,
+			disabled: false,
+			required: true,
+			text: 'Model1'
 		},
 		{
 			name: 'Serial Number',
@@ -284,20 +291,6 @@ test('should translate item data to text input form', () => {
 			disabled: false,
 			required: true,
 			text: '72613671'
-		},
-		{
-			name: 'Brand',
-			multiline: false,
-			disabled: false,
-			required: false,
-			text: 'Schwin'
-		},
-		{
-			name: 'Model',
-			multiline: false,
-			disabled: false,
-			required: false,
-			text: 'Model1'
 		},
 		{
 			name: 'Notable Features',
@@ -319,7 +312,14 @@ test('should translate item data to text input form', () => {
 			disabled: false,
 			required: false,
 			text: '123'
-		}
+		},
+		{
+			name: 'Nickname',
+			multiline: false,
+			disabled: false,
+			required: false,
+			text: 'BikeName1'
+		},
 	];
 
 	expect(addbikepresenter._translateDataToInput(inputData)).toEqual(result_data);

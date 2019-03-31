@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "131545184736",
+    "firebase_url": "https://test-f4788.firebaseio.com",
+    "project_id": "test-f4788",
+    "storage_bucket": "test-f4788.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131545184736:android:311093768cb0e744",
+        "android_client_info": {
+          "package_name": "com.pedalpatrol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131545184736-3i1l9qg7vrv4hl4uufoboarqom547fmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF14E7QF_PGQZdQ8OR98e2nnBNc_wAcyo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

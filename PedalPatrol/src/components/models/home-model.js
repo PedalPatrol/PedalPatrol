@@ -16,6 +16,7 @@ class HomeModel extends Model {
 	constructor() {
 		super();
 		
+		this.listener = null;
 		this._data = {data: []};
 		this._activeBookmarks = [];
 
@@ -53,10 +54,18 @@ class HomeModel extends Model {
 	 * Register an 'on' read from the database, supplying the callback when the database has changed.
 	 */
 	_registerDBReadListener() {
-		Database.readBikeDataOn((snapshot) => {
+		this.listener = Database.readBikeDataOn((snapshot) => {
+			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
 			this.moveBookmarkedDataToFront();
 		});
+	}
+
+	toggleListeners() {
+		if (this.listener != null) {
+			Database.readBikeDataOff(this.listener);
+			this._registerDBReadListener();
+		}
 	}
 
 	/**

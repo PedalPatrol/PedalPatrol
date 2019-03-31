@@ -21,11 +21,11 @@ class BikeModel extends Model {
 	constructor() {
 		super();
 		this._callback = this._defaultCallback;
-
+		this.listener = null;
 		this._data = {data: []};
 		this._createObserverList();
-		this._registerDatabaseRead();
-		this._checkForLocalData('data'); // Offline equivalent of _registerDatabaseRead, only useful if the user hasn't logged out	
+		this._registerDBReadListener();
+		this._checkForLocalData('data'); // Offline equivalent of _registerDBReadListener, only useful if the user hasn't logged out	
 	}
 
 	/**
@@ -77,12 +77,19 @@ class BikeModel extends Model {
 	/**
 	 * Register an 'on' read from the database to get updates anytime data changes in the database.
 	 */
-	_registerDatabaseRead() {
-		Database.readBikeDataOn((snapshot) => {
+	_registerDBReadListener() {
+		this.listener = Database.readBikeDataOn((snapshot) => {
 			// console.log(snapshot.val());
 			this._insertDataOnRead(snapshot.val());
 			this._notifyAll(this._data); // Don't supply data to force a refresh by the presenter
 		});
+	}
+
+	toggleListeners() {
+		if (this.listener != null) {
+			Database.readBikeDataOff(this.listener);
+			this._registerDBReadListener();
+		}
 	}
 
 	/**
@@ -170,7 +177,7 @@ class BikeModel extends Model {
 			const paramThumbnailsDefaults = ImageUtil.addRemainingDefaults(ImageUtil.getTypes().BIKE, thumbnails);
 			const bikeThumbnailsNoIllustration = this._removeIllustrationKey(bikeThumbnails);
 			const thumbnailsNoIllustration = this._removeIllustrationKey(paramThumbnailsDefaults);
-			console.log(bikeThumbnailsNoIllustration, thumbnailsNoIllustration);
+			// console.log(bikeThumbnailsNoIllustration, thumbnailsNoIllustration);
 
 			return JSON.stringify(bikeThumbnailsNoIllustration) === JSON.stringify(thumbnailsNoIllustration);
 		} else {
@@ -295,6 +302,7 @@ class BikeModel extends Model {
 	 */
 	_insertDataOnUpdate(newData, exists, index) {
 		let i = 0;
+		// console.log(newData, exists, index);
 
 		// If only one piece, just insert it
 		if (this._data.data.length === 0) {

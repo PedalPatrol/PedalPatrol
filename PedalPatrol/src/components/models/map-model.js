@@ -60,13 +60,13 @@ class MapModel extends Model {
 	    const newData = {data:{}};
 	    const uid = AuthState.getCurrentUserID();
 	    newData.data.id = uid;
-	    newData.data.hasCircle = true;
+	    //newData.data.hasCircle = true;
 	    newData.data.circle_lat = circleData.data.circleLatitude;
 	    newData.data.circle_long = circleData.data.circleLongitude;
 	    newData.data.circle_r = circleData.data.radius;
-	    console.log(newData.data);
+	    //console.log(newData.data);
 	    const prepareUpdate = newData.data;
-	    Database.writeProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+	    Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
 //	    Database.editProfileData(prepareUpdate, (data) => {
 //            this._callback(typeof data !== 'undefined' && data !== undefined);
 //            },(error) => {

@@ -414,41 +414,34 @@ export default AddBikePresenter;
  */
 const inputDataList = {
 	index: {
-		name: 				0,
-		serial_number: 		1,
-		brand: 				2,
-		model:				3,
-		notable_features: 	4,
-		wheel_size:			5,
-		frame_size:			6,
+		brand: 				0,
+		model:				1,
+		serial_number: 		2,
+		notable_features: 	3,
+		wheel_size:			4,
+		frame_size:			5,
+		name: 				6,
 	},
 	data: [
-		{
-			name: 'Name',
-			multiline: false,
-			disabled: false,
-			required: true,
-			text: '',
-		},
-		{
-			name: 'Serial Number',
-			multiline: false,
-			disabled: false,
-			required: true,
-			text: ''
-		},
 		{
 			name: 'Brand',
 			multiline: false,
 			disabled: false,
-			required: false,
+			required: true,
 			text: ''
 		},
 		{
 			name: 'Model',
 			multiline: false,
 			disabled: false,
-			required: false,
+			required: true,
+			text: ''
+		},
+		{
+			name: 'Serial Number',
+			multiline: false,
+			disabled: false,
+			required: true,
 			text: ''
 		},
 		{
@@ -471,6 +464,13 @@ const inputDataList = {
 			disabled: false,
 			required: false,
 			text: ''
+		},
+		{
+			name: 'Nickname',
+			multiline: false,
+			disabled: false,
+			required: false,
+			text: '',
 		}
 	]
 }

@@ -135,6 +135,9 @@ android {
 
 dependencies {
     implementation project(':react-native-firebase')
+    implementation 'com.google.firebase:firebase-auth:16.2.0'
+
+
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-image-picker')
     implementation project(':react-native-gesture-handler')
@@ -154,5 +157,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
-
-apply plugin: 'com.google.gms.google-services'

@@ -8,15 +8,15 @@ afterEach(() => {
 test('should create observer list', async () => {
 	// Need to use spyOn to test function calls within constructors
 	const _createObserverList = jest.spyOn(BikeModel.prototype, '_createObserverList');
-	const _registerDatabaseRead = jest.spyOn(BikeModel.prototype, '_registerDatabaseRead').mockImplementation(() => 'default');
+	const _registerDBReadListener = jest.spyOn(BikeModel.prototype, '_registerDBReadListener').mockImplementation(() => 'default');
 	// Calling function/constructor needs to be called right before expect
-	BikeModel._registerDatabaseRead = _registerDatabaseRead;
+	BikeModel._registerDBReadListener = _registerDBReadListener;
 	const BikeM = new BikeModel();
 
 	expect(_createObserverList).toHaveBeenCalled();
 	expect(_createObserverList).toHaveBeenCalledWith();
-	expect(_registerDatabaseRead).toHaveBeenCalled();
-	expect(_registerDatabaseRead).toHaveBeenCalledWith();
+	expect(_registerDBReadListener).toHaveBeenCalled();
+	expect(_registerDBReadListener).toHaveBeenCalledWith();
 });
 
 test('should contain default data', async () => {

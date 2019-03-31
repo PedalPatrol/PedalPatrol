@@ -1,7 +1,13 @@
-import firebase from 'firebase';
+// import firebase from 'react-native-firebase';
+import firebase from 'firebase'; // Using regular firebase here because there are some problems when trying to move to react-native-firebase 
 import 'firebase/storage'; // Necessary for jest tests
-import config from '../config/config.json';
+import { Platform, NativeModules } from 'react-native';
+import { LoginButton, AccessToken, LoginManager } from 'react-native-fbsdk';
+
+import {default as config} from '../config/config';
 import TimeUtil from './timeutility';
+
+const { RNTwitterSignIn } = NativeModules;
 
 const BikeImages = 'BikeImages/';
 const ProfileImages = 'ProfileImages/';
@@ -17,10 +23,12 @@ class FirebaseDatabase {
 	 */
 	constructor() {
 		this.currentUser = null;
-
+        console.log('init before');
 		if (!firebase.apps.length) {
 			firebase.initializeApp(config.databaseConfig);
+			console.log('init success');
 		}
+		console.log('database constructor');
 		this.setupDatabaseRef();
 		this.setupStorageRef();
 	}
@@ -49,6 +57,51 @@ class FirebaseDatabase {
 	}
 
 
+
+	 signUp(email,password,onSuccess, onError) {
+		return firebase.auth().createUserWithEmailAndPassword(email,password)
+	 }
+
+		checkVerify() {
+		let user = firebase.auth().currentUser;
+		let errorMessage='';
+				if (user.emailVerified == false) {
+					console.log("user email verified"+user.emailVerified);
+					errorMessage = 'email not verified';
+					return errorMessage;
+				} else {
+					return true;
+					// successful login
+				}
+			}
+
+  sendEmail() {
+  //console.log("user in send email is : "+ user);
+			 firebase.auth().currentUser.sendEmailVerification().then(function() {
+			// Email Verification sent!
+			// [START_EXCLUDE]
+			// [END_EXCLUDE]
+		  }).catch(function(error) {
+			// Handle Errors here.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			console.log('error for email:      '+ errorMessage);
+			});
+		}
+
+  sendresetEmail() {
+			let email = getCurrentUserEmail();
+			firebase.auth().sendPasswordResetEmail(email).then(function() {
+			// Email sent.
+			}).catch(function(error) {
+			// An error happened.
+			var errorCode = error.code;
+			var errorMessage = error.message;
+			alert(errorMessage);
+			});
+
+    	}
+
 	/**
 	 * Accesses Firebase data to sign in with email and password.
 	 * This function is called asynchronously. Use 'async' and 'await'.
@@ -57,9 +110,75 @@ class FirebaseDatabase {
 	 * @param {string} password - A user's password
 	 * @param {Function} onError - A function callback to execute on error
 	 */
-	signIn(email, password, onError) {
-		firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
+	async signIn(email, password, onError) {
+		await firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
 	}
+
+	signinwithFB() {
+		//console.log('begin signinwithFB');
+		LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(
+		// console.log('walk into else'),
+		AccessToken.getCurrentAccessToken().then(function(data) {
+			let accessToken = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+				console.log('accessToken'+accessToken)
+				this.handleFirebaseLogin(accessToken);
+			}.bind(this))
+		);
+	}
+
+	signInwithTwitter(){
+		RNTwitterSignIn.init('pdfOq2bGgmAD59pe3241W1hMg','xPRtJaBCqmZoFKPV7N8YcllUqOi4d0QWR521rebCQFcMUFGYE3');
+		RNTwitterSignIn.logIn().then((loginData)=>{
+			let accessToken = firebase.auth
+									.TwitterAuthProvider
+									.credential(
+										loginData.authToken,
+										loginData.authTokenSecret
+								  	);
+			this.handleFirebaseLogin(accessToken);
+		}).catch((error) => {
+			console.log(error)
+			alert('Unable sign in with Twitter.')
+		});
+		user = firebase.auth().currentUser;
+			this.setAccount(user.uid);
+		// console.log('did login')
+	}
+
+	handleFirebaseLogin(accessToken) {
+		// console.log(accessToken)
+		firebase.auth().signInAndRetrieveDataWithCredential(accessToken).then((data)=> {
+			let user = firebase.auth().currentUser;
+		}).catch((error)=> {
+			let errorCode = error.code;
+			let errorMessage = error.message;
+			let email = error.email;
+			let credential = error.credential;
+			if (errorCode === 'auth/account-exists-with-different-credential') {
+				// Email already associated with another account.
+			}
+		})
+		console.log('did into handle firebase login')
+	}
+
+
+	 setAccount(user){
+			//let user = firebase.auth().currentUser;
+			console.log("user in set account is: "+user.uid);
+			this.refDB.child('Users/').child(user.uid).set({
+			id:user.uid,
+			circle_lat:"",
+			circle_long:"",
+			circle_r:"",
+			deviceToken:"",
+			full_name:'',
+			phoneNum:"",
+			email:user.email,
+			thumbnail:['http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg']
+
+
+            });
+        }
 
 	/**
 	 * Sign out of the database.
@@ -107,12 +226,10 @@ class FirebaseDatabase {
 	 */
 	editBikeData(newBikeData, onSuccess, onError) {
 		const bikeID = newBikeData.id;
-		console.log(bikeID);
+
 		this.refDB.child('Bike/').once('value', (snapshot) => {
 			let bikeData = snapshot.val();
 			let originalBikeData = bikeData[bikeID];
-			console.log(originalBikeData);
-			console.log(newBikeData);
 			let updatedObj = this.merge(originalBikeData, newBikeData);
 			this.refDB.child('Bike/').child(bikeID).set(updatedObj, onSuccess).catch(onError);
 		}).catch((error) => {
@@ -125,19 +242,17 @@ class FirebaseDatabase {
 	 * Overwrites data in the database by reading the data, merging it with the new values and writing back to the same ID.
 	 *
 	 * @param {Object} newProfileData - New data to write
-	 * @param {Function} onSuccess - A function callback to run when writing is successful
+	 * @param {Function}b onSuccess - A function callback to run when writing is successful
 	 * @param {Function} onErorr - A function callback to run when writing fails
 	 */
 	editProfileData(newProfileData, onSuccess, onError) {
 		const userID = newProfileData.id;
-		console.log(userID + 'user id');
+
 		this.refDB.child('Users/' + userID).once('value', (snapshot) => {
 			let originalUserData = snapshot.val();
-			console.log(originalUserData+'user data');
 			let updatedObj = this.merge(originalUserData, newProfileData);
 			this.refDB.child('Users/').child(userID).set(updatedObj, onSuccess).catch(onError);
 		}).catch((error) => {
-		    console.log(newProfileData+'new data');
 			onError(error);
 			console.log(error);
 		});
@@ -162,6 +277,16 @@ class FirebaseDatabase {
 	}
 
 	/**
+	 * Read data from the user table once, only looking for a specific user id.
+	 *
+	 * @param {string} id - The current user's id
+	 * @param {Function} callback - A function callback that is with the value(s) read
+	 */
+	readProfileDataOnce(id, callback) {
+		this.refDB.child('Users/' + id).once('value', callback);
+	}
+
+	/**
 	 * Read data from the bike table only once.
 	 *
 	 * @param {Function} callback - A function callback that is with the value(s) read
@@ -174,20 +299,15 @@ class FirebaseDatabase {
 	 * Read data from the bike table every time there is a change in the database.
 	 *
 	 * @param {Function} callback - A function callback that is with the value(s) read
+	 * @return {Object} A listener from the 'on' function
 	 */
 	readBikeDataOn(callback) {
-		this.listenOn('Bike/', 'value', callback);
+		return this.listenOn('Bike/', 'value', callback);
 		// this.refDB.child('Bike/').on('value', callback);
 	}
 
-	/**
-	 * Read data from the user table once, only looking for a specific user id.
-	 *
-	 * @param {string} id - The current user's id
-	 * @param {Function} callback - A function callback that is with the value(s) read
-	 */
-	readProfileDataOnce(id, callback) {
-		this.refDB.child('Users/' + id).once('value', callback);
+	readBikeDataOff(listener) {
+		this.listenOff('Bike/', 'value', listener);
 	}
 
 	/**
@@ -199,9 +319,14 @@ class FirebaseDatabase {
 	 * @param {string} child - A child to listen on
 	 * @param {string} event - An event to listen for
 	 * @param {Function} callback - A function callback to trigger when data is recieved
+	 * @return {Object} A listener from the 'on' function
 	 */
 	listenOn(child, event, callback) {
-		this.refDB.child(child).on(event, callback);
+		return this.refDB.child(child).on(event, callback);
+	}
+
+	listenOff(child, event, listener) {
+		this.refDB.child(child).off(event, listener);
 	}
 
 	/**
@@ -283,10 +408,11 @@ class FirebaseDatabase {
 	/**
 	 * Returns the currently logged in user's id.
 	 *
-	 * @param {Function} onComplete - A callback function when the state has changed 
+	 * @param {Function} onComplete - A callback function when the state has changed
+	 * @return {Function} Function to unsubscribe from the authentication listener
 	 */
 	getCurrentUser(onComplete) {
-		firebase.auth().onAuthStateChanged((user) => {
+		return firebase.auth().onAuthStateChanged((user) => {
 			if (user) {
 				console.log("user id: " + user.uid);
 				onComplete(user.uid);
@@ -310,10 +436,6 @@ class FirebaseDatabase {
 			}
 		});
 	}
-
-
-
-
 
 	/**
 	 * Remove a images by their url from storage.
@@ -400,6 +522,34 @@ class FirebaseDatabase {
 			});
 		});
 	}
+
+	/*
+	 * Use this function when moving to react-native-firebase. The above function works with regular firebase.
+	 */
+	// async writeImage(id, file, filename, baseFolder, onSuccess, onError) {
+	// 	const task = this.refStorage.child(baseFolder + id + '/' + filename).putFile(file.uri);
+	// 	task.on('state_changed', (snapshot) => {
+	// 		// Observe state change events such as progress, pause, and resume
+	// 		// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+	// 		let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	// 		console.log('Upload is ' + progress + '% done');
+	// 		switch (snapshot.state) {
+	// 			case firebase.storage.TaskState.PAUSED: // or 'paused'
+	// 				// console.log('Upload is paused');
+	// 				break;
+	// 			case firebase.storage.TaskState.RUNNING: // or 'running'
+	// 				// console.log('Upload is running');
+	// 				break;
+	// 		}
+	// 	}, onError, () => {
+	// 		task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+	// 			// console.log('File available at', downloadURL);
+	// 			blob.close(); // Make sure to close the blob
+	// 			onSuccess(downloadURL);
+	// 			return null;
+	// 		});
+	// 	});
+	// }
 }
 
 const Database = new FirebaseDatabase();

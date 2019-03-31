@@ -22,8 +22,10 @@ class SignUpView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) => {
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () => 'default';
 		return {
-			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{navigation.state.params._onBack()}}/>)
+			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{back()}}/>)
 		}
 	}
 
@@ -93,7 +95,7 @@ class SignUpView extends BaseView {
 			}
 		}
 		let data = new_data;
-		this.SignupP.update(data);
+		this.SignupP.update(data, this.signupCallback);
 	}
 
 	/**
@@ -120,6 +122,16 @@ class SignUpView extends BaseView {
 			);
 	}
 
+signupCallback = (result) => {
+		if (result) {
+			Alert.alert("Please complete the email verification.");
+			this._onBack();
+		} else {
+			Alert.alert("The email entered already exists.");
+		}
+	}
+
+
 	/**
 	 * Extract data from the component's view and send an update to the presenter to do any logic before sending it to the model
 	 */
@@ -133,7 +145,7 @@ class SignUpView extends BaseView {
 							style={text.textInput}
 							label="Username"
 							textContentType="username"
-							value={this.state.username}
+							value={this.state.username.toLowerCase()}
 							onChangeText={(username) => this.setState({username})}/>
 					</View>
 

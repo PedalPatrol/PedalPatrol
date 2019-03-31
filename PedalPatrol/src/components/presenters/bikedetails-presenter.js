@@ -203,7 +203,7 @@ class BikeDetailsPresenter extends BasePresenter {
         AlertM.setCallback(callback);
         AlertM.update(newBike.data);
     }
-    confirmFound(rawData,callback){
+    rejectFound(rawData,callback){
         const newBike = {data:{}};
         Object.keys(rawData).forEach((key) => {
         console.log(key)
@@ -226,7 +226,6 @@ class BikeDetailsPresenter extends BasePresenter {
   	    }
   	    return 'NO-DATA';
   	}
-
 }
 
 export default BikeDetailsPresenter
