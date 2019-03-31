@@ -41,7 +41,7 @@ const map_styles = StyleSheet.create({
 		shadowOpacity: 0.12,
 		zIndex: 10,
 	},
-	modelText: {
+	brandText: {
 		fontWeight: 'bold',
 		fontSize: 12,
 		color: '#777',
