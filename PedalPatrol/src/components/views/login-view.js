@@ -163,6 +163,7 @@ class LoginView extends BaseView {
 				<View style={login_styles.username}>
 					<TextInput
 						style={text.textInput}
+						        autoCapitalize="none"
 						label="Username"
 						textContentType='username'
 						value={this.state.username}
