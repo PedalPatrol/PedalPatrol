@@ -544,7 +544,7 @@ class MapView extends BaseView {
 
 							// available options: https://developers.google.com/places/web-service/autocomplete
 
-							key: 'AIzaSyCS9j9HB64sW9w8LgvtxVET6LqoET78OcA',
+							key: 'your API key',
 
 							language: 'en', // language of the results
 
