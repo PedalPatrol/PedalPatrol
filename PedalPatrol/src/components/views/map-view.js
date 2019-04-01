@@ -9,7 +9,8 @@ import {default as RNMapView} from 'react-native-maps';
 import { Marker, Callout, Polygon, Circle } from 'react-native-maps';
 
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-
+import ActionButton from 'react-native-action-button';
+import {Icon as ABIcon} from 'react-native-vector-icons/Ionicons';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
@@ -25,8 +26,6 @@ import BaseView from './view';
 import SafeArea from './helpers/safearea';
 
 import ProfileButton from './helpers/profilebutton';
-
-import ActionButton from './helpers/ActionButton/ActionButton';
 
 import TimeUtil from '../../util/timeutility';
 
@@ -411,7 +410,35 @@ class MapView extends BaseView {
 		});
 
 	}
+	_resetCircle = () => {
 
+		this.MapP.getUserLocation().then(position => {
+
+			if (position) {
+
+				const location = {
+
+					latitude: position.coords.latitude,
+
+					longitude: position.coords.longitude,
+
+					latitudeDelta: 0.0922,
+
+					longitudeDelta: 0.0421,
+
+				};
+
+				this.setState({
+
+					x: location,
+
+				});
+
+			}
+
+		});
+
+	}
 
 
 	/**
@@ -420,41 +447,44 @@ class MapView extends BaseView {
 
 	 */
 
-	// renderSDButton(){
+	 renderSDButton(){
 
-	// 	if (this.state.showButton){
+	 	if (this.state.showButton){
 
-	// 		return(
+	 		return(
 
-	// 		<View style={map_styles.saveDeleteButton}>
+	 		<View style={map_styles.saveDeleteButton}>
 
-	// 			<View style={map_styles.Buttons}>
+	 			<View style={map_styles.Buttons}>
 
-	// 			<Button
+	 			<Button
 
-	// 				onPress={()=>{this.sendNewMarker()}}
+	 				onPress={()=>{this.saveItem()}}
 
-	// 				title="save"/></View>
+	 				title="save"/></View>
 
-	// 			   <View style={map_styles.Buttons}>
+	 			   <View style={map_styles.Buttons}>
 
-	// 			<Button
+	 			<Button
 
-	// 				onPress={()=>{
+	 				onPress={()=>{
 
-	// 					this.deleteItem()
+	 					this.deleteItem()
 
-	// 				}}
+	 				}}
 
-	// 				title="delete"/></View>
+	 				title="delete"/></View>
 
-	// 		</View>
+	 		</View>
 
-	// 		)
+	 		)
 
-	// 	}
+	 	}
+	 	else{
+	 	    console.log('mistake')
+	 	}
 
-	// }
+	 }
 
 
 
@@ -552,7 +582,8 @@ class MapView extends BaseView {
 
 				showCircle: false,
 
-				showMarker: false
+				showMarker: false,
+				showButton: false,
 
 			});
 
@@ -565,7 +596,7 @@ class MapView extends BaseView {
 			this.setState({
 
 				showCircle: false,
-
+                showButton: false,
 				showMarker: false
 
 			});
@@ -587,28 +618,19 @@ class MapView extends BaseView {
 		this.setState()
 
 		if (this.state.showCircle){
-
+            this._resetCircle();
 			this.setState({
-
-				x:{
-
-					latitude: 44.257424,
-
-					longitude: -76.5231,
-
-				},
-
 				circleRadius: 500,
 
 				showCircle: false,
-
+                showButton: false,
 				showMarker: false
 
 			});
 
-		} else if (this.state.showMarker) {
+		} else  {
 
-			this.setState({showMarker:false, showCircle: false, markerCreated:[]})
+			this.setState({showMarker:false,showButton: false, showCircle: false, markerCreated:[]})
 
 		}
 
@@ -624,37 +646,39 @@ class MapView extends BaseView {
 
 	 */
 
-	// renderForCircle(){
 
-	// 	if (this.state.showCircle){
 
-	// 		return(
+	 renderForCircle(){
 
-	// 		<View style={map_styles.circleRadiusButton}>
+	 	if (this.state.showCircle){
 
-	// 			<View style={map_styles.Buttons}>
+	 		return(
 
-	// 			<Button
+	 		<View style={map_styles.circleRadiusButton}>
 
-	// 				onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200})}}
+	 			<View style={map_styles.Buttons}>
 
-	// 				title="more"/></View>
+	 			<Button
 
-	// 			   <View style={map_styles.Buttons}>
+	 				onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200})}}
 
-	// 			<Button
+	 				title="more"/></View>
 
-	// 				onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
+	 			   <View style={map_styles.Buttons}>
 
-	// 				title="less"/></View>
+	 			<Button
 
-	// 		</View>
+	 				onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
 
-	// 		)
+	 				title="less"/></View>
 
-	// 	}
+	 		</View>
 
-	// }
+	 		)
+
+	 	}
+
+	 }
 
 
 
@@ -696,7 +720,7 @@ class MapView extends BaseView {
 
 	 */
 	sendCircle(){
-		//nothing
+
 
 		newData = {
 
@@ -789,37 +813,20 @@ class MapView extends BaseView {
 
 	_onPinMarkerPress=()=> {
 
-		if (this.state.showMarker) {
-
-			this.setState({
-
-				showMarker: false,
-
-				showCircle: false,
-
-				markerCreated: []
-
-			});
-
-			this.circleABRef.reset();
-
-		} else {
-
 			this.setState({
 
 				showMarker: true,
 
 				showCircle: false,
-
+                showButton:true,
 				markerCreated:  [this.newMarker(this.state.region.latitude,this.state.region.longitude)],
 
 			});
 
-			this.circleABRef.reset();
 
 		}
 
-	}
+
 
 
 
@@ -985,13 +992,61 @@ class MapView extends BaseView {
 
 	);
 
+    renderForCircleP = () =>{
+     if (this.state.showCircle){
+     	 return(
+     	 <View style = {{
+             position: 'absolute',
+             top: '50%',
+             right:'20%',
+             alignSelf: 'flex-end',
+              }	}>
+         	<TouchableOpacity
+         			onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200});console.log('hello')}}
+                    buttonColor={colours.ppBlue}
+                    style={map_styles.iconButton}
+                    title="More">
+                    <Icon name="plus" type="font-awesome" size={22} color={colours.ppBlue} />
+         </TouchableOpacity>
+         </View>
+     	 );
+     }
+     }
+
+     renderForCircleM = () =>{
+          if (this.state.showCircle){
+          	 return(
+          	 <View style = {{
+                  position: 'absolute',
+                  top: '60%',
+                  right:'20%',
+                  alignSelf: 'flex-end',
+                   }}>
+              	<TouchableOpacity
+              			onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
+                        buttonColor={colours.ppBlue}
+                        style={map_styles.iconButton}
+                        title="Less">
+                        <Icon name="minus" type="font-awesome" size={22} color={colours.ppBlue} />
+              </TouchableOpacity>
+              </View>
+          	 );
+          }
+          }
 
 
-	_renderSaveActionButton = () => (
-
+	_renderSaveActionButton = () => {
+    if (this.state.showButton){
+    	 		return(
+    	 <View style = {{
+                       		position: 'absolute',
+                       		top: '80%',
+                       		right:'55%',
+                       		alignSelf: 'flex-end',
+                       }	}>
 		<TouchableOpacity
 
-			onPress={()=>{this.saveItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
+			onPress={()=>{this.saveItem(); }}
 
 			buttonColor={colours.ppPinGreen}
 
@@ -999,31 +1054,42 @@ class MapView extends BaseView {
 
 			title="Save">
 
-			<Icon name="check" type="font-awesome" size={22} color={colours.ppWhite} />
+			<Icon name="check" type="font-awesome" size={22} color={colours.ppBlue} />
 
 		</TouchableOpacity>
+		</View>
 
 	);
+	}
+	}
 
 
 
-	_renderCancelActionButton = () => (
-
-		<TouchableOpacity
-
-			onPress={()=>{this.deleteItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
+	_renderCancelActionButton = () => {
+    if (this.state.showButton){
+    	 		return(
+                <View style = {{
+                       		position: 'absolute',
+                       		top: '80%',
+                       		right:'35%',
+                       		alignSelf: 'flex-end',
+                  }	}>
+             <TouchableOpacity
+			onPress={()=>{this.deleteItem();}}
 
 			buttonColor={colours.ppPinRed}
 
-			//style={map_styles.iconButton}
+			style={map_styles.iconButton}
 
 			title="Cancel">
 
-			<Icon name="times" type="font-awesome" size={22} color={colours.ppWhite} />
+			<Icon name="times" type="font-awesome" size={22} color={colours.ppBlue} />
 
 		</TouchableOpacity>
 
-	);
+		</View>
+
+	);}}
 
 
 
@@ -1148,6 +1214,8 @@ class MapView extends BaseView {
 				alignItems: start ? 'flex-start' : 'flex-end',
 
 				alignSelf: start ? 'flex-start' : 'flex-end',
+
+				zIndex:-11,
 
 			};
 
@@ -1337,104 +1405,25 @@ class MapView extends BaseView {
 
 
 
-					<View style={[bbStyle(varTop-map_styles.iconButton.height-35), {marginLeft: 10},map_styles.iconButtonView]}>
+			<View style={bbStyle(450)}>
 
-						<ActionButton
+              <TouchableOpacity
+               onPress={()=>{this._onPinMarkerPress()}}
+               	style={map_styles.iconButton}>
+               <Icon name="pin-drop" type="MaterialIcons" size={35} color={colours.ppBlue} />
+                </TouchableOpacity>
 
-							active={this.state.showMarker}
+            </View>
+            <View style={bbStyle(350)}>
 
-							buttonColor={colours.ppWhite}
-
-							btnOutRange={colours.ppBlue}
-
-							radius={65}
-
-							autoInactive={false}
-
-							position={'right'}
-
-							startDegree={0}
-
-							refer={(ref) => this.pinABRef = ref}
-
-							size={map_styles.iconButton.width}
-
-							icon={this._renderActionButtonPinIcon()}
-
-							onPress={this._onPinMarkerPress}>
-
-							{this._renderSaveActionButton()}
-
-							{this._renderCancelActionButton()}
-
-						</ActionButton>
-
-					</View>
+               <TouchableOpacity
+                onPress={()=>{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}
+               	style={map_styles.iconButton}>
+               	<Icon name="circle-o-notch" type="font-awesome" size={35} color={colours.ppBlue}/>
+                </TouchableOpacity>
+            </View>
 
 
-
-					<View style={[bbStyle(varTop-map_styles.iconButton.height*2-37*3), {marginLeft: 10},map_styles.iconButtonView]}>
-
-						<ActionButton
-
-							active={this.state.showCircle}
-
-							buttonColor={colours.ppWhite}
-
-							btnOutRange={colours.ppBlue}
-
-							radius={65}
-
-							autoInactive={false}
-
-							position={'right'}
-
-							startDegree={90}
-
-							refer={(ref) => this.circleABRef = ref}
-
-							size={map_styles.iconButton.width}
-
-							icon={this._renderActionButtonAddIcon()}
-
-							onPress={this._toggleCircle}>
-
-
-							<TouchableOpacity
-
-								onPress={()=>{if (this.state.circleRadius>200){this.setState({circleRadius: this.state.circleRadius-200})}}}
-
-								buttonColor={colours.ppBlue}
-
-								style={map_styles.iconButton}
-
-								title="Less">
-
-								<Icon name="minus" type="font-awesome" size={22} color={colours.ppWhite} />
-
-							</TouchableOpacity>
-
-							<ActionButton.Item
-
-								onPress={()=>{this.setState({circleRadius: this.state.circleRadius+200});console.log('hello')}}
-
-								buttonColor={colours.ppBlue}
-
-								//style={map_styles.iconButton}
-
-								title="More">
-
-								<Icon name="plus" type="font-awesome" size={22} color={colours.ppWhite} />
-
-							</ActionButton.Item>
-
-							{this._renderSaveActionButton()}
-
-							{this._renderCancelActionButton()}
-
-						</ActionButton>
-
-					</View>
 
 
 
@@ -1456,12 +1445,10 @@ class MapView extends BaseView {
 
 					</View>
 
-
-
-					{/*this.renderSDButton(this)*/}
-
-					{/*this.renderForCircle(this)*/}
-
+          {this._renderSaveActionButton()}
+          {this._renderCancelActionButton()}
+          {this.renderForCircleM()}
+          {this.renderForCircleP()}
 				</View>
 
 		);
