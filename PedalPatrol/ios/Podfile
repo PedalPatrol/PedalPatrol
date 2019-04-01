@@ -12,10 +12,13 @@ target 'PedalPatrol' do
   pod 'Firebase/Storage'
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
+  pod 'TwitterKit', '~> 3.3.0'
 
   target 'PedalPatrol-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
+
+    pod 'react-native-twitter-signin', :path => '../node_modules/react-native-twitter-signin'
 
   end
 

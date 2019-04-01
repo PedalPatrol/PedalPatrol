@@ -176,6 +176,7 @@ class LoginView extends BaseView {
 						style={text.textInput}
 						label="Username"
 						textContentType='username'
+						autoCapitalize="none"
 						value={this.state.username}
 						onChangeText={(username) => this.setState({username})}/>
 				</View>

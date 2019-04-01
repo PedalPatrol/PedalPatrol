@@ -317,20 +317,23 @@ const inputDataList = {
 			disabled: true,
 			required: false,
 			text: '',
+			keyboardType: 'default'
 		},
 		{
 			name: 'Full Name',
 			multiline: false,
 			disabled: false,
 			required: false,
-			text: ''
+			text: '',
+			keyboardType: 'default'
 		},
 		{
 			name: 'Phone Number',
 			multiline: false,
 			disabled: false,
 			required: false,
-			text: ''
+			text: '',
+			keyboardType: 'number-pad'
 		},
 	]
 }

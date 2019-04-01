@@ -160,7 +160,7 @@ class HomeModel extends Model {
 			this._editExistingInDatabase(newData.data, (result) => {
 				this._callback(true); 
 				this._removeFromData(newData.data); 
-				this._notifyAll(this._data.data);
+				this._notifyAll(this._data);
 			});
 		}
 	}
@@ -237,7 +237,7 @@ class HomeModel extends Model {
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			callbacK(false);
+			callback(false);
 			// this._callback(false);
 		});
 	}

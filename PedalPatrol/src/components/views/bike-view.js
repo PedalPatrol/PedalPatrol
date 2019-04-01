@@ -24,6 +24,8 @@ class BikeView extends BaseView {
 	constructor(props) {
 		super(props);
 		this.resetState();
+
+		this.searchBarRef = null;
 		// Another way to bind is to do () => {}
 		this._renderItem = this._renderItem.bind(this);
 		this._renderSearchBar = this._renderSearchBar.bind(this);
@@ -79,7 +81,8 @@ class BikeView extends BaseView {
 			openFilter={this.temporaryFilter}
 			profilePicture={this.state.profileData.profilePicture}
 			name={this.state.profileData.full_name}
-			numNotifications={this.BikeP.getNotificationCount()}/>
+			numNotifications={this.BikeP.getNotificationCount()}
+			searchRef={(ref) => this.searchBarRef = ref}/>
 	);
 
 
@@ -113,10 +116,12 @@ class BikeView extends BaseView {
 	 * Component has updated with set state.
 	 */
 	componentDidUpdate = () => {
-		const data = this.BikeP.getData();
-		// DANGEROUS - Only set the state again if the data is different
-		if (JSON.stringify(data) !== JSON.stringify(this.state.data)) {
-			this.setState({data}); // This is very dangerous to do in componentDidUpdate
+		if (this.searchBarRef && !this.searchBarRef.isSearching()) {
+			const data = this.BikeP.getData();
+			// DANGEROUS - Only set the state again if the data is different
+			if (JSON.stringify(data) !== JSON.stringify(this.state.data)) {
+				this.setState({data}); // This is very dangerous to do in componentDidUpdate
+			}
 		}
 	}
 

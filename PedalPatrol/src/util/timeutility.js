@@ -11,8 +11,10 @@ class TimeUtility {
 	getDateFormatFromDateTime(datetime) {
 		let converted = new Date(datetime);
 		let date = converted.getDate() + '/' + (converted.getMonth()+1) + '/' + converted.getFullYear();
-		let time = converted.getHours() + ":" + converted.getMinutes();
-		let dateTime = time+' - '+date;
+		const hours = converted.getHours();
+		const minutes = converted.getMinutes();
+		let time = (hours > 9 ? hours : '0' + hours) + ":" + (minutes > 9 ? minutes : '0' + minutes);
+		let dateTime = time + ' - ' + date;
 		return dateTime
 	}
 

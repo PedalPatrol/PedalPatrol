@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
@@ -70,6 +70,85 @@ class BikeDetailsView extends BaseView {
 		this.navigate("ReportFound");
 	}
 
+	  /**
+    * Handles the confirm found button clicked
+    */
+    _handleClickToConfirm(){
+        this.BikeDetP.confirmFound(this.state.rawData,this.alertConfirmCallback);
+    }
+    _handleClickToReject(){
+        this.BikeDetP.rejectFound(this.state.rawData,this.alertRejectionCallback);
+    }
+
+    decisionConfirm = () => {
+    	Alert.alert(
+			"Are you sure you want to confirm your bike found?",
+			"",
+			[
+				{ text: "No", onPress: () => {}, style: "cancel" },
+				{ text: "Yes", onPress: () => this._handleClickToConfirm() },
+			],
+			{ cancelable: false },
+		);
+    }
+
+    decisionReject = () => {
+    	Alert.alert(
+			"Are you sure you want to reject the found bike report?",
+			"",
+			[
+				{ text: "No", onPress: () => {}, style: "cancel" },
+				{ text: "Yes", onPress: () => this._handleClickToReject() },
+			],
+			{ cancelable: false },
+		);
+    }
+
+    alertConfirmCallback = (success) => {
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				"Congratulations, you have found your bike!",
+				"",
+				[
+					{ text: "Ok", onPress: () => this.props.navigation.navigate('Home'), style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				"Fail to confirm.",
+				"Please try again.",
+				[
+					{ text: "Ok", onPress: () => {}, style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		}
+	}
+
+    alertRejectionCallback = (success) => {
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				"Bike found report rejected.",
+				"",
+				[
+					{ text: "Ok", onPress: () => this.props.navigation.navigate('Home'), style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				"Fail to confirm.",
+				"Please try again.",
+				[
+					{ text: "Ok", onPress: () => {}, style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		}
+    }
 
 	/**
 	 * Component mounted
@@ -186,6 +265,8 @@ class BikeDetailsView extends BaseView {
 	 * @return {Component} 
 	 */
 	render() {
+		const { width: windowWidth } = Dimensions.get('window');
+
 		return (
 				<HandleBack onBack={this._onBack}>
 					<SafeArea/>
@@ -215,7 +296,7 @@ class BikeDetailsView extends BaseView {
 							</View>
 
 							{
-								this.state.from === 'Home' &&
+								this.state.rawData.stolen &&
 								<View>
 									<TouchableOpacity style={bikedetails_styles.touchableButtons}>
 										<Button
@@ -224,6 +305,21 @@ class BikeDetailsView extends BaseView {
 									</TouchableOpacity>
 								</View>
 							}
+							{
+                                this.state.found &&
+                            	<View style={{flexDirection: 'row', width: windowWidth, justifyContent: 'space-between', marginTop: 10}}>
+	                            	<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-start', marginRight: 5}]}>
+	                            		<Button
+	                            	  	  	onPress={()=>this.decisionConfirm()}
+	                            			title="Confirm Found"/>
+	                            	</TouchableOpacity>
+	                            	<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-end', marginLeft: 5}]}>
+	                            		<Button
+	                            	    	onPress={()=>this.decisionReject()}
+		                            		title="Reject found"/>
+                            		</TouchableOpacity>
+	                            </View>
+                            	}
 
 							</ScrollView>
 						</View>

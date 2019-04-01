@@ -145,7 +145,7 @@ signupCallback = (result) => {
 							style={text.textInput}
 							label="Username"
 							textContentType="username"
-							value={this.state.username}
+							value={this.state.username.toLowerCase()}
 							onChangeText={(username) => this.setState({username})}/>
 					</View>
 

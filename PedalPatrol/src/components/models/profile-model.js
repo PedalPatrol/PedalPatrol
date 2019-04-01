@@ -325,7 +325,7 @@ class ProfileModel extends Model {
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			callbacK(false);
+			callback(false);
 			// this._callback(false);
 		});
 	}

@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { List, Checkbox} from 'react-native-paper';
-import {Linking, Image, ScrollView} from 'react-native';
-import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import { List, Checkbox, Text} from 'react-native-paper';
+import {View, Linking, StyleSheet, Image, ScrollView, TouchableOpactiy} from 'react-native';
+import {Icon} from 'react-native-elements';
 import { HeaderBackButton } from 'react-navigation';
 
-import {styles, colours, help_theme } from './stylesheets/help-styles';
+import {styles, colours, help_styles } from './stylesheets/help-styles';
 
 import BaseView from './view';
 
 
 class HelpView extends BaseView {
-  state = {
-    expanded: true
-  }
+	state = {
+		expanded: true
+	}
 
 	/**
 	 * Set the navigation options, change the header to handle a back button.
@@ -24,10 +24,10 @@ class HelpView extends BaseView {
 		const back = params._onBack ? params._onBack : () => 'default';
 		return {
 			headerLeft: (<HeaderBackButton disabled={transitioning} onPress={()=>{back()}}/>),
-			title: navigation.getParam('title', 'Help Center') // Default title is Alerts
+			title: navigation.getParam('title', 'Help') // Default title is Alerts
 		};
-  }
-  
+	}
+	
 	/**
 	 * Triggers when a component or this component is mounted.
 	 */
@@ -43,110 +43,105 @@ class HelpView extends BaseView {
 	 */
 	_onBack = () => {
 		this.props.navigation.navigate('Tabs');
-  }
-  
-  _handleLinkClick = (url) => {
-    Linking.openURL(url);
-  };
+	}
+	
+	_handleLinkClick = (url) => {
+		Linking.openURL(url);
+	};
 
-  render() {
-    return ( 
+	renderText(text){
+		return(<Text> 
+			{text} 
+		</Text>)
+	}
+
+	renderItemText(text){
+		return(<Text style={help_styles.itemStyle} numberOfLines={10}> 
+			{text} 
+		</Text>)
+	}
+
+	renderIcon(iconName,iconType){
+		return(
+			<View style={{width:50}}>
+				<Icon name={iconName} type={iconType} size={20} color={'#34bb83'}/>
+			</View>
+			)
+	}
+
+	renderLink = (text) => (
+		<Text style={{color: 'blue'}}>{text}</Text>
+	)
+
+	render() {
+		return ( 
 
 
 <ScrollView>
 
-<PaperProvider theme={help_theme}>
-
-      <List.Section title="Pedal Patrol Help Center">
+      <List.Section>
 
         <List.Accordion
-          title="Using Pedal Patrol"
-          description="How to use Pedal Patrol features">
-
-          <List.Accordion title="Uploading your bike" left={props => <List.Icon {...props} icon=""/>} >
-
-          <List.Item title="stub" style={colours.ppLightGrey}>
-            <Image
-            style={{width: 50, height: 50}}
-            source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-          />
-          </List.Item>
-
-          </List.Accordion>
-
-          <List.Accordion title="Reporting your bike stolen"  left={props => <List.Icon {...props} icon="" />} >
-          <List.Item title="stub" style={colours.ppLightGrey}/>
-          </List.Accordion>
-
-          <List.Accordion title="Reporting a found bike" left={props => <List.Icon {...props} icon="" />} >
-          <List.Item title="stub" style={colours.ppLightGrey}/>
-          </List.Accordion>
-
-          
-          <List.Item
-          title="User manual" 
-          style={{backgroundColor:'E6ECF0'}} left={props => <List.Icon {...props} icon="" />} 
-          onPress={() => {
-            this._handleLinkClick('LINK TO USER MANUAL')
-         }}/>
-
-        </List.Accordion>
-
-
-        <List.Accordion
-          title="Managing your account"
+          title="Main Pages"
         >
-            <List.Accordion title="Login and Password" left={props => <List.Icon {...props} icon=""/>} >
-
-              <Image
-              style={{width: 50, height: 50}}
-              source={{uri: 'https://facebook.github.io/react-native/docs/assets/favicon.png'}}
-              />
-
+            <List.Accordion  title={this.renderText("Lost Bikes")} left={props => this.renderIcon("home","entypo")} >
+              {this.renderItemText("A feed of bikes that have been reported as stolen with the most recent appearing at the top. Click the bike card for more details. Search bikes by model and pin bike reports you’re interested to the top of your feed.")}
             </List.Accordion>
 
-            <List.Accordion title="Username, email and phone" left={props => <List.Icon {...props} icon="" />} >
-              <List.Item title="stub" style={colours.ppLightGrey}/>
+            <List.Accordion  title={this.renderText("Map")} left={props => this.renderIcon("md-map","ionicon")} >
+              {this.renderItemText("A map to show the location of reported bike thefts marked as a pin. Click the pins to see quick summaries of the bikes, and click the summaries for more details. Change your notification radius, search by location, filter bikes based on time, report your own stolen bikes.")}
             </List.Accordion>
 
-            <List.Accordion title="Notifications" left={props => <List.Icon {...props} icon="" />} >
-              <List.Item title="stub" style={colours.ppLightGrey}/> 
+            <List.Accordion  title={this.renderText("My Bikes")} left={props => this.renderIcon("md-bicycle","ionicon")} >
+              {this.renderItemText("A page to keep track of all of your registered bikes. This information will be available to users if it is reported stolen, and will be necessary for them to identify your unique bike. Click the plus button to add more bikes, or delete them at the bottom of its bike details page.")}
             </List.Accordion>
 
-
-
-        </List.Accordion>
-
-        <List.Accordion
-          title="Privacy Policy" 
-        >
-        <List.Item
-          title="Report a problem" style={colours.ppLightGrey}
-          onPress={() => {
-            this._handleLinkClick('google.ca')
-         }}/>
         </List.Accordion>
 
 
 
         <List.Accordion
-          title="Contact Us" 
+          title="Key Features"
         >
-        <List.Item
-          title="Report a problem" style={colours.ppLightGrey}
-          onPress={() => {
-            this._handleLinkClick('mailto:pedalpatrolapp@gmail.com?subject=Problem with Pedal Patrol')
-         }}/>
+            <List.Accordion  title={this.renderText("Register a bike")} left={props => this.renderIcon("add","MaterialIcons")} >
+              {this.renderItemText("My Bikes page\nClick the plus button\nAdd Bike Photos and Details\nClick Save")}
+            </List.Accordion>
+
+            <List.Accordion  title={this.renderText("Create a lost bike report")} left={props => this.renderIcon("pin-drop","MaterialIcons")}>
+              {this.renderItemText("Map page\nClick the Pin button\nPlace pin on map\nClick check mark\nSelect a registered bike from the dropdown menu\nWrite a report description\nClick submit")}
+            </List.Accordion>
+
+            <List.Accordion  title={this.renderText("Message owners of found bikes")} left={props => this.renderIcon("comment","MaterialIcons")}>
+            {this.renderItemText("Lost Bikes\nClick the message button the bottom right of the appropriate bike card\nWrite a description about how the bike was found\nSelect the location on the map in which the bike was found\nClick Submit")}
+            </List.Accordion>
+
+            <List.Accordion  title={this.renderText("Set notification radius")} left={props => this.renderIcon("circle-o-notch","font-awesome")}>
+            {this.renderItemText("Map page\nClick the circle icon\nPress and hold to place radius circle in desired area\nResize radius with plus and minus buttons\nClick the checkmark to save")}
+            </List.Accordion>
+
         </List.Accordion>
 
-      </List.Section>
+				<List.Item
+					title={this.renderLink("Privacy Policy")}
+					expanded={false}
+					onPress={() => {this.props.navigation.navigate('PrivacyPolicy')}}>
+				</List.Item>
 
-      </PaperProvider>
+				<List.Accordion
+					title="Contact Us" >
 
-      </ScrollView>
+					<Text 
+						style={help_styles.itemStyle}
+						onPress={() => {this._handleLinkClick('mailto:pedalpatrolapp@gmail.com?subject=Problem with Pedal Patrol')}}> 
+						Report a problem
+					</Text>
+				</List.Accordion>
 
-  );
-  }
+			</List.Section>
+
+			</ScrollView>
+	);
+	}
 }
 
 export default HelpView;

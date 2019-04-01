@@ -31,7 +31,7 @@ class ReportFoundPresenter extends BasePresenter {
 
 		Object.keys(editedBike).forEach((key) => {
 			if (!skipKeys.includes(key)) {
-				console.log(key)
+				// console.log(key)
 				newBike.data[key] = editedBike[key];	
 			}
 		});
@@ -42,7 +42,6 @@ class ReportFoundPresenter extends BasePresenter {
 		newBike.data.found_latitude = newData.data.coordinate.latitude;
 		newBike.data.found_longitude = newData.data.coordinate.longitude;
 		newBike.data.found_description = newData.data.text;
-
 		HomeM.setCallback(callback);
 		HomeM.update(newBike);
 	};

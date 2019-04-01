@@ -68,7 +68,6 @@ class MapView extends BaseView {
 	}
 
 	componentWillMount = () => {
-		this._setUserLocation();
 		this._setProfileImage();
 	}
 
@@ -77,7 +76,7 @@ class MapView extends BaseView {
 	 */
 	componentDidMount = () => {
 		this.MapP.forceRequestData();
-		
+		this._setUserLocation();
 		this._setMarkers(this.state.selectedFilters);
 	};
 
@@ -270,7 +269,7 @@ class MapView extends BaseView {
 	 */
 	saveItem(){
 		if (this.state.showCircle){
-			this.saveCircle();
+			this.sendCircle();
 			this.setState({
 				showCircle: false,
 				showMarker: false
@@ -345,7 +344,7 @@ class MapView extends BaseView {
 	/**
 	 * Save data of circle to notification settings
 	 */
-	saveCircle(){
+	sendCircle(){
 		//nothing
 		newData = {
 			data: {
@@ -354,6 +353,7 @@ class MapView extends BaseView {
 				radius: this.state.circleRadius,
 			}
 		}
+		this.MapP.updateCircle(newData);
 		// console.log(newData);
 	}
 
@@ -463,7 +463,7 @@ class MapView extends BaseView {
 					<View style={map_styles.calloutColumn}>
 						<View style={map_styles.calloutRow}>
 							<Text style={map_styles.brandText} numberOfLines={1} ellipsizeMode ={'tail'}>
-								{item.data.Brand == undefined || item.data.Brand === '' ? 'Brand Unknown' : item.data.Brand}
+								{item.data.brand == undefined || item.data.brand === '' ? 'Brand Unknown' : item.data.brand}
 							</Text>
 							<Text numberOfLines={1} ellipsizeMode={'tail'}>
 							{'   '}

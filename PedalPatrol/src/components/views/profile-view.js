@@ -175,6 +175,7 @@ class ProfileView extends BaseView {
 			label={item.disabled ? this._renderName(item.name) : item.name}
 			multiline={item.multiline}
 			disabled={item.disabled}
+			keyboardType={item.keyboardType}
 			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
 				let { inputData } = this.state; // inputData is a keyword in state

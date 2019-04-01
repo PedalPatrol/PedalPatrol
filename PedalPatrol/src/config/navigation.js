@@ -20,7 +20,7 @@ import SettingsView from '../components/views/settings-view';
 import ReportLostView from '../components/views/reportlost-view';
 import ReportFoundView from '../components/views/reportfound-view';
 import HelpView from '../components/views/help-view';
-
+import PrivacyPolicy from '../components/views/helpers/privacypolicy';
 
 let screen = Dimensions.get('window');
 
@@ -193,6 +193,15 @@ const HelpStack = createStackNavigator({
 			tabBarVisible: false,
 			gesturesEnabled: false,
 			headerTitle: 'Help Center',
+			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
+		}),
+	},
+	PrivacyPolicy: {
+		screen: PrivacyPolicy,
+		navigationOptions: ({navigation}) => ({
+			tabBarVisible: false,
+			gesturesEnabled: false,
+			headerTitle: 'Privacy Policy',
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	}

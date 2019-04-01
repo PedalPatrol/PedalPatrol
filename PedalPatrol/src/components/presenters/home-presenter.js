@@ -116,7 +116,7 @@ class HomePresenter extends BasePresenter {
 	 */
 	handleSearchFilter = (text) => {
 		const newData = this.getData().filter(item => {
-			const itemData = `${item.model.toUpperCase()}}`;
+			const itemData = `${item.brand.toUpperCase()}}`;
 			const textData = text.toUpperCase();
 			return itemData.indexOf(textData) > -1;
 		});
