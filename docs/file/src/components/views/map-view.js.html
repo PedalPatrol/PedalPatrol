@@ -333,37 +333,37 @@ class MapView extends BaseView {
 	*/
 	renderSearchbar = () =&gt; {
 		if (this.state.showSearchbar){
-			// return (
-			// 	&lt;GooglePlacesAutocomplete
-			// 			placeholder=&apos;Enter location&apos;
-			// 			minLength={2} // minimum length of text to search
-			// 			autoFocus={false}
-			// 			returnKeyType={&apos;search&apos;} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
-			// 			listViewDisplayed=&apos;true&apos;     // true/false/undefined
-			// 			fetchDetails={true}
-			// 			onPress={(data, details = null) =&gt; { // &apos;details&apos; is provided when fetchDetails = true
-			// 				console.log(data, details);
-			// 				this.setState({
-			// 					showSearchbar:false,
-			// 					region: { 
-			// 						latitude: details.geometry.location.lat,
-			// 						longitude: details.geometry.location.lng,
-			// 						latitudeDelta: 0.0922,
-			// 						longitudeDelta: 0.0421,
-			// 					}
-			// 				});
-			// 			}}
-			// 			getDefaultValue={() =&gt; &apos;&apos;}
-			// 			query={{
-			// 				// available options: https://developers.google.com/places/web-service/autocomplete
-			// 				key: &apos;AIzaSyCS9j9HB64sW9w8LgvtxVET6LqoET78OcA&apos;,
-			// 				language: &apos;en&apos;, // language of the results
-			// 			}}
-			// 			styles={autocomplete_styles}
-			// 			debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
-			// 		  /&gt;
+			return (
+				&lt;GooglePlacesAutocomplete
+						placeholder=&apos;Enter location&apos;
+						minLength={2} // minimum length of text to search
+						autoFocus={false}
+						returnKeyType={&apos;search&apos;} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+						listViewDisplayed=&apos;true&apos;     // true/false/undefined
+						fetchDetails={true}
+						onPress={(data, details = null) =&gt; { // &apos;details&apos; is provided when fetchDetails = true
+							console.log(data, details);
+							this.setState({
+								showSearchbar:false,
+								region: { 
+									latitude: details.geometry.location.lat,
+									longitude: details.geometry.location.lng,
+									latitudeDelta: 0.0922,
+									longitudeDelta: 0.0421,
+								}
+							});
+						}}
+						getDefaultValue={() =&gt; &apos;&apos;}
+						query={{
+							// available options: https://developers.google.com/places/web-service/autocomplete
+							key: &apos;AIzaSyCS9j9HB64sW9w8LgvtxVET6LqoET78OcA&apos;,
+							language: &apos;en&apos;, // language of the results
+						}}
+						styles={autocomplete_styles}
+						debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+					  /&gt;
 
-			// );
+			);
 		}
 	}
 
@@ -433,14 +433,14 @@ class MapView extends BaseView {
 	 */
 	renderCircle(){
 		if (this.state.showCircle){
-			// return (
-			// 	&lt;Circle
-			// 		center = {{latitude:this.state.x.latitude,longitude:this.state.x.longitude}}
-			// 		radius = {this.state.circleRadius}
-			// 		strokeColor = &quot;#4F6D7A&quot;
-			// 		strokeWidth = { 2 }
-			// 		fillColor = &apos;rgba(200,0,0,0.5)&apos;/&gt;
-			// )
+			return (
+				&lt;Circle
+					center = {{latitude:this.state.x.latitude,longitude:this.state.x.longitude}}
+					radius = {this.state.circleRadius}
+					strokeColor = &quot;#4F6D7A&quot;
+					strokeWidth = { 2 }
+					fillColor = &apos;rgba(200,0,0,0.5)&apos;/&gt;
+			)
 		}
 	}
 
@@ -559,81 +559,81 @@ class MapView extends BaseView {
 	 *
 	 * @param {Object} item - The data to display for a marker
 	 */
-	_renderCallout = (item) =&gt; {}
-	// 	&lt;Callout onPress={() =&gt; {this.navigate(&apos;BikeDetails&apos;, item.data)}}&gt;
-	// 		&lt;ScrollView&gt;
-	// 			&lt;ScrollView horizontal&gt;
-	// 				&lt;View style={map_styles.calloutColumn}&gt;
-	// 					&lt;View style={map_styles.calloutRow}&gt;
-	// 						&lt;Text style={map_styles.brandText} numberOfLines={1} ellipsizeMode ={&apos;tail&apos;}&gt;
-	// 							{item.data.brand == undefined || item.data.brand === &apos;&apos; ? &apos;Brand Unknown&apos; : item.data.brand}
-	// 						&lt;/Text&gt;
-	// 						&lt;Text numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
-	// 						{&apos;   &apos;}
-	// 						&lt;/Text&gt;
-	// 						&lt;View style={map_styles.timeago}&gt;
-	// 							&lt;Text style={[map_styles.mapText, map_styles.timeagoText]} numberOfLines={1} ellipsizeMode ={&apos;tail&apos;}&gt;
-	// 								{item.data.timeago}
-	// 							&lt;/Text&gt;
-	// 						&lt;/View&gt;
-	// 					&lt;/View&gt;
-	// 					{
-	// 						item.data.model != undefined &amp;&amp; item.data.model !== &apos;&apos; &amp;&amp; 
-	// 						&lt;Text style={map_styles.mapText}&gt;
-	// 							{item.data.model != &apos;&apos; ? &quot;Model: &quot; + item.data.model : &apos;&apos;}
-	// 						&lt;/Text&gt;
-	// 					}
-	// 					{
-	// 						item.data.colour != undefined &amp;&amp; item.data.colour.length !== 0 &amp;&amp;
-	// 						&lt;Text style={map_styles.mapText}&gt;
-	// 							{this._getColourString(item.data.colour)}
-	// 						&lt;/Text&gt;
-	// 					}
-	// 				&lt;/View&gt;
-	// 			&lt;/ScrollView&gt;
-	// 		&lt;/ScrollView&gt;
-	// 	&lt;/Callout&gt;
-	// );
+	_renderCallout = (item) =&gt; (
+		&lt;Callout onPress={() =&gt; {this.navigate(&apos;BikeDetails&apos;, item.data)}}&gt;
+			&lt;ScrollView&gt;
+				&lt;ScrollView horizontal&gt;
+					&lt;View style={map_styles.calloutColumn}&gt;
+						&lt;View style={map_styles.calloutRow}&gt;
+							&lt;Text style={map_styles.brandText} numberOfLines={1} ellipsizeMode ={&apos;tail&apos;}&gt;
+								{item.data.brand == undefined || item.data.brand === &apos;&apos; ? &apos;Brand Unknown&apos; : item.data.brand}
+							&lt;/Text&gt;
+							&lt;Text numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+							{&apos;   &apos;}
+							&lt;/Text&gt;
+							&lt;View style={map_styles.timeago}&gt;
+								&lt;Text style={[map_styles.mapText, map_styles.timeagoText]} numberOfLines={1} ellipsizeMode ={&apos;tail&apos;}&gt;
+									{item.data.timeago}
+								&lt;/Text&gt;
+							&lt;/View&gt;
+						&lt;/View&gt;
+						{
+							item.data.model != undefined &amp;&amp; item.data.model !== &apos;&apos; &amp;&amp; 
+							&lt;Text style={map_styles.mapText}&gt;
+								{item.data.model != &apos;&apos; ? &quot;Model: &quot; + item.data.model : &apos;&apos;}
+							&lt;/Text&gt;
+						}
+						{
+							item.data.colour != undefined &amp;&amp; item.data.colour.length !== 0 &amp;&amp;
+							&lt;Text style={map_styles.mapText}&gt;
+								{this._getColourString(item.data.colour)}
+							&lt;/Text&gt;
+						}
+					&lt;/View&gt;
+				&lt;/ScrollView&gt;
+			&lt;/ScrollView&gt;
+		&lt;/Callout&gt;
+	);
 
 	/**
 	 * Renders the save action button
 	 */
-	_renderSaveActionButton = () =&gt; {}
-	// 	&lt;ActionButton.Item
-	// 		onPress={()=&gt;{this.saveItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
-	// 		buttonColor={colours.ppPinGreen}
-	// 		style={map_styles.iconButton}
-	// 		title=&quot;Save&quot;&gt;
-	// 		&lt;Icon name=&quot;check&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
-	// 	&lt;/ActionButton.Item&gt;
-	// );
+	_renderSaveActionButton = () =&gt; (
+		&lt;ActionButton.Item
+			onPress={()=&gt;{this.saveItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
+			buttonColor={colours.ppPinGreen}
+			style={map_styles.iconButton}
+			title=&quot;Save&quot;&gt;
+			&lt;Icon name=&quot;check&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+		&lt;/ActionButton.Item&gt;
+	);
 
 	/**
 	 * Renders the cancel action button
 	 */
-	_renderCancelActionButton = () =&gt; {}
-	// 	&lt;ActionButton.Item
-	// 		onPress={()=&gt;{this.deleteItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
-	// 		buttonColor={colours.ppPinRed}
-	// 		style={map_styles.iconButton}
-	// 		title=&quot;Cancel&quot;&gt;
-	// 		&lt;Icon name=&quot;times&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
-	// 	&lt;/ActionButton.Item&gt;
-	// );
+	_renderCancelActionButton = () =&gt; (
+		&lt;ActionButton.Item
+			onPress={()=&gt;{this.deleteItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
+			buttonColor={colours.ppPinRed}
+			style={map_styles.iconButton}
+			title=&quot;Cancel&quot;&gt;
+			&lt;Icon name=&quot;times&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+		&lt;/ActionButton.Item&gt;
+	);
 	
 	/**
 	 * Renders the action button icon pin.
 	 */
-	_renderActionButtonPinIcon = () =&gt; {}
-	// 	&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={35} color={this.state.showMarker ? colours.ppWhite : colours.ppBlue} /&gt;
-	// );
+	_renderActionButtonPinIcon = () =&gt; (
+		&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={35} color={this.state.showMarker ? colours.ppWhite : colours.ppBlue} /&gt;
+	);
 
 	/**
 	 * Renders the action button add icon.
 	 */
-	_renderActionButtonAddIcon = () =&gt; {}
-	// 	&lt;Icon name=&quot;circle-o-notch&quot; type=&quot;font-awesome&quot; size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/&gt;
-	// );
+	_renderActionButtonAddIcon = () =&gt; (
+		&lt;Icon name=&quot;circle-o-notch&quot; type=&quot;font-awesome&quot; size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/&gt;
+	);
 
 	/**
 	 * Toggle the notification area.
@@ -712,179 +712,163 @@ class MapView extends BaseView {
 		}
 		
 
-	// 	return (
-	// 			&lt;View style={{ flex: 1 }}&gt;
-	// 				{
-	// 					this.state.showSearchbar &amp;&amp; 
-	// 					&lt;SafeArea overrideColour={colours.ppGrey}/&gt;
-	// 				}
+		return (
+				&lt;View style={{ flex: 1 }}&gt;
+					{
+						this.state.showSearchbar &amp;&amp; 
+						&lt;SafeArea overrideColour={colours.ppGrey}/&gt;
+					}
 
-	// 				&lt;RNMapView 
-	// 					style={{flex:1}}
-	// 					region={this.state.region}
-	// 					style={map_styles.map}
-	// 					showsUserLocation={true}
-	// 					showsMyLocationButton={true}
-	// 					rotateEnabled={true}
-	// 					onRegionChangeComplete={this.onRegionChange.bind(this)}
-	// 					onLongPress = {e =&gt; this.setCircleLat(e)}
- // onPress = {() =&gt; {this.setState({showSearchbar:false})}}&gt;
-	// 					{this.state.markers.map(marker =&gt; (
-	// 						&lt;Marker 
-	// 							{...marker} 
-	// 							ref={(ref) =&gt; this.state.markerRefs[marker.key] = ref}
-	// 							pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}&gt;
-	// 							{this._renderCallout(marker)}
-	// 						&lt;/Marker&gt;
-	// 					))}
-	// 					{this.state.tempMarkers.map(marker =&gt; (
-	// 						&lt;Marker 
-	// 							{...marker} 
-	// 							ref={(ref) =&gt; this.state.tempMarkerRefs[marker.key] = ref}
-	// 							pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}&gt;
-	// 							{this._renderCallout(marker)}
-	// 						&lt;/Marker&gt;
-	// 					))}
-	// 					{this.state.markerCreated.map(marker =&gt; (&lt;Marker draggable{...marker} onDragend={(t, map, coord) =&gt; this.onMarkerDragEnd(coord)} /&gt;))}
-	// 					{this.renderCircle(this)}
-	// 				&lt;/RNMapView&gt;
+					&lt;RNMapView 
+						style={{flex:1}}
+						region={this.state.region}
+						style={map_styles.map}
+						showsUserLocation={true}
+						showsMyLocationButton={true}
+						rotateEnabled={true}
+						onRegionChangeComplete={this.onRegionChange.bind(this)}
+						onLongPress = {e =&gt; this.setCircleLat(e)}
+ onPress = {() =&gt; {this.setState({showSearchbar:false})}}&gt;
+						{this.state.markers.map(marker =&gt; (
+							&lt;Marker 
+								{...marker} 
+								ref={(ref) =&gt; this.state.markerRefs[marker.key] = ref}
+								pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}&gt;
+								{this._renderCallout(marker)}
+							&lt;/Marker&gt;
+						))}
+						{this.state.tempMarkers.map(marker =&gt; (
+							&lt;Marker 
+								{...marker} 
+								ref={(ref) =&gt; this.state.tempMarkerRefs[marker.key] = ref}
+								pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}&gt;
+								{this._renderCallout(marker)}
+							&lt;/Marker&gt;
+						))}
+						{this.state.markerCreated.map(marker =&gt; (&lt;Marker draggable{...marker} onDragend={(t, map, coord) =&gt; this.onMarkerDragEnd(coord)} /&gt;))}
+						{this.renderCircle(this)}
+					&lt;/RNMapView&gt;
 
-	// 				{this.renderSearchbar()}
+					{this.renderSearchbar()}
 
-	// 				{/* Height of search bar container covers the profile button and the search button so we don&apos;t */}
-	// 				{/* need to use this.state.showSearchbar to block rendering. If we block rendering with that, then */}
-	// 				{/* profile button will re-render and there will be a visible flicker of the profile picture. */}
+					{/* Height of search bar container covers the profile button and the search button so we don&apos;t */}
+					{/* need to use this.state.showSearchbar to block rendering. If we block rendering with that, then */}
+					{/* profile button will re-render and there will be a visible flicker of the profile picture. */}
 
-	// 				&lt;View style={[bbStyle(highestIcon, true), {zIndex: 11, width: map_styles.iconButton.width+2}]}&gt;
-	// 					&lt;ProfileButton
-	// 						hitSlop={hitSlop}
-	// 						profilePicture={this.state.profileData.profilePicture}
-	// 						numNotifications={this.MapP.getNotificationCount()}/&gt;
-	// 				&lt;/View&gt;
+					&lt;View style={[bbStyle(highestIcon, true), {zIndex: 11, width: map_styles.iconButton.width+2}]}&gt;
+						&lt;ProfileButton
+							hitSlop={hitSlop}
+							profilePicture={this.state.profileData.profilePicture}
+							numNotifications={this.MapP.getNotificationCount()}/&gt;
+					&lt;/View&gt;
 
-	// 				&lt;View style={bbStyle(highestIcon)}&gt;
-	// 					&lt;TouchableOpacity 
-	// 						style={map_styles.iconButton} 
-	// 						accessibilityLabel=&quot;Search&quot;
-	// 						hitSlop={hitSlop}
-	// 						onPress={() =&gt; {this.setState({showSearchbar:true})}}&gt;
-	// 						&lt;Icon name=&quot;search&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
-	// 					&lt;/TouchableOpacity&gt;
-	// 				&lt;/View&gt;
+					&lt;View style={bbStyle(highestIcon)}&gt;
+						&lt;TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel=&quot;Search&quot;
+							hitSlop={hitSlop}
+							onPress={() =&gt; {this.setState({showSearchbar:true})}}&gt;
+							&lt;Icon name=&quot;search&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
+						&lt;/TouchableOpacity&gt;
+					&lt;/View&gt;
 
-	// 				&lt;View style={bbStyle(125)}&gt;
-	// 					&lt;TouchableOpacity 
-	// 						style={map_styles.iconButton} 
-	// 						accessibilityLabel=&quot;Filter&quot;
-	// 						hitSlop={hitSlop}
-	// 						onPress={() =&gt; this.sectionedMultiSelect._toggleSelector()}&gt;
-	// 						&lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
-	// 					&lt;/TouchableOpacity&gt;
+					&lt;View style={bbStyle(125)}&gt;
+						&lt;TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel=&quot;Filter&quot;
+							hitSlop={hitSlop}
+							onPress={() =&gt; this.sectionedMultiSelect._toggleSelector()}&gt;
+							&lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
+						&lt;/TouchableOpacity&gt;
 						
-	// 					{/* This is hidden */}
-	// 					&lt;SectionedMultiSelect
-	// 						style={{zIndex: -5}}
-	// 						items={filters}
-	// 						displayKey=&apos;name&apos;
-	// 						confirmText=&apos;Cancel&apos;
-	// 						uniqueKey={&apos;id&apos;}
-	// 						colors={{ primary: this.state.selectedFilters.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
-	// 						selectText=&apos;&apos;
-	// 						hideSelect
-	// 						showDropDowns
-	// 						single
-	// 						showChips={false}
-	// 						alwaysShowSelectText={false}
-	// 						showCancelButton={false}
-	// 						onSelectedItemsChange={this._onSelectedItemsChange}
-	// 						selectedItems={this.state.selectedFilters}
-	// 						ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}/&gt;
-	// 				&lt;/View&gt;
+						{/* This is hidden */}
+						&lt;SectionedMultiSelect
+							style={{zIndex: -5}}
+							items={filters}
+							displayKey=&apos;name&apos;
+							confirmText=&apos;Cancel&apos;
+							uniqueKey={&apos;id&apos;}
+							colors={{ primary: this.state.selectedFilters.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
+							selectText=&apos;&apos;
+							hideSelect
+							showDropDowns
+							single
+							showChips={false}
+							alwaysShowSelectText={false}
+							showCancelButton={false}
+							onSelectedItemsChange={this._onSelectedItemsChange}
+							selectedItems={this.state.selectedFilters}
+							ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}/&gt;
+					&lt;/View&gt;
 
-	// 				&lt;View style={[bbStyle(varTop-map_styles.iconButton.height-35), {marginLeft: 10}]}&gt;
-	// 					&lt;ActionButton
-	// 						active={this.state.showMarker}
-	// 						buttonColor={colours.ppWhite}
-	// 						btnOutRange={colours.ppBlue}
-	// 						style={map_styles.iconButton}
-	// 						radius={65}
-	// 						autoInactive={false}
-	// 						position={&apos;right&apos;}
-	// 						startDegree={0}
-	// 						refer={(ref) =&gt; this.pinABRef = ref}
-	// 						size={map_styles.iconButton.width}
-	// 						icon={this._renderActionButtonPinIcon()}
-	// 						onPress={this._onPinMarkerPress}&gt;							
-	// 						{this._renderSaveActionButton()}
-	// 						{this._renderCancelActionButton()}
-	// 					&lt;/ActionButton&gt;
-	// 				&lt;/View&gt;
+					&lt;View style={[bbStyle(varTop-map_styles.iconButton.height-35), {marginLeft: 10}]}&gt;
+						&lt;ActionButton
+							active={this.state.showMarker}
+							buttonColor={colours.ppWhite}
+							btnOutRange={colours.ppBlue}
+							style={map_styles.iconButton}
+							radius={65}
+							autoInactive={false}
+							position={&apos;right&apos;}
+							startDegree={0}
+							refer={(ref) =&gt; this.pinABRef = ref}
+							size={map_styles.iconButton.width}
+							icon={this._renderActionButtonPinIcon()}
+							onPress={this._onPinMarkerPress}&gt;							
+							{this._renderSaveActionButton()}
+							{this._renderCancelActionButton()}
+						&lt;/ActionButton&gt;
+					&lt;/View&gt;
 
-	// 				&lt;View style={[bbStyle(varTop-map_styles.iconButton.height*2-37*3), {marginLeft: 10}]}&gt;
-	// 					&lt;ActionButton
-	// 						active={this.state.showCircle}
-	// 						buttonColor={colours.ppWhite}
-	// 						btnOutRange={colours.ppBlue}
-	// 						style={map_styles.iconButton}
-	// 						radius={65}
-	// 						autoInactive={false}
-	// 						position={&apos;right&apos;}
-	// 						startDegree={90}
-	// 						refer={(ref) =&gt; this.circleABRef = ref}
-	// 						size={map_styles.iconButton.width}
-	// 						icon={this._renderActionButtonAddIcon()}
-	// 						onPress={this._toggleCircle}&gt;
-	// 						&lt;ActionButton.Item
-	// 							onPress={()=&gt;{if (this.state.circleRadius&gt;200){this.setState({circleRadius: this.state.circleRadius-200})}}}
-	// 							buttonColor={colours.ppBlue}
-	// 							style={map_styles.iconButton}
-	// 							title=&quot;Less&quot;&gt;
-	// 							&lt;Icon name=&quot;minus&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
-	// 						&lt;/ActionButton.Item&gt;
-	// 						&lt;ActionButton.Item
-	// 							onPress={()=&gt;{this.setState({circleRadius: this.state.circleRadius+200})}}
-	// 							buttonColor={colours.ppBlue}
-	// 							style={map_styles.iconButton}
-	// 							title=&quot;More&quot;&gt;
-	// 							&lt;Icon name=&quot;plus&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
-	// 						&lt;/ActionButton.Item&gt;
-	// 						{this._renderSaveActionButton()}
-	// 						{this._renderCancelActionButton()}
-	// 					&lt;/ActionButton&gt;
-	// 				&lt;/View&gt;
+					&lt;View style={[bbStyle(varTop-map_styles.iconButton.height*2-37*3), {marginLeft: 10}]}&gt;
+						&lt;ActionButton
+							active={this.state.showCircle}
+							buttonColor={colours.ppWhite}
+							btnOutRange={colours.ppBlue}
+							style={map_styles.iconButton}
+							radius={65}
+							autoInactive={false}
+							position={&apos;right&apos;}
+							startDegree={90}
+							refer={(ref) =&gt; this.circleABRef = ref}
+							size={map_styles.iconButton.width}
+							icon={this._renderActionButtonAddIcon()}
+							onPress={this._toggleCircle}&gt;
+							&lt;ActionButton.Item
+								onPress={()=&gt;{if (this.state.circleRadius&gt;200){this.setState({circleRadius: this.state.circleRadius-200})}}}
+								buttonColor={colours.ppBlue}
+								style={map_styles.iconButton}
+								title=&quot;Less&quot;&gt;
+								&lt;Icon name=&quot;minus&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+							&lt;/ActionButton.Item&gt;
+							&lt;ActionButton.Item
+								onPress={()=&gt;{this.setState({circleRadius: this.state.circleRadius+200})}}
+								buttonColor={colours.ppBlue}
+								style={map_styles.iconButton}
+								title=&quot;More&quot;&gt;
+								&lt;Icon name=&quot;plus&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+							&lt;/ActionButton.Item&gt;
+							{this._renderSaveActionButton()}
+							{this._renderCancelActionButton()}
+						&lt;/ActionButton&gt;
+					&lt;/View&gt;
 
-	// 				&lt;View style={bbStyle(varTop)}&gt;
-	// 					&lt;TouchableOpacity
-	// 						hitSlop={hitSlop}
-	// 						accessibilityLabel=&quot;Current Location&quot;
-	// 						style={map_styles.iconButton}
-	// 						onPress={ () =&gt; this._setUserLocation() }&gt;
-	// 						&lt;Icon name=&quot;location-arrow&quot; type=&quot;font-awesome&quot; size={20} color={colours.ppBlue} /&gt;
-	// 					&lt;/TouchableOpacity&gt;
-	// 				&lt;/View&gt;
+					&lt;View style={bbStyle(varTop)}&gt;
+						&lt;TouchableOpacity
+							hitSlop={hitSlop}
+							accessibilityLabel=&quot;Current Location&quot;
+							style={map_styles.iconButton}
+							onPress={ () =&gt; this._setUserLocation() }&gt;
+							&lt;Icon name=&quot;location-arrow&quot; type=&quot;font-awesome&quot; size={20} color={colours.ppBlue} /&gt;
+						&lt;/TouchableOpacity&gt;
+					&lt;/View&gt;
 
-	// 				{/*this.renderSDButton(this)*/}
-	// 				{/*this.renderForCircle(this)*/}
-	// 			&lt;/View&gt;
-	// 	);
+					{/*this.renderSDButton(this)*/}
+					{/*this.renderForCircle(this)*/}
+				&lt;/View&gt;
+		);
 	}
 }
-
-/* &lt;TouchableOpacity 
-							style={map_styles.iconButton} 
-							accessibilityLabel=&quot;Lost Report&quot;
-							hitSlop={hitSlop}
-							onPress={this._onPinMarkerPress}&gt;
-							&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
-						&lt;/TouchableOpacity&gt; */
-
-		/*&lt;TouchableOpacity 
-							style={map_styles.iconButton} 
-							accessibilityLabel=&quot;Receiving Area&quot;
-							hitSlop={hitSlop}
-							onPress={()=&gt;{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}&gt;
-							&lt;Icon name=&quot;add-circle&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
-						&lt;/TouchableOpacity&gt; */
 
 export default MapView;
 

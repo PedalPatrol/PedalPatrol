@@ -210,20 +210,15 @@ class AuthLoadingView extends BaseView {
 	}
 
 
-				/*&lt;View style={this.state.shouldLogout ? authloading_styles.logoutLoading : styles.loading} pointerEvents=&quot;none&quot;&gt;
-				&lt;ActivityIndicator size=&apos;large&apos; color=&quot;#0000ff&quot; /&gt;
-				&lt;Image source={{uri: &apos;https://peopleysk2.s3-us-west-2.amazonaws.com/person-images%2FSean+Remedios_5acfda4d3e30dd0016efc576.jpg?versionid=hBsosp9Yj1NnJ0bb6raBlqGmJRlnbBp9&apos;}} /&gt;
-			&lt;/View&gt;*/
-
 	render() {
-		// return (
-		// 	&lt;View style = {[styles.loading, authloading_styles.container]}&gt;
-		// 		&lt;Safearea overrideColour={colours.ppGreen}/&gt;
-		// 		&lt;Image source={logo} style={authloading_styles.image} resizeMode=&quot;contain&quot; /&gt;
-		// 		&lt;ActivityIndicator style={authloading_styles.load} size=&apos;small&apos; color=&quot;#FFFFFF&quot;/&gt;
-		// 	&lt;/View&gt;
+		return (
+			&lt;View style = {[styles.loading, authloading_styles.container]}&gt;
+				&lt;Safearea overrideColour={colours.ppGreen}/&gt;
+				&lt;Image source={logo} style={authloading_styles.image} resizeMode=&quot;contain&quot; /&gt;
+				&lt;ActivityIndicator style={authloading_styles.load} size=&apos;small&apos; color=&quot;#FFFFFF&quot;/&gt;
+			&lt;/View&gt;
 
-		// );
+		);
 	}
 }
 

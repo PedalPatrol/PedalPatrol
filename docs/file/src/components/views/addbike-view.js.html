@@ -162,14 +162,14 @@ class AddBikeView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
-	// 	const { params = {} } = navigation.state;
-	// 	const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-	// 	const clear = params._clearData ? params._clearData : () =&gt; &apos;default&apos;;
-	// 	return {
-	// 		headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-	// 		headerRight: (&lt;Button disabled={transitioning} onPress={()=&gt;{clear()}} title=&apos;Clear&apos;/&gt;),
-	// 		title: navigation.getParam(&apos;title&apos;, &apos;Add Bike&apos;) // Default title is Add Bike
-	// 	};
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+		const clear = params._clearData ? params._clearData : () =&gt; &apos;default&apos;;
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+			headerRight: (&lt;Button disabled={transitioning} onPress={()=&gt;{clear()}} title=&apos;Clear&apos;/&gt;),
+			title: navigation.getParam(&apos;title&apos;, &apos;Add Bike&apos;) // Default title is Add Bike
+		};
 	}
 
 	/**
@@ -355,21 +355,21 @@ class AddBikeView extends BaseView {
 	 * @param {Object} item - A list item, index - The index of the item in the data list
 	 * @return {Component} A react component
 	 */
-	_renderItem = ({item, index}) =&gt; {}
-		// &lt;TextInput
-		// 	style={text.textInput}
-		// 	label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
-		// 	multiline={item.multiline}
-		// 	disabled={item.disabled || this.state.loaderVisible}
-		// 	value={this.state.inputData[index].text}
-		// 	onChangeText={(text) =&gt; {
-		// 			let { inputData } = this.state; // inputData is a keyword in state
-		// 			inputData[index].text = text;
-		// 			this.setState({ inputData });
-		// 			this.setEditing(true); // Now editing
-		// 		} 
-		// 	}/&gt;
-	// );
+	_renderItem = ({item, index}) =&gt; (
+		&lt;TextInput
+			style={text.textInput}
+			label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
+			multiline={item.multiline}
+			disabled={item.disabled || this.state.loaderVisible}
+			value={this.state.inputData[index].text}
+			onChangeText={(text) =&gt; {
+					let { inputData } = this.state; // inputData is a keyword in state
+					inputData[index].text = text;
+					this.setState({ inputData });
+					this.setEditing(true); // Now editing
+				} 
+			}/&gt;
+	);
 
 	/**
 	 * Renders the name of a required field.
@@ -377,9 +377,9 @@ class AddBikeView extends BaseView {
 	 * @param {string} name - The name of the field
 	 * @return {Component} A react component
 	 */
-	_renderName = (name) =&gt; {}
-	// 	&lt;Text style={[{color: &apos;red&apos;}]}&gt;{name + &quot; *&quot;}&lt;/Text&gt;
-	// );
+	_renderName = (name) =&gt; (
+		&lt;Text style={[{color: &apos;red&apos;}]}&gt;{name + &quot; *&quot;}&lt;/Text&gt;
+	);
 
 
 	/**
@@ -407,11 +407,9 @@ class AddBikeView extends BaseView {
 	 * @param {string} name - The name of the item 
 	 * @return {Component} A react component
 	 */
-	_renderText = (colour, name) =&gt; {
-
-	}
-	// 	&lt;Text style={[{color: colour}, text.colourText]}&gt;{name}&lt;/Text&gt;
-	// );
+	_renderText = (colour, name) =&gt; (
+		&lt;Text style={[{color: colour}, text.colourText]}&gt;{name}&lt;/Text&gt;
+	);
 
 
 	/**
@@ -505,92 +503,92 @@ class AddBikeView extends BaseView {
 	 * @return {Component} 
 	 */
 	render() {
-		// return (
+		return (
 			
-		// 	&lt;KeyboardAvoidingView
-		// 		style={styles.container}
-		// 		behavior=&quot;padding&quot;
-		// 		enabled&gt;
-		// 		&lt;HandleBack onBack={this._onBack}&gt;
-		// 			&lt;SafeArea/&gt;
-		// 			&lt;View style={styles.container}&gt;
-		// 				&lt;ScrollView 
-		// 					contentContainerStyle={edit_styles.contentContainer}
-		// 					keyboardShouldPersistTaps=&apos;always&apos;
-		// 					keyboardDismissMode=&apos;interactive&apos;&gt;
+			&lt;KeyboardAvoidingView
+				style={styles.container}
+				behavior=&quot;padding&quot;
+				enabled&gt;
+				&lt;HandleBack onBack={this._onBack}&gt;
+					&lt;SafeArea/&gt;
+					&lt;View style={styles.container}&gt;
+						&lt;ScrollView 
+							contentContainerStyle={edit_styles.contentContainer}
+							keyboardShouldPersistTaps=&apos;always&apos;
+							keyboardDismissMode=&apos;interactive&apos;&gt;
 
-		// 					&lt;ImageCarousel 
-		// 						loading={this.state.loaderVisible}
-		// 						photos={this.state.photoEntries}
-		// 						selected={(id) =&gt; {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} /&gt;
+							&lt;ImageCarousel 
+								loading={this.state.loaderVisible}
+								photos={this.state.photoEntries}
+								selected={(id) =&gt; {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} /&gt;
 							
-		// 					{/* List of text inputs */}
-		// 					&lt;FlatList
-		// 						style={edit_styles.flatList}
-		// 						data={this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage)}
-		// 						extraData={this.state}
-		// 						keyExtractor={this._keyExtractor}
-		// 						renderItem={this._renderItem}/&gt;
+							{/* List of text inputs */}
+							&lt;FlatList
+								style={edit_styles.flatList}
+								data={this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage)}
+								extraData={this.state}
+								keyExtractor={this._keyExtractor}
+								renderItem={this._renderItem}/&gt;
 						
-		// 					{/* List of colours */}
-		// 					{/* colors attribute makes the &apos;Confirm&apos; button flip from red to green if a colour is selected */}
-		// 					&lt;SectionedMultiSelect
-		// 						style={text.textInput}
-		// 						items={this.state.colours}
-		// 						displayKey=&apos;text_component&apos;
-		// 						uniqueKey={UNIQUE_COLOUR_KEY}
-		// 						showRemoveAll
-		// 						colors={{ primary: this.state.selectedItems.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
-		// 						selectText=&apos;Colours&apos;
-		// 						modalWithSafeAreaView={true}
-		// 						showDropDowns={true}
-		// 						filterItems={this.AddBikeP.filterItems}
-		// 						onSelectedItemsChange={this._onSelectedItemsChange}
-		// 						selectedItems={this.state.selectedItems}
-		// 						ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}
-		// 						/&gt;
+							{/* List of colours */}
+							{/* colors attribute makes the &apos;Confirm&apos; button flip from red to green if a colour is selected */}
+							&lt;SectionedMultiSelect
+								style={text.textInput}
+								items={this.state.colours}
+								displayKey=&apos;text_component&apos;
+								uniqueKey={UNIQUE_COLOUR_KEY}
+								showRemoveAll
+								colors={{ primary: this.state.selectedItems.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
+								selectText=&apos;Colours&apos;
+								modalWithSafeAreaView={true}
+								showDropDowns={true}
+								filterItems={this.AddBikeP.filterItems}
+								onSelectedItemsChange={this._onSelectedItemsChange}
+								selectedItems={this.state.selectedItems}
+								ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}
+								/&gt;
 
-		// 					{/* Submit button */}
-		// 					&lt;TouchableOpacity style={[edit_styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}&gt;
-		// 						&lt;Button
-		// 							title={this.state.isEditPage ? &apos;Save&apos; : &apos;Submit&apos;}
-		// 							disabled={this.state.loaderVisible}
-		// 							onPress={() =&gt; this._getDataToUpdate()}/&gt;
-		// 					&lt;/TouchableOpacity&gt;
+							{/* Submit button */}
+							&lt;TouchableOpacity style={[edit_styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}&gt;
+								&lt;Button
+									title={this.state.isEditPage ? &apos;Save&apos; : &apos;Submit&apos;}
+									disabled={this.state.loaderVisible}
+									onPress={() =&gt; this._getDataToUpdate()}/&gt;
+							&lt;/TouchableOpacity&gt;
 
-		// 					{/* TODO : Add delete button */}
-		// 					{
-		// 						this.state.isEditPage &amp;&amp;
-		// 						&lt;View&gt; 
-		// 							&lt;View style={{flexDirection: &apos;row&apos;, marginTop: 20}}&gt; 
-		// 								&lt;View style={edit_styles.deleteInline} /&gt; 
-		// 									&lt;Text style={edit_styles.delete}&gt;Delete Bike&lt;/Text&gt; 
-		// 								&lt;View style={edit_styles.deleteInline} /&gt; 
-		// 							&lt;/View&gt;
+							{/* TODO : Add delete button */}
+							{
+								this.state.isEditPage &amp;&amp;
+								&lt;View&gt; 
+									&lt;View style={{flexDirection: &apos;row&apos;, marginTop: 20}}&gt; 
+										&lt;View style={edit_styles.deleteInline} /&gt; 
+											&lt;Text style={edit_styles.delete}&gt;Delete Bike&lt;/Text&gt; 
+										&lt;View style={edit_styles.deleteInline} /&gt; 
+									&lt;/View&gt;
 									
-		// 							&lt;TouchableOpacity style={edit_styles.deleteTouchable} onPress={() =&gt; &apos;default&apos;}&gt;
-		// 								&lt;Button
-		// 									title=&apos;Delete&apos;
-		// 									disabled={this.state.loaderVisible}
-		// 									onPress={() =&gt; this.deletePrompt()}/&gt;
-		// 							&lt;/TouchableOpacity&gt;
-		// 						&lt;/View&gt;
-		// 					}
+									&lt;TouchableOpacity style={edit_styles.deleteTouchable} onPress={() =&gt; &apos;default&apos;}&gt;
+										&lt;Button
+											title=&apos;Delete&apos;
+											disabled={this.state.loaderVisible}
+											onPress={() =&gt; this.deletePrompt()}/&gt;
+									&lt;/TouchableOpacity&gt;
+								&lt;/View&gt;
+							}
 
-		// 					{/* Spinning loading circle */}
-		// 					{
-		// 						this.state.loaderVisible &amp;&amp;
-		// 						&lt;View style={edit_styles.loading} pointerEvents=&quot;none&quot;&gt;
-		// 							&lt;ActivityIndicator size=&apos;large&apos; color=&quot;#0000ff&quot; /&gt;
-		// 						&lt;/View&gt;
-		// 					}
-		// 				&lt;/ScrollView&gt;
-		// 			&lt;/View&gt;
-		// 			&lt;SafeArea/&gt;
-		// 		&lt;/HandleBack&gt;
-		// 		&lt;/KeyboardAvoidingView&gt;
+							{/* Spinning loading circle */}
+							{
+								this.state.loaderVisible &amp;&amp;
+								&lt;View style={edit_styles.loading} pointerEvents=&quot;none&quot;&gt;
+									&lt;ActivityIndicator size=&apos;large&apos; color=&quot;#0000ff&quot; /&gt;
+								&lt;/View&gt;
+							}
+						&lt;/ScrollView&gt;
+					&lt;/View&gt;
+					&lt;SafeArea/&gt;
+				&lt;/HandleBack&gt;
+				&lt;/KeyboardAvoidingView&gt;
 			
-		// );
+		);
 	}
 }
 

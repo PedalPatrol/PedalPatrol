@@ -136,10 +136,10 @@ class SettingsView extends BaseView {
 	 */
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
 		const { params = {} } = navigation.state;
-		// const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-		// };
+		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+		};
 	}
 
 	/**
@@ -208,42 +208,42 @@ class SettingsView extends BaseView {
 	 */
 	render() {
 		var bgColor = &apos;#DCE3F4&apos;;
-		// return (
-		// 	&lt;View style={styles.container}&gt;
+		return (
+			&lt;View style={styles.container}&gt;
 
-		// 		&lt;View style={styles.container}&gt;
-		// 			&lt;SettingsList borderColor={colours.ppDarkGrey} defaultItemSize={60}&gt;
-		// 				&lt;SettingsList.Item
-		// 					hasNavArrow={false}
-		// 					title=&apos;Account Settings&apos;
-		// 					titleStyle={settings_styles.settingsItem}
-		// 					itemWidth={50}
-		// 					borderHide={&apos;Both&apos;}/&gt;
-		// 	  			&lt;SettingsList.Item
-		// 					title=&apos;Change Password&apos;
-		// 					onPress= {() =&gt;  Alert.alert(&apos;Route To change password&apos;)}
-		// 					borderHide={&apos;Both&apos;}/&gt;
-		// 			&lt;SettingsList.Header headerStyle={{marginTop:2}}/&gt;
-		// 				&lt;SettingsList.Item
-		// 					hasNavArrow={false}
-		// 					title=&apos;Device&apos;
-		// 					titleStyle={settings_styles.settingsItem}
-		// 					itemWidth={50}
-		// 					borderHide={&apos;Both&apos;}/&gt;
-		// 	  			&lt;SettingsList.Item
-		// 					title=&apos;Notifications&apos;
-		// 					onPress= {() =&gt; this.navigate(&apos;Notifications&apos;)}/&gt;
-		// 	  		&lt;SettingsList.Header headerStyle={{marginTop:2}}/&gt;
-		// 	  			&lt;SettingsList.Item
-		// 				   hasNavArrow={false}
-		// 					titleStyle={settings_styles.logout}
-		// 					title=&apos;Logout&apos;
-		// 					onPress= {() =&gt; this.navigate(&apos;AuthLoading&apos;, [{ key: &apos;logout&apos;, value: true }])}/&gt;
+				&lt;View style={styles.container}&gt;
+					&lt;SettingsList borderColor={colours.ppDarkGrey} defaultItemSize={60}&gt;
+						&lt;SettingsList.Item
+							hasNavArrow={false}
+							title=&apos;Account Settings&apos;
+							titleStyle={settings_styles.settingsItem}
+							itemWidth={50}
+							borderHide={&apos;Both&apos;}/&gt;
+			  			&lt;SettingsList.Item
+							title=&apos;Change Password&apos;
+							onPress= {() =&gt;  Alert.alert(&apos;Route To change password&apos;)}
+							borderHide={&apos;Both&apos;}/&gt;
+					&lt;SettingsList.Header headerStyle={{marginTop:2}}/&gt;
+						&lt;SettingsList.Item
+							hasNavArrow={false}
+							title=&apos;Device&apos;
+							titleStyle={settings_styles.settingsItem}
+							itemWidth={50}
+							borderHide={&apos;Both&apos;}/&gt;
+			  			&lt;SettingsList.Item
+							title=&apos;Notifications&apos;
+							onPress= {() =&gt; this.navigate(&apos;Notifications&apos;)}/&gt;
+			  		&lt;SettingsList.Header headerStyle={{marginTop:2}}/&gt;
+			  			&lt;SettingsList.Item
+						   hasNavArrow={false}
+							titleStyle={settings_styles.logout}
+							title=&apos;Logout&apos;
+							onPress= {() =&gt; this.navigate(&apos;AuthLoading&apos;, [{ key: &apos;logout&apos;, value: true }])}/&gt;
 
-		// 			&lt;/SettingsList&gt;
-		// 		&lt;/View&gt;
-		// 	&lt;/View&gt;
-		// );
+					&lt;/SettingsList&gt;
+				&lt;/View&gt;
+			&lt;/View&gt;
+		);
 	}
 
 }

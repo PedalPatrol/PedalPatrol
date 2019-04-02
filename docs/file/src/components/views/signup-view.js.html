@@ -127,9 +127,9 @@ class SignUpView extends BaseView {
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
 		const { params = {} } = navigation.state;
 		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;)
-		// }
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;)
+		}
 	}
 
 	
@@ -244,44 +244,44 @@ signupCallback = (result) =&gt; {
 	 * Extract data from the component&apos;s view and send an update to the presenter to do any logic before sending it to the model
 	 */
 	render() {
-		// return (
-		// 	&lt;View style={styles.container}&gt;
-		// 		&lt;SafeArea/&gt;
-		// 		&lt;View style={signup_styles.editGroup}&gt;
-		// 			&lt;View style={signup_styles.username}&gt;
-		// 				&lt;TextInput
-		// 					style={text.textInput}
-		// 					label=&quot;Username&quot;
-		// 					textContentType=&quot;username&quot;
-		// 					value={this.state.username.toLowerCase()}
-		// 					onChangeText={(username) =&gt; this.setState({username})}/&gt;
-		// 			&lt;/View&gt;
+		return (
+			&lt;View style={styles.container}&gt;
+				&lt;SafeArea/&gt;
+				&lt;View style={signup_styles.editGroup}&gt;
+					&lt;View style={signup_styles.username}&gt;
+						&lt;TextInput
+							style={text.textInput}
+							label=&quot;Username&quot;
+							textContentType=&quot;username&quot;
+							value={this.state.username.toLowerCase()}
+							onChangeText={(username) =&gt; this.setState({username})}/&gt;
+					&lt;/View&gt;
 
-		// 			&lt;View style={signup_styles.password}&gt;
-		// 				&lt;TextInput
-		// 					style={text.textInput}
-		// 					label=&quot;Password&quot;
-		// 					secureTextEntry
-		// 					textContentType=&quot;newPassword&quot;
-		// 					value={this.state.password}
-		// 					onChangeText={(password) =&gt; this.setState({password})}/&gt;
-		// 			&lt;/View&gt;
-		// 			&lt;View style={signup_styles.password}&gt;
-		// 				&lt;TextInput
-		// 					style={text.textInput}
-		// 					label=&quot;Re-enter your password&quot;
-		// 					secureTextEntry
-		// 					textContentType=&quot;newPassword&quot;
-		// 					value={this.state.RPassword}
-		// 					onChangeText={(RPassword) =&gt; this.setState({RPassword})}/&gt;
-		// 			&lt;/View&gt;
+					&lt;View style={signup_styles.password}&gt;
+						&lt;TextInput
+							style={text.textInput}
+							label=&quot;Password&quot;
+							secureTextEntry
+							textContentType=&quot;newPassword&quot;
+							value={this.state.password}
+							onChangeText={(password) =&gt; this.setState({password})}/&gt;
+					&lt;/View&gt;
+					&lt;View style={signup_styles.password}&gt;
+						&lt;TextInput
+							style={text.textInput}
+							label=&quot;Re-enter your password&quot;
+							secureTextEntry
+							textContentType=&quot;newPassword&quot;
+							value={this.state.RPassword}
+							onChangeText={(RPassword) =&gt; this.setState({RPassword})}/&gt;
+					&lt;/View&gt;
 					
-		// 			&lt;View style={{marginTop: 30}}&gt;
-		// 				&lt;LoginButton text=&quot;SIGN UP&quot; onPress={this._handleClick.bind(this)}/&gt;
-		// 			&lt;/View&gt;
-		// 		&lt;/View&gt;
-		// 	&lt;/View&gt;
-		// );
+					&lt;View style={{marginTop: 30}}&gt;
+						&lt;LoginButton text=&quot;SIGN UP&quot; onPress={this._handleClick.bind(this)}/&gt;
+					&lt;/View&gt;
+				&lt;/View&gt;
+			&lt;/View&gt;
+		);
 	}
 }
 

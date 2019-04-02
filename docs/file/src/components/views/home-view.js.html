@@ -144,14 +144,14 @@ class HomeView extends BaseView {
 	 * 
 	 * @param {Object} item - An item to be rendered
 	 */
-	_renderItem = ({item}) =&gt; {}
-	// 	&lt;NotificationBikeItem
-	// 		data={item}
-	// 		from={&apos;Home&apos;}
-	// 		setBookmark={this.HomeP.setBookmark}
-	// 		bookmarked={this.HomeP.getBookmarked(item.id)}
-	// 		navigation={this.props.navigation}/&gt;
-	// );
+	_renderItem = ({item}) =&gt; (
+		&lt;NotificationBikeItem
+			data={item}
+			from={&apos;Home&apos;}
+			setBookmark={this.HomeP.setBookmark}
+			bookmarked={this.HomeP.getBookmarked(item.id)}
+			navigation={this.props.navigation}/&gt;
+	);
 
 	/**
 	 * Sets the state to the profile data retrieved from the model.
@@ -175,17 +175,17 @@ class HomeView extends BaseView {
 	/**
 	 * Renders a search bar as the header including the profile icon and the filter button.
 	 */
-	_renderSearchBar = () =&gt; {}
-	// 	&lt;SearchBar 
-	// 		handleSearchFilter={(text) =&gt; this.HomeP.handleSearchFilter(text)}
-	// 		handleSearchCancel={this.HomeP.handleSearchCancel}
-	// 		handleSearchClear={this.HomeP.handleSearchClear}
-	// 		searchBy=&apos;brand&apos;
-	// 		openFilter={this.temporaryFilter}
-	// 		profilePicture={this.state.profileData.profilePicture}
-	// 		name={this.state.profileData.full_name}
-	// 		numNotifications={this.HomeP.getNotificationCount()}/&gt;
-	// );
+	_renderSearchBar = () =&gt; (
+		&lt;SearchBar 
+			handleSearchFilter={(text) =&gt; this.HomeP.handleSearchFilter(text)}
+			handleSearchCancel={this.HomeP.handleSearchCancel}
+			handleSearchClear={this.HomeP.handleSearchClear}
+			searchBy=&apos;brand&apos;
+			openFilter={this.temporaryFilter}
+			profilePicture={this.state.profileData.profilePicture}
+			name={this.state.profileData.full_name}
+			numNotifications={this.HomeP.getNotificationCount()}/&gt;
+	);
 
 
 	/**
@@ -236,33 +236,33 @@ class HomeView extends BaseView {
 	 */
 	render() {
 		// RefreshControl (below) allows for the pull down of the list to update it
-		// return (	
-		// 		&lt;View style={styles.container}&gt;
-		// 			&lt;SafeArea/&gt;
-		// 			&lt;View&gt;
-		// 				&lt;FlatList
-		// 					scrollEnabled={false}
-		// 					ListHeaderComponent={this._renderSearchBar}
-		// 					stickyHeaderIndices={[0]}/&gt;
-		// 			&lt;/View&gt;
-		// 			{/* Refresh control must be added to ScrollView otherwise it won&apos;t show up */}
-		// 			&lt;ScrollView
-		// 				refreshControl={
-		// 					&lt;RefreshControl
-		// 						colors={[&quot;#9Bd35A&quot;, &quot;#689F38&quot;]}
-		// 						refreshing={this.state.refreshing}
-		// 						onRefresh={() =&gt; this._onRefresh()}/&gt;
-		// 				}&gt;
-		// 				&lt;FlatList
-		// 					data={this.state.data}
-		// 					extraData={this.state.refresh}
-		// 					keyExtractor={this._keyExtractor}
-		// 					renderItem={this._renderItem}
-		// 					contentContainerStyle={{paddingBottom: 5}}&gt;
-		// 				&lt;/FlatList&gt;
-		// 			&lt;/ScrollView&gt;
-		// 		&lt;/View&gt;
-		// );
+		return (	
+				&lt;View style={styles.container}&gt;
+					&lt;SafeArea/&gt;
+					&lt;View&gt;
+						&lt;FlatList
+							scrollEnabled={false}
+							ListHeaderComponent={this._renderSearchBar}
+							stickyHeaderIndices={[0]}/&gt;
+					&lt;/View&gt;
+					{/* Refresh control must be added to ScrollView otherwise it won&apos;t show up */}
+					&lt;ScrollView
+						refreshControl={
+							&lt;RefreshControl
+								colors={[&quot;#9Bd35A&quot;, &quot;#689F38&quot;]}
+								refreshing={this.state.refreshing}
+								onRefresh={() =&gt; this._onRefresh()}/&gt;
+						}&gt;
+						&lt;FlatList
+							data={this.state.data}
+							extraData={this.state.refresh}
+							keyExtractor={this._keyExtractor}
+							renderItem={this._renderItem}
+							contentContainerStyle={{paddingBottom: 5}}&gt;
+						&lt;/FlatList&gt;
+					&lt;/ScrollView&gt;
+				&lt;/View&gt;
+		);
 	};
 
 };

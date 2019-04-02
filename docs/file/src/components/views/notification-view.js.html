@@ -138,7 +138,7 @@ class NotificationView extends Component {
 	 * @return {Component} The component if rendered, null otherwise
 	 */
 	renderIf(condition,element){
-		// return condition ? element : null;
+		return condition ? element : null;
 	}
 
 	/**
@@ -154,34 +154,34 @@ class NotificationView extends Component {
 	 * Renders the react native component.
 	 */
 	render() {
-		// return (
-		// 	&lt;View style={styles.container}&gt;
-		// 		&lt;SettingsList borderColor=&apos;#c8c7cc&apos; defaultItemSize={50}&gt;
-		// 			&lt;SettingsList.Item
-		// 				hasNavArrow={false}
-		// 				title=&apos;Status&apos;
-		// 				titleStyle={notifications_styles.status}
-		// 				itemWidth={50}
-		// 				borderHide={&apos;Both&apos;}/&gt;
-		// 			&lt;SettingsList.Item
-		// 				hasSwitch={true}
-		// 				switchState={this.state.switchValue}
-		// 				switchOnValueChange={this.onValueChange}
-		// 				hasNavArrow={false}
-		// 				title=&apos;Notifications On&apos;/&gt;
+		return (
+			&lt;View style={styles.container}&gt;
+				&lt;SettingsList borderColor=&apos;#c8c7cc&apos; defaultItemSize={50}&gt;
+					&lt;SettingsList.Item
+						hasNavArrow={false}
+						title=&apos;Status&apos;
+						titleStyle={notifications_styles.status}
+						itemWidth={50}
+						borderHide={&apos;Both&apos;}/&gt;
+					&lt;SettingsList.Item
+						hasSwitch={true}
+						switchState={this.state.switchValue}
+						switchOnValueChange={this.onValueChange}
+						hasNavArrow={false}
+						title=&apos;Notifications On&apos;/&gt;
 
-		// 		{this.renderIf(this.state.switchValue,
-		// 			(
-		// 				&lt;SettingsList.Item
-		// 					hasNavArrow={false}
-		// 					title=&apos;Distance&apos;
-		// 					titleInfo = &apos;1km&apos;/&gt;
+				{this.renderIf(this.state.switchValue,
+					(
+						&lt;SettingsList.Item
+							hasNavArrow={false}
+							title=&apos;Distance&apos;
+							titleInfo = &apos;1km&apos;/&gt;
 
-		// 			)
-		// 		)}
-		// 		&lt;/SettingsList&gt;
-		// 	&lt;/View&gt;
-		// );
+					)
+				)}
+				&lt;/SettingsList&gt;
+			&lt;/View&gt;
+		);
 	}
 }
 

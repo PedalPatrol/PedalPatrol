@@ -147,11 +147,11 @@ class ProfileView extends BaseView {
 		const { params = {} } = navigation.state;
 		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
 		const clear = params._clearData ? params._clearData : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-		// 	headerRight: (&lt;Button disabled={transitioning} onPress={()=&gt;{clear()}} title=&apos;Clear&apos;/&gt;),
-		// 	title: navigation.getParam(&apos;title&apos;, &apos;Profile&apos;)
-		// }
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+			headerRight: (&lt;Button disabled={transitioning} onPress={()=&gt;{clear()}} title=&apos;Clear&apos;/&gt;),
+			title: navigation.getParam(&apos;title&apos;, &apos;Profile&apos;)
+		}
 	}
 
 	/**
@@ -272,29 +272,29 @@ class ProfileView extends BaseView {
 	 * 
 	 * @param {Object} item - A list item, index - The index of the item in the data list
 	 */
-	_renderItem = ({item, index}) =&gt; {}
-	// 	&lt;TextInput
-	// 		style={text.textInput}
-	// 		label={item.disabled ? this._renderName(item.name) : item.name}
-	// 		multiline={item.multiline}
-	// 		disabled={item.disabled}
-	// 		keyboardType={item.keyboardType}
-	// 		value={this.state.inputData[index].text}
-	// 		onChangeText={(text) =&gt; {
-	// 			let { inputData } = this.state; // inputData is a keyword in state
-	// 			inputData[index].text = text;
-	// 			this.setState({ inputData });
-	// 			this.setEditing(true); // Now editing
-	// 		}
-	// 	}/&gt;
-	// );
+	_renderItem = ({item, index}) =&gt; (
+		&lt;TextInput
+			style={text.textInput}
+			label={item.disabled ? this._renderName(item.name) : item.name}
+			multiline={item.multiline}
+			disabled={item.disabled}
+			keyboardType={item.keyboardType}
+			value={this.state.inputData[index].text}
+			onChangeText={(text) =&gt; {
+				let { inputData } = this.state; // inputData is a keyword in state
+				inputData[index].text = text;
+				this.setState({ inputData });
+				this.setEditing(true); // Now editing
+			}
+		}/&gt;
+	);
 
 	/**
 	 * Renders the name of a required field.
 	 */
-	_renderName = (name) =&gt; {}
-	// 	&lt;Text style={[{color: &apos;black&apos;}]}&gt;{name}&lt;/Text&gt;
-	// );
+	_renderName = (name) =&gt; (
+		&lt;Text style={[{color: &apos;black&apos;}]}&gt;{name}&lt;/Text&gt;
+	);
 
 
 	/**
@@ -401,49 +401,49 @@ class ProfileView extends BaseView {
 	 * @return {Component} 
 	 */
 	render() {
-		// return (
-		// 	&lt;KeyboardAvoidingView
-		// 		style={styles.container}
-		// 		behavior=&quot;padding&quot;
-		// 		enabled&gt;
-		// 	&lt;HandleBack onBack={this._onBack}&gt;
-		// 		&lt;SafeArea/&gt;
-		// 		&lt;View style={styles.container}&gt;
-		// 			&lt;ScrollView 
-		// 				contentContainerStyle={edit_styles.contentContainer}
-		// 				keyboardShouldPersistTaps=&apos;always&apos;
-		// 				keyboardDismissMode=&apos;interactive&apos;&gt;
+		return (
+			&lt;KeyboardAvoidingView
+				style={styles.container}
+				behavior=&quot;padding&quot;
+				enabled&gt;
+			&lt;HandleBack onBack={this._onBack}&gt;
+				&lt;SafeArea/&gt;
+				&lt;View style={styles.container}&gt;
+					&lt;ScrollView 
+						contentContainerStyle={edit_styles.contentContainer}
+						keyboardShouldPersistTaps=&apos;always&apos;
+						keyboardDismissMode=&apos;interactive&apos;&gt;
 
-		// 				&lt;ImageCarousel
-		// 					photos={this.state.photoEntries}
-		// 					selected={(id) =&gt; {this.ProfileP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} /&gt;
+						&lt;ImageCarousel
+							photos={this.state.photoEntries}
+							selected={(id) =&gt; {this.ProfileP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} /&gt;
 
-		// 				{/* List of text inputs */}
-		// 				&lt;FlatList
-		// 					style={edit_styles.flatList}
-		// 					data={this.ProfileP.getTextInputData(NO_DATA)}
-		// 					extraData={this.state}
-		// 					keyExtractor={this._keyExtractor}
-		// 					renderItem={this._renderItem}/&gt;
+						{/* List of text inputs */}
+						&lt;FlatList
+							style={edit_styles.flatList}
+							data={this.ProfileP.getTextInputData(NO_DATA)}
+							extraData={this.state}
+							keyExtractor={this._keyExtractor}
+							renderItem={this._renderItem}/&gt;
 
-		// 				&lt;TouchableOpacity style={edit_styles.submitTouchable}&gt;
-		// 					&lt;Button
-		// 						title=&apos;Save&apos;
-		// 						onPress={() =&gt; this._getDataToUpdate()}/&gt;
-		// 				&lt;/TouchableOpacity&gt;
+						&lt;TouchableOpacity style={edit_styles.submitTouchable}&gt;
+							&lt;Button
+								title=&apos;Save&apos;
+								onPress={() =&gt; this._getDataToUpdate()}/&gt;
+						&lt;/TouchableOpacity&gt;
 
-		// 				{
-		// 					this.state.loaderVisible &amp;&amp;
-		// 					&lt;View style={styles.loading} pointerEvents=&quot;none&quot;&gt;
-		// 						&lt;ActivityIndicator size=&apos;large&apos; color=&quot;#0000ff&quot; /&gt;
-		// 					&lt;/View&gt;
-		// 				}
-		// 			&lt;/ScrollView&gt;
-		// 		&lt;/View&gt;
-		// 		&lt;SafeAreaView style={{ flex:0, backgroundColor: &apos;#F5FCFF&apos; }} /&gt;
-		// 	&lt;/HandleBack&gt;
-		// 	&lt;/KeyboardAvoidingView&gt;
-		// );
+						{
+							this.state.loaderVisible &amp;&amp;
+							&lt;View style={styles.loading} pointerEvents=&quot;none&quot;&gt;
+								&lt;ActivityIndicator size=&apos;large&apos; color=&quot;#0000ff&quot; /&gt;
+							&lt;/View&gt;
+						}
+					&lt;/ScrollView&gt;
+				&lt;/View&gt;
+				&lt;SafeAreaView style={{ flex:0, backgroundColor: &apos;#F5FCFF&apos; }} /&gt;
+			&lt;/HandleBack&gt;
+			&lt;/KeyboardAvoidingView&gt;
+		);
 	}
 }
 

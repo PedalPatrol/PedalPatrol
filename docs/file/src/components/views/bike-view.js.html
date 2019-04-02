@@ -148,11 +148,11 @@ class BikeView extends BaseView {
 	 * @param {Object} item - An item to be rendered
 	 * @return {Component} A react component
 	 */
-	_renderItem = ({item}) =&gt; {}
-	// 	&lt;BikeItem
-	// 		data={item}
-	// 		navigation={this.props.navigation}/&gt;
-	// );
+	_renderItem = ({item}) =&gt; (
+		&lt;BikeItem
+			data={item}
+			navigation={this.props.navigation}/&gt;
+	);
 
 	/**
 	 * Sets the profile image for the view
@@ -177,18 +177,18 @@ class BikeView extends BaseView {
 	 *
 	 * @return {Component} A react component
 	 */
-	_renderSearchBar = () =&gt; {}
-	// 	&lt;SearchBar 
-	// 		handleSearchFilter={(text) =&gt; this.BikeP.handleSearchFilter(text)}
-	// 		handleSearchCancel={this.BikeP.handleSearchCancel}
-	// 		handleSearchClear={this.BikeP.handleSearchClear}
-	// 		searchBy=&apos;name&apos;
-	// 		openFilter={this.temporaryFilter}
-	// 		profilePicture={this.state.profileData.profilePicture}
-	// 		name={this.state.profileData.full_name}
-	// 		numNotifications={this.BikeP.getNotificationCount()}
-	// 		searchRef={(ref) =&gt; this.searchBarRef = ref}/&gt;
-	// );
+	_renderSearchBar = () =&gt; (
+		&lt;SearchBar 
+			handleSearchFilter={(text) =&gt; this.BikeP.handleSearchFilter(text)}
+			handleSearchCancel={this.BikeP.handleSearchCancel}
+			handleSearchClear={this.BikeP.handleSearchClear}
+			searchBy=&apos;name&apos;
+			openFilter={this.temporaryFilter}
+			profilePicture={this.state.profileData.profilePicture}
+			name={this.state.profileData.full_name}
+			numNotifications={this.BikeP.getNotificationCount()}
+			searchRef={(ref) =&gt; this.searchBarRef = ref}/&gt;
+	);
 
 
 	/**
@@ -257,32 +257,32 @@ class BikeView extends BaseView {
 	 * Renders the screen
 	 */
 	render() {
-		// return (
-		// 		&lt;View style={styles.container}&gt;
-		// 			&lt;SafeArea/&gt;
-		// 			&lt;View&gt;
-		// 				&lt;FlatList
-		// 					scrollEnabled={false}
-		// 					ListHeaderComponent={this._renderSearchBar}
-		// 					stickyHeaderIndices={[0]}/&gt;
-		// 			&lt;/View&gt;
-		// 			{/* List of bikes */}
-		// 			&lt;ScrollView&gt;
-		// 				&lt;FlatList
-		// 					data={this.state.data}
-		// 					extraData={this.state.refresh}
-		// 					keyExtractor={this._keyExtractor}
-		// 					renderItem={this._renderItem}
-		// 					contentContainerStyle={{paddingBottom: 5}}&gt;
-		// 				&lt;/FlatList&gt;
-		// 			&lt;/ScrollView&gt;
+		return (
+				&lt;View style={styles.container}&gt;
+					&lt;SafeArea/&gt;
+					&lt;View&gt;
+						&lt;FlatList
+							scrollEnabled={false}
+							ListHeaderComponent={this._renderSearchBar}
+							stickyHeaderIndices={[0]}/&gt;
+					&lt;/View&gt;
+					{/* List of bikes */}
+					&lt;ScrollView&gt;
+						&lt;FlatList
+							data={this.state.data}
+							extraData={this.state.refresh}
+							keyExtractor={this._keyExtractor}
+							renderItem={this._renderItem}
+							contentContainerStyle={{paddingBottom: 5}}&gt;
+						&lt;/FlatList&gt;
+					&lt;/ScrollView&gt;
 
-		// 			{/* Add button */}
-		// 			&lt;TouchableHighlight style={bike_styles.add} onPress={() =&gt; this.props.navigation.navigate(&apos;AddBike&apos;, {title: &apos;Add Bike&apos;})} accessibilityLabel=&quot;New&quot;&gt;
-		// 				&lt;Icon name=&quot;md-add&quot; type=&quot;ionicon&quot; size={30} color={colours.ppGreen} /&gt;
-		// 			&lt;/TouchableHighlight&gt;
-		// 		&lt;/View&gt;
-		// );
+					{/* Add button */}
+					&lt;TouchableHighlight style={bike_styles.add} onPress={() =&gt; this.props.navigation.navigate(&apos;AddBike&apos;, {title: &apos;Add Bike&apos;})} accessibilityLabel=&quot;New&quot;&gt;
+						&lt;Icon name=&quot;md-add&quot; type=&quot;ionicon&quot; size={30} color={colours.ppGreen} /&gt;
+					&lt;/TouchableHighlight&gt;
+				&lt;/View&gt;
+		);
 	};
 
 };
