@@ -148,10 +148,10 @@ class ReportFoundView extends BaseView {
 	 */
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
 		const { params = {} } = navigation.state;
-		// const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-		// };
+		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+		};
 	}
 
 	/**
@@ -335,48 +335,48 @@ class ReportFoundView extends BaseView {
 	 _dropdown_2_renderRow(rowData, rowID, highlighted) {
 		let evenRow = rowID % 2;
 
-		// return (
-		// 	&lt;TouchableHighlight underlayColor=&apos;cornflowerblue&apos;&gt;
-		// 		&lt;View style={[reportfound_styles.dropdown_2_row, {backgroundColor: evenRow ? &apos;lemonchiffon&apos; : &apos;white&apos;}]}&gt;
-		// 			&lt;Text style={[reportfound_styles.dropdown_2_row_text, highlighted &amp;&amp; {color: &apos;mediumaquamarine&apos;}]}&gt;
-		// 				{`${rowData.name} `}
-		// 			&lt;/Text&gt;
-		// 		&lt;/View&gt;
-		//   &lt;/TouchableHighlight&gt;
-		// );
+		return (
+			&lt;TouchableHighlight underlayColor=&apos;cornflowerblue&apos;&gt;
+				&lt;View style={[reportfound_styles.dropdown_2_row, {backgroundColor: evenRow ? &apos;lemonchiffon&apos; : &apos;white&apos;}]}&gt;
+					&lt;Text style={[reportfound_styles.dropdown_2_row_text, highlighted &amp;&amp; {color: &apos;mediumaquamarine&apos;}]}&gt;
+						{`${rowData.name} `}
+					&lt;/Text&gt;
+				&lt;/View&gt;
+		  &lt;/TouchableHighlight&gt;
+		);
 	}
 
 	/**
 	 * Renders the react native component.
 	 */
 	render() {
-		// return (
-		// 	&lt;View style={styles.container}&gt;
-		// 		&lt;Text style={reportfound_styles.serial_number}&gt;
-		// 			{&quot;Serial Number: &quot; + this.state.editeddata.serial_number}
-		// 		&lt;/Text&gt;
-		// 		&lt;TextInput style={reportfound_styles.row1}
-		// 			label=&quot;Add a Description&quot;
-		// 			multiline={true}
-		// 			blurOnSubmit
-		// 			onChangeText={(text) =&gt; this.setState({text})}&gt;
-		// 	   	&lt;/TextInput&gt;
+		return (
+			&lt;View style={styles.container}&gt;
+				&lt;Text style={reportfound_styles.serial_number}&gt;
+					{&quot;Serial Number: &quot; + this.state.editeddata.serial_number}
+				&lt;/Text&gt;
+				&lt;TextInput style={reportfound_styles.row1}
+					label=&quot;Add a Description&quot;
+					multiline={true}
+					blurOnSubmit
+					onChangeText={(text) =&gt; this.setState({text})}&gt;
+			   	&lt;/TextInput&gt;
 
-		// 		&lt;View style = {reportfound_styles.cell}&gt;
-		// 			&lt;MapView style = {reportfound_styles.cell}
-		// 				region= {this.state.region}
-		// 				onPress = {e =&gt; this.setMarker(e)}
-		// 				onRegionChangeComplete={this.onRegionChange.bind(this)}&gt;
-		// 				{this.state.thisMarker.map(marker=&gt; (&lt;Marker draggable {...marker}/&gt;))}
-		// 			&lt;/MapView&gt;
-		// 		&lt;/View&gt;
-		// 		&lt;View&gt;
-		// 			&lt;TouchableHighlight style={reportfound_styles.submitButton} onPress={this._handleClick.bind(this)}&gt;
-		// 				&lt;Button color={&apos;#000&apos;} title=&quot;SUBMIT&quot;/&gt;
-		// 			&lt;/TouchableHighlight&gt;
-		// 		&lt;/View&gt;
-		//   &lt;/View&gt;
-		// );
+				&lt;View style = {reportfound_styles.cell}&gt;
+					&lt;MapView style = {reportfound_styles.cell}
+						region= {this.state.region}
+						onPress = {e =&gt; this.setMarker(e)}
+						onRegionChangeComplete={this.onRegionChange.bind(this)}&gt;
+						{this.state.thisMarker.map(marker=&gt; (&lt;Marker draggable {...marker}/&gt;))}
+					&lt;/MapView&gt;
+				&lt;/View&gt;
+				&lt;View&gt;
+					&lt;TouchableHighlight style={reportfound_styles.submitButton} onPress={this._handleClick.bind(this)}&gt;
+						&lt;Button color={&apos;#000&apos;} title=&quot;SUBMIT&quot;/&gt;
+					&lt;/TouchableHighlight&gt;
+				&lt;/View&gt;
+		  &lt;/View&gt;
+		);
 	}
 }
 

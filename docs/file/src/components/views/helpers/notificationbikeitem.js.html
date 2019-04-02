@@ -184,96 +184,96 @@ class NotificationBikeItem extends Component {
  	 * Renders the notification item card.
  	 */
 	render() {
-		// return(
-		// 	&lt;TouchableOpacity onPress={() =&gt; this.navigate(&apos;BikeDetails&apos;, false)}&gt;
-		// 		&lt;View style={styles.rowContainer}&gt;
-		// 		  	{/* Everything is put as columns from the top row */}
-		// 			&lt;View style={styles.topRow}&gt;
+		return(
+			&lt;TouchableOpacity onPress={() =&gt; this.navigate(&apos;BikeDetails&apos;, false)}&gt;
+				&lt;View style={styles.rowContainer}&gt;
+				  	{/* Everything is put as columns from the top row */}
+					&lt;View style={styles.topRow}&gt;
 						
-		// 				{/* First column is model, image, datetime and address */}
-		// 				&lt;View style={{flex: 1, alignItems:&apos;flex-start&apos;}}&gt;
-		// 					&lt;View style={styles.nameImageCol}&gt;
+						{/* First column is model, image, datetime and address */}
+						&lt;View style={{flex: 1, alignItems:&apos;flex-start&apos;}}&gt;
+							&lt;View style={styles.nameImageCol}&gt;
 								
-		// 						{/* Model */}
-		// 						&lt;Text style={styles.model} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
-		// 							{this.props.data.brand + &quot; &quot; + this.props.data.model}
-		// 						&lt;/Text&gt;
+								{/* Model */}
+								&lt;Text style={styles.model} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+									{this.props.data.brand + &quot; &quot; + this.props.data.model}
+								&lt;/Text&gt;
 								
-		// 						&lt;View style={{flex:1, flexDirection:&apos;row&apos;, justifyContent:&apos;space-between&apos;}}&gt;
-		// 							{/* Thumbnail */}
-		// 							&lt;View style={{flex: 1, flexDirection:&apos;row&apos;, justifyContent:&apos;flex-start&apos;}}&gt;
-		// 									&lt;Image source={{uri: this.props.data.thumbnail[0]}}
-		// 										   style={styles.thumbnail}
-		// 										   resizeMode=&quot;contain&quot; /&gt;
-		// 							&lt;/View&gt;
-		// 						&lt;/View&gt;
+								&lt;View style={{flex:1, flexDirection:&apos;row&apos;, justifyContent:&apos;space-between&apos;}}&gt;
+									{/* Thumbnail */}
+									&lt;View style={{flex: 1, flexDirection:&apos;row&apos;, justifyContent:&apos;flex-start&apos;}}&gt;
+											&lt;Image source={{uri: this.props.data.thumbnail[0]}}
+												   style={styles.thumbnail}
+												   resizeMode=&quot;contain&quot; /&gt;
+									&lt;/View&gt;
+								&lt;/View&gt;
 								
-		// 						{/* Datetime &amp; Address (bottom left) */}
-		// 						&lt;Text style={styles.datetime} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
-		// 							{this.props.data.datetime}
-		// 						&lt;/Text&gt;
-		// 						&lt;Text style={styles.address} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
-		// 							{this.props.data.address}
-		// 						&lt;/Text&gt;
+								{/* Datetime &amp; Address (bottom left) */}
+								&lt;Text style={styles.datetime} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+									{this.props.data.datetime}
+								&lt;/Text&gt;
+								&lt;Text style={styles.address} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+									{this.props.data.address}
+								&lt;/Text&gt;
 
-		// 					&lt;/View&gt;
-		// 				&lt;/View&gt;
+							&lt;/View&gt;
+						&lt;/View&gt;
 
-		// 				{/* Second column is hoursago, notable features, description and icons */}
-		// 				&lt;View style={{flex: 1}}&gt;
-		// 					&lt;View style={{flex: 1, flexDirection:&apos;column&apos;, alignItems:&apos;flex-end&apos;}}&gt;
+						{/* Second column is hoursago, notable features, description and icons */}
+						&lt;View style={{flex: 1}}&gt;
+							&lt;View style={{flex: 1, flexDirection:&apos;column&apos;, alignItems:&apos;flex-end&apos;}}&gt;
 								
-		// 						{/* Time ago */}
-		// 						&lt;Text style={styles.time} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
-		// 							{this.props.data.timeago}
-		// 						&lt;/Text&gt;
+								{/* Time ago */}
+								&lt;Text style={styles.time} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+									{this.props.data.timeago}
+								&lt;/Text&gt;
 
-		// 						{/* Notable features and description */}
-		// 						&lt;View style={{flex: 5, flexDirection:&apos;column&apos;, alignItems:&apos;flex-start&apos;, justifyContent:&apos;flex-start&apos;}}&gt;
-		// 							&lt;Text style={styles.other} numberOfLines={5} ellipsizeMode={&apos;tail&apos;}&gt;
-		// 								{this.props.data.description}
-		// 							&lt;/Text&gt;
-		// 							&lt;Text style={styles.other} numberOfLines={2} ellipsizeMode={&apos;tail&apos;}&gt;
-		// 								Notable Features: {this.props.data.notable_features}
-		// 							&lt;/Text&gt;
-		// 						&lt;/View&gt;
+								{/* Notable features and description */}
+								&lt;View style={{flex: 5, flexDirection:&apos;column&apos;, alignItems:&apos;flex-start&apos;, justifyContent:&apos;flex-start&apos;}}&gt;
+									&lt;Text style={styles.other} numberOfLines={5} ellipsizeMode={&apos;tail&apos;}&gt;
+										{this.props.data.description}
+									&lt;/Text&gt;
+									&lt;Text style={styles.other} numberOfLines={2} ellipsizeMode={&apos;tail&apos;}&gt;
+										Notable Features: {this.props.data.notable_features}
+									&lt;/Text&gt;
+								&lt;/View&gt;
 
-		// 						{/* Bottom icons only show if stolen bikes are shown */}
+								{/* Bottom icons only show if stolen bikes are shown */}
 									
-		// 							&lt;View style={{flex: 1, flexDirection:&apos;row&apos;, alignItems:&apos;center&apos;, justiftContent:&apos;space-between&apos;}}&gt;
-		// 								{/* Bookmark button */}
-		// 								{ 
-		// 									this.state.from === TYPE_STOLEN_HOME &amp;&amp;
+									&lt;View style={{flex: 1, flexDirection:&apos;row&apos;, alignItems:&apos;center&apos;, justiftContent:&apos;space-between&apos;}}&gt;
+										{/* Bookmark button */}
+										{ 
+											this.state.from === TYPE_STOLEN_HOME &amp;&amp;
 											
-		// 									&lt;TouchableOpacity style={styles.icon} onPress={() =&gt; {this.props.setBookmark(this.props.data.id)}} accessibilityLabel=&quot;Bookmark&quot;&gt;
-		// 										{ this.props.bookmarked ? 
-		// 											(&lt;Icon name=&quot;bookmark&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;)
-		// 											:
-		// 											(&lt;Icon name=&quot;bookmark-border&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;)
-		// 										}
-		// 									&lt;/TouchableOpacity&gt;
-		// 								}
-		// 								{/* Map pin */}
-		// 								&lt;TouchableOpacity style={styles.icon} accessibilityLabel=&quot;Pin&quot; onPress={() =&gt; this.navigate(&apos;Map&apos;, true)}&gt;
-		// 									&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;
-		// 								&lt;/TouchableOpacity&gt;
+											&lt;TouchableOpacity style={styles.icon} onPress={() =&gt; {this.props.setBookmark(this.props.data.id)}} accessibilityLabel=&quot;Bookmark&quot;&gt;
+												{ this.props.bookmarked ? 
+													(&lt;Icon name=&quot;bookmark&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;)
+													:
+													(&lt;Icon name=&quot;bookmark-border&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;)
+												}
+											&lt;/TouchableOpacity&gt;
+										}
+										{/* Map pin */}
+										&lt;TouchableOpacity style={styles.icon} accessibilityLabel=&quot;Pin&quot; onPress={() =&gt; this.navigate(&apos;Map&apos;, true)}&gt;
+											&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;
+										&lt;/TouchableOpacity&gt;
 
-		// 								{/* Report Found */}
-		// 								{
-		// 									this.state.from === TYPE_STOLEN_HOME &amp;&amp;
-		// 									&lt;TouchableOpacity style={styles.icon} accessibilityLabel=&quot;Report Found&quot; onPress={() =&gt; this.navigate(&apos;ReportFound&apos;)}&gt;
-		// 										&lt;Icon name=&quot;comment&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;
-		// 									&lt;/TouchableOpacity&gt;
-		// 								}
-		// 							&lt;/View&gt;
+										{/* Report Found */}
+										{
+											this.state.from === TYPE_STOLEN_HOME &amp;&amp;
+											&lt;TouchableOpacity style={styles.icon} accessibilityLabel=&quot;Report Found&quot; onPress={() =&gt; this.navigate(&apos;ReportFound&apos;)}&gt;
+												&lt;Icon name=&quot;comment&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;
+											&lt;/TouchableOpacity&gt;
+										}
+									&lt;/View&gt;
 
-		// 					&lt;/View&gt;
-		// 				&lt;/View&gt;
+							&lt;/View&gt;
+						&lt;/View&gt;
 
-		// 			&lt;/View&gt;
-		// 		&lt;/View&gt;
-		// 	&lt;/TouchableOpacity&gt;
-		// );
+					&lt;/View&gt;
+				&lt;/View&gt;
+			&lt;/TouchableOpacity&gt;
+		);
 	}
 }
 

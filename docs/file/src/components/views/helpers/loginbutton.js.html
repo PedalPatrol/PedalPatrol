@@ -124,11 +124,11 @@ class LoginButton extends Component {
 	 * Renders the button content.
 	 */
 	_renderContent() {
-		// return(
-		// 	&lt;View &gt;
-		// 		&lt;Text style={styles.text}&gt;{this.props.text}&lt;/Text&gt;
-		// 	&lt;/View&gt;
-		// );
+		return(
+			&lt;View &gt;
+				&lt;Text style={styles.text}&gt;{this.props.text}&lt;/Text&gt;
+			&lt;/View&gt;
+		);
 	}
 
 	/**
@@ -136,21 +136,21 @@ class LoginButton extends Component {
 	 */ 
 	render() {
 		if (Platform.OS === &apos;android&apos;) {
-			// return(
-			// 	&lt;TouchableNativeFeedback
-			// 		style={styles.content}
-			// 		onPress={this.props.onPress}&gt;
-			// 		{this._renderContent()}
-			// 	&lt;/TouchableNativeFeedback&gt;
-		 //  	);
+			return(
+				&lt;TouchableNativeFeedback
+					style={styles.content}
+					onPress={this.props.onPress}&gt;
+					{this._renderContent()}
+				&lt;/TouchableNativeFeedback&gt;
+		  	);
 		} else if (Platform.OS === &apos;ios&apos;) {
-			// return(
-			// 	&lt;TouchableHighlight
-			// 		style={styles.content}
-			// 		onPress={this.props.onPress}&gt;
-			// 		{this._renderContent()}
-			// 	&lt;/TouchableHighlight&gt;
-			// );
+			return(
+				&lt;TouchableHighlight
+					style={styles.content}
+					onPress={this.props.onPress}&gt;
+					{this._renderContent()}
+				&lt;/TouchableHighlight&gt;
+			);
 		}
 	}
 }

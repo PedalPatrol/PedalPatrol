@@ -133,12 +133,12 @@ class BikeDetailsView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
-		// const { params = {} } = navigation.state;
-		// const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-		// 	title: navigation.getParam(&apos;title&apos;, &apos;Bike Details&apos;)
-		// }
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+			title: navigation.getParam(&apos;title&apos;, &apos;Bike Details&apos;)
+		}
 	}
 
 	/**
@@ -351,14 +351,14 @@ class BikeDetailsView extends BaseView {
 	 * @param {Object} item - The item of the bike
 	 * @return {Component} A react-native component
 	 */
-	_renderItem = ({item}) =&gt; {}
-	// 	&lt;TextInput
-	// 		style={text.textInput}
-	// 		label={this._renderText(item.title)}
-	// 		value={item.text}
-	// 		multiline
-	// 		disabled/&gt;
-	// );
+	_renderItem = ({item}) =&gt; (
+		&lt;TextInput
+			style={text.textInput}
+			label={this._renderText(item.title)}
+			value={item.text}
+			multiline
+			disabled/&gt;
+	);
 
 	/**
 	 * Renders the text of the label.
@@ -366,9 +366,9 @@ class BikeDetailsView extends BaseView {
 	 * @param {string} text - The text to render
 	 * @return {Component} A react-native component
 	 */
-	_renderText = (text) =&gt; {}
-	// 	&lt;Text style={[{color: &apos;black&apos;}]}&gt;{text}&lt;/Text&gt;
-	// );
+	_renderText = (text) =&gt; (
+		&lt;Text style={[{color: &apos;black&apos;}]}&gt;{text}&lt;/Text&gt;
+	);
 
 	/**
 	 * Extract the key from the item and index
@@ -397,65 +397,65 @@ class BikeDetailsView extends BaseView {
 	render() {
 		const { width: windowWidth } = Dimensions.get(&apos;window&apos;);
 
-		// return (
-		// 		&lt;HandleBack onBack={this._onBack}&gt;
-		// 			&lt;SafeArea/&gt;
-		// 				&lt;View style={styles.container}&gt;
-		// 					&lt;ScrollView contentContainerStyle={bikedetails_styles.contentContainer}&gt;
+		return (
+				&lt;HandleBack onBack={this._onBack}&gt;
+					&lt;SafeArea/&gt;
+						&lt;View style={styles.container}&gt;
+							&lt;ScrollView contentContainerStyle={bikedetails_styles.contentContainer}&gt;
 
-		// 					&lt;ImageCarousel 
-		// 						photos={this.state.photoEntries} 
-		// 						selected={() =&gt; &apos;default&apos;}/&gt;
+							&lt;ImageCarousel 
+								photos={this.state.photoEntries} 
+								selected={() =&gt; &apos;default&apos;}/&gt;
 
 
-		// 					{/* List of text inputs */}
-		// 					&lt;FlatList
-		// 						style={bikedetails_styles.flatList}
-		// 						data={this.state.data}
-		// 						extraData={this.state}
-		// 						keyExtractor={this._keyExtractor}
-		// 						renderItem={this._renderItem}/&gt;
+							{/* List of text inputs */}
+							&lt;FlatList
+								style={bikedetails_styles.flatList}
+								data={this.state.data}
+								extraData={this.state}
+								keyExtractor={this._keyExtractor}
+								renderItem={this._renderItem}/&gt;
 
-		// 					&lt;View&gt;
-		// 					&lt;TouchableOpacity
-		// 						style={bikedetails_styles.touchableButtons}&gt;
-		// 						&lt;Button 
-		// 							title=&apos;Get Directions&apos;
-		// 							onPress={() =&gt; {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/&gt;
-		// 					&lt;/TouchableOpacity&gt;
-		// 					&lt;/View&gt;
+							&lt;View&gt;
+							&lt;TouchableOpacity
+								style={bikedetails_styles.touchableButtons}&gt;
+								&lt;Button 
+									title=&apos;Get Directions&apos;
+									onPress={() =&gt; {this.BikeDetP.goToDirectionsOnMap(this.state.rawData, this.onMapOpenError)}}/&gt;
+							&lt;/TouchableOpacity&gt;
+							&lt;/View&gt;
 
-		// 					{
-		// 						this.state.rawData.stolen &amp;&amp;
-		// 						&lt;View&gt;
-		// 							&lt;TouchableOpacity style={bikedetails_styles.touchableButtons}&gt;
-		// 								&lt;Button
-		// 									onPress={()=&gt;this._handleClick()}
-		// 									title=&quot;Report Found&quot;/&gt;
-		// 							&lt;/TouchableOpacity&gt;
-		// 						&lt;/View&gt;
-		// 					}
-		// 					{
-  //                               this.state.rawData.found &amp;&amp;
-  //                           	&lt;View style={{flexDirection: &apos;row&apos;, width: windowWidth, justifyContent: &apos;space-between&apos;, marginTop: 10}}&gt;
-	 //                            	&lt;TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: &apos;flex-start&apos;, marginRight: 5}]}&gt;
-	 //                            		&lt;Button
-	 //                            	  	  	onPress={()=&gt;this.decisionConfirm()}
-	 //                            			title=&quot;Confirm Found&quot;/&gt;
-	 //                            	&lt;/TouchableOpacity&gt;
-	 //                            	&lt;TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: &apos;flex-end&apos;, marginLeft: 5}]}&gt;
-	 //                            		&lt;Button
-	 //                            	    	onPress={()=&gt;this.decisionReject()}
-		//                             		title=&quot;Reject Found&quot;/&gt;
-  //                           		&lt;/TouchableOpacity&gt;
-	 //                            &lt;/View&gt;
-  //                           	}
+							{
+								this.state.rawData.stolen &amp;&amp;
+								&lt;View&gt;
+									&lt;TouchableOpacity style={bikedetails_styles.touchableButtons}&gt;
+										&lt;Button
+											onPress={()=&gt;this._handleClick()}
+											title=&quot;Report Found&quot;/&gt;
+									&lt;/TouchableOpacity&gt;
+								&lt;/View&gt;
+							}
+							{
+                                this.state.rawData.found &amp;&amp;
+                            	&lt;View style={{flexDirection: &apos;row&apos;, width: windowWidth, justifyContent: &apos;space-between&apos;, marginTop: 10}}&gt;
+	                            	&lt;TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: &apos;flex-start&apos;, marginRight: 5}]}&gt;
+	                            		&lt;Button
+	                            	  	  	onPress={()=&gt;this.decisionConfirm()}
+	                            			title=&quot;Confirm Found&quot;/&gt;
+	                            	&lt;/TouchableOpacity&gt;
+	                            	&lt;TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: &apos;flex-end&apos;, marginLeft: 5}]}&gt;
+	                            		&lt;Button
+	                            	    	onPress={()=&gt;this.decisionReject()}
+		                            		title=&quot;Reject Found&quot;/&gt;
+                            		&lt;/TouchableOpacity&gt;
+	                            &lt;/View&gt;
+                            	}
 
-		// 					&lt;/ScrollView&gt;
-		// 				&lt;/View&gt;
-		// 			&lt;SafeArea/&gt;
-		// 		&lt;/HandleBack&gt;
-		// );
+							&lt;/ScrollView&gt;
+						&lt;/View&gt;
+					&lt;SafeArea/&gt;
+				&lt;/HandleBack&gt;
+		);
 	}
 
 }

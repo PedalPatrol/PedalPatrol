@@ -161,26 +161,26 @@ class SideDrawer extends Component {
 	 * 
 	 * @param {Object} item - A list item
 	 */
-	_renderItem = ({item}) =&gt; {}
-	// 	&lt;View style={styles.icon}&gt;
-	// 		&lt;Icon.Button
-	// 			name={item.icon_name} 
-	// 			type={item.icon_type}
-	// 			backgroundColor=&quot;#F5FCFF&quot;
-	// 			color=&quot;#000&quot;
-	// 			size={30}
-	// 			onPress={() =&gt; this.onItemPressed(item)}&gt;
-	// 			&lt;Text style={styles.itemText}&gt;{item.text}&lt;/Text&gt;
-	// 			{
-	// 				this.state.numNotifications &gt; 0 &amp;&amp;
-	// 				item.text === &apos;Alerts&apos; &amp;&amp;
-	// 				&lt;View style={styles.notifications}&gt;
-	// 					&lt;Text style={styles.notificationsText}&gt;{this.state.numNotifications}&lt;/Text&gt;
-	// 				&lt;/View&gt;
-	// 			}
-	// 		&lt;/Icon.Button&gt;
-	// 	&lt;/View&gt;
-	// );
+	_renderItem = ({item}) =&gt; (
+		&lt;View style={styles.icon}&gt;
+			&lt;Icon.Button
+				name={item.icon_name} 
+				type={item.icon_type}
+				backgroundColor=&quot;#F5FCFF&quot;
+				color=&quot;#000&quot;
+				size={30}
+				onPress={() =&gt; this.onItemPressed(item)}&gt;
+				&lt;Text style={styles.itemText}&gt;{item.text}&lt;/Text&gt;
+				{
+					this.state.numNotifications &gt; 0 &amp;&amp;
+					item.text === &apos;Alerts&apos; &amp;&amp;
+					&lt;View style={styles.notifications}&gt;
+						&lt;Text style={styles.notificationsText}&gt;{this.state.numNotifications}&lt;/Text&gt;
+					&lt;/View&gt;
+				}
+			&lt;/Icon.Button&gt;
+		&lt;/View&gt;
+	);
 
 	/**
 	 * Function is called when a drawer item is pressed.
@@ -253,53 +253,52 @@ class SideDrawer extends Component {
 	/**
 	 * Render the contents of the drawer.
 	 */
-	renderSideMenuContent = () =&gt; {
-		// return (
-		// 	&lt;View style={{height: &apos;100%&apos;}}&gt;
-		// 		&lt;SafeArea/&gt;
-		// 		&lt;DrawerHeader 
-		// 			image={this.state.profileData.profilePicture}
-		// 			name={this.state.profileData.full_name ? this.state.profileData.full_name : &apos;&apos;}/&gt;
+	renderSideMenuContent = () =&gt; (
+		return (
+			&lt;View style={{height: &apos;100%&apos;}}&gt;
+				&lt;SafeArea/&gt;
+				&lt;DrawerHeader 
+					image={this.state.profileData.profilePicture}
+					name={this.state.profileData.full_name ? this.state.profileData.full_name : &apos;&apos;}/&gt;
 		
-		// 		&lt;FlatList
-		// 			style={styles.flatList}
-		// 			data={drawerData}
-		// 			extraData={this.state}
-		// 			keyExtractor={this._keyExtractor}
-		// 			renderItem={this._renderItem}/&gt;
+				&lt;FlatList
+					style={styles.flatList}
+					data={drawerData}
+					extraData={this.state}
+					keyExtractor={this._keyExtractor}
+					renderItem={this._renderItem}/&gt;
 
-		// 		&lt;SafeArea /&gt;
-		// 	&lt;/View&gt;
-		// );
-	}
+				&lt;SafeArea /&gt;
+			&lt;/View&gt;
+		);
 
 	/**
 	 * Render the side drawer.
 	 */
 	render() {
-		// return (
-		// 	&lt;Drawer
-		// 		ref={(ref) =&gt; this._drawer = ref}
-		// 		open={this.state.drawerOpen}
-		// 		content={this.renderSideMenuContent()}
-		// 		type=&quot;overlay&quot;
-		// 		tapToClose={true}
-		// 		styles={drawerStyles}
-		// 		openDrawerOffset={0.2}
-		// 		panCloseMask={0.2}
-		// 		closedDrawerOffset={-3}
-		// 		onClose={() =&gt; {
-		// 			this.setState({drawerOpen: false});
-		// 		}}
-		// 		panOpenMask={0.80}
-		// 		captureGestures=&quot;open&quot;
-		// 		acceptPan={false}&gt;
+		return (
+			&lt;Drawer
+				ref={(ref) =&gt; this._drawer = ref}
+				open={this.state.drawerOpen}
+				content={this.renderSideMenuContent()}
+				type=&quot;overlay&quot;
+				tapToClose={true}
+				styles={drawerStyles}
+				openDrawerOffset={0.2}
+				panCloseMask={0.2}
+				closedDrawerOffset={-3}
+				onClose={() =&gt; {
+					this.setState({drawerOpen: false});
+				}}
+				panOpenMask={0.80}
+				captureGestures=&quot;open&quot;
+				acceptPan={false}&gt;
 						
-		// 			{/* Main Content goes here (e.g. Tab Views) */}
-		// 			{this.props.renderMainContent()}
+					{/* Main Content goes here (e.g. Tab Views) */}
+					{this.props.renderMainContent()}
 
-		// 	&lt;/Drawer&gt;
-		// );
+			&lt;/Drawer&gt;
+		);
 	}
 }
 

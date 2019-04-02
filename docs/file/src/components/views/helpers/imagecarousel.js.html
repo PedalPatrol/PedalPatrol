@@ -136,15 +136,15 @@ class ImageCarousel extends Component {
 	 * @param {Object, Number} item - A list item, index - The index of the item
 	 */
 	_renderImage = ({item, index}) =&gt; {
-		// return (
-		// 	&lt;SliderEntry
-		// 	  data={item}
-		// 	  id={index}
-		// 	  parallax={false}
-		// 	  loading={this.props.loading ? this.props.loading : false}
-		// 	  selectPhoto={this.props.selected}
-		// 	/&gt;
-		// );
+		return (
+			&lt;SliderEntry
+			  data={item}
+			  id={index}
+			  parallax={false}
+			  loading={this.props.loading ? this.props.loading : false}
+			  selectPhoto={this.props.selected}
+			/&gt;
+		);
 	}
 
 	/**
@@ -153,41 +153,41 @@ class ImageCarousel extends Component {
 	render() {
 		const { slider1ActiveSlide } = this.state;
 
-		// return (
-		// 	&lt;View style={stylesC.exampleContainer}&gt;
-		// 		&lt;Carousel
-		// 		  ref={c =&gt; this._slider1Ref = c}
-		// 		  data={this.props.photos}
-		// 		  renderItem={this._renderImage}
-		// 		  sliderWidth={sliderWidth}
-		// 		  itemWidth={itemWidth}
-		// 		  hasParallaxImages={true}
-		// 		  firstItem={SLIDER_1_FIRST_ITEM}
-		// 		  inactiveSlideScale={0.94}
-		// 		  inactiveSlideOpacity={0.7}
-		// 		  // inactiveSlideShift={20}
-		// 		  removeClippedSubviews={false} 
-		// 		  containerCustomStyle={stylesC.slider}
-		// 		  contentContainerCustomStyle={stylesC.sliderContentContainer}
-		// 		  loop={false}
-		// 		  loopClonesPerSide={0}
-		// 		  autoplay={false}
-		// 		  onSnapToItem={(index) =&gt; this.setState({ slider1ActiveSlide: index }) }
-		// 		/&gt;
-		// 		&lt;Pagination
-		// 		  dotsLength={this.props.photos.length}
-		// 		  activeDotIndex={slider1ActiveSlide}
-		// 		  containerStyle={stylesC.paginationContainer}
-		// 		  dotColor={colours.ppGreen}
-		// 		  dotStyle={stylesC.paginationDot}
-		// 		  inactiveDotColor={colors.black}
-		// 		  inactiveDotOpacity={0.4}
-		// 		  inactiveDotScale={0.6}
-		// 		  carouselRef={this._slider1Ref}
-		// 		  tappableDots={!!this._slider1Ref}
-		// 		/&gt;
-		// 	&lt;/View&gt;
-		// );
+		return (
+			&lt;View style={stylesC.exampleContainer}&gt;
+				&lt;Carousel
+				  ref={c =&gt; this._slider1Ref = c}
+				  data={this.props.photos}
+				  renderItem={this._renderImage}
+				  sliderWidth={sliderWidth}
+				  itemWidth={itemWidth}
+				  hasParallaxImages={true}
+				  firstItem={SLIDER_1_FIRST_ITEM}
+				  inactiveSlideScale={0.94}
+				  inactiveSlideOpacity={0.7}
+				  // inactiveSlideShift={20}
+				  removeClippedSubviews={false} 
+				  containerCustomStyle={stylesC.slider}
+				  contentContainerCustomStyle={stylesC.sliderContentContainer}
+				  loop={false}
+				  loopClonesPerSide={0}
+				  autoplay={false}
+				  onSnapToItem={(index) =&gt; this.setState({ slider1ActiveSlide: index }) }
+				/&gt;
+				&lt;Pagination
+				  dotsLength={this.props.photos.length}
+				  activeDotIndex={slider1ActiveSlide}
+				  containerStyle={stylesC.paginationContainer}
+				  dotColor={colours.ppGreen}
+				  dotStyle={stylesC.paginationDot}
+				  inactiveDotColor={colors.black}
+				  inactiveDotOpacity={0.4}
+				  inactiveDotScale={0.6}
+				  carouselRef={this._slider1Ref}
+				  tappableDots={!!this._slider1Ref}
+				/&gt;
+			&lt;/View&gt;
+		);
 	}
 }
 

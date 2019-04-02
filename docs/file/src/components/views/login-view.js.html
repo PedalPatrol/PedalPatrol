@@ -279,108 +279,108 @@ class LoginView extends BaseView {
 	 * Renders the main content on the screen.
 	 * Defined in a function because on Android we don&apos;t render the KeyboardAvoidingView
 	 */
-	renderContent = () =&gt; {}
-	// 	&lt;View&gt;
-	// 		&lt;View style={login_styles.centered}&gt;
-	// 			&lt;Image source={logo} style={login_styles.image} resizeMode=&quot;contain&quot; /&gt;
-	// 		&lt;/View&gt;
-	// 		&lt;View style={login_styles.editGroup}&gt;
-	// 			&lt;View style={login_styles.username}&gt;
-	// 				&lt;TextInput
-	// 					style={text.textInput}
-	// 					label=&quot;Username&quot;
-	// 					textContentType=&apos;username&apos;
-	// 					autoCapitalize=&quot;none&quot;
-	// 					value={this.state.username}
-	// 					onChangeText={(username) =&gt; this.setState({username})}/&gt;
-	// 			&lt;/View&gt;
+	renderContent = () =&gt; (
+		&lt;View&gt;
+			&lt;View style={login_styles.centered}&gt;
+				&lt;Image source={logo} style={login_styles.image} resizeMode=&quot;contain&quot; /&gt;
+			&lt;/View&gt;
+			&lt;View style={login_styles.editGroup}&gt;
+				&lt;View style={login_styles.username}&gt;
+					&lt;TextInput
+						style={text.textInput}
+						label=&quot;Username&quot;
+						textContentType=&apos;username&apos;
+						autoCapitalize=&quot;none&quot;
+						value={this.state.username}
+						onChangeText={(username) =&gt; this.setState({username})}/&gt;
+				&lt;/View&gt;
 				
-	// 			&lt;View style={login_styles.password}&gt;
-	// 				&lt;TextInput
-	// 					style={text.textInput}
-	// 					label=&quot;Password&quot;
-	// 					textContentType=&apos;password&apos;
-	// 					secureTextEntry
-	// 					value={this.state.password}
-	// 					onChangeText={(password) =&gt; this.setState({password})}/&gt;
-	// 			&lt;/View&gt;
+				&lt;View style={login_styles.password}&gt;
+					&lt;TextInput
+						style={text.textInput}
+						label=&quot;Password&quot;
+						textContentType=&apos;password&apos;
+						secureTextEntry
+						value={this.state.password}
+						onChangeText={(password) =&gt; this.setState({password})}/&gt;
+				&lt;/View&gt;
 				
-	// 			&lt;View style={{marginTop: 30}}&gt;
-	// 				&lt;LoginButton text=&quot;SIGN IN&quot; onPress={this._handleClick.bind(this)}/&gt;
-	// 			&lt;/View&gt;
-	// 		&lt;/View&gt;
-	// 	&lt;/View&gt;
-	// );
+				&lt;View style={{marginTop: 30}}&gt;
+					&lt;LoginButton text=&quot;SIGN IN&quot; onPress={this._handleClick.bind(this)}/&gt;
+				&lt;/View&gt;
+			&lt;/View&gt;
+		&lt;/View&gt;
+	);
 
 	/**
 	 * Renders the social media icons.
 	 */
-	_renderSocialMedia = () =&gt; {}
-	// 		&lt;View style={login_styles.socialMedia}&gt;
-	// 			&lt;Text style={login_styles.centerText}&gt; Login With Social Account: &lt;/Text&gt;
-	// 			&lt;View style={login_styles.socialIcons}&gt;
-	// 				&lt;Icon.Button
-	// 					name=&quot;facebook&quot;
-	// 					type=&quot;FontAwesome&quot;
-	// 					color=&quot;#000000&quot;
-	// 					backgroundColor={&apos;transparent&apos;}
-	// 					onPress={() =&gt; this._handleClickF()}
-	// 					size={30}
-	// 					style={{marginRight: 10}}&gt;
-	// 				&lt;/Icon.Button&gt;
-	// 				&lt;Icon.Button
-	// 					name=&quot;twitter&quot;
-	// 					type=&quot;FontAwesome&quot;
-	// 					color=&quot;#000000&quot;
-	// 					backgroundColor={&apos;transparent&apos;}
-	// 					onPress={() =&gt; this._handleClickT()}
-	// 					size={30}
-	// 					style={{marginLeft: 10}}&gt;
-	// 				&lt;/Icon.Button&gt;
-	// 			&lt;/View&gt;
-	// 		&lt;/View&gt;
-	// );
+	_renderSocialMedia = () =&gt; (
+			&lt;View style={login_styles.socialMedia}&gt;
+				&lt;Text style={login_styles.centerText}&gt; Login With Social Account: &lt;/Text&gt;
+				&lt;View style={login_styles.socialIcons}&gt;
+					&lt;Icon.Button
+						name=&quot;facebook&quot;
+						type=&quot;FontAwesome&quot;
+						color=&quot;#000000&quot;
+						backgroundColor={&apos;transparent&apos;}
+						onPress={() =&gt; this._handleClickF()}
+						size={30}
+						style={{marginRight: 10}}&gt;
+					&lt;/Icon.Button&gt;
+					&lt;Icon.Button
+						name=&quot;twitter&quot;
+						type=&quot;FontAwesome&quot;
+						color=&quot;#000000&quot;
+						backgroundColor={&apos;transparent&apos;}
+						onPress={() =&gt; this._handleClickT()}
+						size={30}
+						style={{marginLeft: 10}}&gt;
+					&lt;/Icon.Button&gt;
+				&lt;/View&gt;
+			&lt;/View&gt;
+	);
 
 	/**
 	 * Extract data from the component&apos;s view and send an update to the presenter to do any logic before sending it to the model
 	 */
 	render() {
-		// return (
-		// 	&lt;View style={[styles.container]}&gt;
-		// 		&lt;SafeArea overrideColour={colours.ppGrey} /&gt;
-		// 		{
-		// 			Platform.OS === &apos;ios&apos; &amp;&amp;
-		// 			&lt;KeyboardAvoidingView
-		// 				style={styles.container}
-		// 				behavior=&quot;padding&quot;
-		// 				enabled&gt;
-		// 				{this.renderContent()}
-		// 			&lt;/KeyboardAvoidingView&gt;
-		// 		}
+		return (
+			&lt;View style={[styles.container]}&gt;
+				&lt;SafeArea overrideColour={colours.ppGrey} /&gt;
+				{
+					Platform.OS === &apos;ios&apos; &amp;&amp;
+					&lt;KeyboardAvoidingView
+						style={styles.container}
+						behavior=&quot;padding&quot;
+						enabled&gt;
+						{this.renderContent()}
+					&lt;/KeyboardAvoidingView&gt;
+				}
 
-		// 		{
-		// 			Platform.OS !== &apos;ios&apos; &amp;&amp;
-		// 			this.renderContent()
-		// 		}
+				{
+					Platform.OS !== &apos;ios&apos; &amp;&amp;
+					this.renderContent()
+				}
 
-		// 		{this._renderSocialMedia()}
+				{this._renderSocialMedia()}
 
-		// 		&lt;View style={login_styles.bottom}&gt;
-		// 			&lt;TouchableOpacity style={login_styles.signupButton} onPress={() =&gt; this.props.navigation.navigate(&apos;Signup&apos;)}&gt;
-		// 				&lt;Text style={login_styles.signupText}&gt;
-		// 					{&quot;New Member?      SIGN UP!&quot;}
-		// 				&lt;/Text&gt;
-		// 			&lt;/TouchableOpacity&gt;
-		// 		&lt;/View&gt;
+				&lt;View style={login_styles.bottom}&gt;
+					&lt;TouchableOpacity style={login_styles.signupButton} onPress={() =&gt; this.props.navigation.navigate(&apos;Signup&apos;)}&gt;
+						&lt;Text style={login_styles.signupText}&gt;
+							{&quot;New Member?      SIGN UP!&quot;}
+						&lt;/Text&gt;
+					&lt;/TouchableOpacity&gt;
+				&lt;/View&gt;
 
-		// 		{
-		// 			this.state.loaderVisible &amp;&amp;
-		// 			&lt;View style={login_styles.loading} pointerEvents=&quot;none&quot;&gt;
-		// 				&lt;ActivityIndicator size=&apos;small&apos; color=&quot;#0000ff&quot; /&gt;
-		// 			&lt;/View&gt;
-		// 		}
-		// 	&lt;/View&gt;
-		// );
+				{
+					this.state.loaderVisible &amp;&amp;
+					&lt;View style={login_styles.loading} pointerEvents=&quot;none&quot;&gt;
+						&lt;ActivityIndicator size=&apos;small&apos; color=&quot;#0000ff&quot; /&gt;
+					&lt;/View&gt;
+				}
+			&lt;/View&gt;
+		);
 	}
 }
 

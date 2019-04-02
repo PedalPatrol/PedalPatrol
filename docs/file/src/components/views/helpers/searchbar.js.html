@@ -172,67 +172,66 @@ class SearchBar extends Component {
 	/**
 	 * Renders an icon.
 	 */
-	_renderIcon = () =&gt; {
-		// &lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={30} color={colours.ppGreen} /&gt;
-	}
-	// );
+	_renderIcon = () =&gt; (
+		&lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={30} color={colours.ppGreen} /&gt;
+	);
 
 	/**
 	 * Renders the search bar.
 	 */
 	render() {
-		// return (   
-		// 	&lt;View&gt;
-		// 		&lt;SafeArea/&gt;
-		// 		&lt;View style={styles.searchContainer}&gt;
-		// 			{/* Profile */}
-		// 			&lt;ProfileButton 
-		// 				profilePicture={this.props.profilePicture} 
-		// 				numNotifications={this.props.numNotifications}/&gt;
+		return (   
+			&lt;View&gt;
+				&lt;SafeArea/&gt;
+				&lt;View style={styles.searchContainer}&gt;
+					{/* Profile */}
+					&lt;ProfileButton 
+						profilePicture={this.props.profilePicture} 
+						numNotifications={this.props.numNotifications}/&gt;
 
-		// 			{/* Search Bar */}
-		// 			&lt;View style={{flex:6}}&gt;
-		// 				&lt;Searchbar        
-		// 					placeholder={&quot;Search&quot; + (this.props.searchBy &amp;&amp; this.props.searchBy !== &apos;&apos; ? &apos; by &apos; + this.props.searchBy : &apos;&apos;)}
-		// 					style={styles.searchBar}
-		// 					value={this.state.value}
-		// 					onChangeText={(text) =&gt; { this.props.handleSearchFilter(text); this.setState({ value: text })}}
-		// 				/&gt;
-		// 			&lt;/View&gt;
+					{/* Search Bar */}
+					&lt;View style={{flex:6}}&gt;
+						&lt;Searchbar        
+							placeholder={&quot;Search&quot; + (this.props.searchBy &amp;&amp; this.props.searchBy !== &apos;&apos; ? &apos; by &apos; + this.props.searchBy : &apos;&apos;)}
+							style={styles.searchBar}
+							value={this.state.value}
+							onChangeText={(text) =&gt; { this.props.handleSearchFilter(text); this.setState({ value: text })}}
+						/&gt;
+					&lt;/View&gt;
 					
-		// 				{/* Filter button - Using sectioned multi select */}
-		// 				{/* &lt;View style={{flex:1, bottom:25}}&gt; */}
-		// 					{/* &lt;FilterHelper onSelectedItemsChange={this.props.onSelectedItemsChange} selectedItems={this.props.selectedItems}/&gt; */}
-		// 				{/* &lt;/View&gt; */}
+						{/* Filter button - Using sectioned multi select */}
+						{/* &lt;View style={{flex:1, bottom:25}}&gt; */}
+							{/* &lt;FilterHelper onSelectedItemsChange={this.props.onSelectedItemsChange} selectedItems={this.props.selectedItems}/&gt; */}
+						{/* &lt;/View&gt; */}
 
-		// 				{ Filter button - Using button - Needs dropdown }
-		// 				&lt;View style={{flex:1, top:5}}&gt;
-		// 					&lt;TouchableOpacity onPress={() =&gt; this.props.openFilter()} accessibilityLabel=&quot;New&quot;&gt;
-		// 						&lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppGreen} /&gt;
-		// 					&lt;/TouchableOpacity&gt;
-		// 				&lt;/View&gt;
+						{ Filter button - Using button - Needs dropdown }
+						&lt;View style={{flex:1, top:5}}&gt;
+							&lt;TouchableOpacity onPress={() =&gt; this.props.openFilter()} accessibilityLabel=&quot;New&quot;&gt;
+								&lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppGreen} /&gt;
+							&lt;/TouchableOpacity&gt;
+						&lt;/View&gt;
 					
-		// 		&lt;/View&gt;
+				&lt;/View&gt;
 
 
-		// 		{/*&lt;SectionedMultiSelect
-		// 			items={filters}
-		// 			displayKey=&apos;name&apos;
-		// 			uniqueKey={&apos;id&apos;}
-		// 			colors={{ primary: this.state.selectedItems.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
-		// 			selectText=&apos;&apos;
-		// 			selectToggleIconComponent={this._renderIcon()}
-		// 			hideSelect
-		// 			showDropDowns
-		// 			showChips={false}
-		// 			alwaysShowSelectText={false}
-		// 			showCancelButton={false}
-		// 			onSelectedItemsChange={this._onSelectedItemsChange}
-		// 			selectedItems={this.state.selectedItems}
-		// 			ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}
-		// 		/&gt;*/}
-		// 	&lt;/View&gt;
-		// );  
+				{/*&lt;SectionedMultiSelect
+					items={filters}
+					displayKey=&apos;name&apos;
+					uniqueKey={&apos;id&apos;}
+					colors={{ primary: this.state.selectedItems.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
+					selectText=&apos;&apos;
+					selectToggleIconComponent={this._renderIcon()}
+					hideSelect
+					showDropDowns
+					showChips={false}
+					alwaysShowSelectText={false}
+					showCancelButton={false}
+					onSelectedItemsChange={this._onSelectedItemsChange}
+					selectedItems={this.state.selectedItems}
+					ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}
+				/&gt;*/}
+			&lt;/View&gt;
+		);  
 	};
 };
 

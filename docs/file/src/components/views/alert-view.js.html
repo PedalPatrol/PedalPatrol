@@ -139,12 +139,12 @@ class AlertView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
-		// const { params = {} } = navigation.state;
-		// const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-		// 	title: navigation.getParam(&apos;title&apos;, &apos;Alerts&apos;) // Default title is Alerts
-		// };
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+			title: navigation.getParam(&apos;title&apos;, &apos;Alerts&apos;) // Default title is Alerts
+		};
 	}
 
 	/**
@@ -160,12 +160,12 @@ class AlertView extends BaseView {
 	 * @param {Object} item - An item to be rendered
 	 * @return {Component} A react component
 	 */
-	_renderItem = ({item}) =&gt; {}
-		// &lt;NotificationBikeItem
-		// 	data={item}
-		// 	from={&apos;Alerts&apos;}
-		// 	navigation={this.props.navigation}/&gt;
-	// );
+	_renderItem = ({item}) =&gt; (
+		&lt;NotificationBikeItem
+			data={item}
+			from={&apos;Alerts&apos;}
+			navigation={this.props.navigation}/&gt;
+	);
 
 	// Temporary alert until filter feature is implemented
 	temporaryFilter = () =&gt; {
@@ -191,15 +191,15 @@ class AlertView extends BaseView {
 	 *
 	 * @return {Component} A react component
 	 */
-	_renderSearchBar = () =&gt; {}
-	// 	&lt;SearchBar 
-	// 		handleSearchFilter={(text) =&gt; this.AlertP.handleSearchFilter(text)}
-	// 		handleSearchCancel={this.AlertP.handleSearchCancel}
-	// 		handleSearchClear={this.AlertP.handleSearchClear}
-	// 		openFilter={this.temporaryFilter}
-	// 		profilePicture={this.state.profileData.profilePicture}
-	// 		name={this.state.profileData.full_name}/&gt;
-	// );
+	_renderSearchBar = () =&gt; (
+		&lt;SearchBar 
+			handleSearchFilter={(text) =&gt; this.AlertP.handleSearchFilter(text)}
+			handleSearchCancel={this.AlertP.handleSearchCancel}
+			handleSearchClear={this.AlertP.handleSearchClear}
+			openFilter={this.temporaryFilter}
+			profilePicture={this.state.profileData.profilePicture}
+			name={this.state.profileData.full_name}/&gt;
+	);
 
 
 	/**
@@ -264,25 +264,25 @@ class AlertView extends BaseView {
 	 * @return {Component} A react component
 	 */
 	render() {
-		// // RefreshControl (below) allows for the pull down of the list to update it
-		// return (	
-		// 		&lt;View style={styles.container}&gt;
-		// 			&lt;SafeArea/&gt;
-		// 			&lt;FlatList
-		// 				data={this.state.data}
-		// 				extraData={this.state.refresh}
-		// 				keyExtractor={this._keyExtractor}
-		// 				renderItem={this._renderItem}
-		// 				refreshControl={
-		// 				    &lt;RefreshControl
-		// 				        colors={[&quot;#9Bd35A&quot;, &quot;#689F38&quot;]}
-		// 				        refreshing={this.state.refreshing}
-		// 				        onRefresh={() =&gt; this._onRefresh()}
-		// 				    /&gt;
-		// 				}&gt;
-		// 			&lt;/FlatList&gt;
-		// 		&lt;/View&gt;
-		// 		);
+		// RefreshControl (below) allows for the pull down of the list to update it
+		return (	
+				&lt;View style={styles.container}&gt;
+					&lt;SafeArea/&gt;
+					&lt;FlatList
+						data={this.state.data}
+						extraData={this.state.refresh}
+						keyExtractor={this._keyExtractor}
+						renderItem={this._renderItem}
+						refreshControl={
+						    &lt;RefreshControl
+						        colors={[&quot;#9Bd35A&quot;, &quot;#689F38&quot;]}
+						        refreshing={this.state.refreshing}
+						        onRefresh={() =&gt; this._onRefresh()}
+						    /&gt;
+						}&gt;
+					&lt;/FlatList&gt;
+				&lt;/View&gt;
+				);
 	};
 
 };

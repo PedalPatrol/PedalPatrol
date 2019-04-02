@@ -125,12 +125,12 @@ class HelpView extends BaseView {
 	 * @return {Object} Navigation option
 	 */
 	static navigationOptions = ({navigation, transitioning}) =&gt; {
-		// const { params = {} } = navigation.state;
-		// const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
-		// return {
-		// 	headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
-		// 	title: navigation.getParam(&apos;title&apos;, &apos;Help&apos;) // Default title is Alerts
-		// };
+		const { params = {} } = navigation.state;
+		const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+		return {
+			headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+			title: navigation.getParam(&apos;title&apos;, &apos;Help&apos;) // Default title is Alerts
+		};
 	}
 	
 	/**
@@ -166,10 +166,10 @@ class HelpView extends BaseView {
 	 * @return {Component} A react native component
 	 */
 	renderText(text){
-		// return(&lt;Text&gt; 
-		// 	{text} 
-		// &lt;/Text&gt;
-		// )
+		return(&lt;Text&gt; 
+			{text} 
+		&lt;/Text&gt;
+		)
 	}
 
 	/**
@@ -179,9 +179,9 @@ class HelpView extends BaseView {
 	 * @return {Component} A react native component
 	 */
 	renderItemText(text){
-		// return(&lt;Text style={help_styles.itemStyle} numberOfLines={10}&gt; 
-		// 	{text} 
-		// &lt;/Text&gt;)
+		return(&lt;Text style={help_styles.itemStyle} numberOfLines={10}&gt; 
+			{text} 
+		&lt;/Text&gt;)
 	}
 
 	/**
@@ -192,11 +192,11 @@ class HelpView extends BaseView {
 	 * @return {Component} A react native component
 	 */
 	renderIcon(iconName,iconType){
-		// return(
-		// 	&lt;View style={{width:50}}&gt;
-		// 		&lt;Icon name={iconName} type={iconType} size={20} color={&apos;#34bb83&apos;}/&gt;
-		// 	&lt;/View&gt;
-		// 	)
+		return(
+			&lt;View style={{width:50}}&gt;
+				&lt;Icon name={iconName} type={iconType} size={20} color={&apos;#34bb83&apos;}/&gt;
+			&lt;/View&gt;
+			)
 	}
 
 	/**
@@ -205,82 +205,82 @@ class HelpView extends BaseView {
 	 * @param {string} text - The text to render
 	 * @return {Component} A react native component
 	 */
-	renderLink = (text) =&gt; {
-		// &lt;Text style={{color: &apos;blue&apos;}}&gt;{text}&lt;/Text&gt;
-	}
+	renderLink = (text) =&gt; (
+		&lt;Text style={{color: &apos;blue&apos;}}&gt;{text}&lt;/Text&gt;
+	);
 	
 
 	/**
 	 * Renders the component.
 	 */
 	render() {
-// 		return ( 
+		return ( 
 
 
-// &lt;ScrollView&gt;
+&lt;ScrollView&gt;
 
-//       &lt;List.Section&gt;
+      &lt;List.Section&gt;
 
-//         &lt;List.Accordion
-//           title=&quot;Main Pages&quot;
-//         &gt;
-//             &lt;List.Accordion  title={this.renderText(&quot;Lost Bikes&quot;)} left={props =&gt; this.renderIcon(&quot;home&quot;,&quot;entypo&quot;)} &gt;
-//               {this.renderItemText(&quot;A feed of bikes that have been reported as stolen with the most recent appearing at the top. Click the bike card for more details. Search bikes by model and pin bike reports you&#x2019;re interested to the top of your feed.&quot;)}
-//             &lt;/List.Accordion&gt;
+        &lt;List.Accordion
+          title=&quot;Main Pages&quot;
+        &gt;
+            &lt;List.Accordion  title={this.renderText(&quot;Lost Bikes&quot;)} left={props =&gt; this.renderIcon(&quot;home&quot;,&quot;entypo&quot;)} &gt;
+              {this.renderItemText(&quot;A feed of bikes that have been reported as stolen with the most recent appearing at the top. Click the bike card for more details. Search bikes by model and pin bike reports you&#x2019;re interested to the top of your feed.&quot;)}
+            &lt;/List.Accordion&gt;
 
-//             &lt;List.Accordion  title={this.renderText(&quot;Map&quot;)} left={props =&gt; this.renderIcon(&quot;md-map&quot;,&quot;ionicon&quot;)} &gt;
-//               {this.renderItemText(&quot;A map to show the location of reported bike thefts marked as a pin. Click the pins to see quick summaries of the bikes, and click the summaries for more details. Change your notification radius, search by location, filter bikes based on time, report your own stolen bikes.&quot;)}
-//             &lt;/List.Accordion&gt;
+            &lt;List.Accordion  title={this.renderText(&quot;Map&quot;)} left={props =&gt; this.renderIcon(&quot;md-map&quot;,&quot;ionicon&quot;)} &gt;
+              {this.renderItemText(&quot;A map to show the location of reported bike thefts marked as a pin. Click the pins to see quick summaries of the bikes, and click the summaries for more details. Change your notification radius, search by location, filter bikes based on time, report your own stolen bikes.&quot;)}
+            &lt;/List.Accordion&gt;
 
-//             &lt;List.Accordion  title={this.renderText(&quot;My Bikes&quot;)} left={props =&gt; this.renderIcon(&quot;md-bicycle&quot;,&quot;ionicon&quot;)} &gt;
-//               {this.renderItemText(&quot;A page to keep track of all of your registered bikes. This information will be available to users if it is reported stolen, and will be necessary for them to identify your unique bike. Click the plus button to add more bikes, or delete them at the bottom of its bike details page.&quot;)}
-//             &lt;/List.Accordion&gt;
+            &lt;List.Accordion  title={this.renderText(&quot;My Bikes&quot;)} left={props =&gt; this.renderIcon(&quot;md-bicycle&quot;,&quot;ionicon&quot;)} &gt;
+              {this.renderItemText(&quot;A page to keep track of all of your registered bikes. This information will be available to users if it is reported stolen, and will be necessary for them to identify your unique bike. Click the plus button to add more bikes, or delete them at the bottom of its bike details page.&quot;)}
+            &lt;/List.Accordion&gt;
 
-//         &lt;/List.Accordion&gt;
+        &lt;/List.Accordion&gt;
 
 
 
-//         &lt;List.Accordion
-//           title=&quot;Key Features&quot;
-//         &gt;
-//             &lt;List.Accordion  title={this.renderText(&quot;Register a bike&quot;)} left={props =&gt; this.renderIcon(&quot;add&quot;,&quot;MaterialIcons&quot;)} &gt;
-//               {this.renderItemText(&quot;My Bikes page\nClick the plus button\nAdd Bike Photos and Details\nClick Save&quot;)}
-//             &lt;/List.Accordion&gt;
+        &lt;List.Accordion
+          title=&quot;Key Features&quot;
+        &gt;
+            &lt;List.Accordion  title={this.renderText(&quot;Register a bike&quot;)} left={props =&gt; this.renderIcon(&quot;add&quot;,&quot;MaterialIcons&quot;)} &gt;
+              {this.renderItemText(&quot;My Bikes page\nClick the plus button\nAdd Bike Photos and Details\nClick Save&quot;)}
+            &lt;/List.Accordion&gt;
 
-//             &lt;List.Accordion  title={this.renderText(&quot;Create a lost bike report&quot;)} left={props =&gt; this.renderIcon(&quot;pin-drop&quot;,&quot;MaterialIcons&quot;)}&gt;
-//               {this.renderItemText(&quot;Map page\nClick the Pin button\nPlace pin on map\nClick check mark\nSelect a registered bike from the dropdown menu\nWrite a report description\nClick submit&quot;)}
-//             &lt;/List.Accordion&gt;
+            &lt;List.Accordion  title={this.renderText(&quot;Create a lost bike report&quot;)} left={props =&gt; this.renderIcon(&quot;pin-drop&quot;,&quot;MaterialIcons&quot;)}&gt;
+              {this.renderItemText(&quot;Map page\nClick the Pin button\nPlace pin on map\nClick check mark\nSelect a registered bike from the dropdown menu\nWrite a report description\nClick submit&quot;)}
+            &lt;/List.Accordion&gt;
 
-//             &lt;List.Accordion  title={this.renderText(&quot;Message owners of found bikes&quot;)} left={props =&gt; this.renderIcon(&quot;comment&quot;,&quot;MaterialIcons&quot;)}&gt;
-//             {this.renderItemText(&quot;Lost Bikes\nClick the message button the bottom right of the appropriate bike card\nWrite a description about how the bike was found\nSelect the location on the map in which the bike was found\nClick Submit&quot;)}
-//             &lt;/List.Accordion&gt;
+            &lt;List.Accordion  title={this.renderText(&quot;Message owners of found bikes&quot;)} left={props =&gt; this.renderIcon(&quot;comment&quot;,&quot;MaterialIcons&quot;)}&gt;
+            {this.renderItemText(&quot;Lost Bikes\nClick the message button the bottom right of the appropriate bike card\nWrite a description about how the bike was found\nSelect the location on the map in which the bike was found\nClick Submit&quot;)}
+            &lt;/List.Accordion&gt;
 
-//             &lt;List.Accordion  title={this.renderText(&quot;Set notification radius&quot;)} left={props =&gt; this.renderIcon(&quot;circle-o-notch&quot;,&quot;font-awesome&quot;)}&gt;
-//             {this.renderItemText(&quot;Map page\nClick the circle icon\nPress and hold to place radius circle in desired area\nResize radius with plus and minus buttons\nClick the checkmark to save&quot;)}
-//             &lt;/List.Accordion&gt;
+            &lt;List.Accordion  title={this.renderText(&quot;Set notification radius&quot;)} left={props =&gt; this.renderIcon(&quot;circle-o-notch&quot;,&quot;font-awesome&quot;)}&gt;
+            {this.renderItemText(&quot;Map page\nClick the circle icon\nPress and hold to place radius circle in desired area\nResize radius with plus and minus buttons\nClick the checkmark to save&quot;)}
+            &lt;/List.Accordion&gt;
 
-//         &lt;/List.Accordion&gt;
+        &lt;/List.Accordion&gt;
 
-// 				&lt;List.Item
-// 					title={this.renderLink(&quot;Privacy Policy&quot;)}
-// 					expanded={false}
-// 					onPress={() =&gt; {this.props.navigation.navigate(&apos;PrivacyPolicy&apos;)}}&gt;
-// 				&lt;/List.Item&gt;
+				&lt;List.Item
+					title={this.renderLink(&quot;Privacy Policy&quot;)}
+					expanded={false}
+					onPress={() =&gt; {this.props.navigation.navigate(&apos;PrivacyPolicy&apos;)}}&gt;
+				&lt;/List.Item&gt;
 
-// 				&lt;List.Accordion
-// 					title=&quot;Contact Us&quot; &gt;
+				&lt;List.Accordion
+					title=&quot;Contact Us&quot; &gt;
 
-// 					&lt;Text 
-// 						style={help_styles.itemStyle}
-// 						onPress={() =&gt; {this._handleLinkClick(&apos;mailto:pedalpatrolapp@gmail.com?subject=Problem with Pedal Patrol&apos;)}}&gt; 
-// 						Report a problem
-// 					&lt;/Text&gt;
-// 				&lt;/List.Accordion&gt;
+					&lt;Text 
+						style={help_styles.itemStyle}
+						onPress={() =&gt; {this._handleLinkClick(&apos;mailto:pedalpatrolapp@gmail.com?subject=Problem with Pedal Patrol&apos;)}}&gt; 
+						Report a problem
+					&lt;/Text&gt;
+				&lt;/List.Accordion&gt;
 
-// 			&lt;/List.Section&gt;
+			&lt;/List.Section&gt;
 
-// 			&lt;/ScrollView&gt;
-// 	);
+			&lt;/ScrollView&gt;
+	);
 	}
 }
 

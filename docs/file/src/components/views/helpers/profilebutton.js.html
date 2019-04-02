@@ -137,25 +137,25 @@ class ProfileButton extends Component {
 			right: 1,
 		}
 
-		// return (
-		// 	&lt;View&gt;
-		// 		{/* Profile */}
-		// 		&lt;View style={{flex:1}}&gt;
-		// 			&lt;TouchableOpacity 
-		// 				hitSlop={this.props.hitSlop ? this.props.hitSlop : hitSlop} 
-		// 				onPress={() =&gt; {DrawerHelp.openDrawer(this.props.numNotifications)}}&gt;
-		// 				&lt;Avatar
-		// 					style={styles.profile}
-		// 					size={40}
-		// 					name=&quot;&quot;
-		// 					placeholder={DEFAULT_AVATAR}
-		// 					source={this.props.profilePicture}
-		// 					badge={this.props.numNotifications}
-		// 		        /&gt;
-		// 			&lt;/TouchableOpacity&gt;
-		// 		&lt;/View&gt;
-		// 	&lt;/View&gt;
-		// );  
+		return (
+			&lt;View&gt;
+				{/* Profile */}
+				&lt;View style={{flex:1}}&gt;
+					&lt;TouchableOpacity 
+						hitSlop={this.props.hitSlop ? this.props.hitSlop : hitSlop} 
+						onPress={() =&gt; {DrawerHelp.openDrawer(this.props.numNotifications)}}&gt;
+						&lt;Avatar
+							style={styles.profile}
+							size={40}
+							name=&quot;&quot;
+							placeholder={DEFAULT_AVATAR}
+							source={this.props.profilePicture}
+							badge={this.props.numNotifications}
+				        /&gt;
+					&lt;/TouchableOpacity&gt;
+				&lt;/View&gt;
+			&lt;/View&gt;
+		);  
 	};
 };
 
