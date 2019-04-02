@@ -1,6 +1,6 @@
 import BasePresenter from './presenter';
 import { HomeM, MapM, AlertM } from '../models/export-models';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 
 const NO_DATA = 'NO-DATA';
 

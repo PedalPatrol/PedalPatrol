@@ -13,7 +13,7 @@ import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import ProfilePresenter from '../presenters/profile-presenter';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 
 const PROFILE_TYPE = ImageUtil.getTypes().PROFILE;
 const NO_DATA = 'NO-DATA';

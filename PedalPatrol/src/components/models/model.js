@@ -24,6 +24,7 @@ class Model {
 	 * Subscribes to the event stream.
 	 *
 	 * @param {Class} observer - A class that will observe the event stream. Must implement onUpdated
+	 * @param {Boolean} force - Force the model to retrigger their listeners by toggling them off and on
 	 */
 	subscribe(observer, force=false) {
 		if (this.eventStream != null && this.eventStream != undefined) {

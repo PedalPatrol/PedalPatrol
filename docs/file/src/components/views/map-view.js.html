@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/components/views/map-view.js | PedalPatrol</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:type" content="website"><meta property="og:url" content="http://my-library.org"><meta property="og:site_name" content="PedalPatrol"><meta property="og:title" content="PedalPatrol"><meta property="og:image" content="http://my-library.org/logo.png"><meta property="og:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:author" content="https://twitter.com/foo"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="PedalPatrol"><meta property="twitter:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="twitter:image" content="http://my-library.org/logo.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/PedalPatrol/PedalPatrol"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/App.js~App.html">App</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-models">components/models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/alert-model.js~AlertModel.html">AlertModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/authloading-model.js~AuthLoadingModel.html">AuthLoadingModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/bike-model.js~BikeModel.html">BikeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/home-model.js~HomeModel.html">HomeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/login-model.js~LoginModel.html">LoginModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/map-model.js~MapModel.html">MapModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/modelOld.js~ModelOld.html">ModelOld</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/profile-model.js~ProfileModel.html">ProfileModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/signup-model.js~SignupModel.html">SignupModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-presenters">components/presenters</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/addbike-presenter.js~AddBikePresenter.html">AddBikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/alert-presenter.js~AlertPresenter.html">AlertPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/authloading-presenter.js~AuthLoadingPresenter.html">AuthLoadingPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bike-presenter.js~BikePresenter.html">BikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bikedetails-presenter.js~BikeDetailsPresenter.html">BikeDetailsPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/home-presenter.js~HomePresenter.html">HomePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/login-presenter.js~LoginPresenter.html">LoginPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/map-presenter.js~MapPresenter.html">MapPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/presenter.js~BasePresenter.html">BasePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/profile-presenter.js~ProfilePresenter.html">ProfilePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportfound-presenter.js~ReportFoundPresenter.html">ReportFoundPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportlost-presenter.js~ReportLostPresenter.html">ReportLostPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/signup-presenter.js~SignUpPresenter.html">SignUpPresenter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views">components/views</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/addbike-view.js~AddBikeView.html">AddBikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/alert-view.js~AlertView.html">AlertView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/authloading-view.js~AuthLoadingView.html">AuthLoadingView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bike-view.js~BikeView.html">BikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bikedetails-view.js~BikeDetailsView.html">BikeDetailsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/help-view.js~HelpView.html">HelpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/home-view.js~HomeView.html">HomeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/login-view.js~LoginView.html">LoginView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/map-view.js~MapView.html">MapView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/notification-view.js~NotificationView.html">NotificationView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/profile-view.js~ProfileView.html">ProfileView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportfound-view.js~ReportFoundView.html">ReportFoundView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportlost-view.js~ReportLostView.html">ReportLostView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/settings-view.js~SettingsView.html">SettingsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/signup-view.js~SignUpView.html">SignUpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/view.js~BaseView.html">BaseView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views-helpers">components/views/helpers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/bikeitem.js~BikeItem.html">BikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/drawerheader.js~DrawerHeader.html">DrawerHeader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/imagecarousel.js~ImageCarousel.html">ImageCarousel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/loginbutton.js~LoginButton.html">LoginButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/notificationbikeitem.js~NotificationBikeItem.html">NotificationBikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/privacypolicy.js~PrivacyPolicy.html">PrivacyPolicy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/profilebutton.js~ProfileButton.html">ProfileButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/safearea.js~SafeArea.html">SafeArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/searchbar.js~SearchBar.html">SearchBar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/sidedrawer.js~SideDrawer.html">SideDrawer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#config">config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/config/navigationservice.js~NavigationService.html">NavigationService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NavigatorService">NavigatorService</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/authenticationstate.js~AuthenticationState.html">AuthenticationState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/database.js~FirebaseDatabase.html">FirebaseDatabase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/drawerhelper.js~DrawerHelper.html">DrawerHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/imageutility.js~ImageUtility.html">ImageUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/notification.js~Notification.html">Notification</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/observerlist.js~ObserverList.html">ObserverList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/persistentstorage.js~PersistentStorage.html">PersistentStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/timeutility.js~TimeUtility.html">TimeUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AuthState">AuthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Database">Database</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DrawerHelp">DrawerHelp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageUtil">ImageUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NotificationMethod">NotificationMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PersistStorage">PersistStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TimeUtil">TimeUtil</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/components/views/map-view.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, {Component} from &apos;react&apos;;
+import {Platform, StyleSheet, Text, View, Button, Alert, TouchableOpacity, Dimensions, NativeModules, ScrollView} from &apos;react-native&apos;;
+import {Icon} from &apos;react-native-elements&apos;;
+import {default as RNMapView} from &apos;react-native-maps&apos;;
+import { Marker, Callout, Polygon, Circle } from &apos;react-native-maps&apos;;
+import SectionedMultiSelect from &apos;react-native-sectioned-multi-select&apos;;
+import { GooglePlacesAutocomplete } from &apos;react-native-google-places-autocomplete&apos;;
+
+import { styles, colours, map_styles, autocomplete_styles, STATUSBAR_HEIGHT } from &apos;./stylesheets/map-styles&apos;;
+
+import MapPresenter from &apos;../presenters/map-presenter&apos;;
+import BaseView from &apos;./view&apos;;
+import SafeArea from &apos;./helpers/safearea&apos;;
+import ProfileButton from &apos;./helpers/profilebutton&apos;;
+import ActionButton from &apos;./helpers/ActionButton/ActionButton&apos;;
+import TimeUtil from &apos;../../util/timeutility&apos;;
+
+/**
+ * Class for the Map view
+ * @extends BaseView
+ */
+class MapView extends BaseView {
+
+	/**
+	* Create an instance of LoginView
+	*
+	* @constructor
+	* @param {Object} props - Component properties
+	*/
+	constructor(props){
+	   super(props);
+	   this.MapP = new MapPresenter(this);
+	   this.resetState();
+	}
+
+	/**
+	 * Resets the state with default variables
+	 */
+	resetState = () =&gt; {
+		this.state = {
+			refresh: true,
+			circleRadius : 500,
+			x: {
+				latitude: 44.257424,
+				longitude: -76.5231,
+			},
+			showCircle: false,
+			showMarker: false,
+			markerCreated:[],
+			markers: [],
+			markerRefs: {},
+			tempMarkers: [],
+			tempMarkerRefs: [],
+			foundMarker: null,
+			foundCalloutOpened: false,
+			selectedFilters: [0],
+			profileData: {},
+		};
+	}
+
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () =&gt; {
+		this.setState({ 
+			refresh: !this.state.refresh
+		});
+	}
+
+	componentWillMount = () =&gt; {
+		this._setProfileImage();
+	}
+
+	/**
+	 * Triggers when the component is mounted.
+	 */
+	componentDidMount = () =&gt; {
+		this.MapP.forceRequestData();
+		this._setUserLocation();
+		this._setMarkers(this.state.selectedFilters);
+	};
+
+	/**
+	 * Component will receive new properties via the props attribute
+	 */
+	componentWillReceiveProps = () =&gt; {
+		const { navigation } = this.props;
+		const data = navigation.getParam(&apos;data&apos;, &apos;NO-DATA&apos;);
+		const found = navigation.getParam(&apos;found&apos;, false);
+		
+		if (found) {
+			const foundMarker = this._createNewMarker(data);
+			this.setState({foundCalloutOpened: true});
+			this.state.tempMarkers = [foundMarker]; // We just overwrite because best to only keep track of one
+		} else if (data !== &apos;NO-DATA&apos;) {
+			// Only set the location if the marker wasn&apos;t clicked from the Alerts page
+			this._setLocationToMarkerItem(this.state.markerRefs, data, true);
+		}
+	}
+
+	/**
+	 * Component is about to unmount, do any cleanup here.
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
+	 */ 
+	componentWillUnmount = () =&gt; {
+		this.viewUnmounting(this.MapP);
+	}
+
+	/**
+	 * Component&apos;s state has updated
+	 */
+	componentDidUpdate = () =&gt; {
+		if (this.state.tempMarkers.length !== 0 &amp;&amp; this.state.foundCalloutOpened) {
+			this.setState({foundCalloutOpened: false})
+			this._setLocationToMarkerItem(this.state.tempMarkerRefs, this.state.tempMarkers[0].data, true);
+		}
+	}
+
+	/**
+	 * Sets markers according to the filter, if any, that is set.
+	 *
+	 * @param {List} selectedFilters - A list of selected filters. Indices correspond to places in the list in the &apos;filters&apos; constant
+	 */
+	_setMarkers = (selectedFilters) =&gt; {
+		this.setState({
+			markers : this.MapP.filterMarkers(this.MapP.getData(), selectedFilters.length &gt; 0 ? filters[selectedFilters[0]] : null)
+		});		
+	}
+
+
+	/**
+	 * Add the new selected items to the state and update
+	 *
+	 * @param {List} selectedFilters - List of selected items
+	 */
+	_onSelectedItemsChange = (selectedFilters) =&gt; {
+		this.setState({ selectedFilters });
+		this._setMarkers(selectedFilters);
+	} 
+
+	/**
+	 * Creates a new marker from the data.
+	 *
+	 * @param {Object} data - The data from the marker to be created
+	 * @return {Object} A new marker object with data, key and coordinate properties
+	 */
+	_createNewMarker = (data) =&gt; {
+		const newMarker = {
+				data: data,
+				key: data.id,
+				coordinate: {
+					latitude: data.found_latitude,
+					longitude: data.found_longitude,
+				}
+		}
+
+		return newMarker;
+	}
+
+	/**
+	 * Sets the location of the map to the marker&apos;s position and open its callout.
+	 *
+	 * @param {List} refs - A list of marker references
+	 * @param {Object} item - The marker&apos;s data
+	 * @param {Boolean} shouldReshowCallout - If the callout should be triggered twice on a delay. default=false
+	 */
+	_setLocationToMarkerItem = (refs, item, shouldReshowCallout=false) =&gt; {
+		if (item.hasOwnProperty(&apos;longitude&apos;) &amp;&amp; item.hasOwnProperty(&apos;latitude&apos;)) {
+			const location = {
+				latitude: item.latitude,
+				longitude: item.longitude,
+				latitudeDelta: 0.0922,
+				longitudeDelta: 0.0421,
+			};
+			this.onRegionChange(location);
+			refs[item.id].showCallout();
+
+			// Sometimes the callouts don&apos;t popup immediately so we have to call it again after 50 milliseconds
+			if (shouldReshowCallout) {
+				setTimeout(() =&gt; {refs[item.id].showCallout();}, 50);
+			}
+		}
+	}
+
+	/**
+	 * Sets the user&apos;s location to their current location.
+	 */
+	_setUserLocation = () =&gt; {
+		this.MapP.getUserLocation().then(position =&gt; {
+			if (position) {
+				const location = {
+					latitude: position.coords.latitude,
+					longitude: position.coords.longitude,
+					latitudeDelta: 0.0922,
+					longitudeDelta: 0.0421,
+				};
+				this.setState({
+					x: location,
+					user: location,
+					region: location
+				});
+			}
+		});
+	}
+
+	/**
+	 * Render &quot;save/delete&quot; button after clicking &quot;create lost report&quot; button
+	 */
+	// renderSDButton(){
+	// 	if (this.state.showButton){
+	// 		return(
+	// 		&lt;View style={map_styles.saveDeleteButton}&gt;
+	// 			&lt;View style={map_styles.Buttons}&gt;
+	// 			&lt;Button
+	// 				onPress={()=&gt;{this.sendNewMarker()}}
+	// 				title=&quot;save&quot;/&gt;&lt;/View&gt;
+	// 			   &lt;View style={map_styles.Buttons}&gt;
+	// 			&lt;Button
+	// 				onPress={()=&gt;{
+	// 					this.deleteItem()
+	// 				}}
+	// 				title=&quot;delete&quot;/&gt;&lt;/View&gt;
+	// 		&lt;/View&gt;
+	// 		)
+	// 	}
+	// }
+
+/**
+	* Render a searchbar for user to search location after clicking &quot;search location&quot; button
+	*/
+	renderSearchbar = () =&gt; {
+		if (this.state.showSearchbar){
+			// return (
+			// 	&lt;GooglePlacesAutocomplete
+			// 			placeholder=&apos;Enter location&apos;
+			// 			minLength={2} // minimum length of text to search
+			// 			autoFocus={false}
+			// 			returnKeyType={&apos;search&apos;} // Can be left out for default return key https://facebook.github.io/react-native/docs/textinput.html#returnkeytype
+			// 			listViewDisplayed=&apos;true&apos;     // true/false/undefined
+			// 			fetchDetails={true}
+			// 			onPress={(data, details = null) =&gt; { // &apos;details&apos; is provided when fetchDetails = true
+			// 				console.log(data, details);
+			// 				this.setState({
+			// 					showSearchbar:false,
+			// 					region: { 
+			// 						latitude: details.geometry.location.lat,
+			// 						longitude: details.geometry.location.lng,
+			// 						latitudeDelta: 0.0922,
+			// 						longitudeDelta: 0.0421,
+			// 					}
+			// 				});
+			// 			}}
+			// 			getDefaultValue={() =&gt; &apos;&apos;}
+			// 			query={{
+			// 				// available options: https://developers.google.com/places/web-service/autocomplete
+			// 				key: &apos;AIzaSyCS9j9HB64sW9w8LgvtxVET6LqoET78OcA&apos;,
+			// 				language: &apos;en&apos;, // language of the results
+			// 			}}
+			// 			styles={autocomplete_styles}
+			// 			debounce={200} // debounce the requests in ms. Set to 0 to remove debounce. By default 0ms.
+			// 		  /&gt;
+
+			// );
+		}
+	}
+
+	/**
+	 *  Save data of created marker or circle after clicking save button
+	 */
+	saveItem(){
+		if (this.state.showCircle){
+			this.sendCircle();
+			this.setState({
+				showCircle: false,
+				showMarker: false
+			});
+		}
+		if (this.state.showMarker){
+			this.sendNewMarker();
+			this.setState({
+				showCircle: false,
+				showMarker: false
+			});
+		}
+	}
+
+	/**
+	 * Delete created marker or circle after clicking delete button
+	 */
+	deleteItem(){
+		this.setState()
+		if (this.state.showCircle){
+			this.setState({
+				x:{
+					latitude: 44.257424,
+					longitude: -76.5231, 
+				},
+				circleRadius: 500, 
+				showCircle: false,
+				showMarker: false
+			});
+		} else if (this.state.showMarker) {
+			this.setState({showMarker:false, showCircle: false, markerCreated:[]})
+		}
+
+	}
+
+	/**
+	 * Render buttons that can adjust circle&apos;s radius
+	 */
+	// renderForCircle(){
+	// 	if (this.state.showCircle){
+	// 		return(
+	// 		&lt;View style={map_styles.circleRadiusButton}&gt;
+	// 			&lt;View style={map_styles.Buttons}&gt;
+	// 			&lt;Button
+	// 				onPress={()=&gt;{this.setState({circleRadius: this.state.circleRadius+200})}}
+	// 				title=&quot;more&quot;/&gt;&lt;/View&gt;
+	// 			   &lt;View style={map_styles.Buttons}&gt;
+	// 			&lt;Button
+	// 				onPress={()=&gt;{if (this.state.circleRadius&gt;200){this.setState({circleRadius: this.state.circleRadius-200})}}}
+	// 				title=&quot;less&quot;/&gt;&lt;/View&gt;
+	// 		&lt;/View&gt;
+	// 		)
+	// 	}
+	// }
+
+	/**
+	 * Render a circle to set notification receiving area
+	 */
+	renderCircle(){
+		if (this.state.showCircle){
+			// return (
+			// 	&lt;Circle
+			// 		center = {{latitude:this.state.x.latitude,longitude:this.state.x.longitude}}
+			// 		radius = {this.state.circleRadius}
+			// 		strokeColor = &quot;#4F6D7A&quot;
+			// 		strokeWidth = { 2 }
+			// 		fillColor = &apos;rgba(200,0,0,0.5)&apos;/&gt;
+			// )
+		}
+	}
+
+	/**
+	 * Save data of circle to notification settings
+	 */
+	sendCircle(){
+		//nothing
+		newData = {
+			data: {
+				circleLatitude: this.state.x.latitude,
+				circleLongitude: this.state.x.longitude,
+				radius: this.state.circleRadius,
+			}
+		}
+		this.MapP.updateCircle(newData);
+		// console.log(newData);
+	}
+
+	/**
+	 * Save data of created marker to report lost page
+	 */
+	sendNewMarker() {
+		newData={
+			data:
+				{
+					latitude: this.state.markerCreated[0].coordinate.latitude,
+					longitude: this.state.markerCreated[0].coordinate.longitude,
+				}
+		}
+		this.navigate(&apos;ReportLost&apos;, newData);
+	}
+
+	/**
+	 *  Long press the map to change the coordinate of circle
+	 *
+	 * @param {Object} e - The event of long press on the map
+	 */
+	setCircleLat(e) {
+		let cor = e.nativeEvent.coordinate;
+		if (this.state.showCircle){
+			this.setState({
+				x: {
+					latitude: cor.latitude,
+					longitude: cor.longitude,
+				}
+
+			})
+		}
+	}
+
+	/**
+	 * handle click event after clicking &quot;create marker&quot; button
+	 */
+	_onPinMarkerPress=()=&gt; {
+		if (this.state.showMarker) {
+			this.setState({
+				showMarker: false,
+				showCircle: false,
+				markerCreated: []
+			});
+			this.circleABRef.reset();
+		} else {
+			this.setState({
+				showMarker: true,
+				showCircle: false,
+				markerCreated:  [this.newMarker(this.state.region.latitude,this.state.region.longitude)],
+			});
+			this.circleABRef.reset();
+		}
+	}
+
+	/**
+	 * helper function of _onPinMarkerPress
+	 *
+	 * @param {Integer} latitude and longitude of a marker
+	 */
+	newMarker = (lat,long) =&gt; {
+		const key = this.state.markers.length-1
+		return({key, coordinate: {latitude: lat,longitude: long}});
+	};
+
+	/**
+	 *  Change region state as moving the map
+	 *
+	 * @param {region} A presenter class instance
+	 */
+	onRegionChange = (region) =&gt; {
+	  this.setState({region: region });
+	};
+
+	/**
+	 * Sets the state to the profile data retrieved from the model.
+	 */
+	_setProfileImage = () =&gt; {
+		this.MapP.getProfileImage((result) =&gt; this.setState({profileData: result}));
+	}
+
+	/**
+	 * Get the string to display from the colours list.
+	 *
+	 * @param {List} colours - A list of colours
+	 * @return {string} A string obtained from the colours in the list
+	 */
+	_getColourString = (colours) =&gt; {
+		let colourString = &apos;&apos;;
+		if (colours != null &amp;&amp; colours != undefined) {
+			colourString = &apos;Colour&apos;;
+			colourString = colourString + ((colours.length &gt; 1) ? &quot;s: &quot; : &quot;: &quot;) + colours.join(&apos;, &apos;);
+		}
+		return colourString
+	}
+
+	/**
+	 * Renders the callout for a marker.
+	 *
+	 * @param {Object} item - The data to display for a marker
+	 */
+	_renderCallout = (item) =&gt; {}
+	// 	&lt;Callout onPress={() =&gt; {this.navigate(&apos;BikeDetails&apos;, item.data)}}&gt;
+	// 		&lt;ScrollView&gt;
+	// 			&lt;ScrollView horizontal&gt;
+	// 				&lt;View style={map_styles.calloutColumn}&gt;
+	// 					&lt;View style={map_styles.calloutRow}&gt;
+	// 						&lt;Text style={map_styles.brandText} numberOfLines={1} ellipsizeMode ={&apos;tail&apos;}&gt;
+	// 							{item.data.brand == undefined || item.data.brand === &apos;&apos; ? &apos;Brand Unknown&apos; : item.data.brand}
+	// 						&lt;/Text&gt;
+	// 						&lt;Text numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+	// 						{&apos;   &apos;}
+	// 						&lt;/Text&gt;
+	// 						&lt;View style={map_styles.timeago}&gt;
+	// 							&lt;Text style={[map_styles.mapText, map_styles.timeagoText]} numberOfLines={1} ellipsizeMode ={&apos;tail&apos;}&gt;
+	// 								{item.data.timeago}
+	// 							&lt;/Text&gt;
+	// 						&lt;/View&gt;
+	// 					&lt;/View&gt;
+	// 					{
+	// 						item.data.model != undefined &amp;&amp; item.data.model !== &apos;&apos; &amp;&amp; 
+	// 						&lt;Text style={map_styles.mapText}&gt;
+	// 							{item.data.model != &apos;&apos; ? &quot;Model: &quot; + item.data.model : &apos;&apos;}
+	// 						&lt;/Text&gt;
+	// 					}
+	// 					{
+	// 						item.data.colour != undefined &amp;&amp; item.data.colour.length !== 0 &amp;&amp;
+	// 						&lt;Text style={map_styles.mapText}&gt;
+	// 							{this._getColourString(item.data.colour)}
+	// 						&lt;/Text&gt;
+	// 					}
+	// 				&lt;/View&gt;
+	// 			&lt;/ScrollView&gt;
+	// 		&lt;/ScrollView&gt;
+	// 	&lt;/Callout&gt;
+	// );
+
+	/**
+	 * Renders the save action button
+	 */
+	_renderSaveActionButton = () =&gt; {}
+	// 	&lt;ActionButton.Item
+	// 		onPress={()=&gt;{this.saveItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
+	// 		buttonColor={colours.ppPinGreen}
+	// 		style={map_styles.iconButton}
+	// 		title=&quot;Save&quot;&gt;
+	// 		&lt;Icon name=&quot;check&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+	// 	&lt;/ActionButton.Item&gt;
+	// );
+
+	/**
+	 * Renders the cancel action button
+	 */
+	_renderCancelActionButton = () =&gt; {}
+	// 	&lt;ActionButton.Item
+	// 		onPress={()=&gt;{this.deleteItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
+	// 		buttonColor={colours.ppPinRed}
+	// 		style={map_styles.iconButton}
+	// 		title=&quot;Cancel&quot;&gt;
+	// 		&lt;Icon name=&quot;times&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+	// 	&lt;/ActionButton.Item&gt;
+	// );
+	
+	/**
+	 * Renders the action button icon pin.
+	 */
+	_renderActionButtonPinIcon = () =&gt; {}
+	// 	&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={35} color={this.state.showMarker ? colours.ppWhite : colours.ppBlue} /&gt;
+	// );
+
+	/**
+	 * Renders the action button add icon.
+	 */
+	_renderActionButtonAddIcon = () =&gt; {}
+	// 	&lt;Icon name=&quot;circle-o-notch&quot; type=&quot;font-awesome&quot; size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/&gt;
+	// );
+
+	/**
+	 * Toggle the notification area.
+	 */
+	_toggleCircle = () =&gt; {
+		if (this.state.showCircle) {
+			this.setState({
+				showCircle: false, showMarker: false
+			});
+			this.pinABRef.reset();
+		} else {
+			this.setState({showCircle: true, showMarker:false, markerCreated:[]});
+			this.pinABRef.reset();
+		}
+	}
+
+	/**
+	 * Triggers after a marker being dragged has stopped being dragged.
+	 *
+	 * @param {Object} coord - The coordinate position of the marker
+	 */
+	onMarkerDragEnd = (coord) =&gt; {
+		const { latLng } = coord;
+	    const lat = latLng.lat();
+	    const lng = latLng.lng();
+		const marker = this.state.markerCreated;
+		marker[0].coordinate = { latitude: lat, longitude: lng };
+
+		this.setState({markerCreated: marker});
+	}
+
+	/**
+	 * Navigate to a page with a title.
+	 * This method is used over the commented out line below because successive touches of a bike item
+	 * would not add the data because data is only received in process in the componentWillMount function.
+	 * So adding the &apos;key&apos; property to navigate makes it see that the new page is unique.
+	 *
+	 * @param {string} screen - The route to navigate to. See navigation.js stacks and screens
+	 */
+	navigate = (screen, data) =&gt; {
+		this.props.navigation.navigate({
+			routeName: screen,
+			params: {
+				data: data,
+				from: &apos;Map&apos;
+			},
+			key: screen + TimeUtil.getDateTime()
+		});
+	}
+
+	/**
+	 * Extract data from the component&apos;s view and send an update to the presenter to do any logic before sending it to the model
+	 */
+	render() {
+		const { height: windowHeight, width: windowWidth } = Dimensions.get(&apos;window&apos;);
+		const varTop = windowHeight - 100;
+		const highestIcon = 50;
+		const hitSlop = {
+			top: 15,
+			bottom: 15,
+			left: 15,
+			right: 15,
+		}
+		let bbStyle = (vheight, start=false) =&gt; {
+			let style = {
+				position: &apos;absolute&apos;,
+				top: vheight-20,
+				left: start ? 5 : windowWidth-60,
+				right: start ? 5 : windowWidth-60,
+				width: map_styles.iconButton.width,
+				backgroundColor: &apos;transparent&apos;,
+				alignItems: start ? &apos;flex-start&apos; : &apos;flex-end&apos;,
+				alignSelf: start ? &apos;flex-start&apos; : &apos;flex-end&apos;,
+			};
+			return style;
+		}
+		
+
+	// 	return (
+	// 			&lt;View style={{ flex: 1 }}&gt;
+	// 				{
+	// 					this.state.showSearchbar &amp;&amp; 
+	// 					&lt;SafeArea overrideColour={colours.ppGrey}/&gt;
+	// 				}
+
+	// 				&lt;RNMapView 
+	// 					style={{flex:1}}
+	// 					region={this.state.region}
+	// 					style={map_styles.map}
+	// 					showsUserLocation={true}
+	// 					showsMyLocationButton={true}
+	// 					rotateEnabled={true}
+	// 					onRegionChangeComplete={this.onRegionChange.bind(this)}
+	// 					onLongPress = {e =&gt; this.setCircleLat(e)}
+ // onPress = {() =&gt; {this.setState({showSearchbar:false})}}&gt;
+	// 					{this.state.markers.map(marker =&gt; (
+	// 						&lt;Marker 
+	// 							{...marker} 
+	// 							ref={(ref) =&gt; this.state.markerRefs[marker.key] = ref}
+	// 							pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}&gt;
+	// 							{this._renderCallout(marker)}
+	// 						&lt;/Marker&gt;
+	// 					))}
+	// 					{this.state.tempMarkers.map(marker =&gt; (
+	// 						&lt;Marker 
+	// 							{...marker} 
+	// 							ref={(ref) =&gt; this.state.tempMarkerRefs[marker.key] = ref}
+	// 							pinColor={marker.data.stolen ? colours.ppPinRed : colours.ppPinGreen}&gt;
+	// 							{this._renderCallout(marker)}
+	// 						&lt;/Marker&gt;
+	// 					))}
+	// 					{this.state.markerCreated.map(marker =&gt; (&lt;Marker draggable{...marker} onDragend={(t, map, coord) =&gt; this.onMarkerDragEnd(coord)} /&gt;))}
+	// 					{this.renderCircle(this)}
+	// 				&lt;/RNMapView&gt;
+
+	// 				{this.renderSearchbar()}
+
+	// 				{/* Height of search bar container covers the profile button and the search button so we don&apos;t */}
+	// 				{/* need to use this.state.showSearchbar to block rendering. If we block rendering with that, then */}
+	// 				{/* profile button will re-render and there will be a visible flicker of the profile picture. */}
+
+	// 				&lt;View style={[bbStyle(highestIcon, true), {zIndex: 11, width: map_styles.iconButton.width+2}]}&gt;
+	// 					&lt;ProfileButton
+	// 						hitSlop={hitSlop}
+	// 						profilePicture={this.state.profileData.profilePicture}
+	// 						numNotifications={this.MapP.getNotificationCount()}/&gt;
+	// 				&lt;/View&gt;
+
+	// 				&lt;View style={bbStyle(highestIcon)}&gt;
+	// 					&lt;TouchableOpacity 
+	// 						style={map_styles.iconButton} 
+	// 						accessibilityLabel=&quot;Search&quot;
+	// 						hitSlop={hitSlop}
+	// 						onPress={() =&gt; {this.setState({showSearchbar:true})}}&gt;
+	// 						&lt;Icon name=&quot;search&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
+	// 					&lt;/TouchableOpacity&gt;
+	// 				&lt;/View&gt;
+
+	// 				&lt;View style={bbStyle(125)}&gt;
+	// 					&lt;TouchableOpacity 
+	// 						style={map_styles.iconButton} 
+	// 						accessibilityLabel=&quot;Filter&quot;
+	// 						hitSlop={hitSlop}
+	// 						onPress={() =&gt; this.sectionedMultiSelect._toggleSelector()}&gt;
+	// 						&lt;Icon name=&quot;filter-list&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
+	// 					&lt;/TouchableOpacity&gt;
+						
+	// 					{/* This is hidden */}
+	// 					&lt;SectionedMultiSelect
+	// 						style={{zIndex: -5}}
+	// 						items={filters}
+	// 						displayKey=&apos;name&apos;
+	// 						confirmText=&apos;Cancel&apos;
+	// 						uniqueKey={&apos;id&apos;}
+	// 						colors={{ primary: this.state.selectedFilters.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
+	// 						selectText=&apos;&apos;
+	// 						hideSelect
+	// 						showDropDowns
+	// 						single
+	// 						showChips={false}
+	// 						alwaysShowSelectText={false}
+	// 						showCancelButton={false}
+	// 						onSelectedItemsChange={this._onSelectedItemsChange}
+	// 						selectedItems={this.state.selectedFilters}
+	// 						ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}/&gt;
+	// 				&lt;/View&gt;
+
+	// 				&lt;View style={[bbStyle(varTop-map_styles.iconButton.height-35), {marginLeft: 10}]}&gt;
+	// 					&lt;ActionButton
+	// 						active={this.state.showMarker}
+	// 						buttonColor={colours.ppWhite}
+	// 						btnOutRange={colours.ppBlue}
+	// 						style={map_styles.iconButton}
+	// 						radius={65}
+	// 						autoInactive={false}
+	// 						position={&apos;right&apos;}
+	// 						startDegree={0}
+	// 						refer={(ref) =&gt; this.pinABRef = ref}
+	// 						size={map_styles.iconButton.width}
+	// 						icon={this._renderActionButtonPinIcon()}
+	// 						onPress={this._onPinMarkerPress}&gt;							
+	// 						{this._renderSaveActionButton()}
+	// 						{this._renderCancelActionButton()}
+	// 					&lt;/ActionButton&gt;
+	// 				&lt;/View&gt;
+
+	// 				&lt;View style={[bbStyle(varTop-map_styles.iconButton.height*2-37*3), {marginLeft: 10}]}&gt;
+	// 					&lt;ActionButton
+	// 						active={this.state.showCircle}
+	// 						buttonColor={colours.ppWhite}
+	// 						btnOutRange={colours.ppBlue}
+	// 						style={map_styles.iconButton}
+	// 						radius={65}
+	// 						autoInactive={false}
+	// 						position={&apos;right&apos;}
+	// 						startDegree={90}
+	// 						refer={(ref) =&gt; this.circleABRef = ref}
+	// 						size={map_styles.iconButton.width}
+	// 						icon={this._renderActionButtonAddIcon()}
+	// 						onPress={this._toggleCircle}&gt;
+	// 						&lt;ActionButton.Item
+	// 							onPress={()=&gt;{if (this.state.circleRadius&gt;200){this.setState({circleRadius: this.state.circleRadius-200})}}}
+	// 							buttonColor={colours.ppBlue}
+	// 							style={map_styles.iconButton}
+	// 							title=&quot;Less&quot;&gt;
+	// 							&lt;Icon name=&quot;minus&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+	// 						&lt;/ActionButton.Item&gt;
+	// 						&lt;ActionButton.Item
+	// 							onPress={()=&gt;{this.setState({circleRadius: this.state.circleRadius+200})}}
+	// 							buttonColor={colours.ppBlue}
+	// 							style={map_styles.iconButton}
+	// 							title=&quot;More&quot;&gt;
+	// 							&lt;Icon name=&quot;plus&quot; type=&quot;font-awesome&quot; size={22} color={colours.ppWhite} /&gt;
+	// 						&lt;/ActionButton.Item&gt;
+	// 						{this._renderSaveActionButton()}
+	// 						{this._renderCancelActionButton()}
+	// 					&lt;/ActionButton&gt;
+	// 				&lt;/View&gt;
+
+	// 				&lt;View style={bbStyle(varTop)}&gt;
+	// 					&lt;TouchableOpacity
+	// 						hitSlop={hitSlop}
+	// 						accessibilityLabel=&quot;Current Location&quot;
+	// 						style={map_styles.iconButton}
+	// 						onPress={ () =&gt; this._setUserLocation() }&gt;
+	// 						&lt;Icon name=&quot;location-arrow&quot; type=&quot;font-awesome&quot; size={20} color={colours.ppBlue} /&gt;
+	// 					&lt;/TouchableOpacity&gt;
+	// 				&lt;/View&gt;
+
+	// 				{/*this.renderSDButton(this)*/}
+	// 				{/*this.renderForCircle(this)*/}
+	// 			&lt;/View&gt;
+	// 	);
+	}
+}
+
+/* &lt;TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel=&quot;Lost Report&quot;
+							hitSlop={hitSlop}
+							onPress={this._onPinMarkerPress}&gt;
+							&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
+						&lt;/TouchableOpacity&gt; */
+
+		/*&lt;TouchableOpacity 
+							style={map_styles.iconButton} 
+							accessibilityLabel=&quot;Receiving Area&quot;
+							hitSlop={hitSlop}
+							onPress={()=&gt;{this.setState({showCircle: true,showButton:true,showMarker:false,markerCreated:[]})}}&gt;
+							&lt;Icon name=&quot;add-circle&quot; type=&quot;MaterialIcons&quot; size={35} color={colours.ppBlue} /&gt;
+						&lt;/TouchableOpacity&gt; */
+
+export default MapView;
+
+const filters = [
+	{
+		id: 0,
+		name: &apos;None&apos;
+	},
+	{
+		id: 1,
+		name: &apos;&lt; 1 min ago&apos;,
+	},
+	{
+		id: 2,
+		name: &apos;&lt; 1 hour ago&apos;,
+	},
+	{
+		id: 3,
+		name: &apos;&lt; 12 hours ago&apos;,
+	},
+	{
+		id: 4,
+		name: &apos;&lt; 1 day ago&apos;,
+	},
+	{
+		id: 5,
+		name: &apos;&lt; 7 days ago&apos;,
+	},
+	{
+		id: 6,
+		name: &apos;&lt; 1 month ago&apos;,
+	},
+	{
+		id: 7,
+		name: &apos;&lt; 1 year ago&apos;,
+	}
+]</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

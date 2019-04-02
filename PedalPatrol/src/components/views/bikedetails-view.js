@@ -14,6 +14,9 @@ import ImageCarousel from './helpers/imagecarousel';
 import BikeDetailsPresenter from '../presenters/bikedetails-presenter';
 import TimeUtil from '../../util/timeutility';
 
+/**
+ * Class for the bike details view to display information about a bike.
+ */
 class BikeDetailsView extends BaseView {
 	state = {
 		data: [],
@@ -70,18 +73,25 @@ class BikeDetailsView extends BaseView {
 		this.navigate("ReportFound");
 	}
 
-	  /**
-    * Handles the confirm found button clicked
-    */
-    _handleClickToConfirm(){
-        this.BikeDetP.confirmFound(this.state.rawData,this.alertConfirmCallback);
-    }
-    _handleClickToReject(){
-        this.BikeDetP.rejectFound(this.state.rawData,this.alertRejectionCallback);
-    }
+	/**
+	 * Handles the confirm found button clicked
+	 */
+	_handleClickToConfirm(){
+		this.BikeDetP.confirmFound(this.state.rawData,this.alertConfirmCallback);
+	}
 
-    decisionConfirm = () => {
-    	Alert.alert(
+	/**
+	 * Handles the reject button clicked
+	 */
+	_handleClickToReject(){
+		this.BikeDetP.rejectFound(this.state.rawData,this.alertRejectionCallback);
+	}
+
+	/**
+	 * Function for decision confirm
+	 */
+	decisionConfirm = () => {
+		Alert.alert(
 			"Are you sure you want to confirm your bike found?",
 			"",
 			[
@@ -90,10 +100,13 @@ class BikeDetailsView extends BaseView {
 			],
 			{ cancelable: false },
 		);
-    }
+	}
 
-    decisionReject = () => {
-    	Alert.alert(
+	/**
+	 * Function for decision reject
+	 */
+	decisionReject = () => {
+		Alert.alert(
 			"Are you sure you want to reject the found bike report?",
 			"",
 			[
@@ -102,9 +115,14 @@ class BikeDetailsView extends BaseView {
 			],
 			{ cancelable: false },
 		);
-    }
+	}
 
-    alertConfirmCallback = (success) => {
+	 /**
+	 * Confirm callback on success or failure trying to confirm.
+	 *
+	 * @param {Boolean} success - If the found bike confirmation was accepted or not
+	 */
+	alertConfirmCallback = (success) => {
 		this.refreshState();
 		if (success) {
 			Alert.alert(
@@ -127,7 +145,12 @@ class BikeDetailsView extends BaseView {
 		}
 	}
 
-    alertRejectionCallback = (success) => {
+	/**
+	 * Reject callback on success or failure trying to reject.
+	 *
+	 * @param {Boolean} success - If the found bike rejection was accepted or not
+	 */
+	alertRejectionCallback = (success) => {
 		this.refreshState();
 		if (success) {
 			Alert.alert(
@@ -148,7 +171,7 @@ class BikeDetailsView extends BaseView {
 				{ cancelable: false },
 			);
 		}
-    }
+	}
 
 	/**
 	 * Component mounted
@@ -173,12 +196,12 @@ class BikeDetailsView extends BaseView {
 
 		const { navigation } = this.props;
 		let data=[];
-    	const id = navigation.getParam('id','NO-DATA');
+		const id = navigation.getParam('id','NO-DATA');
 		const fromPage = navigation.getParam('from', 'Home');
-	    if (id ==='NO-DATA'){
-		    data = navigation.getParam('data', 'NO-DATA');
+		if (id ==='NO-DATA'){
+			data = navigation.getParam('data', 'NO-DATA');
 		}else{
-		    data = this.BikeDetP.getDataFromID(id);
+			data = this.BikeDetP.getDataFromID(id);
 		}
 
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);
@@ -221,6 +244,9 @@ class BikeDetailsView extends BaseView {
 
 	/**
 	 * Renders a bike detail 
+	 *
+	 * @param {Object} item - The item of the bike
+	 * @return {Component} A react-native component
 	 */
 	_renderItem = ({item}) => (
 		<TextInput
@@ -306,20 +332,20 @@ class BikeDetailsView extends BaseView {
 								</View>
 							}
 							{
-                                this.state.found &&
-                            	<View style={{flexDirection: 'row', width: windowWidth, justifyContent: 'space-between', marginTop: 10}}>
-	                            	<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-start', marginRight: 5}]}>
-	                            		<Button
-	                            	  	  	onPress={()=>this.decisionConfirm()}
-	                            			title="Confirm Found"/>
-	                            	</TouchableOpacity>
-	                            	<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-end', marginLeft: 5}]}>
-	                            		<Button
-	                            	    	onPress={()=>this.decisionReject()}
-		                            		title="Reject found"/>
-                            		</TouchableOpacity>
-	                            </View>
-                            	}
+								this.state.rawData.found &&
+								<View style={{flexDirection: 'row', width: windowWidth, justifyContent: 'space-between', marginTop: 10}}>
+									<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-start', marginRight: 5}]}>
+										<Button
+											onPress={()=>this.decisionConfirm()}
+											title="Confirm Found"/>
+									</TouchableOpacity>
+									<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-end', marginLeft: 5}]}>
+										<Button
+											onPress={()=>this.decisionReject()}
+											title="Reject Found"/>
+									</TouchableOpacity>
+								</View>
+								}
 
 							</ScrollView>
 						</View>

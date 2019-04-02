@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/components/views/addbike-view.js | PedalPatrol</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:type" content="website"><meta property="og:url" content="http://my-library.org"><meta property="og:site_name" content="PedalPatrol"><meta property="og:title" content="PedalPatrol"><meta property="og:image" content="http://my-library.org/logo.png"><meta property="og:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:author" content="https://twitter.com/foo"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="PedalPatrol"><meta property="twitter:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="twitter:image" content="http://my-library.org/logo.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/PedalPatrol/PedalPatrol"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/App.js~App.html">App</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-models">components/models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/alert-model.js~AlertModel.html">AlertModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/authloading-model.js~AuthLoadingModel.html">AuthLoadingModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/bike-model.js~BikeModel.html">BikeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/home-model.js~HomeModel.html">HomeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/login-model.js~LoginModel.html">LoginModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/map-model.js~MapModel.html">MapModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/modelOld.js~ModelOld.html">ModelOld</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/profile-model.js~ProfileModel.html">ProfileModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/signup-model.js~SignupModel.html">SignupModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-presenters">components/presenters</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/addbike-presenter.js~AddBikePresenter.html">AddBikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/alert-presenter.js~AlertPresenter.html">AlertPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/authloading-presenter.js~AuthLoadingPresenter.html">AuthLoadingPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bike-presenter.js~BikePresenter.html">BikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bikedetails-presenter.js~BikeDetailsPresenter.html">BikeDetailsPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/home-presenter.js~HomePresenter.html">HomePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/login-presenter.js~LoginPresenter.html">LoginPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/map-presenter.js~MapPresenter.html">MapPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/presenter.js~BasePresenter.html">BasePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/profile-presenter.js~ProfilePresenter.html">ProfilePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportfound-presenter.js~ReportFoundPresenter.html">ReportFoundPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportlost-presenter.js~ReportLostPresenter.html">ReportLostPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/signup-presenter.js~SignUpPresenter.html">SignUpPresenter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views">components/views</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/addbike-view.js~AddBikeView.html">AddBikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/alert-view.js~AlertView.html">AlertView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/authloading-view.js~AuthLoadingView.html">AuthLoadingView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bike-view.js~BikeView.html">BikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bikedetails-view.js~BikeDetailsView.html">BikeDetailsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/help-view.js~HelpView.html">HelpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/home-view.js~HomeView.html">HomeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/login-view.js~LoginView.html">LoginView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/map-view.js~MapView.html">MapView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/notification-view.js~NotificationView.html">NotificationView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/profile-view.js~ProfileView.html">ProfileView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportfound-view.js~ReportFoundView.html">ReportFoundView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportlost-view.js~ReportLostView.html">ReportLostView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/settings-view.js~SettingsView.html">SettingsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/signup-view.js~SignUpView.html">SignUpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/view.js~BaseView.html">BaseView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views-helpers">components/views/helpers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/bikeitem.js~BikeItem.html">BikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/drawerheader.js~DrawerHeader.html">DrawerHeader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/imagecarousel.js~ImageCarousel.html">ImageCarousel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/loginbutton.js~LoginButton.html">LoginButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/notificationbikeitem.js~NotificationBikeItem.html">NotificationBikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/privacypolicy.js~PrivacyPolicy.html">PrivacyPolicy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/profilebutton.js~ProfileButton.html">ProfileButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/safearea.js~SafeArea.html">SafeArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/searchbar.js~SearchBar.html">SearchBar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/sidedrawer.js~SideDrawer.html">SideDrawer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#config">config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/config/navigationservice.js~NavigationService.html">NavigationService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NavigatorService">NavigatorService</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/authenticationstate.js~AuthenticationState.html">AuthenticationState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/database.js~FirebaseDatabase.html">FirebaseDatabase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/drawerhelper.js~DrawerHelper.html">DrawerHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/imageutility.js~ImageUtility.html">ImageUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/notification.js~Notification.html">Notification</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/observerlist.js~ObserverList.html">ObserverList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/persistentstorage.js~PersistentStorage.html">PersistentStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/timeutility.js~TimeUtility.html">TimeUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AuthState">AuthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Database">Database</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DrawerHelp">DrawerHelp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageUtil">ImageUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NotificationMethod">NotificationMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PersistStorage">PersistStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TimeUtil">TimeUtil</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/components/views/addbike-view.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, { Component } from &apos;react&apos;;
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, ActivityIndicator, TouchableWithoutFeedback, KeyboardAvoidingView } from &apos;react-native&apos;;
+import { Icon } from &apos;react-native-elements&apos;;
+import ImagePicker from &apos;react-native-image-picker&apos;;
+import { HeaderBackButton } from &apos;react-navigation&apos;;
+import { TextInput } from &apos;react-native-paper&apos;;
+import SectionedMultiSelect from &apos;react-native-sectioned-multi-select&apos;;
+
+import { styles, text, edit_styles } from &apos;./stylesheets/edit-styles&apos;;
+
+import BaseView from &apos;./view&apos;;
+import SafeArea from &apos;./helpers/safearea&apos;;
+import HandleBack from &apos;./helpers/handleback&apos;;
+import ImageCarousel from &apos;./helpers/imagecarousel&apos;;
+import AddBikePresenter from &apos;../presenters/addbike-presenter&apos;;
+import ImageUtil from &apos;../../util/imageutility&apos;;
+import TimeUtil from &apos;../../util/timeutility&apos;;
+
+const colours = require(&apos;../../assets/colours/colours.json&apos;);
+
+const NO_DATA = &apos;NO-DATA&apos;;
+const UNIQUE_COLOUR_KEY = &apos;name&apos;; // A unique key for the colours for the sectioned list
+
+/**
+ * Class for the AddBike view
+ * @extends BaseView
+ */
+class AddBikeView extends BaseView {
+	/**
+	 * Creates an instance of the add bike view
+	 *
+	 * @constructor
+	 * @param {Object} props - Component properties
+	 */
+	constructor(props) {
+		super(props);
+		this.AddBikeP = new AddBikePresenter(this);
+	}
+
+	state = { // Initializing the state
+		editing: false, // Checks if user is editing
+		refresh: true, // Triggers a view refresh
+		loaderVisible: false,
+		isEditPage: false,
+
+		inputData: [], // Input text data is at each index
+		colours: colours.data, // Current colours
+
+		currentID: &apos;&apos;, // Current ID of the bike being edited (Edit Bike only)
+
+		photoEntries: [], // Current photos
+
+		selectedItems: [] // Selected colours
+	};
+
+	/**
+	 * Set the navigation options, change the header to handle a back button.
+	 *
+	 * @return {Object} Navigation option
+	 */
+	static navigationOptions = ({navigation, transitioning}) =&gt; {
+	// 	const { params = {} } = navigation.state;
+	// 	const back = params._onBack ? params._onBack : () =&gt; &apos;default&apos;;
+	// 	const clear = params._clearData ? params._clearData : () =&gt; &apos;default&apos;;
+	// 	return {
+	// 		headerLeft: (&lt;HeaderBackButton disabled={transitioning} onPress={()=&gt;{back()}}/&gt;),
+	// 		headerRight: (&lt;Button disabled={transitioning} onPress={()=&gt;{clear()}} title=&apos;Clear&apos;/&gt;),
+	// 		title: navigation.getParam(&apos;title&apos;, &apos;Add Bike&apos;) // Default title is Add Bike
+	// 	};
+	}
+
+	/**
+	 * Component is about to mount, initialize the data.
+	 * This function is called before componentDidMount
+	 */
+	componentWillMount = () =&gt; {
+		this.props.navigation.setParams({
+			_onBack: this._onBack,
+			_clearData: this._clearData
+		});
+
+		const { navigation } = this.props;
+		const data = navigation.getParam(&apos;data&apos;, &apos;NO-DATA&apos;);
+		const viewTitle = navigation.getParam(&apos;title&apos;, &apos;Add Bike&apos;);
+
+		// This can be done before the component has mounted so we do it before so data appears immediately
+		this.setState({
+			rawData: data,
+			inputData: this.AddBikeP.getTextInputData(data, this.state.isEditPage),
+			photoEntries: this.AddBikeP.getCurrentPhotos(),
+			isEditPage: this.isEditBikePage(viewTitle)
+		});
+	}
+
+	/**
+	 * Component mounted
+	 */
+	componentDidMount = () =&gt; {
+		this.AddBikeP.changeText(colours.data, this._renderText);
+
+		const { navigation } = this.props;
+		const data = navigation.getParam(&apos;data&apos;, &apos;NO-DATA&apos;);
+
+		// This can only be done once the component has mounted since it affects other components
+		this.AddBikeP.toggleColours(this.sectionedMultiSelect, data, this._onSelectedItemsChange, UNIQUE_COLOUR_KEY);
+	}
+
+	/**
+	 * Component will unmount after this method is called, do any clean up here
+	 * Call viewUnmounting in base class so it can do any cleanup for the view before calling the presenter destroy method
+	 */
+	componentWillUnmount = () =&gt; {
+		this.viewUnmounting(this.AddBikeP);
+	}
+
+	/**
+	 * Checks if the title of the view is edit bike, and if so, returns true.
+	 *
+	 * @param {string} title - The title of the view
+	 * @return {Boolean} true: If the page is edit bike; false: If the page is add bike
+	 */
+	isEditBikePage = (title) =&gt; {
+		return title === &apos;Edit Bike&apos;;
+	}
+
+	/**
+	 * Refreshes the state of the component so new data is fetched.
+	 */
+	refreshState = () =&gt; {
+		this.setState({ 
+			refresh: !this.state.refresh
+		});
+	}
+
+	/**
+	 * Toggle the editing mode.
+	 */
+	toggleEditing = () =&gt; {
+		this.setState({ editing: !editing });
+	}
+
+	/**
+	 * Set the editing value to the passed in value.
+	 *
+	 * @param {Boolean} edit - true: user is editing; false: user is not editing
+	 */
+	setEditing = (edit) =&gt; {
+		this.setState({ editing: edit });
+	}
+
+	/**
+	 * When the back button is clicked, check if the user was editing.
+	 */
+	_onBack = () =&gt; {
+		if (!this.state.loaderVisible) {
+			this.AddBikeP.checkEditingState(this.state.editing, this.editingSuccess, this.editingFailure);
+		}
+	}
+
+	/**
+	 * A function to execute when the editing state is true.
+	 */
+	editingSuccess = () =&gt; {
+		Alert.alert(
+			&quot;You&apos;re still editing!&quot;,
+			&quot;Are you sure you want to go back with your edits not saved?&quot;,
+			[
+				{ text: &quot;Keep Editing&quot;, onPress: () =&gt; {}, style: &quot;cancel&quot; },
+				{ text: &quot;Go Back&quot;, onPress: () =&gt; this.resetAllOnBack() },
+			],
+			{ cancelable: false },
+		);
+	}
+
+	/**
+	 * A function to execute when the editing state is false.
+	 */
+	editingFailure = () =&gt; {
+		// Clear the data just in case
+		this.resetAllOnBack(); // If not editing then go back
+	}
+
+	/**
+	 * Resets all the data and goes back to the bike page
+	 */
+	resetAllOnBack = () =&gt; {
+		this._clearData();
+		this.props.navigation.navigate(&apos;Bike&apos;);
+	}
+
+	/**
+	 * Clears all the data
+	 */
+	_clearData = () =&gt; {
+		if (!this.state.loaderVisible) {
+			this.AddBikeP.clearPhotos();
+			this.sectionedMultiSelect._removeAllItems();
+			let inputData = this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage); // inputData is a property in state
+			let photoEntries = ImageUtil.getDefaultPhotos(ImageUtil.getTypes().BIKE);
+			this.setState({ inputData, photoEntries });
+			this.setEditing(false); // Set editing to false so user can easily go back (for clear button)
+		}
+	}
+
+	/**
+	 * Prompt to ask the user if they want to delete the bike
+	 */
+	deletePrompt = () =&gt; {
+		Alert.alert(
+			&quot;Are you sure you want to delete this bike?&quot;,
+			&quot;&quot;,
+			[
+				{ text: &quot;Yes&quot;, onPress: () =&gt; {this._enableLoader(); this.AddBikeP.deleteBike(this.state.currentID, this.deleteCallback)}},
+				{ text: &quot;No&quot;, onPress: () =&gt; {}, style: &quot;cancel&quot; },
+			],
+			{ cancelable: false },
+		);
+	}
+
+	/**
+	 * Sets a callback on what to do if there is a success or error when a bike is uploaded.
+	 *
+	 * @param {Boolean} success - true: Uploading successful; false: Uploading failed
+	 */
+	deleteCallback = (success) =&gt; {
+		this._disableLoader();
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				&quot;Bike successfully deleted!&quot;,
+				&quot;&quot;,
+				[
+					{ text: &quot;Ok&quot;, onPress: () =&gt; this.resetAllOnBack(), style: &quot;ok&quot; },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				&quot;Bike was not able to be deleted.&quot;,
+				&quot;Please try again.&quot;,
+				[
+					{ text: &quot;Ok&quot;, onPress: () =&gt; {}, style: &quot;ok&quot; },
+				],
+				{ cancelable: false },
+			);
+		}
+	}	
+
+	/**
+	 * Render a text input item.
+	 * 
+	 * @param {Object} item - A list item, index - The index of the item in the data list
+	 * @return {Component} A react component
+	 */
+	_renderItem = ({item, index}) =&gt; {}
+		// &lt;TextInput
+		// 	style={text.textInput}
+		// 	label={item.required ? this._renderName(item.name) : item.name} // Give required inputs a different render
+		// 	multiline={item.multiline}
+		// 	disabled={item.disabled || this.state.loaderVisible}
+		// 	value={this.state.inputData[index].text}
+		// 	onChangeText={(text) =&gt; {
+		// 			let { inputData } = this.state; // inputData is a keyword in state
+		// 			inputData[index].text = text;
+		// 			this.setState({ inputData });
+		// 			this.setEditing(true); // Now editing
+		// 		} 
+		// 	}/&gt;
+	// );
+
+	/**
+	 * Renders the name of a required field.
+	 *
+	 * @param {string} name - The name of the field
+	 * @return {Component} A react component
+	 */
+	_renderName = (name) =&gt; {}
+	// 	&lt;Text style={[{color: &apos;red&apos;}]}&gt;{name + &quot; *&quot;}&lt;/Text&gt;
+	// );
+
+
+	/**
+	 * Extract the key from the item and index
+	 *
+	 * @param {Object} item - A list item
+	 * @param {Number} index - The index of the item
+	 */
+	_keyExtractor = (item, index) =&gt; item.name;
+
+	/**
+	 * Add the new selected items to the state and update
+	 *
+	 * @param {List} selectedItems - List of selected items
+	 */
+	_onSelectedItemsChange = (selectedItems) =&gt; {
+		this.setEditing(true); // Now editing
+		this.setState({ selectedItems });
+	} 
+
+	/**
+	 * Generates the style and colouring of the colours in the multiselect.
+	 * 
+	 * @param {string} colour - A colour, usually hexcode
+	 * @param {string} name - The name of the item 
+	 * @return {Component} A react component
+	 */
+	_renderText = (colour, name) =&gt; {
+
+	}
+	// 	&lt;Text style={[{color: colour}, text.colourText]}&gt;{name}&lt;/Text&gt;
+	// );
+
+
+	/**
+	 * Get the data from the state and send an update to the presenter
+	 */
+	_getDataToUpdate = () =&gt; {
+		if (!this.AddBikeP.checkInputs(this.state.inputData, this._inputRequirementFailure)) {
+			return; // Callback is called within checkInputs so no need to call anything here
+		}
+
+		this._enableLoader(); // Activates spinning loader
+		this.refreshState();
+		
+		// We like it tight so pack it together neatly
+		let updateData = {
+			currentID: this.state.currentID,
+			inputTextData: this.state.inputData, 
+			selectedColours: this.state.selectedItems, 
+			picture: this.state.photoEntries
+		};
+
+		this.AddBikeP.update(updateData, this.alertCallback);
+	}
+
+	/**
+	 * Enables the loader.
+	 */
+	_enableLoader = () =&gt; { this.setState({ loaderVisible: true }); }
+
+	
+	/**
+	 * Disables the loader.
+	 */
+	_disableLoader = () =&gt; { this.setState({ loaderVisible: false }); }
+
+	/**
+	 * Alert for requirement input failure
+	 */
+	_inputRequirementFailure = (names) =&gt; {
+		const joiner = names.length &gt; 1 ? &quot; are&quot; : &quot; is&quot;;
+		Alert.alert(
+			&quot;Required (*) inputs cannot be blank.&quot;,
+			names.join(&apos;, &apos;) + joiner + &quot; required.&quot;,
+			[
+				{ text: &quot;Ok&quot;, onPress: () =&gt; {}, style: &quot;ok&quot; },
+			],
+			{ cancelable: false },
+		);
+	}
+
+	/**
+	 * Sets a callback on what to do if there is a success or error when a bike is uploaded.
+	 *
+	 * @param {Boolean} success - true: Uploading successful; false: Uploading failed
+	 */
+	alertCallback = (success) =&gt; {
+		this._disableLoader();
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				&quot;Bike successfully uploaded!&quot;,
+				&quot;&quot;,
+				[
+					{ text: &quot;Ok&quot;, onPress: () =&gt; this.resetAllOnBack(), style: &quot;ok&quot; },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				&quot;Bike was not able to be uploaded.&quot;,
+				&quot;Please try again.&quot;,
+				[
+					{ text: &quot;Ok&quot;, onPress: () =&gt; {}, style: &quot;ok&quot; },
+				],
+				{ cancelable: false },
+			);
+		}
+	}
+
+	/**
+	 * DON&apos;T USE THIS METHOD UNLESS ABSOLUTELY NECESSARY.
+	 * Force a refresh of the view.
+	 */
+	_forceRefresh = () =&gt; {
+		this.forceUpdate();
+	}
+
+	/**
+	 * Renders items to the screen
+	 *
+	 * @return {Component} 
+	 */
+	render() {
+		// return (
+			
+		// 	&lt;KeyboardAvoidingView
+		// 		style={styles.container}
+		// 		behavior=&quot;padding&quot;
+		// 		enabled&gt;
+		// 		&lt;HandleBack onBack={this._onBack}&gt;
+		// 			&lt;SafeArea/&gt;
+		// 			&lt;View style={styles.container}&gt;
+		// 				&lt;ScrollView 
+		// 					contentContainerStyle={edit_styles.contentContainer}
+		// 					keyboardShouldPersistTaps=&apos;always&apos;
+		// 					keyboardDismissMode=&apos;interactive&apos;&gt;
+
+		// 					&lt;ImageCarousel 
+		// 						loading={this.state.loaderVisible}
+		// 						photos={this.state.photoEntries}
+		// 						selected={(id) =&gt; {this.AddBikeP.selectPhotoTapped(ImagePicker, this.setEditing, id, this.state.photoEntries)}} /&gt;
+							
+		// 					{/* List of text inputs */}
+		// 					&lt;FlatList
+		// 						style={edit_styles.flatList}
+		// 						data={this.AddBikeP.getTextInputData(NO_DATA, this.state.isEditPage)}
+		// 						extraData={this.state}
+		// 						keyExtractor={this._keyExtractor}
+		// 						renderItem={this._renderItem}/&gt;
+						
+		// 					{/* List of colours */}
+		// 					{/* colors attribute makes the &apos;Confirm&apos; button flip from red to green if a colour is selected */}
+		// 					&lt;SectionedMultiSelect
+		// 						style={text.textInput}
+		// 						items={this.state.colours}
+		// 						displayKey=&apos;text_component&apos;
+		// 						uniqueKey={UNIQUE_COLOUR_KEY}
+		// 						showRemoveAll
+		// 						colors={{ primary: this.state.selectedItems.length ? &apos;forestgreen&apos; : &apos;crimson&apos; }}
+		// 						selectText=&apos;Colours&apos;
+		// 						modalWithSafeAreaView={true}
+		// 						showDropDowns={true}
+		// 						filterItems={this.AddBikeP.filterItems}
+		// 						onSelectedItemsChange={this._onSelectedItemsChange}
+		// 						selectedItems={this.state.selectedItems}
+		// 						ref={(SectionedMultiSelect) =&gt; this.sectionedMultiSelect = SectionedMultiSelect}
+		// 						/&gt;
+
+		// 					{/* Submit button */}
+		// 					&lt;TouchableOpacity style={[edit_styles.submitTouchable, {marginBottom: this.state.isEditPage ? 0 : 10}]}&gt;
+		// 						&lt;Button
+		// 							title={this.state.isEditPage ? &apos;Save&apos; : &apos;Submit&apos;}
+		// 							disabled={this.state.loaderVisible}
+		// 							onPress={() =&gt; this._getDataToUpdate()}/&gt;
+		// 					&lt;/TouchableOpacity&gt;
+
+		// 					{/* TODO : Add delete button */}
+		// 					{
+		// 						this.state.isEditPage &amp;&amp;
+		// 						&lt;View&gt; 
+		// 							&lt;View style={{flexDirection: &apos;row&apos;, marginTop: 20}}&gt; 
+		// 								&lt;View style={edit_styles.deleteInline} /&gt; 
+		// 									&lt;Text style={edit_styles.delete}&gt;Delete Bike&lt;/Text&gt; 
+		// 								&lt;View style={edit_styles.deleteInline} /&gt; 
+		// 							&lt;/View&gt;
+									
+		// 							&lt;TouchableOpacity style={edit_styles.deleteTouchable} onPress={() =&gt; &apos;default&apos;}&gt;
+		// 								&lt;Button
+		// 									title=&apos;Delete&apos;
+		// 									disabled={this.state.loaderVisible}
+		// 									onPress={() =&gt; this.deletePrompt()}/&gt;
+		// 							&lt;/TouchableOpacity&gt;
+		// 						&lt;/View&gt;
+		// 					}
+
+		// 					{/* Spinning loading circle */}
+		// 					{
+		// 						this.state.loaderVisible &amp;&amp;
+		// 						&lt;View style={edit_styles.loading} pointerEvents=&quot;none&quot;&gt;
+		// 							&lt;ActivityIndicator size=&apos;large&apos; color=&quot;#0000ff&quot; /&gt;
+		// 						&lt;/View&gt;
+		// 					}
+		// 				&lt;/ScrollView&gt;
+		// 			&lt;/View&gt;
+		// 			&lt;SafeArea/&gt;
+		// 		&lt;/HandleBack&gt;
+		// 		&lt;/KeyboardAvoidingView&gt;
+			
+		// );
+	}
+}
+
+export default AddBikeView;</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

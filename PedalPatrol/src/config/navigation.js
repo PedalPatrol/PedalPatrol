@@ -88,7 +88,7 @@ const BikeDetailsStack = createStackNavigator({
 		navigationOptions: ({navigation}) => ({
 			tabBarVisible: false,
 			gesturesEnabled: false,
-			title: 'ReportFound',
+			title: 'Report Found',
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	},
@@ -122,7 +122,7 @@ const MapReportLostStack = createStackNavigator({
 		navigationOptions: ({navigation}) => ({
 			tabBarVisible: false,
 			gesturesEnabled: false,
-			title: 'ReportLost',
+			title: 'Report Lost',
 			headerTitleStyle: { textAlign: 'center', alignSelf: 'center' }
 		}),
 	},

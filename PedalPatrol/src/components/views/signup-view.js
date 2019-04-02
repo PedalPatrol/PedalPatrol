@@ -122,7 +122,12 @@ class SignUpView extends BaseView {
 			);
 	}
 
-signupCallback = (result) => {
+	/**
+	 * Callback for when the signup completes or fails.
+	 *
+	 * @param {Boolean} result - If the signup was successful or not
+	 */
+	signupCallback = (result) => {
 		if (result) {
 			Alert.alert("Please complete the email verification.");
 			this._onBack();

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../../">
+  <title data-ice="title">src/components/views/helpers/notificationbikeitem.js | PedalPatrol</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:type" content="website"><meta property="og:url" content="http://my-library.org"><meta property="og:site_name" content="PedalPatrol"><meta property="og:title" content="PedalPatrol"><meta property="og:image" content="http://my-library.org/logo.png"><meta property="og:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:author" content="https://twitter.com/foo"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="PedalPatrol"><meta property="twitter:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="twitter:image" content="http://my-library.org/logo.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/PedalPatrol/PedalPatrol"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/App.js~App.html">App</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-models">components/models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/alert-model.js~AlertModel.html">AlertModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/authloading-model.js~AuthLoadingModel.html">AuthLoadingModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/bike-model.js~BikeModel.html">BikeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/home-model.js~HomeModel.html">HomeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/login-model.js~LoginModel.html">LoginModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/map-model.js~MapModel.html">MapModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/modelOld.js~ModelOld.html">ModelOld</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/profile-model.js~ProfileModel.html">ProfileModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/signup-model.js~SignupModel.html">SignupModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-presenters">components/presenters</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/addbike-presenter.js~AddBikePresenter.html">AddBikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/alert-presenter.js~AlertPresenter.html">AlertPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/authloading-presenter.js~AuthLoadingPresenter.html">AuthLoadingPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bike-presenter.js~BikePresenter.html">BikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bikedetails-presenter.js~BikeDetailsPresenter.html">BikeDetailsPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/home-presenter.js~HomePresenter.html">HomePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/login-presenter.js~LoginPresenter.html">LoginPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/map-presenter.js~MapPresenter.html">MapPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/presenter.js~BasePresenter.html">BasePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/profile-presenter.js~ProfilePresenter.html">ProfilePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportfound-presenter.js~ReportFoundPresenter.html">ReportFoundPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportlost-presenter.js~ReportLostPresenter.html">ReportLostPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/signup-presenter.js~SignUpPresenter.html">SignUpPresenter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views">components/views</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/addbike-view.js~AddBikeView.html">AddBikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/alert-view.js~AlertView.html">AlertView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/authloading-view.js~AuthLoadingView.html">AuthLoadingView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bike-view.js~BikeView.html">BikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bikedetails-view.js~BikeDetailsView.html">BikeDetailsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/help-view.js~HelpView.html">HelpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/home-view.js~HomeView.html">HomeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/login-view.js~LoginView.html">LoginView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/map-view.js~MapView.html">MapView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/notification-view.js~NotificationView.html">NotificationView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/profile-view.js~ProfileView.html">ProfileView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportfound-view.js~ReportFoundView.html">ReportFoundView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportlost-view.js~ReportLostView.html">ReportLostView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/settings-view.js~SettingsView.html">SettingsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/signup-view.js~SignUpView.html">SignUpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/view.js~BaseView.html">BaseView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views-helpers">components/views/helpers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/bikeitem.js~BikeItem.html">BikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/drawerheader.js~DrawerHeader.html">DrawerHeader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/imagecarousel.js~ImageCarousel.html">ImageCarousel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/loginbutton.js~LoginButton.html">LoginButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/notificationbikeitem.js~NotificationBikeItem.html">NotificationBikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/privacypolicy.js~PrivacyPolicy.html">PrivacyPolicy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/profilebutton.js~ProfileButton.html">ProfileButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/safearea.js~SafeArea.html">SafeArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/searchbar.js~SearchBar.html">SearchBar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/sidedrawer.js~SideDrawer.html">SideDrawer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#config">config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/config/navigationservice.js~NavigationService.html">NavigationService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NavigatorService">NavigatorService</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/authenticationstate.js~AuthenticationState.html">AuthenticationState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/database.js~FirebaseDatabase.html">FirebaseDatabase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/drawerhelper.js~DrawerHelper.html">DrawerHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/imageutility.js~ImageUtility.html">ImageUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/notification.js~Notification.html">Notification</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/observerlist.js~ObserverList.html">ObserverList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/persistentstorage.js~PersistentStorage.html">PersistentStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/timeutility.js~TimeUtility.html">TimeUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AuthState">AuthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Database">Database</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DrawerHelp">DrawerHelp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageUtil">ImageUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NotificationMethod">NotificationMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PersistStorage">PersistStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TimeUtil">TimeUtil</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/components/views/helpers/notificationbikeitem.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import React, { Component } from &apos;react&apos;;
+import { StyleSheet, TouchableOpacity, Text, Image, View, TouchableHighlight } from &apos;react-native&apos;;
+import { Icon } from &apos;react-native-elements&apos;;
+import PropTypes from &apos;prop-types&apos;;
+
+import { colours } from &apos;../stylesheets/base-styles&apos;;
+
+import TimeUtil from &apos;../../../util/timeutility&apos;;
+
+const TYPE_STOLEN_HOME = &apos;Home&apos;;
+const TYPE_FOUND_ALERTS = &apos;Alerts&apos;;
+
+/**
+ * Class to help the displaying of notification items on the home view page.
+ * @extends Component
+ */
+class NotificationBikeItem extends Component {
+
+	/**
+	 * Helper prop types.
+	 */
+	static propTypes = {
+		from: PropTypes.oneOf([TYPE_STOLEN_HOME, TYPE_FOUND_ALERTS]).isRequired,
+		data: PropTypes.shape({
+			brand: PropTypes.string.isRequired,
+			model: PropTypes.string.isRequired,
+			thumbnail: PropTypes.array.isRequired,
+			datetime: PropTypes.string.isRequired,
+			address: PropTypes.string,
+			timeago: PropTypes.string.isRequired,
+			notable_features: PropTypes.string,
+			description: PropTypes.string,
+			id: PropTypes.string.isRequired,
+			bookmarked: PropTypes.string.bool,
+		}).isRequired
+	}
+
+	/**
+	 * Component is about to mount. Has not mounted yet
+	 */
+	componentWillMount = () =&gt; {
+		this.setState({
+			from: this.props.from,
+		});
+	}
+
+	/**
+	 * Navigate to a page with a title.
+	 * This method is used over the commented out line below because successive touches of a bike item
+	 * would not add the data because data is only received in process in the componentWillMount function.
+	 * So adding the &apos;key&apos; property to navigate makes it see that the new page is unique.
+	 *
+	 * @param {string} screen - The route to navigate to. See navigation.js stacks and screens
+	 * @param {Boolean} shouldRenavigate - If the component should call the navigation function again or not because parameters don&apos;t pass correctly
+	 */
+	navigate = (screen, shouldRenavigate=false) =&gt; {
+		// &lt;TouchableOpacity onPress={() =&gt; this.props.navigation.navigate(&apos;BikeDetails&apos;, {data: this.props.data})}&gt;
+		this.props.navigation.navigate({
+			routeName: screen,
+			params: {
+				rawData: this.props.data, // Report found takes in rawData but other pages in
+				data: this.props.data,
+				from: this.props.from,
+				found: this.props.from === &apos;Alerts&apos;
+			},
+			key: screen + TimeUtil.getDateTime()
+		});
+
+		/*
+		 * The purpose of this is to trigger a re-navigate because for some reason, the Map tab does not receive the parameters
+		 * set in the first navigate. It only works on subsequent navigations so we just have a small delay and trigger the navigate
+		 * again. This is a hacky way to do it. A better solution would be to use Redux to save the state.
+		 * React Navigation has a terrible architecture which really doesn&apos;t allow for different things like this to happen.
+		 */
+		if (shouldRenavigate) {
+			setTimeout(() =&gt; {this.navigate(screen, false)}, 50);
+		}
+	}
+ 
+ 	/**
+ 	 * Renders the notification item card.
+ 	 */
+	render() {
+		// return(
+		// 	&lt;TouchableOpacity onPress={() =&gt; this.navigate(&apos;BikeDetails&apos;, false)}&gt;
+		// 		&lt;View style={styles.rowContainer}&gt;
+		// 		  	{/* Everything is put as columns from the top row */}
+		// 			&lt;View style={styles.topRow}&gt;
+						
+		// 				{/* First column is model, image, datetime and address */}
+		// 				&lt;View style={{flex: 1, alignItems:&apos;flex-start&apos;}}&gt;
+		// 					&lt;View style={styles.nameImageCol}&gt;
+								
+		// 						{/* Model */}
+		// 						&lt;Text style={styles.model} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+		// 							{this.props.data.brand + &quot; &quot; + this.props.data.model}
+		// 						&lt;/Text&gt;
+								
+		// 						&lt;View style={{flex:1, flexDirection:&apos;row&apos;, justifyContent:&apos;space-between&apos;}}&gt;
+		// 							{/* Thumbnail */}
+		// 							&lt;View style={{flex: 1, flexDirection:&apos;row&apos;, justifyContent:&apos;flex-start&apos;}}&gt;
+		// 									&lt;Image source={{uri: this.props.data.thumbnail[0]}}
+		// 										   style={styles.thumbnail}
+		// 										   resizeMode=&quot;contain&quot; /&gt;
+		// 							&lt;/View&gt;
+		// 						&lt;/View&gt;
+								
+		// 						{/* Datetime &amp; Address (bottom left) */}
+		// 						&lt;Text style={styles.datetime} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+		// 							{this.props.data.datetime}
+		// 						&lt;/Text&gt;
+		// 						&lt;Text style={styles.address} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+		// 							{this.props.data.address}
+		// 						&lt;/Text&gt;
+
+		// 					&lt;/View&gt;
+		// 				&lt;/View&gt;
+
+		// 				{/* Second column is hoursago, notable features, description and icons */}
+		// 				&lt;View style={{flex: 1}}&gt;
+		// 					&lt;View style={{flex: 1, flexDirection:&apos;column&apos;, alignItems:&apos;flex-end&apos;}}&gt;
+								
+		// 						{/* Time ago */}
+		// 						&lt;Text style={styles.time} numberOfLines={1} ellipsizeMode={&apos;tail&apos;}&gt;
+		// 							{this.props.data.timeago}
+		// 						&lt;/Text&gt;
+
+		// 						{/* Notable features and description */}
+		// 						&lt;View style={{flex: 5, flexDirection:&apos;column&apos;, alignItems:&apos;flex-start&apos;, justifyContent:&apos;flex-start&apos;}}&gt;
+		// 							&lt;Text style={styles.other} numberOfLines={5} ellipsizeMode={&apos;tail&apos;}&gt;
+		// 								{this.props.data.description}
+		// 							&lt;/Text&gt;
+		// 							&lt;Text style={styles.other} numberOfLines={2} ellipsizeMode={&apos;tail&apos;}&gt;
+		// 								Notable Features: {this.props.data.notable_features}
+		// 							&lt;/Text&gt;
+		// 						&lt;/View&gt;
+
+		// 						{/* Bottom icons only show if stolen bikes are shown */}
+									
+		// 							&lt;View style={{flex: 1, flexDirection:&apos;row&apos;, alignItems:&apos;center&apos;, justiftContent:&apos;space-between&apos;}}&gt;
+		// 								{/* Bookmark button */}
+		// 								{ 
+		// 									this.state.from === TYPE_STOLEN_HOME &amp;&amp;
+											
+		// 									&lt;TouchableOpacity style={styles.icon} onPress={() =&gt; {this.props.setBookmark(this.props.data.id)}} accessibilityLabel=&quot;Bookmark&quot;&gt;
+		// 										{ this.props.bookmarked ? 
+		// 											(&lt;Icon name=&quot;bookmark&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;)
+		// 											:
+		// 											(&lt;Icon name=&quot;bookmark-border&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;)
+		// 										}
+		// 									&lt;/TouchableOpacity&gt;
+		// 								}
+		// 								{/* Map pin */}
+		// 								&lt;TouchableOpacity style={styles.icon} accessibilityLabel=&quot;Pin&quot; onPress={() =&gt; this.navigate(&apos;Map&apos;, true)}&gt;
+		// 									&lt;Icon name=&quot;pin-drop&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;
+		// 								&lt;/TouchableOpacity&gt;
+
+		// 								{/* Report Found */}
+		// 								{
+		// 									this.state.from === TYPE_STOLEN_HOME &amp;&amp;
+		// 									&lt;TouchableOpacity style={styles.icon} accessibilityLabel=&quot;Report Found&quot; onPress={() =&gt; this.navigate(&apos;ReportFound&apos;)}&gt;
+		// 										&lt;Icon name=&quot;comment&quot; type=&quot;MaterialIcons&quot; size={24} color={colours.ppGreen} /&gt;
+		// 									&lt;/TouchableOpacity&gt;
+		// 								}
+		// 							&lt;/View&gt;
+
+		// 					&lt;/View&gt;
+		// 				&lt;/View&gt;
+
+		// 			&lt;/View&gt;
+		// 		&lt;/View&gt;
+		// 	&lt;/TouchableOpacity&gt;
+		// );
+	}
+}
+
+export default NotificationBikeItem;
+
+const styles = StyleSheet.create({
+	rowContainer: {
+		flexDirection: &apos;row&apos;,
+		backgroundColor: &apos;#FFF&apos;,
+		height: 200,
+		padding: 10,
+		marginRight: 10,
+		marginLeft: 10,
+		marginTop: 10,
+		borderRadius: 4,
+		shadowOffset:{  width: 1,  height: 1,  },
+		shadowColor: &apos;#CCC&apos;,
+		shadowOpacity: 1.0,
+		shadowRadius: 1
+	},
+	datetime: {
+		paddingLeft: 5,
+		paddingTop: 5,
+		fontSize: 12,
+		color: &apos;#777&apos;
+	},
+	address: {
+		paddingLeft: 5,
+		paddingTop: 5,
+		fontSize: 12,
+		color: &apos;#777&apos;
+	},
+	time: {
+		paddingTop: 7,
+		paddingLeft: 10,
+		paddingRight: 10,
+		marginRight: 15,
+		fontSize: 16,
+		fontWeight: &apos;bold&apos;,
+		color: &apos;#FFF&apos;,
+		flex: 1,
+		borderRadius: 15, 
+		backgroundColor: colours.ppGreen, 
+		overflow: &apos;hidden&apos;
+	},
+	other: {
+		paddingLeft: 10,
+		marginTop: 5,
+		fontSize: 12,
+		color: &apos;#777&apos;
+	},
+	model: {
+		paddingLeft: 5,
+		paddingTop: 5,
+		fontSize: 16,
+		fontWeight: &apos;bold&apos;,
+		color: &apos;#777&apos;,
+	},
+	owner: {
+		paddingLeft: 10,
+		marginTop: 5,
+		fontSize: 14,
+		color: &apos;#777&apos;,
+		flex:1
+	},
+	description: {
+		paddingLeft: 10,
+		marginTop: 5,
+		fontSize: 14,
+		color: &apos;#777&apos;,
+		
+	},
+	thumbnail: {
+		flex: 1,
+		height: undefined,
+		width: undefined
+	},
+	rowText: {
+		flex: 1,
+		flexDirection: &apos;column&apos;,
+	},
+	topRow: {
+		flex: 1,
+		justifyContent: &apos;space-between&apos;, 
+		flexDirection: &apos;row&apos;,
+	},
+	nameImageCol: {
+		flex: 1, 
+		flexDirection: &apos;column&apos;, 
+		width: undefined,
+	},
+	timeOtherCol: {
+		flex: 1, 
+		flexDirection: &apos;column&apos;, 
+	},
+	icon: {
+		marginLeft: 20,
+		marginRight: 15,
+		marginTop: 5,
+		alignItems: &apos;flex-start&apos;
+	}
+});
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

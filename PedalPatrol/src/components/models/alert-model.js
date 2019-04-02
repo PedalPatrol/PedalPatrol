@@ -70,6 +70,10 @@ class AlertModel extends Model {
 		});
 	}
 
+	/**
+	 * Toggle the database listener off and then on again to get the data again.
+	 * TODO : Better method to do this?
+	 */
 	toggleListeners() {
 		if (this.listener != null) {
 			Database.readBikeDataOff(this.listener);

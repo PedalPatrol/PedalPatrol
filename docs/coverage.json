@@ -1,0 +1,540 @@
+{
+  "coverage": "78.22%",
+  "expectCount": 813,
+  "actualCount": 636,
+  "files": {
+    "src/App.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/components/models/alert-model.js": {
+      "expectCount": 16,
+      "actualCount": 12,
+      "undocumentLines": [
+        20,
+        21,
+        22,
+        23
+      ]
+    },
+    "src/components/models/authloading-model.js": {
+      "expectCount": 6,
+      "actualCount": 5,
+      "undocumentLines": [
+        20
+      ]
+    },
+    "src/components/models/bike-model.js": {
+      "expectCount": 26,
+      "actualCount": 22,
+      "undocumentLines": [
+        8,
+        23,
+        24,
+        25
+      ]
+    },
+    "src/components/models/home-model.js": {
+      "expectCount": 23,
+      "actualCount": 19,
+      "undocumentLines": [
+        19,
+        20,
+        21,
+        23
+      ]
+    },
+    "src/components/models/login-model.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        28
+      ]
+    },
+    "src/components/models/map-model.js": {
+      "expectCount": 9,
+      "actualCount": 8,
+      "undocumentLines": [
+        18
+      ]
+    },
+    "src/components/models/model.js": {
+      "expectCount": 11,
+      "actualCount": 9,
+      "undocumentLines": [
+        19,
+        20
+      ]
+    },
+    "src/components/models/modelOld.js": {
+      "expectCount": 8,
+      "actualCount": 7,
+      "undocumentLines": [
+        14
+      ]
+    },
+    "src/components/models/profile-model.js": {
+      "expectCount": 25,
+      "actualCount": 22,
+      "undocumentLines": [
+        7,
+        22,
+        24
+      ]
+    },
+    "src/components/models/signup-model.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        20
+      ]
+    },
+    "src/components/presenters/addbike-presenter.js": {
+      "expectCount": 28,
+      "actualCount": 23,
+      "undocumentLines": [
+        5,
+        6,
+        417,
+        21,
+        22
+      ]
+    },
+    "src/components/presenters/alert-presenter.js": {
+      "expectCount": 12,
+      "actualCount": 11,
+      "undocumentLines": [
+        18
+      ]
+    },
+    "src/components/presenters/authloading-presenter.js": {
+      "expectCount": 13,
+      "actualCount": 8,
+      "undocumentLines": [
+        6,
+        20,
+        21,
+        22,
+        27
+      ]
+    },
+    "src/components/presenters/bike-presenter.js": {
+      "expectCount": 13,
+      "actualCount": 12,
+      "undocumentLines": [
+        17
+      ]
+    },
+    "src/components/presenters/bikedetails-presenter.js": {
+      "expectCount": 18,
+      "actualCount": 13,
+      "undocumentLines": [
+        5,
+        20,
+        186,
+        206,
+        219
+      ]
+    },
+    "src/components/presenters/home-presenter.js": {
+      "expectCount": 16,
+      "actualCount": 15,
+      "undocumentLines": [
+        17
+      ]
+    },
+    "src/components/presenters/login-presenter.js": {
+      "expectCount": 10,
+      "actualCount": 7,
+      "undocumentLines": [
+        18,
+        31,
+        35
+      ]
+    },
+    "src/components/presenters/map-presenter.js": {
+      "expectCount": 12,
+      "actualCount": 10,
+      "undocumentLines": [
+        16,
+        93
+      ]
+    },
+    "src/components/presenters/presenter.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/components/presenters/profile-presenter.js": {
+      "expectCount": 24,
+      "actualCount": 19,
+      "undocumentLines": [
+        5,
+        6,
+        309,
+        21,
+        22
+      ]
+    },
+    "src/components/presenters/reportfound-presenter.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        17
+      ]
+    },
+    "src/components/presenters/reportlost-presenter.js": {
+      "expectCount": 8,
+      "actualCount": 7,
+      "undocumentLines": [
+        17
+      ]
+    },
+    "src/components/presenters/signup-presenter.js": {
+      "expectCount": 11,
+      "actualCount": 7,
+      "undocumentLines": [
+        17,
+        18,
+        22,
+        26
+      ]
+    },
+    "src/components/views/addbike-view.js": {
+      "expectCount": 34,
+      "actualCount": 29,
+      "undocumentLines": [
+        19,
+        21,
+        22,
+        37,
+        40
+      ]
+    },
+    "src/components/views/alert-view.js": {
+      "expectCount": 17,
+      "actualCount": 12,
+      "undocumentLines": [
+        28,
+        29,
+        30,
+        51,
+        68
+      ]
+    },
+    "src/components/views/authloading-view.js": {
+      "expectCount": 14,
+      "actualCount": 9,
+      "undocumentLines": [
+        5,
+        17,
+        27,
+        29,
+        115
+      ]
+    },
+    "src/components/views/bike-view.js": {
+      "expectCount": 18,
+      "actualCount": 12,
+      "undocumentLines": [
+        28,
+        30,
+        31,
+        32,
+        39,
+        61
+      ]
+    },
+    "src/components/views/bikedetails-view.js": {
+      "expectCount": 23,
+      "actualCount": 20,
+      "undocumentLines": [
+        21,
+        32,
+        49
+      ]
+    },
+    "src/components/views/help-view.js": {
+      "expectCount": 11,
+      "actualCount": 9,
+      "undocumentLines": [
+        15,
+        24
+      ]
+    },
+    "src/components/views/helpers/bikeitem.js": {
+      "expectCount": 5,
+      "actualCount": 3,
+      "undocumentLines": [
+        89,
+        33
+      ]
+    },
+    "src/components/views/helpers/drawerheader.js": {
+      "expectCount": 5,
+      "actualCount": 3,
+      "undocumentLines": [
+        45,
+        30
+      ]
+    },
+    "src/components/views/helpers/handleback.js": {
+      "expectCount": 8,
+      "actualCount": 6,
+      "undocumentLines": [
+        16,
+        25
+      ]
+    },
+    "src/components/views/helpers/imagecarousel.js": {
+      "expectCount": 6,
+      "actualCount": 2,
+      "undocumentLines": [
+        11,
+        17,
+        24,
+        35
+      ]
+    },
+    "src/components/views/helpers/loginbutton.js": {
+      "expectCount": 5,
+      "actualCount": 3,
+      "undocumentLines": [
+        57,
+        23
+      ]
+    },
+    "src/components/views/helpers/notificationbikeitem.js": {
+      "expectCount": 8,
+      "actualCount": 4,
+      "undocumentLines": [
+        10,
+        11,
+        179,
+        41
+      ]
+    },
+    "src/components/views/helpers/privacypolicy.js": {
+      "expectCount": 2,
+      "actualCount": 2,
+      "undocumentLines": []
+    },
+    "src/components/views/helpers/profilebutton.js": {
+      "expectCount": 5,
+      "actualCount": 2,
+      "undocumentLines": [
+        9,
+        61,
+        29
+      ]
+    },
+    "src/components/views/helpers/safearea.js": {
+      "expectCount": 3,
+      "actualCount": 2,
+      "undocumentLines": [
+        22
+      ]
+    },
+    "src/components/views/helpers/searchbar.js": {
+      "expectCount": 12,
+      "actualCount": 5,
+      "undocumentLines": [
+        14,
+        15,
+        138,
+        151,
+        22,
+        30,
+        45
+      ]
+    },
+    "src/components/views/helpers/sidedrawer.js": {
+      "expectCount": 18,
+      "actualCount": 13,
+      "undocumentLines": [
+        212,
+        247,
+        260,
+        30,
+        32
+      ]
+    },
+    "src/components/views/home-view.js": {
+      "expectCount": 15,
+      "actualCount": 10,
+      "undocumentLines": [
+        27,
+        28,
+        29,
+        36,
+        61
+      ]
+    },
+    "src/components/views/login-view.js": {
+      "expectCount": 19,
+      "actualCount": 15,
+      "undocumentLines": [
+        13,
+        21,
+        31,
+        36
+      ]
+    },
+    "src/components/views/map-view.js": {
+      "expectCount": 38,
+      "actualCount": 34,
+      "undocumentLines": [
+        788,
+        32,
+        40,
+        70
+      ]
+    },
+    "src/components/views/notification-view.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        19
+      ]
+    },
+    "src/components/views/profile-view.js": {
+      "expectCount": 28,
+      "actualCount": 24,
+      "undocumentLines": [
+        18,
+        19,
+        26,
+        62
+      ]
+    },
+    "src/components/views/reportfound-view.js": {
+      "expectCount": 21,
+      "actualCount": 19,
+      "undocumentLines": [
+        27,
+        28
+      ]
+    },
+    "src/components/views/reportlost-view.js": {
+      "expectCount": 16,
+      "actualCount": 14,
+      "undocumentLines": [
+        25,
+        26
+      ]
+    },
+    "src/components/views/settings-view.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        26
+      ]
+    },
+    "src/components/views/signup-view.js": {
+      "expectCount": 14,
+      "actualCount": 12,
+      "undocumentLines": [
+        41,
+        46
+      ]
+    },
+    "src/components/views/view.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    },
+    "src/config/navigationservice.js": {
+      "expectCount": 6,
+      "actualCount": 4,
+      "undocumentLines": [
+        14,
+        45
+      ]
+    },
+    "src/util/authenticationstate.js": {
+      "expectCount": 6,
+      "actualCount": 4,
+      "undocumentLines": [
+        12,
+        35
+      ]
+    },
+    "src/util/database.js": {
+      "expectCount": 45,
+      "actualCount": 28,
+      "undocumentLines": [
+        10,
+        12,
+        13,
+        25,
+        38,
+        45,
+        59,
+        63,
+        76,
+        90,
+        115,
+        127,
+        146,
+        163,
+        307,
+        326,
+        554
+      ]
+    },
+    "src/util/drawerhelper.js": {
+      "expectCount": 13,
+      "actualCount": 9,
+      "undocumentLines": [
+        15,
+        16,
+        19,
+        95
+      ]
+    },
+    "src/util/imageutility.js": {
+      "expectCount": 21,
+      "actualCount": 14,
+      "undocumentLines": [
+        164,
+        165,
+        166,
+        167,
+        170,
+        182,
+        201
+      ]
+    },
+    "src/util/notification.js": {
+      "expectCount": 9,
+      "actualCount": 6,
+      "undocumentLines": [
+        16,
+        96,
+        106
+      ]
+    },
+    "src/util/observerlist.js": {
+      "expectCount": 10,
+      "actualCount": 9,
+      "undocumentLines": [
+        15
+      ]
+    },
+    "src/util/persistentstorage.js": {
+      "expectCount": 9,
+      "actualCount": 8,
+      "undocumentLines": [
+        119
+      ]
+    },
+    "src/util/timeutility.js": {
+      "expectCount": 7,
+      "actualCount": 6,
+      "undocumentLines": [
+        132
+      ]
+    }
+  }
+}

@@ -63,6 +63,9 @@ class SearchBar extends Component {
 		this.setState({ selectedItems });
 	} 
 
+	/**
+	 * Renders an icon.
+	 */
 	_renderIcon = () => (
 		<Icon name="filter-list" type="MaterialIcons" size={30} color={colours.ppGreen} />
 	);

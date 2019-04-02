@@ -374,7 +374,7 @@ class MapView extends BaseView {
 	/**
 	 *  Long press the map to change the coordinate of circle
 	 *
-	 * @param {Event} The event of long press on the map
+	 * @param {Object} e - The event of long press on the map
 	 */
 	setCircleLat(e) {
 		let cor = e.nativeEvent.coordinate;
@@ -492,6 +492,9 @@ class MapView extends BaseView {
 		</Callout>
 	);
 
+	/**
+	 * Renders the save action button
+	 */
 	_renderSaveActionButton = () => (
 		<ActionButton.Item
 			onPress={()=>{this.saveItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
@@ -502,6 +505,9 @@ class MapView extends BaseView {
 		</ActionButton.Item>
 	);
 
+	/**
+	 * Renders the cancel action button
+	 */
 	_renderCancelActionButton = () => (
 		<ActionButton.Item
 			onPress={()=>{this.deleteItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
@@ -512,14 +518,23 @@ class MapView extends BaseView {
 		</ActionButton.Item>
 	);
 
+	/**
+	 * Renders the action button icon pin.
+	 */
 	_renderActionButtonPinIcon = () => (
 		<Icon name="pin-drop" type="MaterialIcons" size={35} color={this.state.showMarker ? colours.ppWhite : colours.ppBlue} />
 	);
 
+	/**
+	 * Renders the action button add icon.
+	 */
 	_renderActionButtonAddIcon = () => (
 		<Icon name="circle-o-notch" type="font-awesome" size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/>
 	);
 
+	/**
+	 * Toggle the notification area.
+	 */
 	_toggleCircle = () => {
 		if (this.state.showCircle) {
 			this.setState({

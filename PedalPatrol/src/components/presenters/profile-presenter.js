@@ -1,6 +1,6 @@
 import BasePresenter from './presenter';
 import { ProfileM } from '../models/export-models'; // Using the ProfileModel class because an ProfileModel class would have the same purpose
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 
 const NO_DATA = 'NO-DATA';
 const PROFILE_TYPE = ImageUtil.getTypes().PROFILE;
@@ -127,6 +127,8 @@ class ProfilePresenter extends BasePresenter {
 	 *
 	 * @param {Object} imagePicker - The ImagePicker class from react-native-image-picker
 	 * @param {Function} setEditing - A function so the presenter can set the editing value
+	 * @param {Number} id - The index of the photo to change
+	 * @param {List} photos - A list of photos as strings
 	 */
 	selectPhotoTapped(imagePicker, setEditing, id, photos) {
 		const options = {

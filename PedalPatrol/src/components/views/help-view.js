@@ -8,7 +8,9 @@ import {styles, colours, help_styles } from './stylesheets/help-styles';
 
 import BaseView from './view';
 
-
+/**
+ * Class for the help view to display any help information for the user such as the user manual, privacy policy, and contact information.
+ */
 class HelpView extends BaseView {
 	state = {
 		expanded: true
@@ -45,22 +47,49 @@ class HelpView extends BaseView {
 		this.props.navigation.navigate('Tabs');
 	}
 	
+	
+	/**
+	 * Handle the user clicking a link.
+	 *
+	 * @param {string} url - The link to click 
+	 */
 	_handleLinkClick = (url) => {
 		Linking.openURL(url);
 	};
 
+	/**
+	 * Renders text in a react-native text component.
+	 *
+	 * @param {string} text - The text to render
+	 * @return {Component} A react native component
+	 */
 	renderText(text){
-		return(<Text> 
-			{text} 
-		</Text>)
+		return(
+			<Text> 
+				{text} 
+			</Text>
+		)
 	}
 
+	/**
+	 * Renders text in a react-native text component with an item style.
+	 *
+	 * @param {string} text - The text to render
+	 * @return {Component} A react native component
+	 */
 	renderItemText(text){
 		return(<Text style={help_styles.itemStyle} numberOfLines={10}> 
 			{text} 
 		</Text>)
 	}
 
+	/**
+	 * Render an icon with a specific name and type.
+	 * 
+	 * @param {string} iconName - The name of the icon to be rendered
+	 * @param {string} iconType - The library to get the icon from
+	 * @return {Component} A react native component
+	 */
 	renderIcon(iconName,iconType){
 		return(
 			<View style={{width:50}}>
@@ -69,10 +98,19 @@ class HelpView extends BaseView {
 			)
 	}
 
+	/**
+	 * Renders text as a link.
+	 *
+	 * @param {string} text - The text to render
+	 * @return {Component} A react native component
+	 */
 	renderLink = (text) => (
 		<Text style={{color: 'blue'}}>{text}</Text>
 	)
 
+	/**
+	 * Renders the component.
+	 */
 	render() {
 		return ( 
 
