@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 
 import DrawerHelp from '../../../util/drawerhelper';
 
+const DEFAULT_AVATAR = require('../../../assets/images/default-profile-picture.jpg');;
+
 /**
  * Class to add a profile button to the search bar header.
  * @extends Component
@@ -36,7 +38,8 @@ class ProfileButton extends Component {
 						<Avatar
 							style={styles.profile}
 							size={40}
-							name="Sean"
+							name=""
+							placeholder={DEFAULT_AVATAR}
 							source={this.props.profilePicture}
 							badge={this.props.numNotifications}
 				        />

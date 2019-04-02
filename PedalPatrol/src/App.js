@@ -12,8 +12,14 @@ import MapView from './components/views/home-view';
 import AuthState from './util/authenticationstate';
 import Database from './util/database';
 
+/**
+ * Main entry for the app. Handles the app's notifications.
+ */
 export default class App extends Component {
 
+	/**
+	 * Component mounted
+	 */
 	async componentDidMount() {
 		// TODO : Notifications don't work on ios unless you have a paid account. If on ios, just return
 		if (Platform.OS === 'ios') {
@@ -92,6 +98,9 @@ export default class App extends Component {
 		});
 	}
 
+	/**
+	 * Component is about to unmount
+	 */
 	componentWillUnmount() {
 		// TODO : Notifications don't work on ios unless you have a paid account. If on ios, just return
 		if (Platform === 'ios') {
@@ -104,6 +113,9 @@ export default class App extends Component {
 	}
 
 
+	/**
+	 * Render the main content in the side drawer.
+	 */
 	render() {
 		const Navigator = createAppContainer(createRootNavigator());
 		// Wrap the navigator in the side drawer otherwise it won't work.

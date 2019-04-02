@@ -1,6 +1,6 @@
 import Model from './model';
 import Database from '../../util/database';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 import TimeUtil from '../../util/timeutility';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
@@ -85,6 +85,10 @@ class BikeModel extends Model {
 		});
 	}
 
+	/**
+	 * Toggle the database listener off and then on again to get the data again.
+	 * TODO : Better method to do this?
+	 */
 	toggleListeners() {
 		if (this.listener != null) {
 			Database.readBikeDataOff(this.listener);

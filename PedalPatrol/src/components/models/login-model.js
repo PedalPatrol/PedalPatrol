@@ -8,7 +8,7 @@ import Model from './model';
 import Database from '../../util/database';
 import PersistStorage from '../../util/persistentstorage';
 import AuthState from '../../util/authenticationstate';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 import NotificationMethod from '../../util/notification';
 
 import { Platform } from 'react-native'; // Temporary
@@ -46,10 +46,20 @@ class LoginModel extends Model {
 		return {...this._data}
 	}
 
+	/**
+	 * Request sign-in with Twitter.
+	 *
+	 * @param {Function} onError - Callback function to call if there is an error
+	 */
 	updateT(onError) {
 		Database.signInwithTwitter(onError);
 	}
 	
+	/**
+	 * Request sign-in with Facebook.
+	 *
+	 * @param {Function} onError - Callback function to call if there is an error
+	 */
 	updateF(onError) {
 		Database.signinwithFB(onError);
 	}

@@ -13,7 +13,7 @@ import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import ProfilePresenter from '../presenters/profile-presenter';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 
 const PROFILE_TYPE = ImageUtil.getTypes().PROFILE;
 const NO_DATA = 'NO-DATA';
@@ -175,6 +175,7 @@ class ProfileView extends BaseView {
 			label={item.disabled ? this._renderName(item.name) : item.name}
 			multiline={item.multiline}
 			disabled={item.disabled}
+			keyboardType={item.keyboardType}
 			value={this.state.inputData[index].text}
 			onChangeText={(text) => {
 				let { inputData } = this.state; // inputData is a keyword in state

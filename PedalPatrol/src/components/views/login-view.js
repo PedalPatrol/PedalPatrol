@@ -54,6 +54,9 @@ class LoginView extends BaseView {
 		}
 	}
 
+	/**
+	 * Handle the Twitter icon click.
+	 */
 	_handleClickT = () => {
 		if (Platform.OS !== 'ios' ) {
 			console.log('clicked twitter')
@@ -71,6 +74,11 @@ class LoginView extends BaseView {
 		}
 	}
 
+	/**
+	 * Alert popup with a message.
+	 *
+	 * @param {string} message - An error message 
+	 */
 	onError = (message) => {
 		Alert.alert(
 			message,
@@ -82,6 +90,9 @@ class LoginView extends BaseView {
 		);
 	}
 	
+	/**
+	 * Handles a Facebook icon click.
+	 */
 	_handleClickF = () => {
 		if (Platform.OS !== 'ios' ) {
 			console.log('clicked facebook')
@@ -176,6 +187,7 @@ class LoginView extends BaseView {
 						style={text.textInput}
 						label="Username"
 						textContentType='username'
+						autoCapitalize="none"
 						value={this.state.username}
 						onChangeText={(username) => this.setState({username})}/>
 				</View>

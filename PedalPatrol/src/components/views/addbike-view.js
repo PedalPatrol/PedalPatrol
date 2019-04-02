@@ -13,7 +13,7 @@ import SafeArea from './helpers/safearea';
 import HandleBack from './helpers/handleback';
 import ImageCarousel from './helpers/imagecarousel';
 import AddBikePresenter from '../presenters/addbike-presenter';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 import TimeUtil from '../../util/timeutility';
 
 const colours = require('../../assets/colours/colours.json');

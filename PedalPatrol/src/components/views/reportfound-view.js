@@ -206,7 +206,8 @@ class ReportFoundView extends BaseView {
 
 	/**
 	 * Render the text of button.
-	 * @param{Object} rowData - the row data of the bike menu
+	 * @para m{Object} rowData - the row data of the bike menu
+	 * @return {string} Returns the name of the component
 	 */
 	_dropdown_2_renderButtonText(rowData) {
 		const {name} = rowData;
@@ -215,18 +216,18 @@ class ReportFoundView extends BaseView {
 
 	/**
 	 * Events after selecting the item from the dropdown menu
-	 * @param {int}idx - the id of the selected item in menu.
-	 * @param {Object}value - the value of the selected item.
+	 * @param {Number} idx - the id of the selected item in menu.
+	 * @param {Object} value - the value of the selected item.
 	 */
 	_dropdown_2_onSelect = (idx,value) => {
 		this.setState({bikeid: `${value.id}`});
 	}
 
 	/**
-	 * Render each row in the menu
-	 * @param {Object}rowData - each data in bikemenu
-	 * @param {int}rowID - the id of item in the menu
-	 * Highlight the selected item.
+	 * Render each row in the menu. Highlights the selected item.
+	 * @param {Object} rowData - each data in bikemenu
+	 * @param {Number} rowID - the id of item in the menu
+	 * @param {Boolean} highlighted - If the component should be highlighted or not
 	 */
 	 _dropdown_2_renderRow(rowData, rowID, highlighted) {
 		let evenRow = rowID % 2;
@@ -243,6 +244,9 @@ class ReportFoundView extends BaseView {
 	}
 
 
+	/**
+	 * Renders the react native component.
+	 */
 	render() {
 		return (
 			<View style={styles.container}>

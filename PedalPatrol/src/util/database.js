@@ -220,7 +220,7 @@ class FirebaseDatabase {
 	 *
 	 * @param {Object} newBikeData - New data to write
 	 * @param {Function} onSuccess - A function callback to run when writing is successful
-	 * @param {Function} onErorr - A function callback to run when writing fails
+	 * @param {Function} onError - A function callback to run when writing fails
 	 */
 	editBikeData(newBikeData, onSuccess, onError) {
 		const bikeID = newBikeData.id;
@@ -240,8 +240,8 @@ class FirebaseDatabase {
 	 * Overwrites data in the database by reading the data, merging it with the new values and writing back to the same ID.
 	 *
 	 * @param {Object} newProfileData - New data to write
-	 * @param {Function}b onSuccess - A function callback to run when writing is successful
-	 * @param {Function} onErorr - A function callback to run when writing fails
+	 * @param {Function} onSuccess - A function callback to run when writing is successful
+	 * @param {Function} onError - A function callback to run when writing fails
 	 */
 	editProfileData(newProfileData, onSuccess, onError) {
 		const userID = newProfileData.id;

@@ -61,6 +61,10 @@ class HomeModel extends Model {
 		});
 	}
 
+	/**
+	 * Toggle the database listener off and then on again to get the data again.
+	 * TODO : Better method to do this?
+	 */
 	toggleListeners() {
 		if (this.listener != null) {
 			Database.readBikeDataOff(this.listener);
@@ -160,7 +164,7 @@ class HomeModel extends Model {
 			this._editExistingInDatabase(newData.data, (result) => {
 				this._callback(true); 
 				this._removeFromData(newData.data); 
-				this._notifyAll(this._data.data);
+				this._notifyAll(this._data);
 			});
 		}
 	}
@@ -237,7 +241,7 @@ class HomeModel extends Model {
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			callbacK(false);
+			callback(false);
 			// this._callback(false);
 		});
 	}

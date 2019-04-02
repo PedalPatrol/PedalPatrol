@@ -13,7 +13,9 @@
     "add-ant": "cp src/util/AntDesign.js node_modules/react-native-vector-icons/ && cp src/util/AntDesign.json node_modules/react-native-vector-icons/glyphmaps/",
     "rmTwitterRN": "rm -rf node_modules/react-native-twitter-signin/node_modules/react-native/",
     "reset-build": "rm -rf node_modules/ && npm install && react-native upgrade && react-native link",
-    "docs": "rm -rf docs/ && documentation build src/** -f html -o docs --shallow",
+    "docs": "npm run docs:esdoc",
+    "docs:esdoc": "esdoc",
+    "docs:documentation": "documentation build src/components/views/** -f html -o view-docs --shallow --config documentation.yml",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/PedalPatrol/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
@@ -37,6 +39,7 @@
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-nested-listview": "^0.6.0",
     "react-native-paper": "^2.15.0",
+    "react-native-render-html": "^4.1.2",
     "react-native-sectioned-multi-select": "^0.6.4",
     "react-native-settings-list": "^1.8.0",
     "react-native-snap-carousel": "^3.7.5",
@@ -44,27 +47,40 @@
     "react-native-vector-icons": "^4.6.0",
     "react-navigation": "^3.0.9",
     "rxjs": "^6.4.0",
-    "webpack": "^3.12.0"
+    "webpack": "^4.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
     "@babel/plugin-transform-runtime": "^7.2.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/polyfill": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-stage-0": "^7.0.0",
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.3.1",
     "babel-cli": "^6.26.0",
     "babel-jest": "^24.1.0",
-    "babel-loader": "^8.0.1",
+    "babel-loader": "^8.0.5",
     "babel-minify-webpack-plugin": "^0.2.0",
+    "babel-plugin-react-native-web": "^0.11.2",
     "babel-plugin-root-import": "^6.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "coveralls": "^3.0.3",
     "documentation": "^9.3.0",
+    "esdoc": "^1.1.0",
+    "esdoc-ecmascript-proposal-plugin": "^1.0.0",
+    "esdoc-external-ecmascript-plugin": "^1.0.0",
+    "esdoc-external-nodejs-plugin": "^1.0.0",
+    "esdoc-jsx-plugin": "^1.0.0",
+    "esdoc-react-plugin": "^1.0.1",
+    "esdoc-standard-plugin": "^1.0.0",
+    "file-loader": "^3.0.1",
     "jest": "^24.1.0",
-    "metro-react-native-babel-preset": "0.51.1",
+    "metro-react-native-babel-preset": "^0.51.1",
+    "react-art": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-test-renderer": "16.6.3",
     "typescript": "^3.3.3333"
   },
@@ -85,6 +101,71 @@
         }
       ],
       "@babel/plugin-proposal-class-properties"
+    ]
+  },
+  "esdoc": {
+    "source": "./src",
+    "destination": "./docs",
+    "includes": [
+      "\\.js$"
+    ],
+    "excludes": [
+      "\\.json\\.config\\.js$",
+      "(export-models|entries|navigation|AntDesign).js",
+      "(stylesheets|imagehelpers|ActionButton)"
+    ],
+    "index": "./README.md",
+    "plugins": [
+      {
+        "name": "esdoc-standard-plugin",
+        "option": {
+          "lint": {
+            "enable": true
+          },
+          "coverage": {
+            "enable": true
+          },
+          "typeInference": {
+            "enable": true
+          },
+          "undocumentIdentifier": {
+            "enable": true
+          },
+          "unexportedIdentifier": {
+            "enable": false
+          },
+          "brand": {
+            "logo": "./src/assets/images/ppInvertedLogo.png",
+            "title": "PedalPatrol",
+            "description": "A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes.",
+            "repository": "https://github.com/PedalPatrol/PedalPatrol",
+            "site": "http://my-library.org",
+            "author": "https://twitter.com/foo",
+            "image": "http://my-library.org/logo.png"
+          }
+        }
+      },
+      {
+        "name": "esdoc-ecmascript-proposal-plugin",
+        "option": {
+          "all": true
+        }
+      },
+      {
+        "name": "esdoc-react-plugin"
+      },
+      {
+        "name": "esdoc-external-ecmascript-plugin",
+        "option": {
+          "enable": true
+        }
+      },
+      {
+        "name": "esdoc-external-nodejs-plugin",
+        "option": {
+          "enable": true
+        }
+      }
     ]
   }
 }

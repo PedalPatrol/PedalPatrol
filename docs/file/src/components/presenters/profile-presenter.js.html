@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/components/presenters/profile-presenter.js | PedalPatrol</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:type" content="website"><meta property="og:url" content="http://my-library.org"><meta property="og:site_name" content="PedalPatrol"><meta property="og:title" content="PedalPatrol"><meta property="og:image" content="http://my-library.org/logo.png"><meta property="og:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:author" content="https://twitter.com/foo"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="PedalPatrol"><meta property="twitter:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="twitter:image" content="http://my-library.org/logo.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/PedalPatrol/PedalPatrol"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/App.js~App.html">App</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-models">components/models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/alert-model.js~AlertModel.html">AlertModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/authloading-model.js~AuthLoadingModel.html">AuthLoadingModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/bike-model.js~BikeModel.html">BikeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/home-model.js~HomeModel.html">HomeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/login-model.js~LoginModel.html">LoginModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/map-model.js~MapModel.html">MapModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/modelOld.js~ModelOld.html">ModelOld</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/profile-model.js~ProfileModel.html">ProfileModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/signup-model.js~SignupModel.html">SignupModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-presenters">components/presenters</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/addbike-presenter.js~AddBikePresenter.html">AddBikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/alert-presenter.js~AlertPresenter.html">AlertPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/authloading-presenter.js~AuthLoadingPresenter.html">AuthLoadingPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bike-presenter.js~BikePresenter.html">BikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bikedetails-presenter.js~BikeDetailsPresenter.html">BikeDetailsPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/home-presenter.js~HomePresenter.html">HomePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/login-presenter.js~LoginPresenter.html">LoginPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/map-presenter.js~MapPresenter.html">MapPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/presenter.js~BasePresenter.html">BasePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/profile-presenter.js~ProfilePresenter.html">ProfilePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportfound-presenter.js~ReportFoundPresenter.html">ReportFoundPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportlost-presenter.js~ReportLostPresenter.html">ReportLostPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/signup-presenter.js~SignUpPresenter.html">SignUpPresenter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views">components/views</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/addbike-view.js~AddBikeView.html">AddBikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/alert-view.js~AlertView.html">AlertView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/authloading-view.js~AuthLoadingView.html">AuthLoadingView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bike-view.js~BikeView.html">BikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bikedetails-view.js~BikeDetailsView.html">BikeDetailsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/help-view.js~HelpView.html">HelpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/home-view.js~HomeView.html">HomeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/login-view.js~LoginView.html">LoginView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/map-view.js~MapView.html">MapView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/notification-view.js~NotificationView.html">NotificationView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/profile-view.js~ProfileView.html">ProfileView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportfound-view.js~ReportFoundView.html">ReportFoundView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportlost-view.js~ReportLostView.html">ReportLostView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/settings-view.js~SettingsView.html">SettingsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/signup-view.js~SignUpView.html">SignUpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/view.js~BaseView.html">BaseView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views-helpers">components/views/helpers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/bikeitem.js~BikeItem.html">BikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/drawerheader.js~DrawerHeader.html">DrawerHeader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/imagecarousel.js~ImageCarousel.html">ImageCarousel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/loginbutton.js~LoginButton.html">LoginButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/notificationbikeitem.js~NotificationBikeItem.html">NotificationBikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/privacypolicy.js~PrivacyPolicy.html">PrivacyPolicy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/profilebutton.js~ProfileButton.html">ProfileButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/safearea.js~SafeArea.html">SafeArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/searchbar.js~SearchBar.html">SearchBar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/sidedrawer.js~SideDrawer.html">SideDrawer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#config">config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/config/navigationservice.js~NavigationService.html">NavigationService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NavigatorService">NavigatorService</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/authenticationstate.js~AuthenticationState.html">AuthenticationState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/database.js~FirebaseDatabase.html">FirebaseDatabase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/drawerhelper.js~DrawerHelper.html">DrawerHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/imageutility.js~ImageUtility.html">ImageUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/notification.js~Notification.html">Notification</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/observerlist.js~ObserverList.html">ObserverList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/persistentstorage.js~PersistentStorage.html">PersistentStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/timeutility.js~TimeUtility.html">TimeUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AuthState">AuthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Database">Database</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DrawerHelp">DrawerHelp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageUtil">ImageUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NotificationMethod">NotificationMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PersistStorage">PersistStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TimeUtil">TimeUtil</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/components/presenters/profile-presenter.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import BasePresenter from &apos;./presenter&apos;;
+import { ProfileM } from &apos;../models/export-models&apos;; // Using the ProfileModel class because an ProfileModel class would have the same purpose
+import ImageUtil from &apos;../../util/imageutility&apos;;
+
+const NO_DATA = &apos;NO-DATA&apos;;
+const PROFILE_TYPE = ImageUtil.getTypes().PROFILE;
+
+/**
+ * Class for the Profile presenter and view
+ * @extends BasePresenter
+ */
+class ProfilePresenter extends BasePresenter {
+	/**
+	 * Creates an instance of ProfilePresenter
+	 *
+	 * @constructor
+	 * @param {Object} view - An instance of a view class
+	 */
+	constructor(view) {
+		super();
+		this.view = view;
+		this.currentPhotos = Object.assign(ImageUtil.getPhotoEntries(PROFILE_TYPE));
+		ProfileM.subscribe(this);
+	}
+
+	/**
+	 * Updates the profile model with new data.
+	 *
+	 * @param {Object} newData - New data to update the model&apos;s data with.
+	 * @param {Function} callback - A function that will execute a callback when accessing is complete
+	 */
+	update = (newData, callback) =&gt; {
+		const builtData = this._buildDataFromView(newData);
+
+		// TODO : Proper checking to see if it was uploaded. Consider adding callback to onUpdated
+		ProfileM.setCallback(callback);
+
+		ProfileM.update(builtData);
+	}
+
+	/**
+	 * Build the data obtained from the view and insert it into a new data object.
+	 * Current attributes of newData object: 
+	 * 			{Object} inputTextData: [{name, multiline, profile_editable, text}]
+	 * 			{Object} picture: uri
+	 *		
+	 *
+	 * @param {Object} newData - The new data from the view. 
+	 * @return {Object} The built data of the object. Attributes: data
+	 */
+	_buildDataFromView = (newData) =&gt; {
+		const inputTextData = newData.inputTextData;
+		const pictureSource = newData.picture;
+		const currentID = newData.currentID;
+
+		let builtData = {
+			data: {
+				id: currentID,
+				email: inputTextData[inputDataList.index.email].text,
+				phoneNum: inputTextData[inputDataList.index.phoneNum].text,
+				full_name: inputTextData[inputDataList.index.full_name].text,
+				thumbnail: pictureSource != null ? pictureSource : [{illustration: ImageUtil.getDefaultImage(PROFILE_TYPE)}]
+			}
+		}
+
+		return builtData;
+	}
+
+
+	/**
+	 * Called when the model is updated with new data. Refreshes the state of the view.
+	 * Method is supplied with the data to add.
+	 * Better way to refresh the state?
+	 *
+	 * @param {Object} newData - New data to add.
+	 */
+	onUpdated = (newData) =&gt; {
+		// Do something with the new data or let the view auto update?
+		this.view.refreshState();
+	};
+
+
+	/**
+	 * Called when the model is updated with new data. Refreshes the state of the view.
+	 * Better way to refresh the state?
+	 */
+	onUpdated = () =&gt; {
+	 	this.view.refreshState();
+	};
+
+	/**
+	 * Gets the data from the model and returns it to the caller.
+	 *
+	 * @return {Object} Data from the model.
+	 */
+	getData = () =&gt; {
+		return ProfileM.get().data;
+	};
+
+	/**
+	 * If the view or presenter is destroyed, unsubscribe the presenter from the model.
+	 */
+	onDestroy = () =&gt; {
+		ProfileM.unsubscribe(this);
+	};
+
+
+	/**
+	 * Checks the editing state of the view and calls one of its passed in functions.
+	 *
+	 * @param {Boolean} editingState - The editing state of the view
+	 * @param {Function} success - A function to call on a true value of the editing state
+	 * @param {Function} failure - A function to call on a false value of the editing state
+	 */
+	checkEditingState = (editingState, success, failure) =&gt; {
+		// Do any checks on the editing state
+		if (editingState) {
+			success();
+		} else {
+			failure();
+		}
+	}
+
+	
+	/**
+	 * Open the image picker. Set the editing option to true.
+	 *
+	 * @param {Object} imagePicker - The ImagePicker class from react-native-image-picker
+	 * @param {Function} setEditing - A function so the presenter can set the editing value
+	 * @param {Number} id - The index of the photo to change
+	 * @param {List} photos - A list of photos as strings
+	 */
+	selectPhotoTapped(imagePicker, setEditing, id, photos) {
+		const options = {
+			quality: 1.0,
+			maxWidth: 500,
+			maxHeight: 500,
+			storageOptions: {
+				skipBackup: true,
+			},
+		};
+
+		 // Set the editing state to true by calling a passed in function where the view can do what it needs to
+		setEditing(true);
+
+		imagePicker.showImagePicker(options, (response) =&gt; {
+			console.log(&apos;Response = &apos;, response);
+
+			if (response.didCancel) {
+				console.log(&apos;User cancelled photo picker&apos;);
+			} else if (response.error) {
+				console.log(&apos;ImagePicker Error: &apos;, response.error);
+			} else if (response.customButton) {
+				console.log(&apos;User tapped custom button: &apos;, response.customButton);
+			} else {
+				let source = { uri: response.uri };
+
+				// You can also display the image using data:
+				// let source = { uri: &apos;data:image/jpeg;base64,&apos; + response.data };
+
+				photos[id].illustration = source;
+				this.currentPhotos = photos;
+
+				console.log(id, photos);
+
+				this.view.setState({
+					photoEntries: JSON.parse(JSON.stringify(this.currentPhotos)),
+				});
+
+				this.view.refreshState();
+			}
+		});
+	}
+
+	/**
+	 * @private
+	 * Makes sure the object with the key exists.
+	 */
+	getProp = (object, key) =&gt; object &amp;&amp; this.check(object[key]);
+
+	/**
+	 * @private
+	 * Simple regex check
+	 * 
+	 * return {Boolean}
+	 */
+	check = (s) =&gt; {
+		return s.replace(/[\W\[\] ]/g, function (a) {
+			return a;
+		})
+	};
+
+	/**
+	 * Checks the input data for required inputs and calls an alert function if inputs are missing.
+	 *
+	 * @param {List} inputData - A list of input data (see inputDataList for structure)
+	 * @param {Function} inputRequirementFailure - A function that will define the alert to be displayed.
+	 * @return {Boolean} true: some required inputs are blank; false: required inputs are not blank
+	 */
+	checkInputs = (inputData, inputRequirementFailure) =&gt; {
+		let required = this._getRequiredInputs(inputData);
+		let names = [];
+		for (let i=0; i &lt; required.length; i++) {
+			if (required[i].text === &quot;&quot;) {
+				names.push(required[i].name);
+			}
+		}
+		if (names.length !== 0) {
+			inputRequirementFailure(names);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Returns the required inputs based on the required property
+	 *
+	 * @param {List} inputs - A list of input data
+	 * @return {List} A list of required text inputs
+	 */
+	_getRequiredInputs = (inputs) =&gt; {
+		return inputs.filter(obj =&gt; {return obj.required});
+	}
+
+
+	/**
+	 * Return the data for the text inputs.
+	 * Object:
+	 *		name: the name/label of the text input
+	 * 		multiline: true: if the input is allowed to span multiple lines; false: otherwise
+	 *		text: initial text of the input
+	 *
+	 * @param {Object} data - type &apos;Object&apos; if there is data, type &apos;string&apos; if no data
+	 * @return {List} A list of data objects (name, multiline, text)
+	 */
+	getTextInputData = (data) =&gt; {
+		return data === NO_DATA ? this._deepCopy(inputDataList.data) : this._translateDataToInput(data);
+	}
+
+
+	/**
+	 * Translates data input (Profile data) to the text inputs. Could be refactored to be made easier for adaptations.
+	 *
+	 * @param {Object} data - The data from the view (=== &apos;NO-DATA&apos; if not set)
+	 * @return {List} A copy of the data that is now in the form of the text input
+	 */
+	_translateDataToInput = (data) =&gt; {
+		let dataCopy = this._deepCopy(inputDataList.data);
+
+		// We take data[0] because the data is a list
+		dataCopy[inputDataList.index.email].text 	= this._getString(data[0].email);
+		dataCopy[inputDataList.index.full_name].text 	= this._getString(data[0].full_name);
+		dataCopy[inputDataList.index.phoneNum].text 	= this._getString(data[0].phoneNum);
+
+		this.currentPhotos = ImageUtil.formThumbnail(data[0].thumbnail);
+		this.view.setState({ currentID: data.id });
+
+		return this._deepCopy(dataCopy); 
+	}
+
+
+	/**
+	 * Checks if the value is valid and if so, convert it to a string.
+	 *
+	 * @param {Number/string} val - A number or string to check
+	 * @return {string} Value converted to a string
+	 */
+	_getString = (val) =&gt; {
+		return val == undefined || val == null ? &apos;&apos; : val.toString();
+	}
+
+	/**
+	 * Resets the current photos to the default photos.
+	 */
+	clearPhotos = () =&gt; {
+		this.currentPhotos = ImageUtil.getDefaultPhotos(PROFILE_TYPE);
+	}
+
+	/**
+	 * Returns a deep copy of the current photos.
+	 *
+	 * @return {List} A list of the current photos
+	 */
+	getCurrentPhotos = () =&gt; {
+		return JSON.parse(JSON.stringify(this.currentPhotos));
+	}
+
+	/**
+	 * Returns a deep copy of the array by reassigning the values. This is to make sure we can clear the data.
+	 *
+	 * @return {List} A list to copy
+	 */
+	_deepCopy = (array) =&gt; {
+		return array.map(a =&gt; Object.assign({}, a));
+	}
+}
+
+export default ProfilePresenter;
+
+
+// List of text inputs for adding Profile information. Items in list appear in this order
+/*
+ * data:
+ *		name: The name/label of the text input
+ *		multiline: true: if the user&apos;s text can span multiple lines; false: otherwise
+ *		text: The initial text of the name/label
+ */
+const inputDataList = {
+	index: {
+		email: 		0,
+		full_name: 	1,
+		phoneNum: 	2,
+	},
+	data: [
+		{
+			name: &apos;Email&apos;,
+			multiline: false,
+			disabled: true,
+			required: false,
+			text: &apos;&apos;,
+			keyboardType: &apos;default&apos;
+		},
+		{
+			name: &apos;Full Name&apos;,
+			multiline: false,
+			disabled: false,
+			required: false,
+			text: &apos;&apos;,
+			keyboardType: &apos;default&apos;
+		},
+		{
+			name: &apos;Phone Number&apos;,
+			multiline: false,
+			disabled: false,
+			required: false,
+			text: &apos;&apos;,
+			keyboardType: &apos;number-pad&apos;
+		},
+	]
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

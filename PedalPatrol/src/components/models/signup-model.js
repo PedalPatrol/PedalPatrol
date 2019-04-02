@@ -11,6 +11,10 @@ import Database from '../../util/database';
  * @extends Model
  */
 class SignupModel extends Model {
+	/**
+	 * Creates an instance of SignupModel.
+	 * @constructor
+	 */
 	constructor(){
 		super();
 		this._data = {
@@ -24,6 +28,11 @@ class SignupModel extends Model {
 		this._createObserverList();
 	}
 
+	/**
+	 * Return the data from the model.
+	 *
+	 * @return {Object} The data stored in the model
+	 */
 	get() {
 		return {...this._data}
 	}
@@ -51,16 +60,21 @@ class SignupModel extends Model {
 		}).catch(this.onErrorCallback);
 	}
 
+	/**
+	 * Signout the user
+	 */
 	onSuccessSignOut = () => {
-		console.log('Signed Out');
-		const b = true;
-		this._notifyAll(b);
+		// console.log('Signed Out');
+		this._notifyAll(true);
 	}
 
+	/**
+	 * Error callback to call if there is an error.
+	 *
+	 * @param {string} error - The message of the error that occurred. default: null
+	 */
 	onErrorCallback = (error=null) => {
 		if (error) {
-			console.log(error);
-		} else {
 			console.log(error);
 		}
 
@@ -68,10 +82,6 @@ class SignupModel extends Model {
 		errorMessage = false;
 		this._notifyAll(errorMessage);
 	}
-
-
-	 //onError() => {}
-	 //onComplete () => {}
 }
 
 export default SignupModel;

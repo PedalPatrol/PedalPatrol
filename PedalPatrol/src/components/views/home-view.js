@@ -77,7 +77,7 @@ class HomeView extends BaseView {
 			handleSearchFilter={(text) => this.HomeP.handleSearchFilter(text)}
 			handleSearchCancel={this.HomeP.handleSearchCancel}
 			handleSearchClear={this.HomeP.handleSearchClear}
-			searchBy='model'
+			searchBy='brand'
 			openFilter={this.temporaryFilter}
 			profilePicture={this.state.profileData.profilePicture}
 			name={this.state.profileData.full_name}

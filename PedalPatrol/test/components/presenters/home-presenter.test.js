@@ -44,8 +44,8 @@ test('should filter searched items correctly', () => {
 	const homepresenter = new HomePresenter(view);
 	const setState = view.setState = jest.fn((dummy) => 'default').mockName('setState');
 	
-	let dataToPass = { data: { model: 'Test', id: 0 } };
-	let result_data = { data: [{ model: 'Test', id: 0 }] }; // To Change when actual UID is obtained
+	let dataToPass = { data: { brand: 'Test', id: 0 } };
+	let result_data = { data: [{ brand: 'Test', id: 0 }] }; // To Change when actual UID is obtained
 	
 	homepresenter.testUpdateInjection(dataToPass);
 	homepresenter.handleSearchFilter('Te');

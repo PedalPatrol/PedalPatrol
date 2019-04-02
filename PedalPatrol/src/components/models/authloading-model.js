@@ -17,10 +17,13 @@ class AuthLoadingModel extends Model {
 	constructor(){
 		super();
 		this._createObserverList();
-this.unsubscribeAuthListener = this.defaultUnsubscribe;
+		this.unsubscribeAuthListener = this.defaultUnsubscribe;
 	}
 
-defaultUnsubscribe() {
+	/**
+	 * Default stub for unsubscribe function.
+	 */
+	defaultUnsubscribe() {
 		// Stub
 	}
 

@@ -45,15 +45,26 @@ class Notification extends Component {
 			return false;
 		}
 
-		const fcmToken = await firebase.messaging().getToken();
-			if (fcmToken) {
-				console.log(`token is:${fcmToken}`)
-				return fcmToken;
-			} else {
-				// user doesn't have a device token yet
-				console.log('user doesnt have a device token yet');
-				return false;
-			}
+	 const fcmToken = await firebase.messaging().getToken();
+        if (fcmToken) {
+            //console.log(`token is:${fcmToken}`)
+            const fcm = fcmToken;
+            const newData = {data:{}};
+            newData.data.id = AuthState.getCurrentUserID();
+            newData.data.deviceToken = fcm ;
+            console.log(fcm);
+            const prepareUpdate = newData.data;
+            Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+//            Database.editProfileData(prepareUpdate, (data) => {
+//            this._callback(true);
+//            },(error) => {
+//            this._callback(false);
+//            });
+        } else {
+            // user doesn't have a device token yet
+            console.log('user doesnt have a device token yet');
+            return false;
+        }
 	}
 
 	/**
@@ -75,8 +86,19 @@ class Notification extends Component {
 		if (Platform.OS === 'ios') {
 			return null;
 		}
-		await firebase.messaging().deleteToken();
+		 await firebase.messaging().deleteToken();
+    const prepareUpdate = {};
+    prepareUpdate.id = AuthState.getCurrentUserID();
+    prepareUpdate.deviceToken = "";
+    Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
 	}
+
+	deleteNotificationArea(){
+    const prepareUpdate = {};
+    prepareUpdate.id = AuthState.getCurrentUserID();
+    prepareUpdate.hasCircle = false;
+    Database.editProfileData(prepareUpdate, ()=>{this._callback(true)}, ()=>{this._callback(false)});
+}
 
 }
 

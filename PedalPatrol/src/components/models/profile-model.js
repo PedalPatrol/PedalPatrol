@@ -2,7 +2,7 @@ import Model from './model';
 import Database from '../../util/database';
 import AuthState from '../../util/authenticationstate';
 import PersistStorage from '../../util/persistentstorage';
-import ImageUtil from '../../util/imageutil';
+import ImageUtil from '../../util/imageutility';
 
 const PROFILE_TYPE = ImageUtil.getTypes().PROFILE;
 
@@ -325,7 +325,7 @@ class ProfileModel extends Model {
 			// this._callback(typeof data !== 'undefined' && data !== undefined);
 		},(error) => {
 			console.log(error);
-			callbacK(false);
+			callback(false);
 			// this._callback(false);
 		});
 	}

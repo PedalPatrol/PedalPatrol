@@ -68,7 +68,6 @@ class MapView extends BaseView {
 	}
 
 	componentWillMount = () => {
-		this._setUserLocation();
 		this._setProfileImage();
 	}
 
@@ -77,7 +76,7 @@ class MapView extends BaseView {
 	 */
 	componentDidMount = () => {
 		this.MapP.forceRequestData();
-		
+		this._setUserLocation();
 		this._setMarkers(this.state.selectedFilters);
 	};
 
@@ -270,7 +269,7 @@ class MapView extends BaseView {
 	 */
 	saveItem(){
 		if (this.state.showCircle){
-			this.saveCircle();
+			this.sendCircle();
 			this.setState({
 				showCircle: false,
 				showMarker: false
@@ -345,7 +344,7 @@ class MapView extends BaseView {
 	/**
 	 * Save data of circle to notification settings
 	 */
-	saveCircle(){
+	sendCircle(){
 		//nothing
 		newData = {
 			data: {
@@ -354,6 +353,7 @@ class MapView extends BaseView {
 				radius: this.state.circleRadius,
 			}
 		}
+		this.MapP.updateCircle(newData);
 		// console.log(newData);
 	}
 
@@ -374,7 +374,7 @@ class MapView extends BaseView {
 	/**
 	 *  Long press the map to change the coordinate of circle
 	 *
-	 * @param {Event} The event of long press on the map
+	 * @param {Object} e - The event of long press on the map
 	 */
 	setCircleLat(e) {
 		let cor = e.nativeEvent.coordinate;
@@ -463,7 +463,7 @@ class MapView extends BaseView {
 					<View style={map_styles.calloutColumn}>
 						<View style={map_styles.calloutRow}>
 							<Text style={map_styles.brandText} numberOfLines={1} ellipsizeMode ={'tail'}>
-								{item.data.Brand == undefined || item.data.Brand === '' ? 'Brand Unknown' : item.data.Brand}
+								{item.data.brand == undefined || item.data.brand === '' ? 'Brand Unknown' : item.data.brand}
 							</Text>
 							<Text numberOfLines={1} ellipsizeMode={'tail'}>
 							{'   '}
@@ -492,6 +492,9 @@ class MapView extends BaseView {
 		</Callout>
 	);
 
+	/**
+	 * Renders the save action button
+	 */
 	_renderSaveActionButton = () => (
 		<ActionButton.Item
 			onPress={()=>{this.saveItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
@@ -502,6 +505,9 @@ class MapView extends BaseView {
 		</ActionButton.Item>
 	);
 
+	/**
+	 * Renders the cancel action button
+	 */
 	_renderCancelActionButton = () => (
 		<ActionButton.Item
 			onPress={()=>{this.deleteItem(); this.circleABRef.reset(); this.pinABRef.reset();}}
@@ -512,14 +518,23 @@ class MapView extends BaseView {
 		</ActionButton.Item>
 	);
 
+	/**
+	 * Renders the action button icon pin.
+	 */
 	_renderActionButtonPinIcon = () => (
 		<Icon name="pin-drop" type="MaterialIcons" size={35} color={this.state.showMarker ? colours.ppWhite : colours.ppBlue} />
 	);
 
+	/**
+	 * Renders the action button add icon.
+	 */
 	_renderActionButtonAddIcon = () => (
 		<Icon name="circle-o-notch" type="font-awesome" size={35} color={this.state.showCircle ? colours.ppWhite : colours.ppBlue}/>
 	);
 
+	/**
+	 * Toggle the notification area.
+	 */
 	_toggleCircle = () => {
 		if (this.state.showCircle) {
 			this.setState({

@@ -28,6 +28,7 @@ class NotificationView extends Component {
 	 * Render the element if condition is satisfied
 	 * @param {Boolean} condition - judge if condition is satisfied
 	 * @param {Boolean} element - element will be rendered.
+	 * @return {Component} The component if rendered, null otherwise
 	 */
 	renderIf(condition,element){
 		return condition ? element : null;

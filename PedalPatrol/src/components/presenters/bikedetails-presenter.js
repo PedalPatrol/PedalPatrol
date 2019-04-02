@@ -1,6 +1,6 @@
 import BasePresenter from './presenter';
-import { HomeM, MapM } from '../models/export-models';
-import ImageUtil from '../../util/imageutil';
+import { HomeM, MapM, AlertM } from '../models/export-models';
+import ImageUtil from '../../util/imageutility';
 
 const NO_DATA = 'NO-DATA';
 
@@ -183,12 +183,45 @@ class BikeDetailsPresenter extends BasePresenter {
   		MapM.showMaps(location);
   	}
 
+  	confirmFound(rawData,callback){
+
+        const newBike = {data:{}};
+        Object.keys(rawData).forEach((key) => {
+        // console.log(key)
+        newBike.data[key] = rawData[key];
+        });
+        // console.log(newBike.data.id);
+        newBike.data.found = false;
+        newBike.data.stolen = false;
+        newBike.data.found_description = '';
+        newBike.data.found_latitude = '';
+        newBike.data.found_longitude = '';
+        newBike.data.found_milliseconds = '';
+        newBike.data.latitude = '';
+        newBike.data.longitude = '';
+        newBike.data.milliseconds = '';
+        AlertM.setCallback(callback);
+        AlertM.update(newBike.data);
+    }
+    rejectFound(rawData,callback){
+        const newBike = {data:{}};
+        Object.keys(rawData).forEach((key) => {
+        // console.log(key)
+        newBike.data[key] = rawData[key];
+        });
+        // console.log(newBike.data.id);
+        newBike.data.found = false;
+        newBike.data.stolen = true;
+        AlertM.setCallback(callback);
+        AlertM.update(newBike.data);
+    }
+
 	getDataFromID(id){
   	    let dataList = HomeM.get().data;
-  	    console.log(dataList);
+  	    // console.log(dataList);
   	    for (let i = 0; i < dataList.length; i ++ ){
   	        if(dataList[i].id == id){
-  	            console.log('i found id');
+  	            // console.log('i found id');
   	            return dataList[i];
   	        }
   	    }

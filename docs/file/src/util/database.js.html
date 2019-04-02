@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/util/database.js | PedalPatrol</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:type" content="website"><meta property="og:url" content="http://my-library.org"><meta property="og:site_name" content="PedalPatrol"><meta property="og:title" content="PedalPatrol"><meta property="og:image" content="http://my-library.org/logo.png"><meta property="og:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="og:author" content="https://twitter.com/foo"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="PedalPatrol"><meta property="twitter:description" content="A cross-platform mobile application for crowdsourcing the retrieval of stolen bikes."><meta property="twitter:image" content="http://my-library.org/logo.png"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./" style="display: flex; align-items: center;"><img src="./image/brand_logo.png" style="width:34px;"></a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/PedalPatrol/PedalPatrol"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/App.js~App.html">App</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-models">components/models</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/alert-model.js~AlertModel.html">AlertModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/authloading-model.js~AuthLoadingModel.html">AuthLoadingModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/bike-model.js~BikeModel.html">BikeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/home-model.js~HomeModel.html">HomeModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/login-model.js~LoginModel.html">LoginModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/map-model.js~MapModel.html">MapModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/model.js~Model.html">Model</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/modelOld.js~ModelOld.html">ModelOld</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/profile-model.js~ProfileModel.html">ProfileModel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/models/signup-model.js~SignupModel.html">SignupModel</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-presenters">components/presenters</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/addbike-presenter.js~AddBikePresenter.html">AddBikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/alert-presenter.js~AlertPresenter.html">AlertPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/authloading-presenter.js~AuthLoadingPresenter.html">AuthLoadingPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bike-presenter.js~BikePresenter.html">BikePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/bikedetails-presenter.js~BikeDetailsPresenter.html">BikeDetailsPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/home-presenter.js~HomePresenter.html">HomePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/login-presenter.js~LoginPresenter.html">LoginPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/map-presenter.js~MapPresenter.html">MapPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/presenter.js~BasePresenter.html">BasePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/profile-presenter.js~ProfilePresenter.html">ProfilePresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportfound-presenter.js~ReportFoundPresenter.html">ReportFoundPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/reportlost-presenter.js~ReportLostPresenter.html">ReportLostPresenter</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/presenters/signup-presenter.js~SignUpPresenter.html">SignUpPresenter</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views">components/views</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/addbike-view.js~AddBikeView.html">AddBikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/alert-view.js~AlertView.html">AlertView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/authloading-view.js~AuthLoadingView.html">AuthLoadingView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bike-view.js~BikeView.html">BikeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/bikedetails-view.js~BikeDetailsView.html">BikeDetailsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/help-view.js~HelpView.html">HelpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/home-view.js~HomeView.html">HomeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/login-view.js~LoginView.html">LoginView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/map-view.js~MapView.html">MapView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/notification-view.js~NotificationView.html">NotificationView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/profile-view.js~ProfileView.html">ProfileView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportfound-view.js~ReportFoundView.html">ReportFoundView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/reportlost-view.js~ReportLostView.html">ReportLostView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/settings-view.js~SettingsView.html">SettingsView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/signup-view.js~SignUpView.html">SignUpView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/view.js~BaseView.html">BaseView</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#components-views-helpers">components/views/helpers</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/bikeitem.js~BikeItem.html">BikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/drawerheader.js~DrawerHeader.html">DrawerHeader</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/imagecarousel.js~ImageCarousel.html">ImageCarousel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/loginbutton.js~LoginButton.html">LoginButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/notificationbikeitem.js~NotificationBikeItem.html">NotificationBikeItem</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/privacypolicy.js~PrivacyPolicy.html">PrivacyPolicy</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/profilebutton.js~ProfileButton.html">ProfileButton</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/safearea.js~SafeArea.html">SafeArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/searchbar.js~SearchBar.html">SearchBar</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/components/views/helpers/sidedrawer.js~SideDrawer.html">SideDrawer</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#config">config</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/config/navigationservice.js~NavigationService.html">NavigationService</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NavigatorService">NavigatorService</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#util">util</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/authenticationstate.js~AuthenticationState.html">AuthenticationState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/database.js~FirebaseDatabase.html">FirebaseDatabase</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/drawerhelper.js~DrawerHelper.html">DrawerHelper</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/imageutility.js~ImageUtility.html">ImageUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/notification.js~Notification.html">Notification</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/observerlist.js~ObserverList.html">ObserverList</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/persistentstorage.js~PersistentStorage.html">PersistentStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/util/timeutility.js~TimeUtility.html">TimeUtility</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-AuthState">AuthState</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-Database">Database</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-DrawerHelp">DrawerHelp</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-ImageUtil">ImageUtil</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-NotificationMethod">NotificationMethod</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-PersistStorage">PersistStorage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-TimeUtil">TimeUtil</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/util/database.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">// import firebase from &apos;react-native-firebase&apos;;
+import firebase from &apos;firebase&apos;; // Using regular firebase here because there are some problems when trying to move to react-native-firebase 
+import &apos;firebase/storage&apos;; // Necessary for jest tests
+import { Platform, NativeModules } from &apos;react-native&apos;;
+import { LoginButton, AccessToken, LoginManager } from &apos;react-native-fbsdk&apos;;
+
+import {default as config} from &apos;../config/config&apos;;
+import TimeUtil from &apos;./timeutility&apos;;
+
+const { RNTwitterSignIn } = NativeModules;
+
+const BikeImages = &apos;BikeImages/&apos;;
+const ProfileImages = &apos;ProfileImages/&apos;;
+
+/**
+ * Class for the firebase database connection and operations
+ */
+class FirebaseDatabase {
+	/**
+	 * Creates an instance of the FirebaseDatabase class.
+	 * Initializes the app as a firebase app and sets up the storage references.
+	 * @constructor
+	 */
+	constructor() {
+		this.currentUser = null;
+
+		if (!firebase.apps.length) {
+			firebase.initializeApp(config.databaseConfig);
+		}
+		this.setupDatabaseRef();
+		this.setupStorageRef();
+	}
+
+	/**
+	 * Set up the database reference to the PProject table
+	 */
+	setupDatabaseRef() {
+		this.refDB = firebase.database().ref(&apos;PProject/&apos;);
+	}
+
+	/**
+	 * Set up the storage reference
+	 */
+	setupStorageRef() {
+		this.refStorage = firebase.storage().ref();
+	}
+
+	/**
+	 * Returns the storage without a reference.
+	 *
+	 * @return {Object} The storage without reference
+	 */
+	getStorageWithoutRef() {
+		return firebase.storage();
+	}
+
+
+
+	 signUp(email,password,onSuccess, onError) {
+		return firebase.auth().createUserWithEmailAndPassword(email,password)
+	 }
+
+		checkVerify() {
+		let user = firebase.auth().currentUser;
+		let errorMessage=&apos;&apos;;
+				if (user.emailVerified == false) {
+					console.log(&quot;user email verified&quot;+user.emailVerified);
+					errorMessage = &apos;email not verified&apos;;
+					return errorMessage;
+				} else {
+					return true;
+					// successful login
+				}
+			}
+
+  	sendEmail() {
+  		//console.log(&quot;user in send email is : &quot;+ user);
+		firebase.auth().currentUser.sendEmailVerification().then(function() {
+			// Email Verification sent!
+			// [START_EXCLUDE]
+			// [END_EXCLUDE]
+		}).catch(function(error) {
+			// Handle Errors here.
+			let errorCode = error.code;
+			let errorMessage = error.message;
+			console.log(&apos;error for email:      &apos;+ errorMessage);
+			});
+		}
+
+  	sendresetEmail(onError) {
+			let email = getCurrentUserEmail();
+		firebase.auth().sendPasswordResetEmail(email).then(function() {
+			// Email sent.
+		}).catch(function(error) {
+			// An error happened.
+			let errorCode = error.code;
+			let errorMessage = error.message;
+			onError(errorMessage);
+		});
+
+	}
+
+	/**
+	 * Accesses Firebase data to sign in with email and password.
+	 * This function is called asynchronously. Use &apos;async&apos; and &apos;await&apos;.
+	 *
+	 * @param {string} email - A user&apos;s email
+	 * @param {string} password - A user&apos;s password
+	 * @param {Function} onError - A function callback to execute on error
+	 */
+	async signIn(email, password, onError) {
+		await firebase.auth().signInWithEmailAndPassword(email, password).catch(onError);
+	}
+
+	signinwithFB(onError) {
+		//console.log(&apos;begin signinwithFB&apos;);
+		LoginManager.logInWithReadPermissions([&apos;public_profile&apos;, &apos;email&apos;]).then(
+		// console.log(&apos;walk into else&apos;),
+		AccessToken.getCurrentAccessToken().then(function(data) {
+			let accessToken = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+				console.log(&apos;accessToken&apos;+accessToken)
+				this.handleFirebaseLogin(accessToken);
+			}.bind(this))
+		);
+	}
+
+	signInwithTwitter(onError){
+		RNTwitterSignIn.init(&apos;pdfOq2bGgmAD59pe3241W1hMg&apos;,&apos;xPRtJaBCqmZoFKPV7N8YcllUqOi4d0QWR521rebCQFcMUFGYE3&apos;);
+		RNTwitterSignIn.logIn().then((loginData)=&gt;{
+			let accessToken = firebase.auth
+									.TwitterAuthProvider
+									.credential(
+										loginData.authToken,
+										loginData.authTokenSecret
+									);
+			this.handleFirebaseLogin(accessToken);
+		}).catch((error) =&gt; {
+			console.log(error)
+			onError(&apos;Unable to sign-in with Twitter&apos;);
+		});
+		user = firebase.auth().currentUser;
+			this.setAccount(user.uid);
+		// console.log(&apos;did login&apos;)
+	}
+
+	handleFirebaseLogin(accessToken) {
+		// console.log(accessToken)
+		firebase.auth().signInAndRetrieveDataWithCredential(accessToken).then((data)=&gt; {
+			let user = firebase.auth().currentUser;
+		}).catch((error)=&gt; {
+			let errorCode = error.code;
+			let errorMessage = error.message;
+			let email = error.email;
+			let credential = error.credential;
+			if (errorCode === &apos;auth/account-exists-with-different-credential&apos;) {
+				// Email already associated with another account.
+			}
+		})
+		console.log(&apos;did into handle firebase login&apos;)
+	}
+
+
+	 setAccount(user){
+			//let user = firebase.auth().currentUser;
+			console.log(&quot;user in set account is: &quot;+user.uid);
+			this.refDB.child(&apos;Users/&apos;).child(user.uid).set({
+			id:user.uid,
+			circle_lat:&quot;&quot;,
+			circle_long:&quot;&quot;,
+			circle_r:&quot;&quot;,
+			deviceToken:&quot;&quot;,
+			full_name:&apos;&apos;,
+			phoneNum:&quot;&quot;,
+			email:user.email,
+			thumbnail:[&apos;http://chittagongit.com//images/default-user-icon/default-user-icon-8.jpg&apos;]
+
+
+			});
+		}
+
+	/**
+	 * Sign out of the database.
+	 *
+	 * @param {Function} onSuccess - A callback function on a successful signout
+	 * @param {Function} onError - A callback function on a failure to signout
+	 */
+	signOut(onSuccess, onError) {
+		this.currentUser = null;
+		firebase.auth().signOut().then(onSuccess, onError);
+	}
+
+
+	/** 
+	 * Write to the database in table &apos;Bike&apos; using the id as the child. Adds a date time and owner to the data
+	 *
+	 * @param {Object} bikeData - Bike data to add to the database
+	 * @param {Function} onSuccess - A function callback to execute on the success of writing to the database
+	 * @param {Function} onError - A function callback to execute on an error when writing to the database
+	 */
+	writeBikeData(bikeData, onSuccess, onError) {
+		this.getCurrentUser((userID) =&gt; {
+			bikeData.owner = userID;	
+			this.refDB.child(&apos;Bike/&apos;).child(bikeData.id).set(bikeData, onSuccess).catch(onError);
+		});
+	}
+
+	/**
+	 * Write to the database in the table &apos;Users&apos; using the user id as the child.
+	 *
+	 * @param {Object} profileData - The data to upload
+	 * @param {Function} onSuccess - A function callback to execute on the success of writing to the database
+	 * @param {Function} onError - A function callback to execute on an error when writing to the database 
+	 */
+	writeProfileData(profileData, onSuccess, onError) {
+		this.refDB.child(&apos;Users/&apos;).child(profileData.id).set(profileData, onSuccess).catch(onError);
+	}
+
+	/**
+	 * Overwrites data in the database by reading the data, merging it with the new values and writing back to the same ID.
+	 *
+	 * @param {Object} newBikeData - New data to write
+	 * @param {Function} onSuccess - A function callback to run when writing is successful
+	 * @param {Function} onError - A function callback to run when writing fails
+	 */
+	editBikeData(newBikeData, onSuccess, onError) {
+		const bikeID = newBikeData.id;
+
+		this.refDB.child(&apos;Bike/&apos;).once(&apos;value&apos;, (snapshot) =&gt; {
+			let bikeData = snapshot.val();
+			let originalBikeData = bikeData[bikeID];
+			let updatedObj = this.merge(originalBikeData, newBikeData);
+			this.refDB.child(&apos;Bike/&apos;).child(bikeID).set(updatedObj, onSuccess).catch(onError);
+		}).catch((error) =&gt; {
+			onError(error);
+			console.log(error);
+		});
+	}
+
+	/**
+	 * Overwrites data in the database by reading the data, merging it with the new values and writing back to the same ID.
+	 *
+	 * @param {Object} newProfileData - New data to write
+	 * @param {Function} onSuccess - A function callback to run when writing is successful
+	 * @param {Function} onError - A function callback to run when writing fails
+	 */
+	editProfileData(newProfileData, onSuccess, onError) {
+		const userID = newProfileData.id;
+
+		this.refDB.child(&apos;Users/&apos; + userID).once(&apos;value&apos;, (snapshot) =&gt; {
+			let originalUserData = snapshot.val();
+			let updatedObj = this.merge(originalUserData, newProfileData);
+			this.refDB.child(&apos;Users/&apos;).child(userID).set(updatedObj, onSuccess).catch(onError);
+		}).catch((error) =&gt; {
+			onError(error);
+			console.log(error);
+		});
+	}
+
+	/**
+	 * Merges the data of two objects. Keeps everything in originalObj, adds any key in newObj and overwrites duplicates in originalObj.
+	 *
+	 * @param {Object} originalObj - Original data to replace
+	 * @param {Object} newObj - New data to add
+	 *
+	 * @return {Object} Merged data
+	 */
+	merge(originalObj, newObj) {
+		// Merge them together by just overwriting existing keys and adding new ones
+		// key: the name of the object key
+		// index: the ordinal position of the key within the object 
+		Object.keys(newObj).forEach((key,index) =&gt; {
+			originalObj[key] = newObj[key];
+		});
+		return originalObj; // Need to return original because it has datetime and owner
+	}
+
+	/**
+	 * Read data from the user table once, only looking for a specific user id.
+	 *
+	 * @param {string} id - The current user&apos;s id
+	 * @param {Function} callback - A function callback that is with the value(s) read
+	 */
+	readProfileDataOnce(id, callback) {
+		this.refDB.child(&apos;Users/&apos; + id).once(&apos;value&apos;, callback);
+	}
+
+	/**
+	 * Read data from the bike table only once.
+	 *
+	 * @param {Function} callback - A function callback that is with the value(s) read
+	 */
+	readBikeDataOnce(callback) {
+		this.refDB.child(&apos;Bike/&apos;).once(&apos;value&apos;, callback);
+	}
+
+	/**
+	 * Read data from the bike table every time there is a change in the database.
+	 *
+	 * @param {Function} callback - A function callback that is with the value(s) read
+	 * @return {Object} A listener from the &apos;on&apos; function
+	 */
+	readBikeDataOn(callback) {
+		return this.listenOn(&apos;Bike/&apos;, &apos;value&apos;, callback);
+		// this.refDB.child(&apos;Bike/&apos;).on(&apos;value&apos;, callback);
+	}
+
+	readBikeDataOff(listener) {
+		this.listenOff(&apos;Bike/&apos;, &apos;value&apos;, listener);
+	}
+
+	/**
+	 * General function for listening to the database for events.
+	 * Be as specific as possible when specifying the child (don&apos;t just listen on root).
+	 * See https://firebase.google.com/docs/reference/js/firebase.database.Reference#on
+	 * for event names.
+	 *
+	 * @param {string} child - A child to listen on
+	 * @param {string} event - An event to listen for
+	 * @param {Function} callback - A function callback to trigger when data is recieved
+	 * @return {Object} A listener from the &apos;on&apos; function
+	 */
+	listenOn(child, event, callback) {
+		return this.refDB.child(child).on(event, callback);
+	}
+
+	listenOff(child, event, listener) {
+		this.refDB.child(child).off(event, listener);
+	}
+
+	/**
+	 * Removes a bike id from the database.
+	 *
+	 * @param {string} key - A bike id to remove
+	 * @param {Function} callback - A function callback to trigger when the bike is removed
+	 */
+	removeBikeItem(key, callback) {
+		this.removeItem(&apos;Bike/&apos;, key, callback);
+	}
+
+	/**
+	 * Removes an item from the database given by &apos;removeChild&apos; in the &apos;table&apos;.
+	 *
+	 * @param {string} table - A table to remove from
+	 * @param {string} removeChild - A child id to remove
+	 * @param {Function} callback - A function callback to trigger when item is removed
+	 */
+	removeItem(table, removeChild, callback) {
+		this.refDB.child(table).child(removeChild).remove().then(() =&gt; {
+			callback(true);
+		}).catch(() =&gt; {
+			callback(false);
+		});
+	}
+
+	/**
+	 * Trigger the on reads by adding and removing an item from the database in the Bike Table.
+	 *
+	 * @param {Object} data - The temporary object to store
+	 * @param {Function} onError - A callback function if there is an error writing
+	 */
+	triggerTemporaryItem(data, onError) {
+		this.refDB.child(&apos;Bike/&apos;).child(data.tempID).set(data, (result) =&gt; {
+			this.refDB.child(&apos;Bike/&apos;).child(data.tempID).remove();
+		}).catch(onError);
+	}
+
+	/**
+	 * Returns a new unique key generated by the database.
+	 *
+	 * @return {string} A newly generated unique key
+	 */
+	getNewBikeID() {
+		return this.refDB.child(&apos;Bike&apos;).push().key;
+	}
+
+	/**
+	 * Returns a new unique key generated by the database. Shouldn&apos;t need to use this because user IDs are generated on Sign-up.
+	 */
+	getNewProfileID() {
+		return this.refDB.child(&apos;Users&apos;).push().key;
+	}
+
+	/**
+	 * Makes the database go offline.
+	 */
+	goOffline() {
+		firebase.database().goOffline();
+	}
+
+	/**
+	 * Makes the database go online.
+	 */
+	goOnline() {
+		firebase.database().goOnline();
+	}
+
+	/**
+	 * Removes an item from the database by a supplied key.
+	 *
+	 * @param {string} key - An id in the database
+	 */
+	// removeBikeItem(key) {
+	// 	this.refDB.child(&apos;Bike&apos;).child(key).remove();
+	// }
+
+	/**
+	 * Returns the currently logged in user&apos;s id.
+	 *
+	 * @param {Function} onComplete - A callback function when the state has changed
+	 * @return {Function} Function to unsubscribe from the authentication listener
+	 */
+	getCurrentUser(onComplete) {
+		return firebase.auth().onAuthStateChanged((user) =&gt; {
+			if (user) {
+				console.log(&quot;user id: &quot; + user.uid);
+				onComplete(user.uid);
+			} else {
+				console.log(&quot;user not defined&quot;);
+				onComplete(null);
+			}
+		});
+	}
+
+	/**
+	 * Listens for authentication changes and only calls the onSuccess function if a user is defined.
+	 *
+	 * @param {Function} onSuccess - A callback function when the state has changed and a user is defined
+	 */
+	listenForAuthChange(onSuccess) {
+		firebase.auth().onAuthStateChanged((user) =&gt; {
+			if (user) {
+				console.log(&quot;user id: &quot; + user.uid);
+				onSuccess(user.uid);
+			}
+		});
+	}
+
+	/**
+	 * Remove a images by their url from storage.
+	 *
+	 * @param {string} thumbnails - A list of images to delete
+	 * @param {Function} callback - A function to call on completion or on failure
+	 */
+	removeImages(thumbnails, callback) {
+		let result = true;
+		const storageWithoutRef = this.getStorageWithoutRef(); // We need to use the refFromURL so we can only use the storage without a reference
+		// Firebase does not support deleting directories so we must loop through the thumbnails and delete each file
+		for (let i=0; i &lt; thumbnails.length; i++) {
+			storageWithoutRef.refFromURL(thumbnails[i]).delete().then(() =&gt; { 
+				result = result &amp;&amp; true; 
+			}).catch((error) =&gt; { 
+				result = result &amp;&amp; false; 
+			});	
+		}
+		callback(result);
+	}
+
+	/**
+	 * Return the possible image folders in the firebase storage.
+	 * See top definitions for names.
+	 * Possible TODO : Fetch folder names from the storage so to not hardcode them in.
+	 *
+	 * @return {Object} The string names of the folders, includes &apos;/&apos; in each name
+	 */
+	getImageFolders() {
+		return { BikeImages, ProfileImages };
+	}
+
+	/**
+	 * Asynchronously write an image to firebase storage.
+	 *
+	 * @param {string} id - The id of the bike to write to
+	 * @param {Object} file - The file object to write
+	 * @param {string} filename - The name of the file
+	 * @param {string} baseFolder - The base folder of the images. One of &quot;BikeImages/&quot;, &quot;ProfileImages/&quot; etc. (Must include &apos;/&apos;)
+	 * @param {Function} onSuccess - The callback to call on a successful upload
+	 * @param {Function} onError - The callback to call on a failed upload
+	 */
+	async writeImage(id, file, filename, baseFolder, onSuccess, onError) {
+		// Create a blob because the firebase &apos;put&apos; function requires a blob
+		// I found out later that when we get an image from the user, we can actually get it as data
+		// and since the firebase &apos;put&apos; function also accepts the data format, we can use that instead
+		// which would save the XMLHttpRequest to create a blob.
+		// TODO : Optimization - Use data format for images instead of creating a blob which would eliminate
+		// the following Promise
+		const blob = await new Promise((resolve, reject) =&gt; {
+			const xhr = new XMLHttpRequest();
+			xhr.onload = () =&gt; {
+				resolve(xhr.response);
+			};
+			xhr.onerror = (e) =&gt; {
+				console.log(e);
+				reject(new TypeError(&apos;Network request failed&apos;));
+			};
+			xhr.responseType = &apos;blob&apos;;
+			xhr.open(&apos;GET&apos;, file.uri, true);
+			xhr.send(null);
+		});
+
+		const task = this.refStorage.child(baseFolder + id + &apos;/&apos; + filename).put(blob);
+		task.on(&apos;state_changed&apos;, (snapshot) =&gt; {
+			// Observe state change events such as progress, pause, and resume
+			// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+			let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+			console.log(&apos;Upload is &apos; + progress + &apos;% done&apos;);
+			switch (snapshot.state) {
+				case firebase.storage.TaskState.PAUSED: // or &apos;paused&apos;
+					// console.log(&apos;Upload is paused&apos;);
+					break;
+				case firebase.storage.TaskState.RUNNING: // or &apos;running&apos;
+					// console.log(&apos;Upload is running&apos;);
+					break;
+			}
+		}, onError, () =&gt; {
+			task.snapshot.ref.getDownloadURL().then((downloadURL) =&gt; {
+				// console.log(&apos;File available at&apos;, downloadURL);
+				blob.close(); // Make sure to close the blob
+				onSuccess(downloadURL);
+				return null;
+			});
+		});
+	}
+
+	/*
+	 * Use this function when moving to react-native-firebase. The above function works with regular firebase.
+	 */
+	// async writeImage(id, file, filename, baseFolder, onSuccess, onError) {
+	// 	const task = this.refStorage.child(baseFolder + id + &apos;/&apos; + filename).putFile(file.uri);
+	// 	task.on(&apos;state_changed&apos;, (snapshot) =&gt; {
+	// 		// Observe state change events such as progress, pause, and resume
+	// 		// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+	// 		let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+	// 		console.log(&apos;Upload is &apos; + progress + &apos;% done&apos;);
+	// 		switch (snapshot.state) {
+	// 			case firebase.storage.TaskState.PAUSED: // or &apos;paused&apos;
+	// 				// console.log(&apos;Upload is paused&apos;);
+	// 				break;
+	// 			case firebase.storage.TaskState.RUNNING: // or &apos;running&apos;
+	// 				// console.log(&apos;Upload is running&apos;);
+	// 				break;
+	// 		}
+	// 	}, onError, () =&gt; {
+	// 		task.snapshot.ref.getDownloadURL().then((downloadURL) =&gt; {
+	// 			// console.log(&apos;File available at&apos;, downloadURL);
+	// 			blob.close(); // Make sure to close the blob
+	// 			onSuccess(downloadURL);
+	// 			return null;
+	// 		});
+	// 	});
+	// }
+}
+
+const Database = new FirebaseDatabase();
+export default Database;</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

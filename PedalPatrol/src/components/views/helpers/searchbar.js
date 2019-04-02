@@ -33,6 +33,25 @@ class SearchBar extends Component {
 		handleSearchCancel: PropTypes.func.isRequired,
 		handleSearchClear: PropTypes.func.isRequired,
 		openFilter: PropTypes.func.isRequired,
+		searchRef: PropTypes.func
+	}
+
+	/**
+	 * Component mounted
+	 */
+	componentDidMount = () => {
+		if (this.props.searchRef) {
+			this.props.searchRef(this);			
+		}
+	}
+
+	/**
+	 * Returns if there is text in the search bar. If the user is searching something.
+	 *
+	 * @return {Boolean} If the user is currently searching
+	 */
+	isSearching = () => {
+		return this.state.value !== '';
 	}
 
 	/**
@@ -44,6 +63,9 @@ class SearchBar extends Component {
 		this.setState({ selectedItems });
 	} 
 
+	/**
+	 * Renders an icon.
+	 */
 	_renderIcon = () => (
 		<Icon name="filter-list" type="MaterialIcons" size={30} color={colours.ppGreen} />
 	);

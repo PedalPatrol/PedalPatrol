@@ -1,5 +1,5 @@
 import { ProfileM } from '../components/models/export-models';
-import ImageUtil from './imageutil';
+import ImageUtil from './imageutility';
 
 /**
  * Class to help with the facilitation of the side drawer.

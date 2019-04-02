@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, PixelRatio, TouchableOpacity, Image, Alert, ScrollView, FlatList, Dimensions } from 'react-native';
 import { Icon } from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import { HeaderBackButton } from 'react-navigation';
@@ -14,6 +14,9 @@ import ImageCarousel from './helpers/imagecarousel';
 import BikeDetailsPresenter from '../presenters/bikedetails-presenter';
 import TimeUtil from '../../util/timeutility';
 
+/**
+ * Class for the bike details view to display information about a bike.
+ */
 class BikeDetailsView extends BaseView {
 	state = {
 		data: [],
@@ -70,6 +73,105 @@ class BikeDetailsView extends BaseView {
 		this.navigate("ReportFound");
 	}
 
+	/**
+	 * Handles the confirm found button clicked
+	 */
+	_handleClickToConfirm(){
+		this.BikeDetP.confirmFound(this.state.rawData,this.alertConfirmCallback);
+	}
+
+	/**
+	 * Handles the reject button clicked
+	 */
+	_handleClickToReject(){
+		this.BikeDetP.rejectFound(this.state.rawData,this.alertRejectionCallback);
+	}
+
+	/**
+	 * Function for decision confirm
+	 */
+	decisionConfirm = () => {
+		Alert.alert(
+			"Are you sure you want to confirm your bike found?",
+			"",
+			[
+				{ text: "No", onPress: () => {}, style: "cancel" },
+				{ text: "Yes", onPress: () => this._handleClickToConfirm() },
+			],
+			{ cancelable: false },
+		);
+	}
+
+	/**
+	 * Function for decision reject
+	 */
+	decisionReject = () => {
+		Alert.alert(
+			"Are you sure you want to reject the found bike report?",
+			"",
+			[
+				{ text: "No", onPress: () => {}, style: "cancel" },
+				{ text: "Yes", onPress: () => this._handleClickToReject() },
+			],
+			{ cancelable: false },
+		);
+	}
+
+	 /**
+	 * Confirm callback on success or failure trying to confirm.
+	 *
+	 * @param {Boolean} success - If the found bike confirmation was accepted or not
+	 */
+	alertConfirmCallback = (success) => {
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				"Congratulations, you have found your bike!",
+				"",
+				[
+					{ text: "Ok", onPress: () => this.props.navigation.navigate('Home'), style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				"Fail to confirm.",
+				"Please try again.",
+				[
+					{ text: "Ok", onPress: () => {}, style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		}
+	}
+
+	/**
+	 * Reject callback on success or failure trying to reject.
+	 *
+	 * @param {Boolean} success - If the found bike rejection was accepted or not
+	 */
+	alertRejectionCallback = (success) => {
+		this.refreshState();
+		if (success) {
+			Alert.alert(
+				"Bike found report rejected.",
+				"",
+				[
+					{ text: "Ok", onPress: () => this.props.navigation.navigate('Home'), style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		} else {
+			Alert.alert(
+				"Fail to confirm.",
+				"Please try again.",
+				[
+					{ text: "Ok", onPress: () => {}, style: "ok" },
+				],
+				{ cancelable: false },
+			);
+		}
+	}
 
 	/**
 	 * Component mounted
@@ -94,12 +196,12 @@ class BikeDetailsView extends BaseView {
 
 		const { navigation } = this.props;
 		let data=[];
-    	const id = navigation.getParam('id','NO-DATA');
+		const id = navigation.getParam('id','NO-DATA');
 		const fromPage = navigation.getParam('from', 'Home');
-	    if (id ==='NO-DATA'){
-		    data = navigation.getParam('data', 'NO-DATA');
+		if (id ==='NO-DATA'){
+			data = navigation.getParam('data', 'NO-DATA');
 		}else{
-		    data = this.BikeDetP.getDataFromID(id);
+			data = this.BikeDetP.getDataFromID(id);
 		}
 
 		const { formedData, thumbnail } = this.BikeDetP.translateData(data, fromPage);
@@ -142,6 +244,9 @@ class BikeDetailsView extends BaseView {
 
 	/**
 	 * Renders a bike detail 
+	 *
+	 * @param {Object} item - The item of the bike
+	 * @return {Component} A react-native component
 	 */
 	_renderItem = ({item}) => (
 		<TextInput
@@ -186,6 +291,8 @@ class BikeDetailsView extends BaseView {
 	 * @return {Component} 
 	 */
 	render() {
+		const { width: windowWidth } = Dimensions.get('window');
+
 		return (
 				<HandleBack onBack={this._onBack}>
 					<SafeArea/>
@@ -215,7 +322,7 @@ class BikeDetailsView extends BaseView {
 							</View>
 
 							{
-								this.state.from === 'Home' &&
+								this.state.rawData.stolen &&
 								<View>
 									<TouchableOpacity style={bikedetails_styles.touchableButtons}>
 										<Button
@@ -224,6 +331,21 @@ class BikeDetailsView extends BaseView {
 									</TouchableOpacity>
 								</View>
 							}
+							{
+								this.state.rawData.found &&
+								<View style={{flexDirection: 'row', width: windowWidth, justifyContent: 'space-between', marginTop: 10}}>
+									<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-start', marginRight: 5}]}>
+										<Button
+											onPress={()=>this.decisionConfirm()}
+											title="Confirm Found"/>
+									</TouchableOpacity>
+									<TouchableOpacity style={[bikedetails_styles.touchableButtons, {width: (windowWidth/2)-15, alignSelf: 'flex-end', marginLeft: 5}]}>
+										<Button
+											onPress={()=>this.decisionReject()}
+											title="Reject Found"/>
+									</TouchableOpacity>
+								</View>
+								}
 
 							</ScrollView>
 						</View>
