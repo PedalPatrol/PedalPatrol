@@ -714,12 +714,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/assets/static/pedal-patrol-privacy-policy.js",
-    "file/src/assets/static/pedal-patrol-privacy-policy.js.html",
-    "src/assets/static/pedal-patrol-privacy-policy.js",
-    "file"
-  ],
-  [
     "src/components/models/alert-model.js",
     "file/src/components/models/alert-model.js.html",
     "src/components/models/alert-model.js",
@@ -4570,12 +4564,6 @@ window.esdocSearchIndex = [
     "class/src/components/views/view.js~BaseView.html#instance-member-viewUnmounting",
     "src/components/views/view.js~BaseView#viewUnmounting",
     "member"
-  ],
-  [
-    "src/config/config.js",
-    "file/src/config/config.js.html",
-    "src/config/config.js",
-    "file"
   ],
   [
     "src/config/navigationservice.js",
