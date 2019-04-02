@@ -12,6 +12,7 @@
 <p align="center">
   <a href="https://travis-ci.org/PedalPatrol/PedalPatrol"><img src="https://travis-ci.org/PedalPatrol/PedalPatrol.svg?branch=master"></a>
   <a href='https://coveralls.io/github/PedalPatrol/PedalPatrol?branch=master'><img src='https://coveralls.io/repos/github/PedalPatrol/PedalPatrol/badge.svg?branch=master' alt='Coverage Status' /></a>
+  <a href='https://img.shields.io/badge/platform-ios%20%7C%20android-lightgrey.svg'><img src="https://img.shields.io/badge/platform-ios%20%7C%20android-lightgrey.svg" alt='Platform' /></a>
 </p>
 
 Development of the PedalPatrol iOS and Android application.
