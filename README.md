@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  <strong>Crowdsourcing the retrieval of stolen bikes.</strong><br>
+  <b>Crowdsourcing the retrieval of stolen bikes.</b><br>
 </p>
 
 
